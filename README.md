@@ -1,0 +1,2 @@
+# SSTAN
+Solidity static analyzer
