@@ -265,9 +265,7 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
             pt::SourceUnitPart::ContractDefinition(box_contract_definition) => {
                 //Walk the contract definition base for targets
                 for base in box_contract_definition.base {
-                    if base.args.is_some() {
-                        let args = base.args.unwrap();
-
+                    if let Some(args) = base.args {
                         for arg in args {
                             matches.append(&mut walk_node_for_targets(targets, arg.into()));
                         }
@@ -301,29 +299,20 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
             pt::SourceUnitPart::FunctionDefinition(box_function_definition) => {
                 //Walk params for targets
                 for (_, option_parameter) in box_function_definition.params {
-                    if option_parameter.is_some() {
-                        matches.append(&mut walk_node_for_targets(
-                            targets,
-                            option_parameter.unwrap().ty.into(),
-                        ));
+                    if let Some(parameter) = option_parameter {
+                        matches.append(&mut walk_node_for_targets(targets, parameter.ty.into()));
                     }
                 }
                 //Walk return params for targets
                 for (_, option_parameter) in box_function_definition.returns {
-                    if option_parameter.is_some() {
-                        matches.append(&mut walk_node_for_targets(
-                            targets,
-                            option_parameter.unwrap().ty.into(),
-                        ));
+                    if let Some(parameter) = option_parameter {
+                        matches.append(&mut walk_node_for_targets(targets, parameter.ty.into()));
                     }
                 }
 
                 //Walk the function body for targets
-                if box_function_definition.body.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        box_function_definition.body.unwrap().into(),
-                    ));
+                if let Some(body) = box_function_definition.body {
+                    matches.append(&mut walk_node_for_targets(targets, body.into()));
                 }
             }
 
@@ -344,11 +333,8 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
             }
 
             pt::SourceUnitPart::Using(box_using) => {
-                if box_using.ty.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        box_using.ty.unwrap().into(),
-                    ));
+                if let Some(ty) = box_using.ty {
+                    matches.append(&mut walk_node_for_targets(targets, ty.into()));
                 }
             }
             pt::SourceUnitPart::VariableDefinition(box_variable_definition) => {
@@ -357,11 +343,8 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                     box_variable_definition.ty.into(),
                 ));
 
-                if box_variable_definition.initializer.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        box_variable_definition.initializer.unwrap().into(),
-                    ));
+                if let Some(initializer) = box_variable_definition.initializer {
+                    matches.append(&mut walk_node_for_targets(targets, initializer.into()));
                 }
             }
 
@@ -395,29 +378,20 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
             pt::ContractPart::FunctionDefinition(box_function_definition) => {
                 //Walk params for targets
                 for (_, option_parameter) in box_function_definition.params {
-                    if option_parameter.is_some() {
-                        matches.append(&mut walk_node_for_targets(
-                            targets,
-                            option_parameter.unwrap().ty.into(),
-                        ));
+                    if let Some(parameter) = option_parameter {
+                        matches.append(&mut walk_node_for_targets(targets, parameter.ty.into()));
                     }
                 }
                 //Walk return params for targets
                 for (_, option_parameter) in box_function_definition.returns {
-                    if option_parameter.is_some() {
-                        matches.append(&mut walk_node_for_targets(
-                            targets,
-                            option_parameter.unwrap().ty.into(),
-                        ));
+                    if let Some(parameter) = option_parameter {
+                        matches.append(&mut walk_node_for_targets(targets, parameter.ty.into()));
                     }
                 }
 
                 //Walk the function body for targets
-                if box_function_definition.body.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        box_function_definition.body.unwrap().into(),
-                    ));
+                if let Some(body) = box_function_definition.body {
+                    matches.append(&mut walk_node_for_targets(targets, body.into()));
                 }
             }
 
@@ -438,24 +412,19 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
             }
 
             pt::ContractPart::Using(box_using) => {
-                if box_using.ty.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        box_using.ty.unwrap().into(),
-                    ));
+                if let Some(ty) = box_using.ty {
+                    matches.append(&mut walk_node_for_targets(targets, ty.into()));
                 }
             }
+
             pt::ContractPart::VariableDefinition(box_variable_definition) => {
                 matches.append(&mut walk_node_for_targets(
                     targets,
                     box_variable_definition.ty.into(),
                 ));
 
-                if box_variable_definition.initializer.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        box_variable_definition.initializer.unwrap().into(),
-                    ));
+                if let Some(initializer) = box_variable_definition.initializer {
+                    matches.append(&mut walk_node_for_targets(targets, initializer.into()));
                 }
             }
 
@@ -473,11 +442,8 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
             }
 
             pt::Statement::Return(_, option_expression) => {
-                if option_expression.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_expression.unwrap().into(),
-                    ));
+                if let Some(expression) = option_expression {
+                    matches.append(&mut walk_node_for_targets(targets, expression.into()));
                 }
             }
 
@@ -510,11 +476,8 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                     variable_declaration.ty.into(),
                 ));
 
-                if option_expression.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_expression.unwrap().into(),
-                    ));
+                if let Some(expression) = option_expression {
+                    matches.append(&mut walk_node_for_targets(targets, expression.into()));
                 }
             }
 
@@ -533,17 +496,13 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
 
                 matches.append(&mut walk_node_for_targets(targets, box_statement.into()));
 
-                if option_box_statement.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_box_statement.unwrap().into(),
-                    ));
+                if let Some(box_statement) = option_box_statement {
+                    matches.append(&mut walk_node_for_targets(targets, box_statement.into()));
                 }
             }
 
             pt::Statement::While(_, expression, box_statement) => {
                 matches.append(&mut walk_node_for_targets(targets, expression.into()));
-
                 matches.append(&mut walk_node_for_targets(targets, box_statement.into()));
             }
 
@@ -554,37 +513,25 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                 option_box_statement_1,
                 option_box_statement_2,
             ) => {
-                if option_box_statement.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_box_statement.unwrap().into(),
-                    ));
+                if let Some(box_statement) = option_box_statement {
+                    matches.append(&mut walk_node_for_targets(targets, box_statement.into()));
                 }
 
-                if option_box_expression.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_box_expression.unwrap().into(),
-                    ));
+                if let Some(box_expression) = option_box_expression {
+                    matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
                 }
 
-                if option_box_statement_1.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_box_statement_1.unwrap().into(),
-                    ));
+                if let Some(box_statement) = option_box_statement_1 {
+                    matches.append(&mut walk_node_for_targets(targets, box_statement.into()));
                 }
-                if option_box_statement_2.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_box_statement_2.unwrap().into(),
-                    ));
+
+                if let Some(box_statement) = option_box_statement_2 {
+                    matches.append(&mut walk_node_for_targets(targets, box_statement.into()));
                 }
             }
 
             pt::Statement::DoWhile(_, box_statement, expression) => {
                 matches.append(&mut walk_node_for_targets(targets, box_statement.into()));
-
                 matches.append(&mut walk_node_for_targets(targets, expression.into()));
             }
 
@@ -982,9 +929,7 @@ impl Node {
             Self::Expression(expression) => expression_as_target(expression),
             Self::Statement(statement) => statement_as_target(statement),
             Self::SourceUnit(_) => Target::SourceUnit,
-            Self::SourceUnitPart(source_unit_part) => {
-                source_unit_part_as_target(source_unit_part)
-            }
+            Self::SourceUnitPart(source_unit_part) => source_unit_part_as_target(source_unit_part),
             Self::ContractPart(contract_part) => contract_part_as_target(contract_part),
         }
     }
