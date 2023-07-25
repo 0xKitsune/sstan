@@ -1,3 +1,6 @@
+use report::generation::generate_report;
+use sstan::analyzer;
+use sstan::report;
 use std::{fs, process};
 
 use crate::analyzer::{optimizations, vulnerabilities};
@@ -7,6 +10,19 @@ use crate::analyzer::{
     vulnerabilities::{str_to_vulnerability, Vulnerability},
 };
 use clap::Parser;
+
+#[macro_use]
+extern crate colour;
+
+fn main() {
+    let opts = Opts::new();
+
+    let vulnerabilities = vulnerabilities::analyze_dir(&opts.path, opts.vulnerabilities);
+    let optimizations = optimizations::analyze_dir(&opts.path, opts.optimizations);
+    let qa = qa::analyze_dir(&opts.path, opts.qa);
+
+    generate_report(vulnerabilities, optimizations, qa);
+}
 
 #[derive(Parser, Debug)]
 #[clap(
@@ -38,12 +54,14 @@ pub struct Opts {
 }
 
 #[derive(serde::Deserialize, Debug)]
-pub struct sstanToml {
+pub struct SstanToml {
     pub path: String,
     pub optimizations: Vec<String>,
     pub vulnerabilities: Vec<String>,
     pub qa: Vec<String>,
 }
+
+pub const DEFAULT_PATH: &str = "./src";
 
 impl Opts {
     pub fn new() -> Opts {
@@ -55,7 +73,7 @@ impl Opts {
             let toml_str =
                 fs::read_to_string(toml_path).expect("Could not read toml file to string");
 
-            let sstan_toml: sstanToml =
+            let sstan_toml: SstanToml =
                 toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
 
             (
@@ -86,20 +104,19 @@ impl Opts {
         let path = if args.path.is_some() {
             args.path.unwrap()
         } else {
-            match fs::read_dir("./contracts") {
+            match fs::read_dir(DEFAULT_PATH) {
                 Ok(_) => {}
 
                 Err(_) => {
                     yellow!(
                         "Error when reading the target contracts directory. 
-If the `--path` flag is not passed, sstan will look for `./contracts` by default.
+If the `--path` flag is not passed, sstan will look for `./src` by default.
 To fix this, either add a `./contracts` directory or provide `--path <path_to_contracts_dir>\n"
                     );
                     process::exit(1)
                 }
             }
-
-            String::from("./contracts")
+            DEFAULT_PATH.into()
         };
 
         Opts {
