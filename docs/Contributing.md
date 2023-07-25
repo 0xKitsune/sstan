@@ -1,4 +1,4 @@
-# Contributing To Solstat
+# Contributing To sstan
 Thanks for checking out the `Contribution.md`! Contributions are welcomed and encouraged. Below are the guidelines for contributions.
 
 1.) Before starting to work on a PR, check the github issues as well as the PRs to make sure that someone has not already PRed the addition you are thinking of contributing. If someone has already started work on a specific issue, feel free to send a message in the issue thread to see what the status of the PR is. 
@@ -15,9 +15,9 @@ The repository can seem a little dense in some parts but adding a new optimizati
 ## Optimizations
 
 ### Adding the Optimization
-All optimizations are located in `src/analyzer/optimizations`. Here you will see a new file for each of the optimizations that Solstat looks for. To add a new optimization, start by adding a new file in this directory  (ex. `pack_struct_variables.rs` would be the file name for the optimization that analyzes for struct packing).
+All optimizations are located in `src/analyzer/optimizations`. Here you will see a new file for each of the optimizations that sstan looks for. To add a new optimization, start by adding a new file in this directory  (ex. `pack_struct_variables.rs` would be the file name for the optimization that analyzes for struct packing).
 
-Now that you have a new file for your optimization, copy and paste the code from [`src/analyzer/optimizations/template.rs`](https://github.com/0xKitsune/solstat/blob/main/src/analyzer/optimizations/template.rs) into your file. 
+Now that you have a new file for your optimization, copy and paste the code from [`src/analyzer/optimizations/template.rs`](https://github.com/0xKitsune/sstan/blob/main/src/analyzer/optimizations/template.rs) into your file. 
 
 Lets take a look at a barebones version of the template without any comments.
 
@@ -42,22 +42,22 @@ fn test_template_optimization() {
 }
 
 ```
-Each optimization must take one argument called `source_unit` which is of type `SourceUnit`. Solstat uses the `solang-parser` crate to parse Solidity contracts. The `SourceUnit` type is the resulting type from `solang_parser::parse()` which you will see later in the test case. This function must also return a `Hashset<Loc>`, with the `Loc` type also being from the `solang-parser` crate. The `Loc` type represents a location in the file being analyzed.
+Each optimization must take one argument called `source_unit` which is of type `SourceUnit`. sstan uses the `solang-parser` crate to parse Solidity contracts. The `SourceUnit` type is the resulting type from `solang_parser::parse()` which you will see later in the test case. This function must also return a `Hashset<Loc>`, with the `Loc` type also being from the `solang-parser` crate. The `Loc` type represents a location in the file being analyzed.
 
-Solstat works under the hood by analyzing an abstract syntax tree representing a Solidity contract for specific patterns that you want to find. For example, if you wanted to find all expressions that use addition in a contract, you could look for the `Target::Add` within the AST.
+sstan works under the hood by analyzing an abstract syntax tree representing a Solidity contract for specific patterns that you want to find. For example, if you wanted to find all expressions that use addition in a contract, you could look for the `Target::Add` within the AST.
 
-If this is the first time you are making a PR to Solstat, feel free to check out what the `SimpleStore` contract AST looks like by running `cargo run --example parse-contract-into-ast`. You can replace the `SimpleStore` contract with any contract code you would like, so feel free to use this functionality to look at the AST related to your optimization. 
+If this is the first time you are making a PR to sstan, feel free to check out what the `SimpleStore` contract AST looks like by running `cargo run --example parse-contract-into-ast`. You can replace the `SimpleStore` contract with any contract code you would like, so feel free to use this functionality to look at the AST related to your optimization. 
 
-`SourceUnit` is the root node in an Abstract Syntax Tree created from parsing the contract with `solang_parser::parse()`. Helper functions like `ast::extract_target_from_node` and `ast::extract_targets_from_node` are located in the `Solstat::analyzer::ast` module to extract specfic nodes from the AST. The return value of these functions is `Vec<Node>`, with a `Node` representing a node in the AST.
+`SourceUnit` is the root node in an Abstract Syntax Tree created from parsing the contract with `solang_parser::parse()`. Helper functions like `ast::extract_target_from_node` and `ast::extract_targets_from_node` are located in the `sstan::analyzer::ast` module to extract specfic nodes from the AST. The return value of these functions is `Vec<Node>`, with a `Node` representing a node in the AST.
 
 This might sound a little complicated but its way easier than it sounds. Once we look at a full example this will make much more sense. 
 
 Once all of the target nodes are extracted, you can traverse the node for specfic patterns that indicate a match in the pattern you are looking for.
 
 For some easy to read examples, checkout:
-- [`src/analyzer/optimizations/address_balance.rs`](https://github.com/0xKitsune/solstat/blob/main/src/analyzer/optimizations/address_balance.rs)
-- [`src/analyzer/optimizations/multiple_require.rs`](https://github.com/0xKitsune/solstat/blob/main/src/analyzer/optimizations/multiple_require.rs)
-- [`src/analyzer/optimizations/solidity_keccak256.rs`](https://github.com/0xKitsune/solstat/blob/main/src/analyzer/optimizations/solidity_keccak256.rs)
+- [`src/analyzer/optimizations/address_balance.rs`](https://github.com/0xKitsune/sstan/blob/main/src/analyzer/optimizations/address_balance.rs)
+- [`src/analyzer/optimizations/multiple_require.rs`](https://github.com/0xKitsune/sstan/blob/main/src/analyzer/optimizations/multiple_require.rs)
+- [`src/analyzer/optimizations/solidity_keccak256.rs`](https://github.com/0xKitsune/sstan/blob/main/src/analyzer/optimizations/solidity_keccak256.rs)
 
 ### Writing a test
 Now that you have the optimization logic, make sure to write a test suite at the bottom of the file. The template has all the necessary building blocks you need so that you only need to supply the Solidity code, and how many findings the optimization should identify.
@@ -165,7 +165,7 @@ Congrats, you have updated the codebase to implement your optimization!
 
 
 ### Report Section
-The final step in the contribution process is to write a report section that describes your optimization. All reports for optimizations are added to `src/report/report_sections/optimizations`. For a template report you can check out [`src/report/report_sections/optimizations/template.md`](https://github.com/0xKitsune/solstat/blob/main/src/report/report_sections/optimizations/template.md). To generate a quick gas report, feel free to use [0xKitsune/gas-lab](https://github.com/0xKitsune/gas-lab) or set up a environment within Foundry to test your gas comparison. 
+The final step in the contribution process is to write a report section that describes your optimization. All reports for optimizations are added to `src/report/report_sections/optimizations`. For a template report you can check out [`src/report/report_sections/optimizations/template.md`](https://github.com/0xKitsune/sstan/blob/main/src/report/report_sections/optimizations/template.md). To generate a quick gas report, feel free to use [0xKitsune/gas-lab](https://github.com/0xKitsune/gas-lab) or set up a environment within Foundry to test your gas comparison. 
 
 Once you have written your report section, the final step before PRing the contribution is to link your report to your optimization by adding pattern matching for your optimization to `get_optimization_report_section()`
 

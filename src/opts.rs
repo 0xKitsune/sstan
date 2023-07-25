@@ -10,7 +10,7 @@ use clap::Parser;
 
 #[derive(Parser, Debug)]
 #[clap(
-    name = "Solstat",
+    name = "sstan",
     about = "A Solidity static analyzer to identify contract vulnerabilities and gas efficiencies."
 )]
 
@@ -18,14 +18,14 @@ pub struct Args {
     #[clap(
         short,
         long,
-        help = "Path to the directory containing the files Solstat will analyze. The default directory is `./contracts`"
+        help = "Path to the directory containing the files sstan will analyze. The default directory is `./contracts`"
     )]
     pub path: Option<String>,
 
     #[clap(
         short,
         long,
-        help = "Path to the toml file containing the Solstat configuration when not using the default settings."
+        help = "Path to the toml file containing the sstan configuration when not using the default settings."
     )]
     pub toml: Option<String>,
 }
@@ -38,7 +38,7 @@ pub struct Opts {
 }
 
 #[derive(serde::Deserialize, Debug)]
-pub struct SolstatToml {
+pub struct sstanToml {
     pub path: String,
     pub optimizations: Vec<String>,
     pub vulnerabilities: Vec<String>,
@@ -55,21 +55,21 @@ impl Opts {
             let toml_str =
                 fs::read_to_string(toml_path).expect("Could not read toml file to string");
 
-            let solstat_toml: SolstatToml =
-                toml::from_str(&toml_str).expect("Could not convert toml contents to SolstatToml");
+            let sstan_toml: sstanToml =
+                toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
 
             (
-                solstat_toml
+                sstan_toml
                     .optimizations
                     .iter()
                     .map(|f| str_to_optimization(f))
                     .collect::<Vec<Optimization>>(),
-                solstat_toml
+                sstan_toml
                     .vulnerabilities
                     .iter()
                     .map(|f| str_to_vulnerability(f))
                     .collect::<Vec<Vulnerability>>(),
-                solstat_toml
+                sstan_toml
                     .vulnerabilities
                     .iter()
                     .map(|f| str_to_qa(f))
@@ -92,7 +92,7 @@ impl Opts {
                 Err(_) => {
                     yellow!(
                         "Error when reading the target contracts directory. 
-If the `--path` flag is not passed, Solstat will look for `./contracts` by default.
+If the `--path` flag is not passed, sstan will look for `./contracts` by default.
 To fix this, either add a `./contracts` directory or provide `--path <path_to_contracts_dir>\n"
                     );
                     process::exit(1)
