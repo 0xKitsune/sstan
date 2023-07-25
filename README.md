@@ -1,2 +1,2 @@
-# SSTAN
-Solidity static analyzer
+# sstan
+Pronounced "stanSolidity static analyzer
