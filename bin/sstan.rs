@@ -34,7 +34,7 @@ pub struct Args {
     #[clap(
         short,
         long,
-        help = "Path to the directory containing the files sstan will analyze. The default directory is `./contracts`"
+        help = "Path to the directory containing the files sstan will analyze. The default directory is `./src`"
     )]
     pub path: Option<String>,
 

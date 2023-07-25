@@ -5,6 +5,9 @@ use std::collections::HashMap;
 
 pub type LineNumber = i32;
 
+// This is used as the initial string when parsing a solidity version
+pub const ZERO_ZERO_ZERO: &str = "0.0.0";
+pub const MINOR_MAJOR_PATCH_REGEX: &str = r"\d+\.\d+\.+\d+";
 //Returns the size of the type in bits
 pub fn get_type_size(expression: pt::Expression) -> u16 {
     if let pt::Expression::Type(_, ty) = expression {
@@ -214,8 +217,8 @@ pub fn get_solidity_patch_version(solidity_version_str: &str) -> i32 {
 
 pub fn get_solidity_major_minor_patch_version(solidity_version_str: &str) -> Vec<&str> {
     //get the minor.patch version from the solidity semantic version
-    let mut major_minor_patch_version_str = "0.0.0";
-    let major_minor_patch_version_re = Regex::new(r"\d+\.\d+\.+\d+").unwrap();
+    let mut major_minor_patch_version_str = ZERO_ZERO_ZERO;
+    let major_minor_patch_version_re = Regex::new(MINOR_MAJOR_PATCH_REGEX).unwrap();
     for capture in major_minor_patch_version_re
         .captures_iter(solidity_version_str)
         .into_iter()
