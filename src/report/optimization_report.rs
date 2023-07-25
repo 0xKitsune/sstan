@@ -1,5 +1,5 @@
-use std::collections::{BTreeSet, HashSet};
-use std::{collections::HashMap, fs};
+use std::collections::{BTreeSet};
+use std::{collections::HashMap};
 
 use crate::analyzer::optimizations::Optimization;
 
@@ -20,7 +20,7 @@ pub fn generate_optimization_report(
     let mut total_optimizations_found = 0;
 
     for optimization in optimizations {
-        if optimization.1.len() > 0 {
+        if !optimization.1.is_empty() {
             let optimization_target = optimization.0;
             let matches = optimization.1;
 
@@ -28,12 +28,12 @@ pub fn generate_optimization_report(
 
             let mut matches_section = String::from("### Lines\n");
 
-            for (file_name, mut lines) in matches {
+            for (file_name, lines) in matches {
                 for line in lines {
                     //- file_name:line_number\n
                     matches_section
                         .push_str(&(String::from("- ") + &file_name + ":" + &line.to_string()));
-                    matches_section.push_str("\n");
+                    matches_section.push('\n');
 
                     total_optimizations_found += 1;
                 }

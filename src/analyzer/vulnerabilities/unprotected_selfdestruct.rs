@@ -17,7 +17,7 @@ pub fn unprotected_selfdestruct_vulnerability(source_unit: SourceUnit) -> HashSe
     for contract_definition_node in contract_definition_nodes {
         let target_nodes = ast::extract_target_from_node(
             Target::FunctionDefinition,
-            contract_definition_node.into(),
+            contract_definition_node,
         );
 
         for node in target_nodes {
@@ -32,7 +32,7 @@ pub fn unprotected_selfdestruct_vulnerability(source_unit: SourceUnit) -> HashSe
                         continue;
                     }
 
-                    if box_function_definition.attributes.len() > 0 {
+                    if !box_function_definition.attributes.is_empty() {
                         //Skip functions that are not public or external as they cannot be affected
                         if !_is_public_or_external(&box_function_definition) {
                             continue;
@@ -79,7 +79,7 @@ pub fn unprotected_selfdestruct_vulnerability(source_unit: SourceUnit) -> HashSe
 //Return true if the visibility of a given function is public or external. Return false otherwise.
 fn _is_public_or_external(function_definition: &Box<FunctionDefinition>) -> bool {
     let mut public_or_external = false;
-    if function_definition.attributes.len() > 0 {
+    if !function_definition.attributes.is_empty() {
         for attr in &function_definition.attributes {
             match attr {
                 FunctionAttribute::Visibility(visibility) => match visibility {
@@ -115,7 +115,7 @@ fn _is_selfdestruct(box_identifier: Box<Expression>) -> bool {
 //Check if a given function contains any modifier with "only" in its name
 fn _contains_protection_modifiers(function_definition: &Box<FunctionDefinition>) -> bool {
     //If the function has no arguments, early-return false
-    if function_definition.attributes.len() == 0 {
+    if function_definition.attributes.is_empty() {
         return false;
     }
 
@@ -136,7 +136,7 @@ fn _contains_protection_modifiers(function_definition: &Box<FunctionDefinition>)
         }
     }
 
-    return false;
+    false
 }
 
 //Check if there are any conditions applied on msg.sender
@@ -200,7 +200,7 @@ fn _contains_msg_sender_conditions(function_definition: &Box<FunctionDefinition>
         }
     }
 
-    return false;
+    false
 }
 
 #[test]

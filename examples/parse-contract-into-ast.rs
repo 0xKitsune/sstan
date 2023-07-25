@@ -1,4 +1,4 @@
-use solang_parser;
+
 
 fn main() {
     let file_contents = r#"

@@ -27,7 +27,7 @@ pub fn string_error_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
                 //if the function call identifier is a variable
                 if let pt::Expression::Variable(identifier) = *function_identifier {
                     //if the identifier name is "require"
-                    if identifier.name == "require".to_string() {
+                    if identifier.name == *"require" {
                         //If the require statement contains strings
                         if let Some(pt::Expression::StringLiteral(vec_string_literal)) =
                             func_call_expressions.last()

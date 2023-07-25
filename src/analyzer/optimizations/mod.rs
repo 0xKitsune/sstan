@@ -23,10 +23,8 @@ pub mod string_errors;
 mod template;
 
 use std::{
-    collections::{BTreeSet, HashMap, HashSet},
+    collections::{BTreeSet, HashMap},
     fs,
-    path::PathBuf,
-    str::FromStr,
     vec,
 };
 
@@ -154,13 +152,12 @@ pub fn analyze_dir(
 
     //For each file in the target dir
     for (i, path) in fs::read_dir(target_dir)
-        .expect(format!("Could not read contracts from directory: {:?}", target_dir).as_str())
-        .into_iter()
+        .unwrap_or_else(|_| panic!("Could not read contracts from directory: {:?}", target_dir))
         .enumerate()
     {
         //Get the file path, name and contents
         let file_path = path
-            .expect(format!("Could not file unwrap path").as_str())
+            .unwrap_or_else(|_| { panic!("{}", "Could not file unwrap path".to_string()) })
             .path();
 
         if file_path.is_dir() {
@@ -186,9 +183,9 @@ pub fn analyze_dir(
                 for optimization in &optimizations {
                     let line_numbers = analyze_for_optimization(&file_contents, i, *optimization);
 
-                    if line_numbers.len() > 0 {
+                    if !line_numbers.is_empty() {
                         let file_optimizations = optimization_locations
-                            .entry(optimization.clone())
+                            .entry(*optimization)
                             .or_insert(vec![]);
 
                         file_optimizations.push((file_name.clone(), line_numbers));

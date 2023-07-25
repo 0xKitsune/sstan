@@ -17,12 +17,12 @@ pub fn immutable_variables_optimization(source_unit: SourceUnit) -> HashSet<Loc>
         get_storage_variables_assigned_in_constructor(source_unit.clone(), storage_variables);
 
     let contract_definition_nodes =
-        ast::extract_target_from_node(Target::ContractDefinition, source_unit.clone().into());
+        ast::extract_target_from_node(Target::ContractDefinition, source_unit.into());
 
     for contract_definition_node in contract_definition_nodes {
         let target_nodes = ast::extract_target_from_node(
             Target::FunctionDefinition,
-            contract_definition_node.clone().into(),
+            contract_definition_node.clone(),
         );
 
         for node in target_nodes {
@@ -239,7 +239,7 @@ pub fn get_storage_variables_assigned_in_constructor(
     for contract_definition_node in contract_definition_nodes {
         let target_nodes = ast::extract_target_from_node(
             Target::FunctionDefinition,
-            contract_definition_node.clone().into(),
+            contract_definition_node.clone(),
         );
 
         for node in target_nodes {
@@ -313,7 +313,7 @@ fn is_a_non_value_type(assigned_value: Box<pt::Expression>) -> bool {
         _ => (),
     }
 
-    return false;
+    false
 }
 
 #[test]

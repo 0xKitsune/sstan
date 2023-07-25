@@ -20,7 +20,7 @@ pub fn generate_qa_report(
     qa_report.push_str((overview_section + "\n").as_str());
 
     for item in qa_items {
-        if item.1.len() > 0 {
+        if !item.1.is_empty() {
             let qa_target = item.0;
             let matches = item.1;
 
@@ -33,7 +33,7 @@ pub fn generate_qa_report(
                     //- file_name:line_number\n
                     matches_section
                         .push_str(&(String::from("- ") + &file_name + ":" + &line.to_string()));
-                    matches_section.push_str("\n");
+                    matches_section.push('\n');
                 }
             }
 

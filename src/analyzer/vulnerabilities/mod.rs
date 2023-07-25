@@ -5,13 +5,10 @@ pub mod unprotected_selfdestruct;
 pub mod unsafe_erc20_operation;
 
 use std::{
-    collections::{BTreeSet, HashMap, HashSet},
-    env, fs,
-    path::PathBuf,
-    str::FromStr,
+    collections::{BTreeSet, HashMap}, fs,
 };
 
-use solang_parser::pt::SourceUnit;
+
 
 use super::utils::{self, LineNumber};
 
@@ -62,13 +59,12 @@ pub fn analyze_dir(
 
     //For each file in the target dir
     for (i, path) in fs::read_dir(target_dir)
-        .expect(format!("Could not read contracts from directory: {:?}", target_dir).as_str())
-        .into_iter()
+        .unwrap_or_else(|_| panic!("Could not read contracts from directory: {:?}", target_dir))
         .enumerate()
     {
         //Get the file path, name and contents
         let file_path = path
-            .expect(format!("Could not file unwrap path").as_str())
+            .unwrap_or_else(|_| { panic!("{}", "Could not file unwrap path".to_string()) })
             .path();
 
         if file_path.is_dir() {
@@ -94,9 +90,9 @@ pub fn analyze_dir(
                 for vulnerability in &vulnerabilities {
                     let line_numbers = analyze_for_vulnerability(&file_contents, i, *vulnerability);
 
-                    if line_numbers.len() > 0 {
+                    if !line_numbers.is_empty() {
                         let file_optimizations = vulnerability_locations
-                            .entry(vulnerability.clone())
+                            .entry(*vulnerability)
                             .or_insert(vec![]);
 
                         file_optimizations.push((file_name.clone(), line_numbers));
@@ -117,7 +113,7 @@ pub fn analyze_for_vulnerability(
     let mut line_numbers: BTreeSet<LineNumber> = BTreeSet::new();
 
     //Parse the file into a the ast
-    let source_unit = solang_parser::parse(&file_contents, file_number).unwrap().0;
+    let source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match vulnerability {
         Vulnerability::FloatingPragma => floating_pragma_vulnerability(source_unit),

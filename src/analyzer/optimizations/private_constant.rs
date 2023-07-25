@@ -7,7 +7,7 @@ use crate::analyzer::utils;
 pub fn private_constant_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let storage_variables = utils::get_32_byte_storage_variables(source_unit.clone(), false, true);
+    let storage_variables = utils::get_32_byte_storage_variables(source_unit, false, true);
 
     for (_, variable_data) in storage_variables {
         let (option_variable_attributes, loc) = variable_data;

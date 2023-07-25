@@ -1,5 +1,5 @@
 use std::{
-    collections::{BTreeSet, HashMap, HashSet},
+    collections::{BTreeSet, HashMap},
     fs,
 };
 
@@ -20,17 +20,17 @@ pub fn generate_report(
 ) {
     let mut sstan_report = String::from("");
 
-    if vulnerabilities.len() > 0 {
+    if !vulnerabilities.is_empty() {
         sstan_report.push_str(&generate_vulnerability_report(vulnerabilities));
         sstan_report.push_str("\n\n");
     }
 
-    if optimizations.len() > 0 {
+    if !optimizations.is_empty() {
         sstan_report.push_str(&generate_optimization_report(optimizations));
         sstan_report.push_str("\n\n");
     }
 
-    if qa.len() > 0 {
+    if !qa.is_empty() {
         sstan_report.push_str(&generate_qa_report(qa));
         sstan_report.push_str("\n\n");
     }

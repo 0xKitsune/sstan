@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use solang_parser::pt::{self, ContractPart, Expression, Loc};
+use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::ast::{self, Target};
@@ -9,12 +9,12 @@ pub fn payable_function_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     let contract_definition_nodes =
-        ast::extract_target_from_node(Target::ContractDefinition, source_unit.clone().into());
+        ast::extract_target_from_node(Target::ContractDefinition, source_unit.into());
 
     for contract_definition_node in contract_definition_nodes {
         let target_nodes = ast::extract_target_from_node(
             Target::FunctionDefinition,
-            contract_definition_node.clone().into(),
+            contract_definition_node.clone(),
         );
 
         for node in target_nodes {
@@ -23,37 +23,35 @@ pub fn payable_function_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
 
             if let pt::ContractPart::FunctionDefinition(box_function_definition) = contract_part {
                 //if there is function body
-                if box_function_definition.body.is_some() {
-                    if box_function_definition.attributes.len() > 0 {
-                        let mut payable = false;
-                        let mut public_or_external = false;
+                if box_function_definition.body.is_some() && !box_function_definition.attributes.is_empty() {
+                    let mut payable = false;
+                    let mut public_or_external = false;
 
-                        for attr in box_function_definition.attributes {
-                            match attr {
-                                // Visi
-                                pt::FunctionAttribute::Visibility(visibility) => match visibility {
-                                    pt::Visibility::External(_) => {
-                                        public_or_external = true;
-                                    }
-                                    pt::Visibility::Public(_) => {
-                                        public_or_external = true;
-                                    }
-                                    _ => {}
-                                },
-                                pt::FunctionAttribute::Mutability(mutability) => {
-                                    if let pt::Mutability::Payable(_) = mutability {
-                                        payable = true;
-                                    }
+                    for attr in box_function_definition.attributes {
+                        match attr {
+                            // Visi
+                            pt::FunctionAttribute::Visibility(visibility) => match visibility {
+                                pt::Visibility::External(_) => {
+                                    public_or_external = true;
+                                }
+                                pt::Visibility::Public(_) => {
+                                    public_or_external = true;
                                 }
                                 _ => {}
+                            },
+                            pt::FunctionAttribute::Mutability(mutability) => {
+                                if let pt::Mutability::Payable(_) = mutability {
+                                    payable = true;
+                                }
                             }
+                            _ => {}
                         }
+                    }
 
-                        //if the function is public or external, and it is not marked as payable
-                        if public_or_external && !payable {
-                            //insert the loc of the function definition into optimization locations
-                            optimization_locations.insert(box_function_definition.loc);
-                        }
+                    //if the function is public or external, and it is not marked as payable
+                    if public_or_external && !payable {
+                        //insert the loc of the function definition into optimization locations
+                        optimization_locations.insert(box_function_definition.loc);
                     }
                 }
             }

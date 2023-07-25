@@ -20,7 +20,7 @@ pub fn address_balance_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
                 if let pt::Expression::Type(_, ty) = *box_expression {
                     if let pt::Type::Address = ty {
                         //if address(0x...).balance or address(this).balance
-                        if identifier.name == "balance".to_string() {
+                        if identifier.name == *"balance" {
                             optimization_locations.insert(loc);
                         }
                     }

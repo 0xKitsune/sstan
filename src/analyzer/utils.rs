@@ -30,18 +30,18 @@ pub fn get_type_size(expression: pt::Expression) -> u16 {
 pub fn get_line_number(char_number: usize, file_contents: &str) -> i32 {
     let re = Regex::new(r"\n").unwrap();
     let mut i = 1;
-    for capture in re.captures_iter(file_contents).into_iter() {
+    for capture in re.captures_iter(file_contents) {
         for c in capture.iter() {
             if c.unwrap().start() > char_number {
                 //+1 since line numbers start at 1
                 return i;
             } else {
-                i = i + 1;
+                i += 1;
             }
         }
     }
 
-    return 0;
+    0
 }
 
 pub fn storage_slots_used(variables: Vec<u16>) -> u32 {
@@ -91,7 +91,7 @@ pub fn get_32_byte_storage_variables(
                     let mut variable_attributes: Option<Vec<pt::VariableAttribute>> = None;
                     //if the variable is constant, mark constant_variable as true
 
-                    if box_variable_definition.attrs.len() > 0 {
+                    if !box_variable_definition.attrs.is_empty() {
                         for attribute in box_variable_definition.attrs.clone() {
                             if let pt::VariableAttribute::Constant(_) = attribute {
                                 if ignore_constants {
@@ -177,10 +177,10 @@ pub fn get_immutable_variables(source_unit: pt::SourceUnit) -> HashMap<String, L
 //Returns minor, major, patch version from a contract file
 pub fn get_solidity_version_from_source_unit(source_unit: SourceUnit) -> Option<(i32, i32, i32)> {
     let target_nodes =
-        ast::extract_target_from_node(Target::PragmaDirective, source_unit.clone().into());
+        ast::extract_target_from_node(Target::PragmaDirective, source_unit.into());
 
     //check if the solidity version is < 0.8.0
-    let mut solidity_minor_version: i32 = 0;
+    let _solidity_minor_version: i32 = 0;
     for node in target_nodes {
         let source_unit_part = node.source_unit_part().unwrap();
 
@@ -221,7 +221,6 @@ pub fn get_solidity_major_minor_patch_version(solidity_version_str: &str) -> Vec
     let major_minor_patch_version_re = Regex::new(MINOR_MAJOR_PATCH_REGEX).unwrap();
     for capture in major_minor_patch_version_re
         .captures_iter(solidity_version_str)
-        .into_iter()
     {
         for minor_version in capture.iter() {
             major_minor_patch_version_str = minor_version.unwrap().as_str();
@@ -229,7 +228,7 @@ pub fn get_solidity_major_minor_patch_version(solidity_version_str: &str) -> Vec
     }
 
     major_minor_patch_version_str
-        .split(".")
+        .split('.')
         .collect::<Vec<&str>>()
 }
 

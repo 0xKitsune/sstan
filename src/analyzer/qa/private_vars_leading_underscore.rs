@@ -1,16 +1,16 @@
 use std::collections::HashSet;
 
-use solang_parser::pt::{self, FunctionTy, Loc};
+use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
+
 use crate::analyzer::utils::get_32_byte_storage_variables;
 
 pub fn private_vars_leading_underscore(source_unit: SourceUnit) -> HashSet<Loc> {
     //Create a new hashset that stores the location of each qa target identified
     let mut qa_locations: HashSet<Loc> = HashSet::new();
 
-    let storage_variables = get_32_byte_storage_variables(source_unit.clone(), true, false);
+    let storage_variables = get_32_byte_storage_variables(source_unit, true, false);
 
     for (variable_name, variable_attribute) in storage_variables {
         let (option_variable_attributes, loc) = variable_attribute;

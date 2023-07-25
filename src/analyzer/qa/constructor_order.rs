@@ -93,7 +93,7 @@ fn test_constructor_order_qa() {
 
     assert_eq!(test_contracts.len(), assertions.len());
 
-    if assertions.len() > 0 {
+    if !assertions.is_empty() {
         for i in 0..assertions.len() - 1 {
             let source_unit = solang_parser::parse(test_contracts[i], 0).unwrap().0;
 

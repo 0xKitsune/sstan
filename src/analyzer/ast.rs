@@ -113,24 +113,24 @@ pub fn new_targets(targets: Vec<Target>) -> HashSet<Target> {
 
 pub fn statement_as_target(statement: &pt::Statement) -> Target {
     match statement {
-        pt::Statement::Args(_, _) => return Target::Args,
-        pt::Statement::Return(_, _) => return Target::Return,
-        pt::Statement::Revert(_, _, _) => return Target::Revert,
-        pt::Statement::Emit(_, _) => return Target::Emit,
-        pt::Statement::RevertNamedArgs(_, _, _) => return Target::RevertNamedArgs,
-        pt::Statement::Expression(_, _) => return Target::Expression,
-        pt::Statement::VariableDefinition(_, _, _) => return Target::VariableDefinition,
+        pt::Statement::Args(_, _) => Target::Args,
+        pt::Statement::Return(_, _) => Target::Return,
+        pt::Statement::Revert(_, _, _) => Target::Revert,
+        pt::Statement::Emit(_, _) => Target::Emit,
+        pt::Statement::RevertNamedArgs(_, _, _) => Target::RevertNamedArgs,
+        pt::Statement::Expression(_, _) => Target::Expression,
+        pt::Statement::VariableDefinition(_, _, _) => Target::VariableDefinition,
         pt::Statement::Block {
             loc: _,
             unchecked: _,
             statements: _,
-        } => return Target::Block,
-        pt::Statement::If(_, _, _, _) => return Target::If,
-        pt::Statement::While(_, _, _) => return Target::While,
-        pt::Statement::For(_, _, _, _, _) => return Target::For,
-        pt::Statement::DoWhile(_, _, _) => return Target::DoWhile,
-        pt::Statement::Try(_, _, _, _) => return Target::Try,
-        _ => return Target::None,
+        } => Target::Block,
+        pt::Statement::If(_, _, _, _) => Target::If,
+        pt::Statement::While(_, _, _) => Target::While,
+        pt::Statement::For(_, _, _, _, _) => Target::For,
+        pt::Statement::DoWhile(_, _, _) => Target::DoWhile,
+        pt::Statement::Try(_, _, _, _) => Target::Try,
+        _ => Target::None,
     }
 }
 
@@ -234,7 +234,7 @@ pub fn extract_target_from_node(target: Target, node: Node) -> Vec<Node> {
     let mut target_set = HashSet::new();
     target_set.insert(target);
 
-    return walk_node_for_targets(&target_set, node);
+    walk_node_for_targets(&target_set, node)
 }
 
 pub fn extract_targets_from_node(targets: Vec<Target>, node: Node) -> Vec<Node> {
@@ -244,7 +244,7 @@ pub fn extract_targets_from_node(targets: Vec<Target>, node: Node) -> Vec<Node> 
         target_set.insert(target);
     }
 
-    return walk_node_for_targets(&target_set, node);
+    walk_node_for_targets(&target_set, node)
 }
 
 //Extract target ast node types from a parent node
@@ -979,13 +979,13 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
 impl Node {
     pub fn as_target(&self) -> Target {
         match self {
-            Self::Expression(expression) => return expression_as_target(expression),
-            Self::Statement(statement) => return statement_as_target(statement),
-            Self::SourceUnit(_) => return Target::SourceUnit,
+            Self::Expression(expression) => expression_as_target(expression),
+            Self::Statement(statement) => statement_as_target(statement),
+            Self::SourceUnit(_) => Target::SourceUnit,
             Self::SourceUnitPart(source_unit_part) => {
-                return source_unit_part_as_target(source_unit_part)
+                source_unit_part_as_target(source_unit_part)
             }
-            Self::ContractPart(contract_part) => return contract_part_as_target(contract_part),
+            Self::ContractPart(contract_part) => contract_part_as_target(contract_part),
         }
     }
 
@@ -1050,43 +1050,43 @@ pub enum Node {
     ContractPart(pt::ContractPart),
 }
 
-impl Into<Node> for pt::Statement {
-    fn into(self) -> Node {
-        Node::Statement(self)
+impl From<pt::Statement> for Node {
+    fn from(val: pt::Statement) -> Self {
+        Node::Statement(val)
     }
 }
 
-impl Into<Node> for Box<pt::Statement> {
-    fn into(self) -> Node {
-        Node::Statement(*self)
+impl From<Box<pt::Statement>> for Node {
+    fn from(val: Box<pt::Statement>) -> Self {
+        Node::Statement(*val)
     }
 }
 
-impl Into<Node> for pt::Expression {
-    fn into(self) -> Node {
-        Node::Expression(self)
+impl From<pt::Expression> for Node {
+    fn from(val: pt::Expression) -> Self {
+        Node::Expression(val)
     }
 }
-impl Into<Node> for Box<pt::Expression> {
-    fn into(self) -> Node {
-        Node::Expression(*self)
-    }
-}
-
-impl Into<Node> for pt::ContractPart {
-    fn into(self) -> Node {
-        Node::ContractPart(self)
+impl From<Box<pt::Expression>> for Node {
+    fn from(val: Box<pt::Expression>) -> Self {
+        Node::Expression(*val)
     }
 }
 
-impl Into<Node> for pt::SourceUnitPart {
-    fn into(self) -> Node {
-        Node::SourceUnitPart(self)
+impl From<pt::ContractPart> for Node {
+    fn from(val: pt::ContractPart) -> Self {
+        Node::ContractPart(val)
     }
 }
 
-impl Into<Node> for pt::SourceUnit {
-    fn into(self) -> Node {
-        Node::SourceUnit(self)
+impl From<pt::SourceUnitPart> for Node {
+    fn from(val: pt::SourceUnitPart) -> Self {
+        Node::SourceUnitPart(val)
+    }
+}
+
+impl From<pt::SourceUnit> for Node {
+    fn from(val: pt::SourceUnit) -> Self {
+        Node::SourceUnit(val)
     }
 }

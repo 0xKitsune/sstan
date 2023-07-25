@@ -1,4 +1,4 @@
-use solang_parser::pt::{self, Expression, Loc, SourceUnit, SourceUnitPart};
+use solang_parser::pt::{self, Expression, Loc, SourceUnit};
 use std::collections::HashSet;
 
 use crate::analyzer::{
@@ -83,13 +83,13 @@ fn parse_contract_for_safe_math_functions(source_unit: SourceUnit) -> HashSet<Lo
             //if the function call identifier is a variable
             if let Expression::MemberAccess(loc, _, identifier) = *function_identifier {
                 //if the identifier name is add, sub, mul or div
-                if identifier.name == "add".to_string() {
+                if identifier.name == *"add" {
                     optimization_locations.insert(loc);
-                } else if identifier.name == "sub".to_string() {
+                } else if identifier.name == *"sub" {
                     optimization_locations.insert(loc);
-                } else if identifier.name == "mul".to_string() {
+                } else if identifier.name == *"mul" {
                     optimization_locations.insert(loc);
-                } else if identifier.name == "div".to_string() {
+                } else if identifier.name == *"div" {
                     optimization_locations.insert(loc);
                 }
             }

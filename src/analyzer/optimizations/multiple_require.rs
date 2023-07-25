@@ -21,7 +21,7 @@ pub fn multiple_require_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
             //if the function call identifier is a variable
             if let Expression::Variable(identifier) = *function_identifier {
                 //if the identifier name is "require"
-                if identifier.name == "require".to_string() {
+                if identifier.name == *"require" {
                     //for each expression in the function call expressions
                     for func_call_expression in function_call_expressions {
                         //if there is an and expression (ie. &&)

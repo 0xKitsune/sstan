@@ -4,10 +4,8 @@ pub mod private_vars_leading_underscore;
 pub mod template;
 
 use std::{
-    collections::{BTreeSet, HashMap, HashSet},
+    collections::{BTreeSet, HashMap},
     fs,
-    path::PathBuf,
-    str::FromStr,
 };
 
 use self::{
@@ -54,13 +52,12 @@ pub fn analyze_dir(
 
     //For each file in the target dir
     for (i, path) in fs::read_dir(target_dir)
-        .expect(format!("Could not read contracts from directory: {:?}", target_dir).as_str())
-        .into_iter()
+        .unwrap_or_else(|_| panic!("Could not read contracts from directory: {:?}", target_dir))
         .enumerate()
     {
         //Get the file path, name and contents
         let file_path = path
-            .expect(format!("Could not unwrap file path: {}", i).as_str())
+            .unwrap_or_else(|_| panic!("Could not unwrap file path: {}", i))
             .path();
 
         if file_path.is_dir() {
@@ -74,7 +71,7 @@ pub fn analyze_dir(
         } else {
             let file_name = file_path
                 .file_name()
-                .expect(format!("Could not unwrap file name to OsStr: {}", i).as_str())
+                .unwrap_or_else(|| panic!("Could not unwrap file name to OsStr: {}", i))
                 .to_str()
                 .expect("Could not convert file name from OsStr to &str")
                 .to_string();
@@ -86,9 +83,9 @@ pub fn analyze_dir(
                 for target in &qa {
                     let line_numbers = analyze_for_qa(&file_contents, i, *target);
 
-                    if line_numbers.len() > 0 {
+                    if !line_numbers.is_empty() {
                         let file_optimizations =
-                            qa_locations.entry(target.clone()).or_insert(vec![]);
+                            qa_locations.entry(*target).or_insert(vec![]);
 
                         file_optimizations.push((file_name.clone(), line_numbers));
                     }
@@ -108,7 +105,7 @@ pub fn analyze_for_qa(
     let mut line_numbers: BTreeSet<LineNumber> = BTreeSet::new();
 
     //Parse the file into a the ast
-    let source_unit = solang_parser::parse(&file_contents, file_number).unwrap().0;
+    let source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match qa {
         QualityAssurance::ConstructorOrder => constructor_order_qa(source_unit),

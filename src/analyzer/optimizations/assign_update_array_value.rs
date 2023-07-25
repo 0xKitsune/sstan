@@ -59,21 +59,18 @@ pub fn assign_update_array_optimization(source_unit: SourceUnit) -> HashSet<Loc>
                                             *array_subscrip_box_expression
                                         {
                                             let _array_identifier = identifier.name;
-                                            if _array_identifier == array_identifier {
-                                                if option_array_subscrip_box_expression_1.is_some()
+                                            if _array_identifier == array_identifier && option_array_subscrip_box_expression_1.is_some() {
+                                                let array_subscrip_box_expression_1 =
+                                                    option_array_subscrip_box_expression_1
+                                                        .unwrap();
+
+                                                if let Expression::NumberLiteral(_, number, _) =
+                                                    *array_subscrip_box_expression_1
                                                 {
-                                                    let array_subscrip_box_expression_1 =
-                                                        option_array_subscrip_box_expression_1
-                                                            .unwrap();
+                                                    let _index_accessed = number;
 
-                                                    if let Expression::NumberLiteral(_, number, _) =
-                                                        *array_subscrip_box_expression_1
-                                                    {
-                                                        let _index_accessed = number;
-
-                                                        if _index_accessed == index_accessed {
-                                                            optimization_locations.insert(loc);
-                                                        }
+                                                    if _index_accessed == index_accessed {
+                                                        optimization_locations.insert(loc);
                                                     }
                                                 }
                                             }
@@ -88,25 +85,22 @@ pub fn assign_update_array_optimization(source_unit: SourceUnit) -> HashSet<Loc>
                                                 *array_subscrip_box_expression
                                             {
                                                 let _array_identifier = identifier.name;
-                                                if array_identifier == _array_identifier {
-                                                    if option_array_subscrip_box_expression_1
-                                                        .is_some()
+                                                if array_identifier == _array_identifier && option_array_subscrip_box_expression_1
+                                                        .is_some() {
+                                                    let array_subscrip_box_expression_1 =
+                                                        option_array_subscrip_box_expression_1
+                                                            .unwrap();
+
+                                                    if let Expression::NumberLiteral(
+                                                        _,
+                                                        number,
+                                                        _,
+                                                    ) = *array_subscrip_box_expression_1
                                                     {
-                                                        let array_subscrip_box_expression_1 =
-                                                            option_array_subscrip_box_expression_1
-                                                                .unwrap();
+                                                        let _index_accessed = number;
 
-                                                        if let Expression::NumberLiteral(
-                                                            _,
-                                                            number,
-                                                            _,
-                                                        ) = *array_subscrip_box_expression_1
-                                                        {
-                                                            let _index_accessed = number;
-
-                                                            if _index_accessed == index_accessed {
-                                                                optimization_locations.insert(loc);
-                                                            }
+                                                        if _index_accessed == index_accessed {
+                                                            optimization_locations.insert(loc);
                                                         }
                                                     }
                                                 }
