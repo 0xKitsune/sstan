@@ -538,15 +538,10 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
             pt::Statement::Try(_, expression, option_paramlist_box_statement, _) => {
                 matches.append(&mut walk_node_for_targets(targets, expression.into()));
 
-                if option_paramlist_box_statement.is_some() {
-                    let (paramlist, box_statement) = option_paramlist_box_statement.unwrap();
-
-                    for (_, option_param) in paramlist {
-                        if option_param.is_some() {
-                            matches.append(&mut walk_node_for_targets(
-                                targets,
-                                option_param.unwrap().ty.into(),
-                            ));
+                if let Some((param_list, box_statement)) = option_paramlist_box_statement {
+                    for (_, option_param) in param_list {
+                        if let Some(param) = option_param {
+                            matches.append(&mut walk_node_for_targets(targets, param.ty.into()));
                         }
                     }
 
@@ -588,28 +583,19 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
             ) => {
                 matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
 
-                if option_box_expression.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_box_expression.unwrap().into(),
-                    ));
+                if let Some(box_expression) = option_box_expression {
+                    matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
                 }
 
-                if option_box_expression_1.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_box_expression_1.unwrap().into(),
-                    ));
+                if let Some(box_expression) = option_box_expression_1 {
+                    matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
                 }
             }
             pt::Expression::ArraySubscript(_, box_expression, option_box_expression) => {
                 matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
 
-                if option_box_expression.is_some() {
-                    matches.append(&mut walk_node_for_targets(
-                        targets,
-                        option_box_expression.unwrap().into(),
-                    ));
+                if let Some(box_expression) = option_box_expression {
+                    matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
                 }
             }
 
@@ -724,8 +710,7 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
 
             pt::Expression::List(_, parameter_list) => {
                 for (_, option_parameter) in parameter_list {
-                    if option_parameter.is_some() {
-                        let parameter = option_parameter.unwrap();
+                    if let Some(parameter) = option_parameter {
                         matches.append(&mut walk_node_for_targets(targets, parameter.ty.into()));
                     }
                 }
@@ -827,19 +812,16 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                     returns,
                 } => {
                     for param in params {
-                        if param.1.is_some() {
-                            matches.append(&mut walk_node_for_targets(
-                                targets,
-                                param.1.unwrap().ty.into(),
-                            ));
+                        if let Some(param) = param.1 {
+                            matches.append(&mut walk_node_for_targets(targets, param.ty.into()));
                         }
                     }
 
                     for attribute in attributes {
                         match attribute {
                             pt::FunctionAttribute::BaseOrModifier(_, base) => {
-                                if base.args.is_some() {
-                                    for arg in base.args.unwrap() {
+                                if let Some(args) = base.args {
+                                    for arg in args {
                                         matches.append(&mut walk_node_for_targets(
                                             targets,
                                             arg.into(),
@@ -856,14 +838,12 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                         }
                     }
 
-                    if returns.is_some() {
-                        let (parameter_list, function_attributes) = returns.unwrap();
-
+                    if let Some((parameter_list, function_attributes)) = returns {
                         for (_, option_parameter) in parameter_list {
-                            if option_parameter.is_some() {
+                            if let Some(parameter) = option_parameter {
                                 matches.append(&mut walk_node_for_targets(
                                     targets,
-                                    option_parameter.unwrap().ty.into(),
+                                    parameter.ty.into(),
                                 ));
                             }
                         }
@@ -871,8 +851,8 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                         for attribute in function_attributes {
                             match attribute {
                                 pt::FunctionAttribute::BaseOrModifier(_, base) => {
-                                    if base.args.is_some() {
-                                        for arg in base.args.unwrap() {
+                                    if let Some(args) = base.args {
+                                        for arg in args {
                                             matches.append(&mut walk_node_for_targets(
                                                 targets,
                                                 arg.into(),

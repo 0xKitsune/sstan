@@ -67,9 +67,7 @@ impl Opts {
     pub fn new() -> Opts {
         let args = Args::parse();
 
-        let (optimizations, vulnerabilities, qa) = if args.toml.is_some() {
-            let toml_path = args.toml.unwrap();
-
+        let (optimizations, vulnerabilities, qa) = if let Some(toml_path) = args.toml {
             let toml_str =
                 fs::read_to_string(toml_path).expect("Could not read toml file to string");
 
@@ -101,8 +99,8 @@ impl Opts {
             )
         };
 
-        let path = if args.path.is_some() {
-            args.path.unwrap()
+        let path = if let Some(path) = args.path {
+            path
         } else {
             match fs::read_dir(DEFAULT_PATH) {
                 Ok(_) => {}

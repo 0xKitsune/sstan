@@ -271,10 +271,11 @@ pub fn get_storage_variables_assigned_in_constructor(
                                 if storage_variables.contains_key(&identifier.name) {
                                     let storage_var = storage_variables.get(&identifier.name);
 
-                                    if storage_var.is_some() {
-                                        let loc = storage_var.unwrap().1;
+                                    if let Some(storage_var) = storage_var {
+                                        let loc = storage_var.1;
                                         //add the variable to the variable usage map
-                                        potential_immutable_variables.insert(identifier.name, loc);
+                                        potential_immutable_variables
+                                            .insert(identifier.name, loc.clone());
                                     }
                                 }
                             }

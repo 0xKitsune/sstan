@@ -19,9 +19,8 @@ pub fn cache_array_length_optimization(source_unit: SourceUnit) -> HashSet<Loc> 
 
         if let pt::Statement::For(_, _, option_box_expression, _, _) = statement {
             //get all of the .length in the for loop definition
-            if option_box_expression.is_some() {
-                let box_expression = option_box_expression.unwrap();
 
+            if let Some(box_expression) = option_box_expression {
                 let member_access_nodes =
                     ast::extract_target_from_node(Target::MemberAccess, box_expression.into());
 
