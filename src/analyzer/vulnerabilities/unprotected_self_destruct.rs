@@ -7,7 +7,13 @@ use solang_parser::pt::{
 
 use crate::analyzer::ast::{self, Target};
 
-pub fn unprotected_selfdestruct_vulnerability(source_unit: SourceUnit) -> HashSet<Loc> {
+pub const SELF_DESTRUCT: &str = "selfdestruct";
+pub const SUICIDE: &str = "suicide";
+pub const ONLY: &str = "only";
+pub const MSG: &str = "msg";
+pub const SENDER: &str = "sender";
+
+pub fn unprotected_self_destruct_vulnerability(source_unit: SourceUnit) -> HashSet<Loc> {
     //Create a new hashset that stores the location of each vulnerability target identified
     let mut vulnerability_locations: HashSet<Loc> = HashSet::new();
 
@@ -15,10 +21,8 @@ pub fn unprotected_selfdestruct_vulnerability(source_unit: SourceUnit) -> HashSe
         ast::extract_target_from_node(Target::ContractDefinition, source_unit.into());
 
     for contract_definition_node in contract_definition_nodes {
-        let target_nodes = ast::extract_target_from_node(
-            Target::FunctionDefinition,
-            contract_definition_node,
-        );
+        let target_nodes =
+            ast::extract_target_from_node(Target::FunctionDefinition, contract_definition_node);
 
         for node in target_nodes {
             //We can use unwrap because Target::FunctionDefinition is a contract_part
@@ -49,13 +53,13 @@ pub fn unprotected_selfdestruct_vulnerability(source_unit: SourceUnit) -> HashSe
 
                             if let Expression::FunctionCall(loc, box_identifier, ..) = expression {
                                 //If the function is a selfdestruct call
-                                if _is_selfdestruct(box_identifier) {
+                                if is_self_destruct(*box_identifier) {
                                     //Check if a function is protected using modifiers or conditions.
                                     //This check is not exhaustive. For instance, it does not check if the modifier
                                     //is implemented correctly. It only checks if the modifier name contains the word "only".
                                     //Otherwise, it checks if there are any conditions on `msg.sender` applied.
-                                    if _contains_protection_modifiers(&box_function_definition)
-                                        || _contains_msg_sender_conditions(&box_function_definition)
+                                    if contains_protection_modifiers(&box_function_definition)
+                                        || contains_msg_sender_conditions(&box_function_definition)
                                     {
                                         continue;
                                     }
@@ -77,12 +81,12 @@ pub fn unprotected_selfdestruct_vulnerability(source_unit: SourceUnit) -> HashSe
 }
 
 //Return true if the visibility of a given function is public or external. Return false otherwise.
-fn _is_public_or_external(function_definition: &Box<FunctionDefinition>) -> bool {
+fn _is_public_or_external(function_definition: &FunctionDefinition) -> bool {
     let mut public_or_external = false;
     if !function_definition.attributes.is_empty() {
         for attr in &function_definition.attributes {
-            match attr {
-                FunctionAttribute::Visibility(visibility) => match visibility {
+            if let FunctionAttribute::Visibility(visibility) = attr {
+                match visibility {
                     Visibility::External(_) => {
                         public_or_external = true;
                     }
@@ -90,8 +94,7 @@ fn _is_public_or_external(function_definition: &Box<FunctionDefinition>) -> bool
                         public_or_external = true;
                     }
                     _ => {}
-                },
-                _ => {}
+                }
             }
         }
     }
@@ -100,11 +103,11 @@ fn _is_public_or_external(function_definition: &Box<FunctionDefinition>) -> bool
 }
 
 //Check if a given function's name is "selfdestruct" or "suicide"
-fn _is_selfdestruct(box_identifier: Box<Expression>) -> bool {
+fn is_self_destruct(box_identifier: Expression) -> bool {
     let mut is_selfdestruct = false;
-    if let Expression::Variable(identifier) = *box_identifier {
+    if let Expression::Variable(identifier) = box_identifier {
         //If the function name is "selfdestruct" or "suicide"
-        if identifier.name == "selfdestruct" || identifier.name == "suicide" {
+        if identifier.name == SELF_DESTRUCT || identifier.name == SUICIDE {
             is_selfdestruct = true;
         }
     }
@@ -113,26 +116,24 @@ fn _is_selfdestruct(box_identifier: Box<Expression>) -> bool {
 }
 
 //Check if a given function contains any modifier with "only" in its name
-fn _contains_protection_modifiers(function_definition: &Box<FunctionDefinition>) -> bool {
+fn contains_protection_modifiers(function_definition: &FunctionDefinition) -> bool {
     //If the function has no arguments, early-return false
     if function_definition.attributes.is_empty() {
         return false;
     }
 
     for attr in &function_definition.attributes {
-        match attr {
-            //If the function has any modifier
-            FunctionAttribute::BaseOrModifier(_, Base { name, .. }) => {
-                let IdentifierPath { identifiers, .. } = name;
+        //If the function has any modifier
 
-                for identifier in identifiers {
-                    //If the modifier name contains "only"
-                    if identifier.name.contains("only") {
-                        return true;
-                    }
+        if let FunctionAttribute::BaseOrModifier(_, Base { name, .. }) = attr {
+            let IdentifierPath { identifiers, .. } = name;
+
+            for identifier in identifiers {
+                //If the modifier name contains "only"
+                if identifier.name.contains(ONLY) {
+                    return true;
                 }
             }
-            _ => {}
         }
     }
 
@@ -141,7 +142,7 @@ fn _contains_protection_modifiers(function_definition: &Box<FunctionDefinition>)
 
 //Check if there are any conditions applied on msg.sender
 //examples: `require(msg.sender == owner)` or `check(msg.sender)`
-fn _contains_msg_sender_conditions(function_definition: &Box<FunctionDefinition>) -> bool {
+fn contains_msg_sender_conditions(function_definition: &FunctionDefinition) -> bool {
     //If the function has no body, early-return false
     if function_definition.body.is_none() {
         return false;
@@ -158,7 +159,7 @@ fn _contains_msg_sender_conditions(function_definition: &Box<FunctionDefinition>
 
         if let Expression::FunctionCall(_, box_identifier, function_args) = expression {
             //Skip if the function call is a selfdestruct, as it does not affect this vulnerability
-            if _is_selfdestruct(box_identifier) {
+            if is_self_destruct(*box_identifier) {
                 continue;
             }
 
@@ -175,7 +176,7 @@ fn _contains_msg_sender_conditions(function_definition: &Box<FunctionDefinition>
                             if let Expression::Variable(Identifier { name: left, .. }) =
                                 *box_expression
                             {
-                                if left == "msg" && right == "sender" {
+                                if left == MSG && right == SENDER {
                                     return true;
                                 }
                             }
@@ -188,7 +189,7 @@ fn _contains_msg_sender_conditions(function_definition: &Box<FunctionDefinition>
                         let Identifier { name: right, .. } = identifier;
                         if let Expression::Variable(Identifier { name: left, .. }) = *box_expression
                         {
-                            if left == "msg" && right == "sender" {
+                            if left == MSG && right == SENDER {
                                 return true;
                             }
                         }
@@ -238,6 +239,6 @@ fn test_unprotected_selfdestruct_vulnerability() {
 
     let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let vulnerability_locations = unprotected_selfdestruct_vulnerability(source_unit);
+    let vulnerability_locations = unprotected_self_destruct_vulnerability(source_unit);
     assert_eq!(vulnerability_locations.len(), 2)
 }

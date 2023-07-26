@@ -5,6 +5,7 @@ use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::ast::{self, Target};
 
+//TODO: Clean up this function
 pub fn assign_update_array_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
@@ -20,20 +21,19 @@ pub fn assign_update_array_optimization(source_unit: SourceUnit) -> HashSet<Loc>
         if let Expression::Assign(loc, box_expression, box_expression_1) = expression {
             if let Expression::ArraySubscript(
                 _,
-                array_subscrip_box_expression,
-                option_array_subscrip_box_expression_1,
+                array_subscript_box_expression,
+                option_array_subscript_box_expression_1,
             ) = *box_expression
             {
                 //get the variable name of the array
-                if let Expression::Variable(identifier) = *array_subscrip_box_expression {
+                if let Expression::Variable(identifier) = *array_subscript_box_expression {
                     let array_identifier = identifier.name;
 
-                    if option_array_subscrip_box_expression_1.is_some() {
-                        let array_subscrip_box_expression_1 =
-                            option_array_subscrip_box_expression_1.unwrap();
-
+                    if let Some(array_subscript_box_expression) =
+                        option_array_subscript_box_expression_1
+                    {
                         if let Expression::NumberLiteral(_, number, _) =
-                            *array_subscrip_box_expression_1
+                            *array_subscript_box_expression
                         {
                             let index_accessed = number;
 
@@ -50,57 +50,56 @@ pub fn assign_update_array_optimization(source_unit: SourceUnit) -> HashSet<Loc>
                                 | Expression::BitwiseXor(_, _box_expression, _box_expression_1) => {
                                     if let Expression::ArraySubscript(
                                         _,
-                                        array_subscrip_box_expression,
-                                        option_array_subscrip_box_expression_1,
+                                        array_subscript_box_expression,
+                                        option_array_subscript_box_expression_1,
                                     ) = *_box_expression
                                     {
                                         //get the variable name of the array
                                         if let Expression::Variable(identifier) =
-                                            *array_subscrip_box_expression
+                                            *array_subscript_box_expression
                                         {
                                             let _array_identifier = identifier.name;
-                                            if _array_identifier == array_identifier && option_array_subscrip_box_expression_1.is_some() {
-                                                let array_subscrip_box_expression_1 =
-                                                    option_array_subscrip_box_expression_1
-                                                        .unwrap();
-
-                                                if let Expression::NumberLiteral(_, number, _) =
-                                                    *array_subscrip_box_expression_1
+                                            if _array_identifier == array_identifier {
+                                                if let Some(array_subscript_box_expression_1) =
+                                                    option_array_subscript_box_expression_1
                                                 {
-                                                    let _index_accessed = number;
-
-                                                    if _index_accessed == index_accessed {
-                                                        optimization_locations.insert(loc);
-                                                    }
-                                                }
-                                            }
-                                        } else if let Expression::ArraySubscript(
-                                            _,
-                                            array_subscrip_box_expression,
-                                            option_array_subscrip_box_expression_1,
-                                        ) = *_box_expression_1
-                                        {
-                                            //get the variable name of the array
-                                            if let Expression::Variable(identifier) =
-                                                *array_subscrip_box_expression
-                                            {
-                                                let _array_identifier = identifier.name;
-                                                if array_identifier == _array_identifier && option_array_subscrip_box_expression_1
-                                                        .is_some() {
-                                                    let array_subscrip_box_expression_1 =
-                                                        option_array_subscrip_box_expression_1
-                                                            .unwrap();
-
-                                                    if let Expression::NumberLiteral(
-                                                        _,
-                                                        number,
-                                                        _,
-                                                    ) = *array_subscrip_box_expression_1
+                                                    if let Expression::NumberLiteral(_, number, _) =
+                                                        *array_subscript_box_expression_1
                                                     {
                                                         let _index_accessed = number;
 
                                                         if _index_accessed == index_accessed {
                                                             optimization_locations.insert(loc);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else if let Expression::ArraySubscript(
+                                            _,
+                                            array_subscript_box_expression,
+                                            option_array_subscript_box_expression_1,
+                                        ) = *_box_expression_1
+                                        {
+                                            //get the variable name of the array
+                                            if let Expression::Variable(identifier) =
+                                                *array_subscript_box_expression
+                                            {
+                                                let _array_identifier = identifier.name;
+                                                if array_identifier == _array_identifier {
+                                                    if let Some(array_subscript_box_expression_1) =
+                                                        option_array_subscript_box_expression_1
+                                                    {
+                                                        if let Expression::NumberLiteral(
+                                                            _,
+                                                            number,
+                                                            _,
+                                                        ) = *array_subscript_box_expression_1
+                                                        {
+                                                            let _index_accessed = number;
+
+                                                            if _index_accessed == index_accessed {
+                                                                optimization_locations.insert(loc);
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -127,10 +126,7 @@ fn test_assign_update_array_optimization() {
     
     pragma solidity >= 0.8.0;
     contract Contract {
-
-
         uint256[] vals;
-        ;
 
         constructor(){
             vals = new uint256[](100);

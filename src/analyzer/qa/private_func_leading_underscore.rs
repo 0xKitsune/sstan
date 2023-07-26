@@ -23,8 +23,7 @@ pub fn private_func_leading_underscore(source_unit: SourceUnit) -> HashSet<Loc> 
             for attr in box_fn_definition.attributes {
                 if let pt::FunctionAttribute::Visibility(v) = attr {
                     let fn_def_data = box_fn_definition.name.clone();
-                    if fn_def_data.is_some() {
-                        let fn_data = fn_def_data.unwrap();
+                    if let Some(fn_data) = fn_def_data {
                         match v {
                             pt::Visibility::Public(_) | pt::Visibility::External(_) => {
                                 if fn_data.name.starts_with('_') {

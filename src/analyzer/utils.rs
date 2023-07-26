@@ -176,8 +176,7 @@ pub fn get_immutable_variables(source_unit: pt::SourceUnit) -> HashMap<String, L
 
 //Returns minor, major, patch version from a contract file
 pub fn get_solidity_version_from_source_unit(source_unit: SourceUnit) -> Option<(i32, i32, i32)> {
-    let target_nodes =
-        ast::extract_target_from_node(Target::PragmaDirective, source_unit.into());
+    let target_nodes = ast::extract_target_from_node(Target::PragmaDirective, source_unit.into());
 
     //check if the solidity version is < 0.8.0
     let _solidity_minor_version: i32 = 0;
@@ -219,9 +218,7 @@ pub fn get_solidity_major_minor_patch_version(solidity_version_str: &str) -> Vec
     //get the minor.patch version from the solidity semantic version
     let mut major_minor_patch_version_str = ZERO_ZERO_ZERO;
     let major_minor_patch_version_re = Regex::new(MINOR_MAJOR_PATCH_REGEX).unwrap();
-    for capture in major_minor_patch_version_re
-        .captures_iter(solidity_version_str)
-    {
+    for capture in major_minor_patch_version_re.captures_iter(solidity_version_str) {
         for minor_version in capture.iter() {
             major_minor_patch_version_str = minor_version.unwrap().as_str();
         }

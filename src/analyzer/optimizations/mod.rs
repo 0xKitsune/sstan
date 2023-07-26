@@ -24,8 +24,7 @@ mod template;
 
 use std::{
     collections::{BTreeSet, HashMap},
-    fs,
-    vec,
+    fs, vec,
 };
 
 use self::{
@@ -157,7 +156,7 @@ pub fn analyze_dir(
     {
         //Get the file path, name and contents
         let file_path = path
-            .unwrap_or_else(|_| { panic!("{}", "Could not file unwrap path".to_string()) })
+            .unwrap_or_else(|_| panic!("{}", "Could not file unwrap path".to_string()))
             .path();
 
         if file_path.is_dir() {

@@ -19,13 +19,13 @@ pub fn bool_equals_bool_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
 
         match expression {
             pt::Expression::NotEqual(loc, box_expression, box_expression_1) => {
-                if check_for_bool_equals_bool(box_expression, box_expression_1) {
+                if check_for_bool_equals_bool(*box_expression, *box_expression_1) {
                     optimization_locations.insert(loc);
                 }
             }
 
             pt::Expression::Equal(loc, box_expression, box_expression_1) => {
-                if check_for_bool_equals_bool(box_expression, box_expression_1) {
+                if check_for_bool_equals_bool(*box_expression, *box_expression_1) {
                     optimization_locations.insert(loc);
                 }
             }
@@ -39,18 +39,18 @@ pub fn bool_equals_bool_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
 }
 
 fn check_for_bool_equals_bool(
-    box_expression: Box<pt::Expression>,
-    box_expression_1: Box<pt::Expression>,
+    box_expression: pt::Expression,
+    box_expression_1: pt::Expression,
 ) -> bool {
     //create a boolean to determine if address(0) is present
     let mut bool_equals_bool: bool = false;
 
     //if the first expression is true or false
-    if let pt::Expression::BoolLiteral(_, _) = *box_expression {
+    if let pt::Expression::BoolLiteral(_, _) = box_expression {
         bool_equals_bool = true;
     }
     //if the second expression is true or false
-    if let pt::Expression::BoolLiteral(_, _) = *box_expression_1 {
+    if let pt::Expression::BoolLiteral(_, _) = box_expression_1 {
         bool_equals_bool = true;
     }
 

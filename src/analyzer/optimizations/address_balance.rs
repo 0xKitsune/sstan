@@ -5,6 +5,8 @@ use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::ast::{self, Target};
 
+pub const BALANCE: &str = "balance";
+
 //Use selfbalance() instead of address(this).balance()
 pub fn address_balance_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
@@ -17,12 +19,10 @@ pub fn address_balance_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
 
         if let pt::Expression::MemberAccess(loc, box_expression, identifier) = expression {
             if let pt::Expression::FunctionCall(_, box_expression, _) = *box_expression {
-                if let pt::Expression::Type(_, ty) = *box_expression {
-                    if let pt::Type::Address = ty {
-                        //if address(0x...).balance or address(this).balance
-                        if identifier.name == *"balance" {
-                            optimization_locations.insert(loc);
-                        }
+                if let pt::Expression::Type(_, pt::Type::Address) = *box_expression {
+                    //if address(0x...).balance or address(this).balance
+                    if identifier.name == *BALANCE {
+                        optimization_locations.insert(loc);
                     }
                 }
             }

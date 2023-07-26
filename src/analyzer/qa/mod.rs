@@ -84,8 +84,7 @@ pub fn analyze_dir(
                     let line_numbers = analyze_for_qa(&file_contents, i, *target);
 
                     if !line_numbers.is_empty() {
-                        let file_optimizations =
-                            qa_locations.entry(*target).or_insert(vec![]);
+                        let file_optimizations = qa_locations.entry(*target).or_insert(vec![]);
 
                         file_optimizations.push((file_name.clone(), line_numbers));
                     }
@@ -115,7 +114,6 @@ pub fn analyze_for_qa(
         QualityAssurance::PrivateFuncLeadingUnderscore => {
             private_func_leading_underscore(source_unit)
         }
-        _ => panic!("Location dont recognized"),
     };
 
     for loc in locations {

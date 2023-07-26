@@ -261,7 +261,7 @@ pub fn get_storage_variables_assigned_in_constructor(
                              * A Non-Value Type can not be immutable
                              * https://docs.soliditylang.org/en/v0.8.13/contracts.html?highlight=immutable#constant-and-immutable-state-variables
                              */
-                            if is_a_non_value_type(box_assigned_value) {
+                            if is_a_non_value_type(*box_assigned_value) {
                                 continue;
                             }
 
@@ -271,8 +271,8 @@ pub fn get_storage_variables_assigned_in_constructor(
                                 if storage_variables.contains_key(&identifier.name) {
                                     let storage_var = storage_variables.get(&identifier.name);
 
-                                    if storage_var.is_some() {
-                                        let loc = storage_var.unwrap().1;
+                                    if let Some(storage_var) = storage_var {
+                                        let loc = storage_var.1;
                                         //add the variable to the variable usage map
                                         potential_immutable_variables.insert(identifier.name, loc);
                                     }
@@ -288,8 +288,8 @@ pub fn get_storage_variables_assigned_in_constructor(
     potential_immutable_variables
 }
 
-fn is_a_non_value_type(assigned_value: Box<pt::Expression>) -> bool {
-    match *assigned_value {
+fn is_a_non_value_type(assigned_value: pt::Expression) -> bool {
+    match assigned_value {
         // string types
         pt::Expression::StringLiteral(_) => return true,
         // Dynamic bytes

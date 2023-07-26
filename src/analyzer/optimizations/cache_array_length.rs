@@ -5,6 +5,8 @@ use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::ast::{self, Target};
 
+pub const LENGTH: &str = "length";
+
 pub fn cache_array_length_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
@@ -17,21 +19,18 @@ pub fn cache_array_length_optimization(source_unit: SourceUnit) -> HashSet<Loc> 
         //Can unwrap because Target::For will always be a statement
         let statement = node.statement().unwrap();
 
-        if let pt::Statement::For(_, _, option_box_expression, _, _) = statement {
+        if let pt::Statement::For(_, _, Some(box_expression), _, _) = statement {
             //get all of the .length in the for loop definition
-            if option_box_expression.is_some() {
-                let box_expression = option_box_expression.unwrap();
 
-                let member_access_nodes =
-                    ast::extract_target_from_node(Target::MemberAccess, box_expression.into());
+            let member_access_nodes =
+                ast::extract_target_from_node(Target::MemberAccess, box_expression.into());
 
-                for node in member_access_nodes {
-                    //Can unwrap because Target::MemberAccess will always be an expression
-                    let member_access = node.expression().unwrap();
-                    if let pt::Expression::MemberAccess(loc, _, identifier) = member_access {
-                        if identifier.name == "length" {
-                            optimization_locations.insert(loc);
-                        }
+            for node in member_access_nodes {
+                //Can unwrap because Target::MemberAccess will always be an expression
+                let member_access = node.expression().unwrap();
+                if let pt::Expression::MemberAccess(loc, _, identifier) = member_access {
+                    if identifier.name == LENGTH {
+                        optimization_locations.insert(loc);
                     }
                 }
             }
