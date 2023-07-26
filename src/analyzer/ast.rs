@@ -804,19 +804,12 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                     }
 
                     for attribute in attributes {
-                        match attribute {
-                            pt::FunctionAttribute::BaseOrModifier(_, base) => {
-                                if let Some(args) = base.args {
-                                    for arg in args {
-                                        matches.append(&mut walk_node_for_targets(
-                                            targets,
-                                            arg.into(),
-                                        ));
-                                    }
+                        if let pt::FunctionAttribute::BaseOrModifier(_, base) = attribute {
+                            if let Some(args) = base.args {
+                                for arg in args {
+                                    matches.append(&mut walk_node_for_targets(targets, arg.into()));
                                 }
                             }
-
-                            _ => {}
                         }
                     }
 
@@ -831,19 +824,15 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                         }
 
                         for attribute in function_attributes {
-                            match attribute {
-                                pt::FunctionAttribute::BaseOrModifier(_, base) => {
-                                    if let Some(args) = base.args {
-                                        for arg in args {
-                                            matches.append(&mut walk_node_for_targets(
-                                                targets,
-                                                arg.into(),
-                                            ));
-                                        }
+                            if let pt::FunctionAttribute::BaseOrModifier(_, base) = attribute {
+                                if let Some(args) = base.args {
+                                    for arg in args {
+                                        matches.append(&mut walk_node_for_targets(
+                                            targets,
+                                            arg.into(),
+                                        ));
                                     }
                                 }
-
-                                _ => {}
                             }
                         }
                     }

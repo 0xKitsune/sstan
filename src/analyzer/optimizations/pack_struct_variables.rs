@@ -121,7 +121,7 @@ contract OrderRouter {
 
     let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = pack_struct_variables_optimization(source_unit);
+    let _optimization_locations = pack_struct_variables_optimization(source_unit);
 
     // assert_eq!(optimization_locations.len(), 4)
 }

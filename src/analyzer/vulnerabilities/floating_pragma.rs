@@ -17,11 +17,9 @@ pub fn floating_pragma_vulnerability(source_unit: SourceUnit) -> HashSet<Loc> {
         //We can use unwrap because Target::PragmaDirective is a source unit part
         let source_unit_part = node.source_unit_part().unwrap();
 
-        if let pt::SourceUnitPart::PragmaDirective(loc, _, pragma) = source_unit_part {
-            if let Some(pragma) = pragma {
-                if pragma.string.contains('^') {
-                    vulnerability_locations.insert(loc);
-                }
+        if let pt::SourceUnitPart::PragmaDirective(loc, _, Some(pragma)) = source_unit_part {
+            if pragma.string.contains('^') {
+                vulnerability_locations.insert(loc);
             }
         }
     }

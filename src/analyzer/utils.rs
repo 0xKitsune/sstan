@@ -109,11 +109,8 @@ pub fn get_32_byte_storage_variables(
 
                     if let pt::Expression::Type(loc, ty) = box_variable_definition.ty {
                         if let pt::Type::Mapping { .. } = ty {
-                        } else {
-                            if let Some(name) = box_variable_definition.name {
-                                storage_variables
-                                    .insert(name.to_string(), (variable_attributes, loc));
-                            }
+                        } else if let Some(name) = box_variable_definition.name {
+                            storage_variables.insert(name.to_string(), (variable_attributes, loc));
                         }
                     }
                 }
@@ -187,20 +184,17 @@ pub fn get_solidity_version_from_source_unit(source_unit: SourceUnit) -> Option<
     for node in target_nodes {
         let source_unit_part = node.source_unit_part().unwrap();
 
-        if let SourceUnitPart::PragmaDirective(_, _, solidity_version_literal) = source_unit_part {
-            if let Some(version) = solidity_version_literal {
-                let minor_major_patch_version =
-                    get_solidity_major_minor_patch_version(&version.string)
-                        .iter()
-                        .map(|f| f.parse::<i32>().unwrap())
-                        .collect::<Vec<i32>>();
+        if let SourceUnitPart::PragmaDirective(_, _, Some(version)) = source_unit_part {
+            let minor_major_patch_version = get_solidity_major_minor_patch_version(&version.string)
+                .iter()
+                .map(|f| f.parse::<i32>().unwrap())
+                .collect::<Vec<i32>>();
 
-                return Some((
-                    minor_major_patch_version[0],
-                    minor_major_patch_version[1],
-                    minor_major_patch_version[2],
-                ));
-            }
+            return Some((
+                minor_major_patch_version[0],
+                minor_major_patch_version[1],
+                minor_major_patch_version[2],
+            ));
         }
     }
 
