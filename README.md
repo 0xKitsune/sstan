@@ -46,6 +46,4 @@ Options:
 
 &nbsp;
 # Contributing
-First off, thanks for taking the time to contribute! Contributions are welcomed and greatly appreciated.
-
-If you are interested in contributing, please check out [Contributing.md](https://github.com/0xKitsune/sstan/blob/main/docs/Contributing.md).
+Check out [Contributing.md](https://github.com/0xKitsune/sstan/blob/main/docs/Contributing.md) for adding new features.
