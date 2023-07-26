@@ -18,8 +18,10 @@ pub fn floating_pragma_vulnerability(source_unit: SourceUnit) -> HashSet<Loc> {
         let source_unit_part = node.source_unit_part().unwrap();
 
         if let pt::SourceUnitPart::PragmaDirective(loc, _, pragma) = source_unit_part {
-            if pragma.string.contains('^') {
-                vulnerability_locations.insert(loc);
+            if let Some(pragma) = pragma {
+                if pragma.string.contains('^') {
+                    vulnerability_locations.insert(loc);
+                }
             }
         }
     }

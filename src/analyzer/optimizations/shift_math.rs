@@ -43,7 +43,7 @@ fn check_if_inputs_are_power_of_two(
     let mut is_even: bool = false;
 
     //if the first expression is a number literal that is a power of 2
-    if let Expression::NumberLiteral(_, val_string, _) = box_expression {
+    if let Expression::NumberLiteral(_, val_string, _, _) = box_expression {
         let value = val_string
             .parse::<u32>()
             .expect("Could not parse NumberLiteral value from string to u32");
@@ -54,7 +54,7 @@ fn check_if_inputs_are_power_of_two(
     }
 
     //if the first expression is a number literal that is a power of 2
-    if let Expression::NumberLiteral(_, val_string, _) = box_expression_1 {
+    if let Expression::NumberLiteral(_, val_string, _, _) = box_expression_1 {
         let value = val_string
             .parse::<u32>()
             .expect("Could not parse NumberLiteral value from string to u32");

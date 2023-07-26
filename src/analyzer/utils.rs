@@ -108,12 +108,12 @@ pub fn get_32_byte_storage_variables(
                     }
 
                     if let pt::Expression::Type(loc, ty) = box_variable_definition.ty {
-                        if let pt::Type::Mapping(_, _, _) = ty {
+                        if let pt::Type::Mapping { .. } = ty {
                         } else {
-                            storage_variables.insert(
-                                box_variable_definition.name.name,
-                                (variable_attributes, loc),
-                            );
+                            if let Some(name) = box_variable_definition.name {
+                                storage_variables
+                                    .insert(name.to_string(), (variable_attributes, loc));
+                            }
                         }
                     }
                 }
@@ -136,9 +136,11 @@ pub fn get_constant_variables(source_unit: pt::SourceUnit) -> HashMap<String, Lo
             for part in contract_definition.parts {
                 if let pt::ContractPart::VariableDefinition(box_variable_definition) = part {
                     //if the variable is constant, mark constant_variable as true
-                    for attribute in box_variable_definition.attrs {
+                    for attribute in &box_variable_definition.attrs {
                         if let pt::VariableAttribute::Constant(loc) = attribute {
-                            variables.insert(box_variable_definition.name.to_string(), loc);
+                            if let Some(name) = &box_variable_definition.name {
+                                variables.insert(name.to_string(), *loc);
+                            }
                         }
                     }
                 }
@@ -161,9 +163,11 @@ pub fn get_immutable_variables(source_unit: pt::SourceUnit) -> HashMap<String, L
             for part in contract_definition.parts {
                 if let pt::ContractPart::VariableDefinition(box_variable_definition) = part {
                     //if the variable is constant, mark constant_variable as true
-                    for attribute in box_variable_definition.attrs {
-                        if let pt::VariableAttribute::Immutable(loc) = attribute {
-                            variables.insert(box_variable_definition.name.to_string(), loc);
+                    for attribute in &box_variable_definition.attrs {
+                        if let pt::VariableAttribute::Immutable(loc) = &attribute {
+                            if let Some(name) = &box_variable_definition.name {
+                                variables.insert(name.to_string(), *loc);
+                            }
                         }
                     }
                 }
@@ -184,17 +188,19 @@ pub fn get_solidity_version_from_source_unit(source_unit: SourceUnit) -> Option<
         let source_unit_part = node.source_unit_part().unwrap();
 
         if let SourceUnitPart::PragmaDirective(_, _, solidity_version_literal) = source_unit_part {
-            let minor_major_patch_version =
-                get_solidity_major_minor_patch_version(&solidity_version_literal.string)
-                    .iter()
-                    .map(|f| f.parse::<i32>().unwrap())
-                    .collect::<Vec<i32>>();
+            if let Some(version) = solidity_version_literal {
+                let minor_major_patch_version =
+                    get_solidity_major_minor_patch_version(&version.string)
+                        .iter()
+                        .map(|f| f.parse::<i32>().unwrap())
+                        .collect::<Vec<i32>>();
 
-            return Some((
-                minor_major_patch_version[0],
-                minor_major_patch_version[1],
-                minor_major_patch_version[2],
-            ));
+                return Some((
+                    minor_major_patch_version[0],
+                    minor_major_patch_version[1],
+                    minor_major_patch_version[2],
+                ));
+            }
         }
     }
 

@@ -32,7 +32,7 @@ pub fn assign_update_array_optimization(source_unit: SourceUnit) -> HashSet<Loc>
                     if let Some(array_subscript_box_expression) =
                         option_array_subscript_box_expression_1
                     {
-                        if let Expression::NumberLiteral(_, number, _) =
+                        if let Expression::NumberLiteral(_, number, _, _) =
                             *array_subscript_box_expression
                         {
                             let index_accessed = number;
@@ -63,8 +63,12 @@ pub fn assign_update_array_optimization(source_unit: SourceUnit) -> HashSet<Loc>
                                                 if let Some(array_subscript_box_expression_1) =
                                                     option_array_subscript_box_expression_1
                                                 {
-                                                    if let Expression::NumberLiteral(_, number, _) =
-                                                        *array_subscript_box_expression_1
+                                                    if let Expression::NumberLiteral(
+                                                        _,
+                                                        number,
+                                                        _,
+                                                        _,
+                                                    ) = *array_subscript_box_expression_1
                                                     {
                                                         let _index_accessed = number;
 
@@ -92,6 +96,7 @@ pub fn assign_update_array_optimization(source_unit: SourceUnit) -> HashSet<Loc>
                                                         if let Expression::NumberLiteral(
                                                             _,
                                                             number,
+                                                            _,
                                                             _,
                                                         ) = *array_subscript_box_expression_1
                                                         {
