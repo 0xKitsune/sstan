@@ -1,5 +1,5 @@
-use std::collections::{BTreeSet};
-use std::{collections::HashMap};
+use std::collections::BTreeSet;
+use std::collections::HashMap;
 
 use crate::analyzer::optimizations::Optimization;
 

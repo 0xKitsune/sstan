@@ -1,5 +1,3 @@
-
-
 fn main() {
     let file_contents = r#"
     
