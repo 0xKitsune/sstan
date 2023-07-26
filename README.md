@@ -1,4 +1,6 @@
-# sstan
+# sstan [![Github Actions][gha-badge]][gha]
+[gha]: https://github.com/0xKitsune/sstan/actions
+[gha-badge]: https://github.com/0xKitsune/sstan/actions/workflows/ci.yml/badge.svg
 
 # Table of Contents
 - [Installation](#installation)
