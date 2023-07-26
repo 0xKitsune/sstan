@@ -941,7 +941,7 @@ impl Node {
     }
 
     pub fn is_source_unit_part(&self) -> bool {
-        matches!(self, Self::SourceUnit(_))
+        matches!(self, Self::SourceUnitPart(_))
     }
 
     pub fn contract_part(self) -> Option<pt::ContractPart> {
