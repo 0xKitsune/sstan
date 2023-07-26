@@ -23,13 +23,15 @@ pub fn payable_function_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
 
             if let pt::ContractPart::FunctionDefinition(box_function_definition) = contract_part {
                 //if there is function body
-                if box_function_definition.body.is_some() && !box_function_definition.attributes.is_empty() {
+                if box_function_definition.body.is_some()
+                    && !box_function_definition.attributes.is_empty()
+                {
                     let mut payable = false;
                     let mut public_or_external = false;
 
                     for attr in box_function_definition.attributes {
                         match attr {
-                            // Visi
+                            // Visibility
                             pt::FunctionAttribute::Visibility(visibility) => match visibility {
                                 pt::Visibility::External(_) => {
                                     public_or_external = true;
@@ -39,10 +41,8 @@ pub fn payable_function_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
                                 }
                                 _ => {}
                             },
-                            pt::FunctionAttribute::Mutability(mutability) => {
-                                if let pt::Mutability::Payable(_) = mutability {
-                                    payable = true;
-                                }
+                            pt::FunctionAttribute::Mutability(pt::Mutability::Payable(_)) => {
+                                payable = true;
                             }
                             _ => {}
                         }

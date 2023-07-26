@@ -3,7 +3,6 @@ use std::collections::HashSet;
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-
 use crate::analyzer::utils::get_32_byte_storage_variables;
 
 pub fn private_vars_leading_underscore(source_unit: SourceUnit) -> HashSet<Loc> {
@@ -15,9 +14,7 @@ pub fn private_vars_leading_underscore(source_unit: SourceUnit) -> HashSet<Loc> 
     for (variable_name, variable_attribute) in storage_variables {
         let (option_variable_attributes, loc) = variable_attribute;
 
-        if option_variable_attributes.is_some() {
-            let variable_attributes = option_variable_attributes.unwrap();
-
+        if let Some(variable_attributes) = option_variable_attributes {
             for attr in variable_attributes {
                 if let pt::VariableAttribute::Visibility(v) = attr {
                     match v {

@@ -441,10 +441,8 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                 }
             }
 
-            pt::Statement::Return(_, option_expression) => {
-                if let Some(expression) = option_expression {
-                    matches.append(&mut walk_node_for_targets(targets, expression.into()));
-                }
+            pt::Statement::Return(_, Some(expression)) => {
+                matches.append(&mut walk_node_for_targets(targets, expression.into()));
             }
 
             pt::Statement::Revert(_, _, vec_expression) => {
@@ -943,11 +941,7 @@ impl Node {
     }
 
     pub fn is_source_unit_part(&self) -> bool {
-        if let Self::SourceUnitPart(_) = self {
-            true
-        } else {
-            false
-        }
+        matches!(self, Self::SourceUnit(_))
     }
 
     pub fn contract_part(self) -> Option<pt::ContractPart> {
@@ -958,11 +952,7 @@ impl Node {
     }
 
     pub fn is_contract_part(&self) -> bool {
-        if let Self::ContractPart(_) = self {
-            true
-        } else {
-            false
-        }
+        matches!(self, Self::ContractPart(_))
     }
 }
 

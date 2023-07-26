@@ -12,9 +12,7 @@ pub fn private_constant_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     for (_, variable_data) in storage_variables {
         let (option_variable_attributes, loc) = variable_data;
 
-        if option_variable_attributes.is_some() {
-            let variable_attributes = option_variable_attributes.unwrap();
-
+        if let Some(variable_attributes) = option_variable_attributes {
             let mut is_constant = false;
             let mut is_private = false;
 
@@ -24,10 +22,9 @@ pub fn private_constant_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
                         is_constant = true;
                     }
 
-                    pt::VariableAttribute::Visibility(visibility) => match visibility {
-                        pt::Visibility::Private(_) => is_private = true,
-                        _ => {}
-                    },
+                    pt::VariableAttribute::Visibility(pt::Visibility::Private(_)) => {
+                        is_private = true
+                    }
 
                     _ => {}
                 }

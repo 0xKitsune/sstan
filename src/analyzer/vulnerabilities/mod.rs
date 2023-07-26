@@ -1,21 +1,20 @@
 pub mod divide_before_multiply;
 pub mod floating_pragma;
 pub mod template;
-pub mod unprotected_selfdestruct;
+pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
 
 use std::{
-    collections::{BTreeSet, HashMap}, fs,
+    collections::{BTreeSet, HashMap},
+    fs,
 };
-
-
 
 use super::utils::{self, LineNumber};
 
 use self::{
     divide_before_multiply::divide_before_multiply_vulnerability,
     floating_pragma::floating_pragma_vulnerability,
-    unprotected_selfdestruct::unprotected_selfdestruct_vulnerability,
+    unprotected_self_destruct::unprotected_self_destruct_vulnerability,
     unsafe_erc20_operation::unsafe_erc20_operation_vulnerability,
 };
 
@@ -64,7 +63,7 @@ pub fn analyze_dir(
     {
         //Get the file path, name and contents
         let file_path = path
-            .unwrap_or_else(|_| { panic!("{}", "Could not file unwrap path".to_string()) })
+            .unwrap_or_else(|_| panic!("{}", "Could not file unwrap path".to_string()))
             .path();
 
         if file_path.is_dir() {
@@ -119,7 +118,7 @@ pub fn analyze_for_vulnerability(
         Vulnerability::FloatingPragma => floating_pragma_vulnerability(source_unit),
         Vulnerability::UnsafeERC20Operation => unsafe_erc20_operation_vulnerability(source_unit),
         Vulnerability::UnprotectedSelfdestruct => {
-            unprotected_selfdestruct_vulnerability(source_unit)
+            unprotected_self_destruct_vulnerability(source_unit)
         }
         Vulnerability::DivideBeforeMultiply => divide_before_multiply_vulnerability(source_unit),
     };

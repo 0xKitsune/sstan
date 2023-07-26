@@ -18,13 +18,13 @@ pub fn shift_math_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
 
         match expression {
             Expression::Multiply(loc, box_expression, box_expression_1) => {
-                if check_if_inputs_are_power_of_two(box_expression, box_expression_1) {
+                if check_if_inputs_are_power_of_two(*box_expression, *box_expression_1) {
                     optimization_locations.insert(loc);
                 }
             }
 
             Expression::Divide(loc, box_expression, box_expression_1) => {
-                if check_if_inputs_are_power_of_two(box_expression, box_expression_1) {
+                if check_if_inputs_are_power_of_two(*box_expression, *box_expression_1) {
                     optimization_locations.insert(loc);
                 }
             }
@@ -36,14 +36,14 @@ pub fn shift_math_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
 }
 
 fn check_if_inputs_are_power_of_two(
-    box_expression: Box<Expression>,
-    box_expression_1: Box<Expression>,
+    box_expression: Expression,
+    box_expression_1: Expression,
 ) -> bool {
     //create a boolean to determine if either of the inputs are a power of two
     let mut is_even: bool = false;
 
     //if the first expression is a number literal that is a power of 2
-    if let Expression::NumberLiteral(_, val_string, _) = *box_expression {
+    if let Expression::NumberLiteral(_, val_string, _) = box_expression {
         let value = val_string
             .parse::<u32>()
             .expect("Could not parse NumberLiteral value from string to u32");
@@ -54,7 +54,7 @@ fn check_if_inputs_are_power_of_two(
     }
 
     //if the first expression is a number literal that is a power of 2
-    if let Expression::NumberLiteral(_, val_string, _) = *box_expression_1 {
+    if let Expression::NumberLiteral(_, val_string, _) = box_expression_1 {
         let value = val_string
             .parse::<u32>()
             .expect("Could not parse NumberLiteral value from string to u32");

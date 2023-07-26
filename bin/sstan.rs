@@ -46,6 +46,7 @@ pub struct Args {
     pub toml: Option<String>,
 }
 
+#[derive(Default)]
 pub struct Opts {
     pub path: String,
     pub optimizations: Vec<Optimization>,

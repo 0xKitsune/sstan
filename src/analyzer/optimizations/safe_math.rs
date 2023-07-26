@@ -6,6 +6,12 @@ use crate::analyzer::{
     utils,
 };
 
+pub const SAFE_MATH: &str = "SafeMath";
+pub const ADD: &str = "add";
+pub const DIV: &str = "div";
+pub const SUB: &str = "sub";
+pub const MUL: &str = "mul";
+
 pub fn safe_math_pre_080_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     safe_math_optimization(source_unit, true)
 }
@@ -38,25 +44,21 @@ fn check_if_using_safe_math(source_unit: SourceUnit) -> bool {
 
     for node in target_nodes {
         match node {
-            Node::SourceUnitPart(source_unit_part) => {
-                if let pt::SourceUnitPart::Using(box_using) = source_unit_part {
-                    if let pt::UsingList::Library(identifier_path) = box_using.list {
-                        for identifier in identifier_path.identifiers {
-                            if identifier.name == "SafeMath" {
-                                using_safe_math = true;
-                            }
+            Node::SourceUnitPart(pt::SourceUnitPart::Using(box_using)) => {
+                if let pt::UsingList::Library(identifier_path) = box_using.list {
+                    for identifier in identifier_path.identifiers {
+                        if identifier.name == SAFE_MATH {
+                            using_safe_math = true;
                         }
                     }
                 }
             }
 
-            Node::ContractPart(contract_part) => {
-                if let pt::ContractPart::Using(box_using) = contract_part {
-                    if let pt::UsingList::Library(identifier_path) = box_using.list {
-                        for identifier in identifier_path.identifiers {
-                            if identifier.name == "SafeMath" {
-                                using_safe_math = true;
-                            }
+            Node::ContractPart(pt::ContractPart::Using(box_using)) => {
+                if let pt::UsingList::Library(identifier_path) = box_using.list {
+                    for identifier in identifier_path.identifiers {
+                        if identifier.name == SAFE_MATH {
+                            using_safe_math = true;
                         }
                     }
                 }
@@ -83,13 +85,11 @@ fn parse_contract_for_safe_math_functions(source_unit: SourceUnit) -> HashSet<Lo
             //if the function call identifier is a variable
             if let Expression::MemberAccess(loc, _, identifier) = *function_identifier {
                 //if the identifier name is add, sub, mul or div
-                if identifier.name == *"add" {
-                    optimization_locations.insert(loc);
-                } else if identifier.name == *"sub" {
-                    optimization_locations.insert(loc);
-                } else if identifier.name == *"mul" {
-                    optimization_locations.insert(loc);
-                } else if identifier.name == *"div" {
+                if identifier.name == ADD
+                    || identifier.name == SUB
+                    || identifier.name == MUL
+                    || identifier.name == DIV
+                {
                     optimization_locations.insert(loc);
                 }
             }

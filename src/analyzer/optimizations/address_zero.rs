@@ -4,6 +4,8 @@ use solang_parser::pt::{self, Loc, SourceUnit};
 
 use crate::analyzer::ast::{self, Target};
 
+pub const ZERO: &str = "0";
+
 pub fn address_zero_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
@@ -17,15 +19,15 @@ pub fn address_zero_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
 
         match expression {
             pt::Expression::NotEqual(loc, box_expression, box_expression_1) => {
-                if check_for_address_zero(box_expression)
-                    || check_for_address_zero(box_expression_1)
+                if check_for_address_zero(*box_expression)
+                    || check_for_address_zero(*box_expression_1)
                 {
                     optimization_locations.insert(loc);
                 }
             }
             pt::Expression::Equal(loc, box_expression, box_expression_1) => {
-                if check_for_address_zero(box_expression)
-                    || check_for_address_zero(box_expression_1)
+                if check_for_address_zero(*box_expression)
+                    || check_for_address_zero(*box_expression_1)
                 {
                     optimization_locations.insert(loc);
                 }
@@ -37,20 +39,18 @@ pub fn address_zero_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     optimization_locations
 }
 
-fn check_for_address_zero(box_expression: Box<pt::Expression>) -> bool {
+fn check_for_address_zero(box_expression: pt::Expression) -> bool {
     //create a boolean to determine if address(0) is present
     let mut address_zero: bool = false;
 
     //if the first expression is address(0)
     if let pt::Expression::FunctionCall(_, func_call_box_expression, vec_expression) =
-        *box_expression
+        box_expression
     {
-        if let pt::Expression::Type(_, ty) = *func_call_box_expression {
-            if let pt::Type::Address = ty {
-                if let pt::Expression::NumberLiteral(_, val, _) = &vec_expression[0] {
-                    if val == "0" {
-                        address_zero = true;
-                    }
+        if let pt::Expression::Type(_, pt::Type::Address) = *func_call_box_expression {
+            if let pt::Expression::NumberLiteral(_, val, _) = &vec_expression[0] {
+                if val == ZERO {
+                    address_zero = true;
                 }
             }
         }

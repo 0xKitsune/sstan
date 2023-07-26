@@ -35,18 +35,15 @@ pub fn memory_to_calldata_optimization(source_unit: SourceUnit) -> HashSet<Loc> 
             }
         };
 
-        let mut memory_args = get_function_definition_memory_args(box_function_definition.clone());
+        let mut memory_args = get_function_definition_memory_args(*box_function_definition.clone());
 
         // Constructor can only use `memory`
         if box_function_definition.ty == pt::FunctionTy::Constructor {
             continue;
         }
 
-        if box_function_definition.body.is_some() {
-            let assign_nodes = ast::extract_target_from_node(
-                Target::Assign,
-                box_function_definition.body.unwrap().into(),
-            );
+        if let Some(body) = box_function_definition.body {
+            let assign_nodes = ast::extract_target_from_node(Target::Assign, body.into());
 
             for assign_node in assign_nodes {
                 //Can unwrap because Target::Assign will always be an expression
@@ -87,22 +84,14 @@ pub fn memory_to_calldata_optimization(source_unit: SourceUnit) -> HashSet<Loc> 
 }
 
 fn get_function_definition_memory_args(
-    function_definition: Box<pt::FunctionDefinition>,
+    function_definition: pt::FunctionDefinition,
 ) -> HashMap<String, Loc> {
     let mut memory_args: HashMap<String, Loc> = HashMap::new();
     for option_param in function_definition.params {
-        if option_param.1.is_some() {
-            let param = option_param.1.unwrap();
-
-            if param.storage.is_some() {
-                let storage_location = param.storage.unwrap();
-
-                if let pt::StorageLocation::Memory(loc) = storage_location {
-                    if param.name.is_some() {
-                        let name = param.name.unwrap();
-
-                        memory_args.insert(name.name.clone(), loc);
-                    }
+        if let Some(param) = option_param.1 {
+            if let Some(pt::StorageLocation::Memory(loc)) = param.storage {
+                if let Some(name) = param.name {
+                    memory_args.insert(name.name.clone(), loc);
                 }
             }
         }
