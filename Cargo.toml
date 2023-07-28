@@ -12,13 +12,13 @@ exclude = [
 
 
 [dependencies]
-clap = {version= "4.0.15", features = ["derive"]}
-solang-parser = "0.1.13"
-indicatif = "0.16.2"
-regex = "1.6.0"
-toml = "0.5.9"
-serde = {version= "1.0.147",  features = ["derive"]}
-colour = "0.6.0"
+clap = {version= "4.3.19", features = ["derive"]}
+solang-parser = "0.3.1"
+indicatif = "0.17.5"
+regex = "1.9.1"
+toml = "0.7.6"
+serde = {version= "1.0.175",  features = ["derive"]}
+colour = "0.7.0"
 
 
 [[bin]]

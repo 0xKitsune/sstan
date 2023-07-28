@@ -48,7 +48,7 @@ fn check_for_address_zero(box_expression: pt::Expression) -> bool {
         box_expression
     {
         if let pt::Expression::Type(_, pt::Type::Address) = *func_call_box_expression {
-            if let pt::Expression::NumberLiteral(_, val, _) = &vec_expression[0] {
+            if let pt::Expression::NumberLiteral(_, val, _, _) = &vec_expression[0] {
                 if val == ZERO {
                     address_zero = true;
                 }

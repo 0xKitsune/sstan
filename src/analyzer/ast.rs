@@ -39,7 +39,8 @@ pub enum Target {
     BitwiseAnd,
     BitwiseOr,
     BitwiseXor,
-    Complement,
+    BitwiseNot,
+    Negate,
     Delete,
     Divide,
     Equal,
@@ -66,12 +67,9 @@ pub enum Target {
     ShiftLeft,
     ShiftRight,
     Subtract,
-    Ternary,
     Type,
     Function,
-    UnaryMinus,
     UnaryPlus,
-    Unit,
     Power,
     BoolLiteral,
     NumberLiteral,
@@ -81,7 +79,7 @@ pub enum Target {
     StringLiteral,
     AddressLiteral,
     Variable,
-    This,
+    ConditionalOperator,
 
     //Source Unit / Contract Part
     SourceUnit,
@@ -96,6 +94,7 @@ pub enum Target {
     StructDefinition,
     TypeDefinition,
     Using,
+    Annotation,
 
     //If there is no target that corresponds
     None,
@@ -155,7 +154,6 @@ pub fn expression_as_target(expression: &pt::Expression) -> Target {
         pt::Expression::BitwiseAnd(_, _, _) => Target::BitwiseAnd,
         pt::Expression::BitwiseOr(_, _, _) => Target::BitwiseOr,
         pt::Expression::BitwiseXor(_, _, _) => Target::BitwiseXor,
-        pt::Expression::Complement(_, _) => Target::Complement,
         pt::Expression::Delete(_, _) => Target::Delete,
         pt::Expression::Divide(_, _, _) => Target::Divide,
         pt::Expression::Equal(_, _, _) => Target::Equal,
@@ -180,23 +178,22 @@ pub fn expression_as_target(expression: &pt::Expression) -> Target {
         pt::Expression::ShiftLeft(_, _, _) => Target::ShiftLeft,
         pt::Expression::ShiftRight(_, _, _) => Target::ShiftRight,
         pt::Expression::Subtract(_, _, _) => Target::Subtract,
-        pt::Expression::Ternary(_, _, _, _) => Target::Ternary,
         pt::Expression::Type(_, _) => Target::Type,
-        pt::Expression::UnaryMinus(_, _) => Target::UnaryMinus,
         pt::Expression::UnaryPlus(_, _) => Target::UnaryPlus,
-        pt::Expression::Unit(_, _, _) => Target::Unit,
         pt::Expression::PreIncrement(_, _) => Target::PreIncrement,
         pt::Expression::PreDecrement(_, _) => Target::PreDecrement,
         pt::Expression::Power(_, _, _) => Target::Power,
         pt::Expression::BoolLiteral(_, _) => Target::BoolLiteral,
-        pt::Expression::NumberLiteral(_, _, _) => Target::NumberLiteral,
-        pt::Expression::RationalNumberLiteral(_, _, _, _) => Target::RationalNumberLiteral,
-        pt::Expression::HexNumberLiteral(_, _) => Target::HexNumberLiteral,
+        pt::Expression::NumberLiteral(_, _, _, _) => Target::NumberLiteral,
+        pt::Expression::RationalNumberLiteral(_, _, _, _, _) => Target::RationalNumberLiteral,
+        pt::Expression::HexNumberLiteral(_, _, _) => Target::HexNumberLiteral,
         pt::Expression::HexLiteral(_) => Target::HexLiteral,
         pt::Expression::StringLiteral(_) => Target::StringLiteral,
         pt::Expression::AddressLiteral(_, _) => Target::AddressLiteral,
         pt::Expression::Variable(_) => Target::Variable,
-        pt::Expression::This(_) => Target::This,
+        pt::Expression::BitwiseNot(_, _) => Target::BitwiseNot,
+        pt::Expression::Negate(_, _) => Target::Negate,
+        pt::Expression::ConditionalOperator(_, _, _, _) => Target::ConditionalOperator,
     }
 }
 
@@ -214,6 +211,7 @@ pub fn source_unit_part_as_target(source_unit_part: &pt::SourceUnitPart) -> Targ
         pt::SourceUnitPart::TypeDefinition(_) => Target::TypeDefinition,
         pt::SourceUnitPart::Using(_) => Target::Using,
         pt::SourceUnitPart::VariableDefinition(_) => Target::VariableDefinition,
+        pt::SourceUnitPart::Annotation(_) => Target::Annotation,
     }
 }
 pub fn contract_part_as_target(contract_part: &pt::ContractPart) -> Target {
@@ -227,6 +225,7 @@ pub fn contract_part_as_target(contract_part: &pt::ContractPart) -> Target {
         pt::ContractPart::TypeDefinition(_) => Target::TypeDefinition,
         pt::ContractPart::Using(_) => Target::Using,
         pt::ContractPart::VariableDefinition(_) => Target::VariableDefinition,
+        pt::ContractPart::Annotation(_) => Target::Annotation,
     }
 }
 
@@ -665,10 +664,6 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                 matches.append(&mut walk_node_for_targets(targets, box_expression_1.into()));
             }
 
-            pt::Expression::Complement(_, box_expression) => {
-                matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
-            }
-
             pt::Expression::Delete(_, box_expression) => {
                 matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
             }
@@ -790,18 +785,11 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                 matches.append(&mut walk_node_for_targets(targets, box_expression_1.into()));
             }
 
-            pt::Expression::Ternary(_, box_expression, box_expression_1, box_expression_2) => {
-                matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
-
-                matches.append(&mut walk_node_for_targets(targets, box_expression_1.into()));
-
-                matches.append(&mut walk_node_for_targets(targets, box_expression_2.into()));
-            }
             pt::Expression::Type(_, ty) => match ty {
-                pt::Type::Mapping(_, box_expression, box_expression_1) => {
-                    matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
+                pt::Type::Mapping { key, value, .. } => {
+                    matches.append(&mut walk_node_for_targets(targets, key.into()));
 
-                    matches.append(&mut walk_node_for_targets(targets, box_expression_1.into()));
+                    matches.append(&mut walk_node_for_targets(targets, value.into()));
                 }
 
                 pt::Type::Function {
@@ -816,23 +804,12 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                     }
 
                     for attribute in attributes {
-                        match attribute {
-                            pt::FunctionAttribute::BaseOrModifier(_, base) => {
-                                if let Some(args) = base.args {
-                                    for arg in args {
-                                        matches.append(&mut walk_node_for_targets(
-                                            targets,
-                                            arg.into(),
-                                        ));
-                                    }
+                        if let pt::FunctionAttribute::BaseOrModifier(_, base) = attribute {
+                            if let Some(args) = base.args {
+                                for arg in args {
+                                    matches.append(&mut walk_node_for_targets(targets, arg.into()));
                                 }
                             }
-
-                            pt::FunctionAttribute::NameValue(_, _, expression) => {
-                                matches
-                                    .append(&mut walk_node_for_targets(targets, expression.into()));
-                            }
-                            _ => {}
                         }
                     }
 
@@ -847,25 +824,15 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                         }
 
                         for attribute in function_attributes {
-                            match attribute {
-                                pt::FunctionAttribute::BaseOrModifier(_, base) => {
-                                    if let Some(args) = base.args {
-                                        for arg in args {
-                                            matches.append(&mut walk_node_for_targets(
-                                                targets,
-                                                arg.into(),
-                                            ));
-                                        }
+                            if let pt::FunctionAttribute::BaseOrModifier(_, base) = attribute {
+                                if let Some(args) = base.args {
+                                    for arg in args {
+                                        matches.append(&mut walk_node_for_targets(
+                                            targets,
+                                            arg.into(),
+                                        ));
                                     }
                                 }
-
-                                pt::FunctionAttribute::NameValue(_, _, expression) => {
-                                    matches.append(&mut walk_node_for_targets(
-                                        targets,
-                                        expression.into(),
-                                    ));
-                                }
-                                _ => {}
                             }
                         }
                     }
@@ -874,17 +841,14 @@ pub fn walk_node_for_targets(targets: &HashSet<Target>, node: Node) -> Vec<Node>
                 _ => {}
             },
 
-            pt::Expression::UnaryMinus(_, box_expression) => {
-                matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
-            }
             pt::Expression::UnaryPlus(_, box_expression) => {
                 matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
             }
 
-            pt::Expression::Unit(_, box_expression, _) => {
-                matches.append(&mut walk_node_for_targets(targets, box_expression.into()));
-            }
             _ => {
+
+                //TODO: FIXME: add the new ones
+
                 //Address literal
                 //Bool literal
                 //Hex literal
