@@ -33,37 +33,43 @@ pub trait Visitor {
             SourceUnitPart::VariableDefinition(variable) => self.visit_var_definition(variable)?,
             SourceUnitPart::TypeDefinition(def) => self.visit_type_definition(def)?,
             SourceUnitPart::StraySemicolon(_) => self.visit_stray_semicolon()?,
-            // SourceUnitPart::Using(using) => v.visit_using(using),
-            // SourceUnitPart::Annotation(annotation) => v.visit_annotation(annotation),
-            _ => {}
+            SourceUnitPart::Using(using) => self.visit_using(using)?,
+            SourceUnitPart::Annotation(annotation) => self.visit_annotation(annotation)?,
         }
         Ok(())
     }
 
-    fn visit_function(&mut self, _function: &mut FunctionDefinition) -> Result<(), Self::Error> {
-        self.visit_function_type(&mut _function.ty)?;
-        if let Some(ref mut identifier) = _function.name {
-            self.visit_ident(_function.loc, identifier)?;
+    fn visit_function(&mut self, function: &mut FunctionDefinition) -> Result<(), Self::Error> {
+        self.visit_function_type(&mut function.ty)?;
+        if let Some(ref mut identifier) = function.name {
+            self.visit_ident(function.loc, identifier)?;
         }
-        self.visit_params(&mut _function.params)?;
-        self.visit_function_attributes(&mut _function.attributes)?;
-        self.visit_returns(&mut _function.returns)?;
-        self.visit_function_body(&mut _function.body)?;
+        self.visit_params(&mut function.params)?;
+        self.visit_function_attributes(&mut function.attributes)?;
+        self.visit_returns(&mut function.returns)?;
+        self.visit_function_body(&mut function.body)?;
 
         Ok(())
+    }
+
+    fn visit_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
+        todo!("TODO:")
     }
 
     fn visit_function_body(
         &mut self,
-        _function_body: &mut Option<Statement>,
+        function_body: &mut Option<Statement>,
     ) -> Result<(), Self::Error> {
+        if let Some(ref mut body) = function_body {
+            self.visit_statement(body)?;
+        }
         Ok(())
     }
 
-    fn visit_returns(&mut self, _returns: &mut ParameterList) -> Result<(), Self::Error> {
-        for parameter in _returns {
-            if let Some(ref mut _param) = parameter.1 {
-                self.visit_return_parameter(_param)?;
+    fn visit_returns(&mut self, returns: &mut ParameterList) -> Result<(), Self::Error> {
+        for parameter in returns {
+            if let Some(ref mut param) = parameter.1 {
+                self.visit_return_parameter(param)?;
             }
         }
 
@@ -192,8 +198,6 @@ pub trait Visitor {
         Ok(())
     }
 
-
-
     fn visit_assembly(
         &mut self,
         loc: Loc,
@@ -214,7 +218,6 @@ pub trait Visitor {
     }
 
     fn visit_args(&mut self, loc: Loc, _args: &mut Vec<NamedArgument>) -> Result<(), Self::Error> {
-
         Ok(())
     }
 
@@ -232,11 +235,7 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_ident(
-        &mut self,
-        loc: Loc,
-        _ident: &mut Identifier,
-    ) -> Result<(), Self::Error> {
+    fn visit_ident(&mut self, loc: Loc, _ident: &mut Identifier) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -264,7 +263,6 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         self.visit_stray_semicolon()?;
         Ok(())
-
     }
 
     fn visit_var_declaration(&mut self, var: &mut VariableDeclaration) -> Result<(), Self::Error> {
@@ -386,17 +384,13 @@ pub trait Visitor {
     }
 
     fn visit_type_definition(&mut self, def: &mut TypeDefinition) -> Result<(), Self::Error> {
-        
         self.visit_type_name(&mut def.name)?;
         self.visit_ty(&mut def.ty)?;
-        
+
         Ok(())
     }
 
-    fn visit_ty(
-        &mut self,
-        _ty: &mut Expression,
-    ) -> Result<(), Self::Error> {
+    fn visit_ty(&mut self, _ty: &mut Expression) -> Result<(), Self::Error> {
         Ok(())
     }
 
