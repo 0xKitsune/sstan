@@ -7,15 +7,51 @@ use solang_parser::pt::*;
 pub trait Visitor {
     type Error: std::error::Error;
 
-    fn visit_source(&mut self, _loc: Loc) -> Result<(), Self::Error> {
+    fn visit_source_unit(&mut self, source_unit: &mut SourceUnit) -> Result<(), Self::Error> {
+        for part in &mut source_unit.0 {
+            self.visit_source_unit_part(part)?;
+        }
+
         Ok(())
     }
 
-    fn visit_source_unit(&mut self, _source_unit: &mut SourceUnit) -> Result<(), Self::Error> {
+    fn visit_source_unit_part(
+        &mut self,
+        source_unit_part: &mut SourceUnitPart,
+    ) -> Result<(), Self::Error> {
+        match source_unit_part {
+            SourceUnitPart::ContractDefinition(contract) => self.visit_contract(contract)?,
+            SourceUnitPart::PragmaDirective(loc, ident, str) => {
+                self.visit_pragma(*loc, ident, str)?
+            }
+            SourceUnitPart::ImportDirective(import) => self.visit_import(import)?,
+            // SourceUnitPart::EnumDefinition(enumeration) => v.visit_enum(enumeration),
+            // SourceUnitPart::StructDefinition(structure) => v.visit_struct(structure),
+            // SourceUnitPart::EventDefinition(event) => v.visit_event(event),
+            // SourceUnitPart::ErrorDefinition(error) => v.visit_error(error),
+            // SourceUnitPart::FunctionDefinition(function) => v.visit_function(function),
+            // SourceUnitPart::VariableDefinition(variable) => v.visit_var_definition(variable),
+            // SourceUnitPart::TypeDefinition(def) => v.visit_type_definition(def),
+            // SourceUnitPart::StraySemicolon(_) => v.visit_stray_semicolon(),
+            // SourceUnitPart::Using(using) => v.visit_using(using),
+            // SourceUnitPart::Annotation(annotation) => v.visit_annotation(annotation),
+            _ => {}
+        }
         Ok(())
     }
 
     fn visit_contract(&mut self, _contract: &mut ContractDefinition) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_import(&mut self, import: &mut Import) -> Result<(), Self::Error> {
+        match import {
+            Import::Plain(import, loc) => self.visit_import_plain(*loc, import)?,
+            Import::GlobalSymbol(global, alias, loc) => {
+                self.visit_import_global(*loc, global, alias)?
+            }
+            Import::Rename(from, imports, loc) => self.visit_import_renames(*loc, imports, from)?,
+        }
         Ok(())
     }
 
