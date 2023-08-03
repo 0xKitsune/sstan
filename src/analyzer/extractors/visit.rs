@@ -38,31 +38,175 @@ pub trait Visitor {
         }
         Ok(())
     }
-
+    // pub struct FunctionDefinition {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The function type.
+    //     pub ty: FunctionTy,
+    //     /// The optional identifier.
+    //     ///
+    //     /// This can be `None` for old style fallback functions.
+    //     pub name: Option<Identifier>,
+    //     /// The identifier's code location.
+    //     pub name_loc: Loc,
+    //     /// The parameter list.
+    //     pub params: ParameterList,
+    //     /// The function attributes.
+    //     pub attributes: Vec<FunctionAttribute>,
+    //     /// The `returns` keyword's location. `Some` if this was `return`, not `returns`.
+    //     pub return_not_returns: Option<Loc>,
+    //     /// The return parameter list.
+    //     pub returns: ParameterList,
+    //     /// The function body.
+    //     ///
+    //     /// If `None`, the declaration ended with a semicolon.
+    //     pub body: Option<Statement>,
+    // }
     fn visit_function(&mut self, function: &mut FunctionDefinition) -> Result<(), Self::Error> {
         self.visit_function_type(&mut function.ty)?;
         if let Some(ref mut identifier) = function.name {
             self.visit_ident(function.loc, identifier)?;
         }
-        self.visit_params(&mut function.params)?;
-        self.visit_function_attributes(&mut function.attributes)?;
-        self.visit_returns(&mut function.returns)?;
-        self.visit_function_body(&mut function.body)?;
+        self.visit_parameter_list(&mut function.params)?;
+        for attribute in function.attributes.iter_mut() {
+            self.visit_function_attribute(attribute)?;
+        }
+        self.visit_parameter_list(&mut function.returns)?;
+        if let Some(ref mut statement) = function.body {
+            self.visit_statement(statement)?;
+        }
+        Ok(())
+    }
+    // pub enum Statement {
+    //     /// `[unchecked] { <statements>* }`
+    //     Block {
+    //         /// The code location.
+    //         loc: Loc,
+    //         /// Whether this block is `unchecked`.
+    //         unchecked: bool,
+    //         /// The statements.
+    //         statements: Vec<Statement>,
+    //     },
+    //     /// `assembly [dialect] [(<flags>,*)] <block>`
+    //     Assembly {
+    //         /// The code location.
+    //         loc: Loc,
+    //         /// The assembly dialect.
+    //         dialect: Option<StringLiteral>,
+    //         /// The assembly flags.
+    //         flags: Option<Vec<StringLiteral>>,
+    //         /// The assembly block.
+    //         block: YulBlock,
+    //     },
+    //     /// `{ <1>,* }`
+    //     Args(Loc, Vec<NamedArgument>),
+    //     /// `if ({1}) <2> [else <3>]`
+    //     ///
+    //     /// Note that the `<1>` expression does not contain the parentheses.
+    //     If(Loc, Expression, Box<Statement>, Option<Box<Statement>>),
+    //     /// `while ({1}) <2>`
+    //     ///
+    //     /// Note that the `<1>` expression does not contain the parentheses.
+    //     While(Loc, Expression, Box<Statement>),
+    //     /// An [Expression].
+    //     Expression(Loc, Expression),
+    //     /// `<1> [= <2>];`
+    //     VariableDefinition(Loc, VariableDeclaration, Option<Expression>),
+    //     /// `for ([1]; [2]; [3]) [4]`
+    //     ///
+    //     /// The `[4]` block statement is `None` when the `for` statement ends with a semicolon.
+    //     For(
+    //         Loc,
+    //         Option<Box<Statement>>,
+    //         Option<Box<Expression>>,
+    //         Option<Box<Expression>>,
+    //         Option<Box<Statement>>,
+    //     ),
+    //     /// `do <1> while ({2});`
+    //     ///
+    //     /// Note that the `<2>` expression does not contain the parentheses.
+    //     DoWhile(Loc, Box<Statement>, Expression),
+    //     /// `continue;`
+    //     Continue(Loc),
+    //     /// `break;`
+    //     Break(Loc),
+    //     /// `return [1];`
+    //     Return(Loc, Option<Expression>),
+    //     /// `revert [1] (<2>,*);`
+    //     Revert(Loc, Option<IdentifierPath>, Vec<Expression>),
+    //     /// `revert [1] ({ <2>,* });`
+    //     RevertNamedArgs(Loc, Option<IdentifierPath>, Vec<NamedArgument>),
+    //     /// `emit <1>;`
+    //     ///
+    //     /// `<1>` is `FunctionCall`.
+    //     Emit(Loc, Expression),
+    //     /// `try <1> [returns (<2.1>,*) <2.2>] <3>*`
+    //     ///
+    //     /// `<1>` is either `New(FunctionCall)` or `FunctionCall`.
+    //     Try(
+    //         Loc,
+    //         Expression,
+    //         Option<(ParameterList, Box<Statement>)>,
+    //         Vec<CatchClause>,
+    //     ),
+    //     /// An error occurred during parsing.
+    //     Error(Loc),
+    // }
+    fn visit_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
+        match statement {
+            Statement::Block {
+                loc,
+                unchecked,
+                statements,
+            } => self.visit_block(*loc, *unchecked, statements)?,
+            Statement::Assembly {
+                loc,
+                dialect,
+                flags,
+                block,
+            } => self.visit_assembly(*loc, dialect, block, flags)?,
+            Statement::Args(loc, args) => self.visit_args(*loc, args)?,
+            Statement::If(loc, expr, _if, else_) => self.visit_if(*loc, expr, _if, else_, true)?, //TODO: Revisit this
+            Statement::While(loc, expr, body) => self.visit_while(*loc, expr, body)?,
+            Statement::Expression(loc, expr) => self.visit_expr(*loc, expr)?,
+            Statement::VariableDefinition(loc, var, expr) => {
+                self.visit_var_declaration(var)?;
+                if let Some(expr) = expr {
+                    self.visit_expr(*loc, expr)?;
+                }
+            }
+            Statement::For(loc, init, cond, next, body) => {
+                self.visit_for(*loc, init, cond, next, body)?
+            }
+            Statement::DoWhile(loc, body, cond) => self.visit_do_while(*loc, body, cond)?,
+            Statement::Continue(loc) => self.visit_continue(*loc, true)?,
+            Statement::Break(loc) => self.visit_break(*loc, true)?,
+            Statement::Return(loc, expr) => self.visit_return(*loc, expr)?,
+            Statement::Revert(loc, path, args) => self.visit_revert(*loc, path, args)?,
+            Statement::RevertNamedArgs(loc, path, args) => {
+                self.visit_revert_named_args(*loc, path, args)?
+            }
+            Statement::Emit(loc, expr) => self.visit_emit(*loc, expr)?,
+            Statement::Try(loc, expr, returns, catches) => {
+                self.visit_try(*loc, expr, returns, catches)?
+            }
+            Statement::Error(loc) => {} //TODO: Revisit
+        }
 
         Ok(())
     }
 
-    fn visit_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
-        todo!("TODO:")
-    }
-
-    fn visit_function_body(
-        &mut self,
-        function_body: &mut Option<Statement>,
-    ) -> Result<(), Self::Error> {
-        if let Some(ref mut body) = function_body {
-            self.visit_statement(body)?;
-        }
+    // pub struct NamedArgument {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The identifier.
+    //     pub name: Identifier,
+    //     /// The value.
+    //     pub expr: Expression,
+    // }
+    fn visit_named_arg(&mut self, arg: &mut NamedArgument) -> Result<(), Self::Error> {
+        self.visit_expr(arg.loc, &mut arg.expr)?;
+        self.visit_ident(arg.loc, &mut arg.name)?;
         Ok(())
     }
 
@@ -99,8 +243,11 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-
-    fn visit_params(&mut self, _parameter_list: &mut ParameterList) -> Result<(), Self::Error> {
+    //pub type ParameterList = Vec<(Loc, Option<Parameter>)>;
+    fn visit_parameter_list(
+        &mut self,
+        _parameter_list: &mut ParameterList,
+    ) -> Result<(), Self::Error> {
         for parameter in _parameter_list {
             if let Some(ref mut _param) = parameter.1 {
                 self.visit_parameter(_param)?;
@@ -212,15 +359,26 @@ pub trait Visitor {
     fn visit_import(&mut self, import: &mut Import) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    // pub struct EnumDefinition {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The identifier.
+    //     ///
+    //     /// This field is `None` only if an error occurred during parsing.
+    //     pub name: Option<Identifier>,
+    //     /// The list of values.
+    //     ///
+    //     /// This field contains `None` only if an error occurred during parsing.
+    //     pub values: Vec<Option<Identifier>>,
+    // }
     fn visit_enum(&mut self, _enum: &mut Box<EnumDefinition>) -> Result<(), Self::Error> {
-        if let Some(identifier) = _enum.name.as_mut() {
+        if let Some(ref mut identifier) = _enum.name {
             self.visit_ident(identifier.loc, identifier)?;
         }
 
-        for value in _enum.values {
-            if let Some(ref mut _value) = value {
-                self.visit_ident(_value.loc, _value)?;
+        for value in _enum.values.clone() {
+            if let Some(mut _value) = value {
+                self.visit_ident(_enum.loc, &mut _value)?;
             }
         }
 
@@ -316,9 +474,33 @@ pub trait Visitor {
 
         Ok(())
     }
-
-    fn visit_var_definition(&mut self, var: &mut VariableDefinition) -> Result<(), Self::Error> {
+    // pub struct VariableDefinition {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The type.
+    //     pub ty: Expression,
+    //     /// The list of variable attributes.
+    //     pub attrs: Vec<VariableAttribute>,
+    //     /// The identifier.
+    //     ///
+    //     /// This field is `None` only if an error occurred during parsing.
+    //     pub name: Option<Identifier>,
+    //     /// The optional initializer.
+    //     pub initializer: Option<Expression>,
+    // }
+    fn visit_var_definition(&mut self, _var: &mut VariableDefinition) -> Result<(), Self::Error> {
         self.visit_stray_semicolon()?;
+        self.visit_expr(_var.loc, &mut _var.ty)?;
+        for attr in _var.attrs.iter_mut() {
+            self.visit_var_attribute(attr)?;
+        }
+        if let Some(ref mut identifier) = _var.name {
+            self.visit_ident(identifier.loc, identifier)?;
+        }
+
+        if let Some(ref mut initializer) = _var.initializer {
+            self.visit_expr(_var.loc, initializer)?;
+        }
 
         Ok(())
     }
@@ -481,8 +663,29 @@ pub trait Visitor {
         }
         Ok(())
     }
-
+    // pub struct Parameter {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// An optional annotation '@annotation'.
+    //     pub annotation: Option<Annotation>,
+    //     /// The type.
+    //     pub ty: Expression,
+    //     /// The optional memory location.
+    //     pub storage: Option<StorageLocation>,
+    //     /// The optional identifier.
+    //     pub name: Option<Identifier>,
+    // }
     fn visit_parameter(&mut self, parameter: &mut Parameter) -> Result<(), Self::Error> {
+        if let Some(ref mut annotation) = parameter.annotation {
+            self.visit_annotation(annotation)?;
+        }
+        self.visit_expr(parameter.loc, &mut parameter.ty)?;
+        if let Some(ref mut storage) = parameter.storage {
+            self.visit_storage_loc(parameter.loc, storage)?;
+        }
+        if let Some(ref mut ident) = parameter.name {
+            self.visit_ident(parameter.loc, ident)?;
+        }
         Ok(())
     }
     // pub struct EventParameter {
@@ -517,19 +720,18 @@ pub trait Visitor {
         }
         Ok(())
     }
-
+    // pub struct TypeDefinition {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The user-defined type name.
+    //     pub name: Identifier,
+    //     /// The type expression.
+    //     pub ty: Expression,
+    // }
     fn visit_type_definition(&mut self, def: &mut TypeDefinition) -> Result<(), Self::Error> {
-        self.visit_type_name(&mut def.name)?;
-        self.visit_ty(&mut def.ty)?;
+        self.visit_ident(def.loc, &mut def.name)?;
+        self.visit_expr(def.loc, &mut def.ty)?;
 
-        Ok(())
-    }
-
-    fn visit_ty(&mut self, _ty: &mut Expression) -> Result<(), Self::Error> {
-        Ok(())
-    }
-
-    fn visit_type_name(&mut self, name: &mut Identifier) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -548,10 +750,31 @@ pub trait Visitor {
     fn visit_newline(&mut self) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    // pub struct Using {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The list of `using` functions or a single identifier path.
+    //     pub list: UsingList,
+    //     /// The type.
+    //     ///
+    //     /// This field is `None` if an error occurred or the specified type is `*`.
+    //     pub ty: Option<Expression>,
+    //     /// The optional `global` identifier.
+    //     pub global: Option<Identifier>,
+    // }
     fn visit_using(&mut self, using: &mut Using) -> Result<(), Self::Error> {
         self.visit_stray_semicolon()?;
+        self.visit_using_list(&mut using.list)?;
+        if let Some(ref mut ty) = using.ty {
+            self.visit_expr(using.loc, ty)?;
+        }
+        if let Some(ref mut ident) = using.global {
+            self.visit_ident(using.loc, ident)?;
+        }
+        Ok(())
+    }
 
+    fn visit_using_list(&mut self, list: &mut UsingList) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -801,14 +1024,14 @@ impl Visitable for Statement {
     }
 }
 
-impl Visitable for Loc {
-    fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-    where
-        V: Visitor,
-    {
-        v.visit_source(*self)
-    }
-}
+// impl Visitable for Loc {
+//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
+//     where
+//         V: Visitor,
+//     {
+//         v.visit_source(*self)
+//     }
+// }
 
 impl Visitable for Expression {
     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
