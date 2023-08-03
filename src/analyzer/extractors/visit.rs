@@ -107,31 +107,89 @@ pub trait Visitor {
     fn visit_function_type(&mut self, _ty: &mut FunctionTy) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    // pub struct ErrorDefinition {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The `error` keyword.
+    //     pub keyword: Expression,
+    //     /// The identifier.
+    //     ///
+    //     /// This field is `None` only if an error occurred during parsing.
+    //     pub name: Option<Identifier>,
+    //     /// The list of error parameters.
+    //     pub fields: Vec<ErrorParameter>,
+    // }
     fn visit_error(&mut self, _error: &mut ErrorDefinition) -> Result<(), Self::Error> {
+        self.visit_expr(_error.loc, &mut _error.keyword)?;
+        if let Some(ref mut identifier) = _error.name {
+            self.visit_ident(_error.loc, identifier)?;
+        }
+        for error_parameter in _error.fields.iter_mut() {
+            self.visit_error_parameter(error_parameter)?;
+        }
         Ok(())
     }
-
+    // pub struct EventDefinition {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The identifier.
+    //     ///
+    //     /// This field is `None` only if an error occurred during parsing.
+    //     pub name: Option<Identifier>,
+    //     /// The list of event parameters.
+    //     pub fields: Vec<EventParameter>,
+    //     /// Whether this event is anonymous.
+    //     pub anonymous: bool,
+    // }
     fn visit_event(&mut self, _event: &mut EventDefinition) -> Result<(), Self::Error> {
         self.visit_stray_semicolon()?;
+        if let Some(ref mut identifier) = _event.name {
+            self.visit_ident(_event.loc, identifier)?;
+        }
+        for event_parameter in _event.fields.iter_mut() {
+            self.visit_event_parameter(event_parameter)?;
+        }
         Ok(())
     }
 
     fn visit_struct(&mut self, _structure: &mut StructDefinition) -> Result<(), Self::Error> {
+        if let Some(ident) = _structure.name.as_mut() {
+            self.visit_ident(_structure.loc, ident)?;
+        }
+        for var_declaration in _structure.fields.iter_mut() {
+            self.visit_var_declaration(var_declaration)?;
+        }
         Ok(())
     }
 
+    fn visit_fields(&mut self, _fields: &mut Vec<VariableDeclaration>) -> Result<(), Self::Error> {
+        Ok(())
+    }
+    // pub struct ContractDefinition {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The contract type.
+    //     pub ty: ContractTy,
+    //     /// The identifier.
+    //     ///
+    //     /// This field is `None` only if an error occurred during parsing.
+    //     pub name: Option<Identifier>,
+    //     /// The list of inheritance specifiers.
+    //     pub base: Vec<Base>,
+    //     /// The list of contract parts.
+    //     pub parts: Vec<ContractPart>,
+    // }
     fn visit_contract(&mut self, _contract: &mut ContractDefinition) -> Result<(), Self::Error> {
         self.visit_contract_type(&mut _contract.ty)?;
         if let Some(ref mut identifier) = _contract.name {
             self.visit_ident(identifier.loc, identifier)?;
         }
 
-        for ref mut base in _contract.base.iter() {
+        for base in _contract.base.iter_mut() {
             self.visit_base(base)?;
         }
 
-        for ref mut part in _contract.parts.iter_mut() {
+        for part in _contract.parts.iter_mut() {
             self.visit_contract_part(part)?;
         }
         Ok(())
@@ -150,6 +208,16 @@ pub trait Visitor {
     }
 
     fn visit_enum(&mut self, _enum: &mut Box<EnumDefinition>) -> Result<(), Self::Error> {
+        if let Some(identifier) = _enum.name.as_mut() {
+            self.visit_ident(identifier.loc, identifier)?;
+        }
+
+        for value in _enum.values {
+            if let Some(ref mut _value) = value {
+                self.visit_ident(_value.loc, _value)?;
+            }
+        }
+
         Ok(())
     }
 
@@ -192,8 +260,6 @@ pub trait Visitor {
         Ok(())
     }
 
-
-
     fn visit_assembly(
         &mut self,
         loc: Loc,
@@ -214,7 +280,6 @@ pub trait Visitor {
     }
 
     fn visit_args(&mut self, loc: Loc, _args: &mut Vec<NamedArgument>) -> Result<(), Self::Error> {
-
         Ok(())
     }
 
@@ -232,11 +297,7 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_ident(
-        &mut self,
-        loc: Loc,
-        _ident: &mut Identifier,
-    ) -> Result<(), Self::Error> {
+    fn visit_ident(&mut self, loc: Loc, _ident: &mut Identifier) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -264,10 +325,38 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         self.visit_stray_semicolon()?;
         Ok(())
-
+    }
+    // pub struct VariableDeclaration {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The type.
+    //     pub ty: Expression,
+    //     /// The optional memory location.
+    //     pub storage: Option<StorageLocation>,
+    //     /// The identifier.
+    //     ///
+    //     /// This field is `None` only if an error occurred during parsing.
+    //     pub name: Option<Identifier>,
+    // }
+    fn visit_var_declaration(
+        &mut self,
+        _var_declaration: &mut VariableDeclaration,
+    ) -> Result<(), Self::Error> {
+        self.visit_expr(_var_declaration.loc, &mut _var_declaration.ty)?;
+        if let Some(ref mut storage) = _var_declaration.storage {
+            self.visit_storage_loc(_var_declaration.loc, storage)?;
+        }
+        if let Some(ref mut ident) = _var_declaration.name {
+            self.visit_ident(_var_declaration.loc, ident)?;
+        }
+        Ok(())
     }
 
-    fn visit_var_declaration(&mut self, var: &mut VariableDeclaration) -> Result<(), Self::Error> {
+    fn visit_storage_loc(
+        &mut self,
+        loc: Loc,
+        _storage: &mut StorageLocation,
+    ) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -369,34 +458,68 @@ pub trait Visitor {
         Ok(())
     }
 
+    // pub struct Base {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The identifier path.
+    //     pub name: IdentifierPath,
+    //     /// The optional arguments.
+    //     pub args: Option<Vec<Expression>>,
+    // }
     fn visit_base(&mut self, base: &mut Base) -> Result<(), Self::Error> {
+        self.visit_ident_path(&mut base.name)?;
+        if let Some(ref mut args) = base.args {
+            for expr in args.iter_mut() {
+                self.visit_expr(base.loc, expr)?;
+            }
+        }
         Ok(())
     }
 
     fn visit_parameter(&mut self, parameter: &mut Parameter) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    // pub struct EventParameter {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The type.
+    //     pub ty: Expression,
+    //     /// Whether this parameter is indexed.
+    //     pub indexed: bool,
+    //     /// The optional identifier.
+    //     pub name: Option<Identifier>,
+    // }
     fn visit_event_parameter(&mut self, param: &mut EventParameter) -> Result<(), Self::Error> {
+        self.visit_expr(param.loc, &mut param.ty)?;
+        if let Some(ref mut ident) = param.name {
+            self.visit_ident(param.loc, ident)?;
+        }
         Ok(())
     }
-
+    // pub struct ErrorParameter {
+    //     /// The code location.
+    //     pub loc: Loc,
+    //     /// The type.
+    //     pub ty: Expression,
+    //     /// The optional identifier.
+    //     pub name: Option<Identifier>,
+    // }
     fn visit_error_parameter(&mut self, param: &mut ErrorParameter) -> Result<(), Self::Error> {
+        self.visit_expr(param.loc, &mut param.ty)?;
+        if let Some(ref mut ident) = param.name {
+            self.visit_ident(param.loc, ident)?;
+        }
         Ok(())
     }
 
     fn visit_type_definition(&mut self, def: &mut TypeDefinition) -> Result<(), Self::Error> {
-        
         self.visit_type_name(&mut def.name)?;
         self.visit_ty(&mut def.ty)?;
-        
+
         Ok(())
     }
 
-    fn visit_ty(
-        &mut self,
-        _ty: &mut Expression,
-    ) -> Result<(), Self::Error> {
+    fn visit_ty(&mut self, _ty: &mut Expression) -> Result<(), Self::Error> {
         Ok(())
     }
 
