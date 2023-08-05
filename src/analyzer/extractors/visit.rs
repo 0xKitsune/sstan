@@ -60,6 +60,7 @@ pub trait Visitor {
         Ok(())
     }
 
+    /// Statement visitor
     fn visit_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
         match statement {
             Statement::Block {
@@ -115,17 +116,10 @@ pub trait Visitor {
     fn visit_returns(&mut self, returns: &mut ParameterList) -> Result<(), Self::Error> {
         for parameter in returns {
             if let Some(ref mut param) = parameter.1 {
-                self.visit_return_parameter(param)?;
+                self.visit_parameter(param)?;
             }
         }
 
-        Ok(())
-    }
-
-    fn visit_return_parameter(
-        &mut self,
-        _return_parameter: &mut Parameter,
-    ) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -196,6 +190,9 @@ pub trait Visitor {
     }
 
     fn visit_fields(&mut self, _fields: &mut Vec<VariableDeclaration>) -> Result<(), Self::Error> {
+        for field in _fields {
+            self.visit_var_declaration(field)?;
+        }
         Ok(())
     }
 
@@ -305,6 +302,7 @@ pub trait Visitor {
         Ok(())
     }
 
+    /// Expressions
     /// Don't write semicolon at the end because expressions can appear as both
     /// part of other node and a statement in the function body
     fn visit_expr(&mut self, _loc: Loc, _expr: &mut Expression) -> Result<(), Self::Error> {
