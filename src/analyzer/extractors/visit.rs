@@ -21,8 +21,8 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         match source_unit_part {
             SourceUnitPart::ContractDefinition(contract) => self.visit_contract(contract)?,
-            SourceUnitPart::PragmaDirective(loc, ident, str) => {
-                self.visit_pragma(*loc, ident, str)?
+            SourceUnitPart::PragmaDirective(_loc, ident, str) => {
+                self.visit_pragma(*_loc, ident, str)?
             }
             SourceUnitPart::ImportDirective(import) => self.visit_import(import)?,
             SourceUnitPart::EnumDefinition(enumeration) => self.visit_enum(enumeration)?,
@@ -32,7 +32,7 @@ pub trait Visitor {
             SourceUnitPart::FunctionDefinition(function) => self.visit_function(function)?,
             SourceUnitPart::VariableDefinition(variable) => self.visit_var_definition(variable)?,
             SourceUnitPart::TypeDefinition(def) => self.visit_type_definition(def)?,
-            SourceUnitPart::StraySemicolon(loc) => self.visit_stray_semicolon(*loc)?,
+            SourceUnitPart::StraySemicolon(_loc) => self.visit_stray_semicolon(*_loc)?,
             SourceUnitPart::Using(using) => self.visit_using(using)?,
             SourceUnitPart::Annotation(annotation) => self.visit_annotation(annotation)?,
         }
@@ -73,32 +73,34 @@ pub trait Visitor {
                 flags,
                 block,
             } => self.visit_assembly(*loc, dialect, block, flags)?,
-            Statement::Args(loc, args) => self.visit_args(*loc, args)?,
-            Statement::If(loc, expr, _if, else_) => self.visit_if(*loc, expr, _if, else_, true)?, //TODO: Revisit this
-            Statement::While(loc, expr, body) => self.visit_while(*loc, expr, body)?,
-            Statement::Expression(loc, expr) => self.visit_expr(*loc, expr)?,
-            Statement::VariableDefinition(loc, var, expr) => {
+            Statement::Args(_loc, args) => self.visit_args(*_loc, args)?,
+            Statement::If(_loc, expr, _if, else_) => {
+                self.visit_if(*_loc, expr, _if, else_, true)?
+            } //TODO: Revisit this
+            Statement::While(_loc, expr, body) => self.visit_while(*_loc, expr, body)?,
+            Statement::Expression(_loc, expr) => self.visit_expr(*_loc, expr)?,
+            Statement::VariableDefinition(_loc, var, expr) => {
                 self.visit_var_declaration(var)?;
                 if let Some(expr) = expr {
                     self.visit_expr(expr.loc(), expr)?;
                 }
             }
-            Statement::For(loc, init, cond, next, body) => {
-                self.visit_for(*loc, init, cond, next, body)?
+            Statement::For(_loc, init, cond, next, body) => {
+                self.visit_for(*_loc, init, cond, next, body)?
             }
-            Statement::DoWhile(loc, body, cond) => self.visit_do_while(*loc, body, cond)?,
-            Statement::Continue(loc) => self.visit_continue(*loc, true)?,
-            Statement::Break(loc) => self.visit_break(*loc, true)?,
-            Statement::Return(loc, expr) => self.visit_return(*loc, expr)?,
-            Statement::Revert(loc, path, args) => self.visit_revert(*loc, path, args)?,
-            Statement::RevertNamedArgs(loc, path, args) => {
-                self.visit_revert_named_args(*loc, path, args)?
+            Statement::DoWhile(_loc, body, cond) => self.visit_do_while(*_loc, body, cond)?,
+            Statement::Continue(_loc) => self.visit_continue(*_loc, true)?,
+            Statement::Break(_loc) => self.visit_break(*_loc, true)?,
+            Statement::Return(_loc, expr) => self.visit_return(*_loc, expr)?,
+            Statement::Revert(_loc, path, args) => self.visit_revert(*_loc, path, args)?,
+            Statement::RevertNamedArgs(_loc, path, args) => {
+                self.visit_revert_named_args(*_loc, path, args)?
             }
-            Statement::Emit(loc, expr) => self.visit_emit(*loc, expr)?,
-            Statement::Try(loc, expr, returns, catches) => {
-                self.visit_try(*loc, expr, returns, catches)?
+            Statement::Emit(_loc, expr) => self.visit_emit(*_loc, expr)?,
+            Statement::Try(_loc, expr, returns, catches) => {
+                self.visit_try(*_loc, expr, returns, catches)?
             }
-            Statement::Error(loc) => self.visit_parser_error(*loc)?,
+            Statement::Error(_loc) => self.visit_parser_error(*_loc)?,
         }
 
         Ok(())
@@ -213,7 +215,10 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_contract_part(&mut self, contract_part: &mut ContractPart) -> Result<(), Self::Error> {
+    fn visit_contract_part(
+        &mut self,
+        _contract_part: &mut ContractPart,
+    ) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -221,7 +226,7 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_import(&mut self, import: &mut Import) -> Result<(), Self::Error> {
+    fn visit_import(&mut self, _import: &mut Import) -> Result<(), Self::Error> {
         Ok(())
     }
     fn visit_enum(&mut self, enum_definition: &mut Box<EnumDefinition>) -> Result<(), Self::Error> {
@@ -238,13 +243,13 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_annotation(&mut self, annotation: &mut Annotation) -> Result<(), Self::Error> {
+    fn visit_annotation(&mut self, _annotation: &mut Annotation) -> Result<(), Self::Error> {
         Ok(())
     }
 
     fn visit_pragma(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _ident: &mut Option<Identifier>,
         _str: &mut Option<StringLiteral>,
     ) -> Result<(), Self::Error> {
@@ -279,7 +284,7 @@ pub trait Visitor {
 
     fn visit_assembly(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _dialect: &mut Option<StringLiteral>,
         _block: &mut YulBlock,
         _flags: &mut Option<Vec<StringLiteral>>,
@@ -289,40 +294,735 @@ pub trait Visitor {
 
     fn visit_block(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _unchecked: bool,
         _statements: &mut Vec<Statement>,
     ) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_args(&mut self, loc: Loc, _args: &mut Vec<NamedArgument>) -> Result<(), Self::Error> {
+    fn visit_args(&mut self, _loc: Loc, _args: &mut Vec<NamedArgument>) -> Result<(), Self::Error> {
         Ok(())
     }
 
     /// Don't write semicolon at the end because expressions can appear as both
     /// part of other node and a statement in the function body
-    fn visit_expr(&mut self, loc: Loc, _expr: &mut Expression) -> Result<(), Self::Error> {
+    fn visit_expr(&mut self, _loc: Loc, _expr: &mut Expression) -> Result<(), Self::Error> {
+        match _expr {
+            Expression::PostIncrement(_loc, expr) => {
+                self.visit_post_increment(*_loc, expr)?;
+            }
+            Expression::PostDecrement(_loc, expr) => {
+                self.visit_post_decrement(*_loc, expr)?;
+            }
+            Expression::New(_loc, expr) => {
+                self.visit_new(*_loc, expr)?;
+            }
+            Expression::ArraySubscript(_loc, _expr_0, _expr_1) => {
+                self.visit_array_subscript(*_loc, _expr_0, _expr_1)?;
+            }
+            Expression::ArraySlice(_loc, expr, _option_expr_0, _option_expr_1) => {
+                self.visit_array_slice(*_loc, expr, _option_expr_0, _option_expr_1)?;
+            }
+            Expression::Parenthesis(_loc, expr) => {
+                self.visit_parenthesis(*_loc, expr)?;
+            }
+            Expression::MemberAccess(_loc, expr, ident) => {
+                self.visit_member_access(*_loc, expr, ident)?;
+            }
+            Expression::FunctionCall(_loc, expr, params) => {
+                self.visit_function_call(*_loc, expr, params)?;
+            }
+            Expression::FunctionCallBlock(_loc, expr, statement) => {
+                self.visit_function_call_block(*_loc, expr, statement)?;
+            }
+            Expression::NamedFunctionCall(_loc, expr, params) => {
+                self.visit_named_function_call(*_loc, expr, params)?;
+            }
+            Expression::Not(_loc, expr) => {
+                self.visit_not(*_loc, expr)?;
+            }
+            Expression::BitwiseNot(_loc, expr) => {
+                self.visit_bitwise_not(*_loc, expr)?;
+            }
+            Expression::Delete(_loc, expr) => {
+                self.visit_delete(*_loc, expr)?;
+            }
+            Expression::PreIncrement(_loc, expr) => {
+                self.visit_pre_increment(*_loc, expr)?;
+            }
+            Expression::PreDecrement(_loc, expr) => {
+                self.visit_pre_decrement(*_loc, expr)?;
+            }
+            Expression::UnaryPlus(_loc, expr) => {
+                self.visit_unary_plus(*_loc, expr)?;
+            }
+            Expression::Negate(_loc, expr) => {
+                self.visit_negate(*_loc, expr)?;
+            }
+            Expression::Power(_loc, expr_0, expr_1) => {
+                self.visit_power(*_loc, expr_0, expr_1)?;
+            }
+            Expression::Multiply(_loc, expr_0, expr_1) => {
+                self.visit_multiply(*_loc, expr_0, expr_1)?;
+            }
+            Expression::Divide(_loc, expr_0, expr_1) => {
+                self.visit_divide(*_loc, expr_0, expr_1)?;
+            }
+            Expression::Modulo(_loc, expr_0, expr_1) => {
+                self.visit_modulo(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::Add(_loc, expr_0, expr_1) => {
+                self.visit_add(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::Subtract(_loc, expr_0, expr_1) => {
+                self.visit_subtract(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::ShiftLeft(_loc, expr_0, expr_1) => {
+                self.visit_shift_left(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::ShiftRight(_loc, expr_0, expr_1) => {
+                self.visit_shift_right(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::BitwiseAnd(_loc, expr_0, expr_1) => {
+                self.visit_bitwise_and(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::BitwiseXor(_loc, expr_0, expr_1) => {
+                self.visit_bitwise_xor(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::BitwiseOr(_loc, expr_0, expr_1) => {
+                self.visit_bitwise_or(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::Less(_loc, expr_0, expr_1) => {
+                self.visit_less(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::LessEqual(_loc, expr_0, expr_1) => {
+                self.visit_less_equal(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::More(_loc, expr_0, expr_1) => {
+                self.visit_more(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::MoreEqual(_loc, expr_0, expr_1) => {
+                self.visit_more_equal(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::Equal(_loc, expr_0, expr_1) => {
+                self.visit_equal(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::NotEqual(_loc, expr_0, expr_1) => {
+                self.visit_not_equal(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::And(_loc, expr_0, expr_1) => {
+                self.visit_and(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::Or(_loc, expr_0, expr_1) => {
+                self.visit_or(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::ConditionalOperator(_loc, expr_0, expr_1, expr_2) => {
+                self.visit_conditional_operator(*_loc, expr_0, expr_1, expr_2)?;
+            }
+
+            Expression::Assign(_loc, expr_0, expr_1) => {
+                self.visit_assign(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignOr(_loc, expr_0, expr_1) => {
+                self.visit_assign_or(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignXor(_loc, expr_0, expr_1) => {
+                self.visit_assign_xor(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignAnd(_loc, expr_0, expr_1) => {
+                self.visit_assign_and(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignShiftLeft(_loc, expr_0, expr_1) => {
+                self.visit_assign_shift_left(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignShiftRight(_loc, expr_0, expr_1) => {
+                self.visit_assign_shift_right(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignAdd(_loc, expr_0, expr_1) => {
+                self.visit_assign_add(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignSubtract(_loc, expr_0, expr_1) => {
+                self.visit_assign_subtract(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignMultiply(_loc, expr_0, expr_1) => {
+                self.visit_assign_multiply(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignDivide(_loc, expr_0, expr_1) => {
+                self.visit_assign_divide(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::AssignModulo(_loc, expr_0, expr_1) => {
+                self.visit_assign_modulo(*_loc, expr_0, expr_1)?;
+            }
+
+            Expression::BoolLiteral(_loc, _value) => {
+                self.visit_bool_literal(*_loc, _value)?;
+            }
+
+            Expression::NumberLiteral(_loc, string_0, string_1, ident) => {
+                self.visit_number_literal(*_loc, string_0, string_1, ident)?;
+            }
+
+            Expression::RationalNumberLiteral(_loc, string_0, string_1, string_2, ident) => {
+                self.visit_rational_number_literal(*_loc, string_0, string_1, string_2, ident)?;
+            }
+
+            Expression::HexNumberLiteral(_loc, string_0, ident) => {
+                self.visit_hex_number_literal(*_loc, string_0, ident)?;
+            }
+
+            Expression::StringLiteral(string_literal_vec) => {
+                self.visit_string_literal(string_literal_vec)?; //TODO: FIXME: No location passed here
+            }
+
+            Expression::Type(_loc, _type) => {
+                self.visit_type(*_loc, _type)?;
+            }
+
+            Expression::HexLiteral(hex_literal_vec) => {
+                self.visit_hex_literal(hex_literal_vec)?; //TODO: FIXME: No location passed here
+            }
+
+            Expression::AddressLiteral(_loc, value) => {
+                self.visit_address_literal(*_loc, value)?;
+            }
+
+            Expression::Variable(ident) => {
+                self.visit_variable(ident.loc, ident)?;
+            }
+
+            Expression::List(_loc, parameter_list) => {
+                self.visit_list(*_loc, parameter_list)?;
+            }
+
+            Expression::ArrayLiteral(_loc, expr_vec) => {
+                self.visit_array_literal(*_loc, expr_vec)?;
+            }
+        }
         Ok(())
     }
 
-    fn visit_contract_ident(
+    fn visit_list(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
+        _parameter_list: &mut Vec<(Loc, Option<Parameter>)>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_array_literal(
+        &mut self,
+        _loc: Loc,
+        _expr_vec: &mut Vec<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_hex_literal(
+        &mut self,
+        _hex_literal_vec: &mut Vec<HexLiteral>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_variable(&mut self, _loc: Loc, _ident: &mut Identifier) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_address_literal(&mut self, _loc: Loc, _value: &mut String) -> Result<(), Self::Error> {
+        Ok(())
+    }
+    fn visit_type(&mut self, _loc: Loc, _type: &mut Type) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_string_literal(
+        &mut self,
+        _string_literal_vec: &mut Vec<StringLiteral>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_hex_number_literal(
+        &mut self,
+        _loc: Loc,
+        _string_0: &mut String,
+        _ident: &mut Option<Identifier>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_rational_number_literal(
+        &mut self,
+        _loc: Loc,
+        _string_0: &mut String,
+        _string_1: &mut String,
+        _string_2: &mut String,
+        _ident: &mut Option<Identifier>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_number_literal(
+        &mut self,
+        _loc: Loc,
+        _string_0: &mut String,
+        _string_1: &mut String,
+        _ident: &mut Option<Identifier>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_bool_literal(&mut self, _loc: Loc, _value: &mut bool) -> Result<(), Self::Error> {
+        Ok(())
+    }
+    fn visit_assign_add(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_assign_modulo(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+    fn visit_assign_divide(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+    fn visit_assign_multiply(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+    fn visit_assign_subtract(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+    fn visit_assign_shift_right(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+    fn visit_assign_shift_left(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_assign_and(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_assign_xor(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_assign_or(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_assign(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_conditional_operator(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+        _expr_2: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_or(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_and(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_not_equal(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_equal(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_more_equal(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_more(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_less_equal(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_less(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_bitwise_or(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_bitwise_xor(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_bitwise_and(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_shift_right(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_shift_left(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_subtract(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_add(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_modulo(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_divide(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_multiply(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+    fn visit_power(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_negate(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_delete(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_bitwise_not(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_not(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_named_function_call(
+        &mut self,
+        _loc: Loc,
+        _ident: &mut Box<Expression>,
+        _params: &mut Vec<NamedArgument>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_function_call_block(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+        _statement: &mut Box<Statement>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_function_call(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+        _params: &mut Vec<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_member_access(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
         _ident: &mut Identifier,
     ) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_ident(&mut self, loc: Loc, _ident: &mut Identifier) -> Result<(), Self::Error> {
+    fn visit_parenthesis(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_ident_path(&mut self, idents: &mut IdentifierPath) -> Result<(), Self::Error> {
+    fn visit_array_slice(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+        _option_expr_0: &mut Option<Box<Expression>>,
+        _option_expr_1: &mut Option<Box<Expression>>,
+    ) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_emit(&mut self, loc: Loc, _event: &mut Expression) -> Result<(), Self::Error> {
+    fn visit_array_subscript(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Option<Box<Expression>>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_new(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_unary_plus(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_pre_decrement(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_post_decrement(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_pre_increment(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_post_increment(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut Box<Expression>,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_contract_ident(
+        &mut self,
+        _loc: Loc,
+        _ident: &mut Identifier,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_ident(&mut self, _loc: Loc, _ident: &mut Identifier) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_ident_path(
+        &mut self,
+        _identifier_path: &mut IdentifierPath,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_emit(&mut self, _loc: Loc, _event: &mut Expression) -> Result<(), Self::Error> {
         Ok(())
     }
     fn visit_var_definition(&mut self, var: &mut VariableDefinition) -> Result<(), Self::Error> {
@@ -343,7 +1043,7 @@ pub trait Visitor {
 
     fn visit_var_definition_stmt(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _declaration: &mut VariableDeclaration,
         _expr: &mut Option<Expression>,
     ) -> Result<(), Self::Error> {
@@ -367,7 +1067,7 @@ pub trait Visitor {
 
     fn visit_storage_loc(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _storage: &mut StorageLocation,
     ) -> Result<(), Self::Error> {
         Ok(())
@@ -375,7 +1075,7 @@ pub trait Visitor {
 
     fn visit_return(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _expr: &mut Option<Expression>,
     ) -> Result<(), Self::Error> {
         Ok(())
@@ -383,7 +1083,7 @@ pub trait Visitor {
 
     fn visit_revert(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _error: &mut Option<IdentifierPath>,
         _args: &mut Vec<Expression>,
     ) -> Result<(), Self::Error> {
@@ -392,25 +1092,25 @@ pub trait Visitor {
 
     fn visit_revert_named_args(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _error: &mut Option<IdentifierPath>,
         _args: &mut Vec<NamedArgument>,
     ) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_break(&mut self, loc: Loc, _semicolon: bool) -> Result<(), Self::Error> {
+    fn visit_break(&mut self, _loc: Loc, _semicolon: bool) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_continue(&mut self, loc: Loc, _semicolon: bool) -> Result<(), Self::Error> {
+    fn visit_continue(&mut self, _loc: Loc, _semicolon: bool) -> Result<(), Self::Error> {
         Ok(())
     }
 
     #[allow(clippy::type_complexity)]
     fn visit_try(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _expr: &mut Expression,
         _returns: &mut Option<(Vec<(Loc, Option<Parameter>)>, Box<Statement>)>,
         _clauses: &mut Vec<CatchClause>,
@@ -420,7 +1120,7 @@ pub trait Visitor {
 
     fn visit_if(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _cond: &mut Expression,
         _if_branch: &mut Box<Statement>,
         _else_branch: &mut Option<Box<Statement>>,
@@ -431,7 +1131,7 @@ pub trait Visitor {
 
     fn visit_do_while(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _body: &mut Statement,
         _cond: &mut Expression,
     ) -> Result<(), Self::Error> {
@@ -440,7 +1140,7 @@ pub trait Visitor {
 
     fn visit_while(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _cond: &mut Expression,
         _body: &mut Statement,
     ) -> Result<(), Self::Error> {
@@ -449,7 +1149,7 @@ pub trait Visitor {
 
     fn visit_for(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _init: &mut Option<Box<Statement>>,
         _cond: &mut Option<Box<Expression>>,
         _update: &mut Option<Box<Expression>>,
@@ -460,7 +1160,7 @@ pub trait Visitor {
 
     fn visit_var_attribute(
         &mut self,
-        attribute: &mut VariableAttribute,
+        _variable_attribute: &mut VariableAttribute,
     ) -> Result<(), Self::Error> {
         Ok(())
     }
@@ -538,26 +1238,26 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_using_list(&mut self, list: &mut UsingList) -> Result<(), Self::Error> {
+    fn visit_using_list(&mut self, _using_list: &mut UsingList) -> Result<(), Self::Error> {
         Ok(())
     }
 
     fn visit_yul_block(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _stmts: &mut Vec<YulStatement>,
         _attempt_single_line: bool,
     ) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_yul_expr(&mut self, expr: &mut YulExpression) -> Result<(), Self::Error> {
+    fn visit_yul_expr(&mut self, _expr: &mut YulExpression) -> Result<(), Self::Error> {
         Ok(())
     }
 
     fn visit_yul_assignment<T>(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _exprs: &mut Vec<T>,
         _expr: &mut Option<&mut YulExpression>,
     ) -> Result<(), Self::Error>
@@ -567,49 +1267,52 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_yul_for(&mut self, stmt: &mut YulFor) -> Result<(), Self::Error> {
+    fn visit_yul_for(&mut self, _stmt: &mut YulFor) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_yul_function_call(&mut self, stmt: &mut YulFunctionCall) -> Result<(), Self::Error> {
+    fn visit_yul_function_call(&mut self, _stmt: &mut YulFunctionCall) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_yul_fun_def(&mut self, stmt: &mut YulFunctionDefinition) -> Result<(), Self::Error> {
+    fn visit_yul_fun_def(&mut self, _stmt: &mut YulFunctionDefinition) -> Result<(), Self::Error> {
         Ok(())
     }
 
     fn visit_yul_if(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _expr: &mut YulExpression,
         _block: &mut YulBlock,
     ) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_yul_leave(&mut self, loc: Loc) -> Result<(), Self::Error> {
+    fn visit_yul_leave(&mut self, _loc: Loc) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_yul_switch(&mut self, stmt: &mut YulSwitch) -> Result<(), Self::Error> {
+    fn visit_yul_switch(&mut self, _stmt: &mut YulSwitch) -> Result<(), Self::Error> {
         Ok(())
     }
 
     fn visit_yul_var_declaration(
         &mut self,
-        loc: Loc,
+        _loc: Loc,
         _idents: &mut Vec<YulTypedIdentifier>,
         _expr: &mut Option<YulExpression>,
     ) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_yul_typed_ident(&mut self, ident: &mut YulTypedIdentifier) -> Result<(), Self::Error> {
+    fn visit_yul_typed_ident(
+        &mut self,
+        _ident: &mut YulTypedIdentifier,
+    ) -> Result<(), Self::Error> {
         Ok(())
     }
 
-    fn visit_parser_error(&mut self, loc: Loc) -> Result<(), Self::Error> {
+    fn visit_parser_error(&mut self, _loc: Loc) -> Result<(), Self::Error> {
         Ok(())
     }
 }
@@ -688,7 +1391,7 @@ impl Visitable for SourceUnitPart {
     {
         match self {
             SourceUnitPart::ContractDefinition(contract) => v.visit_contract(contract),
-            SourceUnitPart::PragmaDirective(loc, ident, str) => v.visit_pragma(*loc, ident, str),
+            SourceUnitPart::PragmaDirective(_loc, ident, str) => v.visit_pragma(*_loc, ident, str),
             SourceUnitPart::ImportDirective(import) => import.visit(v),
             SourceUnitPart::EnumDefinition(enumeration) => v.visit_enum(enumeration),
             SourceUnitPart::StructDefinition(structure) => v.visit_struct(structure),
@@ -697,7 +1400,7 @@ impl Visitable for SourceUnitPart {
             SourceUnitPart::FunctionDefinition(function) => v.visit_function(function),
             SourceUnitPart::VariableDefinition(variable) => v.visit_var_definition(variable),
             SourceUnitPart::TypeDefinition(def) => v.visit_type_definition(def),
-            SourceUnitPart::StraySemicolon(loc) => v.visit_stray_semicolon(*loc),
+            SourceUnitPart::StraySemicolon(_loc) => v.visit_stray_semicolon(*_loc),
             SourceUnitPart::Using(using) => v.visit_using(using),
             SourceUnitPart::Annotation(annotation) => v.visit_annotation(annotation),
         }
@@ -710,11 +1413,11 @@ impl Visitable for Import {
         V: Visitor,
     {
         match self {
-            Import::Plain(import, loc) => v.visit_import_plain(*loc, import),
-            Import::GlobalSymbol(global, import_as, loc) => {
-                v.visit_import_global(*loc, global, import_as)
+            Import::Plain(import, _loc) => v.visit_import_plain(*_loc, import),
+            Import::GlobalSymbol(global, import_as, _loc) => {
+                v.visit_import_global(*_loc, global, import_as)
             }
-            Import::Rename(from, imports, loc) => v.visit_import_renames(*loc, imports, from),
+            Import::Rename(from, imports, _loc) => v.visit_import_renames(*_loc, imports, from),
         }
     }
 }
@@ -732,7 +1435,7 @@ impl Visitable for ContractPart {
             ContractPart::VariableDefinition(variable) => v.visit_var_definition(variable),
             ContractPart::FunctionDefinition(function) => v.visit_function(function),
             ContractPart::TypeDefinition(def) => v.visit_type_definition(def),
-            ContractPart::StraySemicolon(loc) => v.visit_stray_semicolon(*loc),
+            ContractPart::StraySemicolon(_loc) => v.visit_stray_semicolon(*_loc),
             ContractPart::Using(using) => v.visit_using(using),
             ContractPart::Annotation(annotation) => v.visit_annotation(annotation),
         }
@@ -756,36 +1459,36 @@ impl Visitable for Statement {
                 block,
                 flags,
             } => v.visit_assembly(*loc, dialect, block, flags),
-            Statement::Args(loc, args) => v.visit_args(*loc, args),
-            Statement::If(loc, cond, if_branch, else_branch) => {
-                v.visit_if(*loc, cond, if_branch, else_branch, true)
+            Statement::Args(_loc, args) => v.visit_args(*_loc, args),
+            Statement::If(_loc, cond, if_branch, else_branch) => {
+                v.visit_if(*_loc, cond, if_branch, else_branch, true)
             }
-            Statement::While(loc, cond, body) => v.visit_while(*loc, cond, body),
-            Statement::Expression(loc, expr) => {
-                v.visit_expr(*loc, expr)?;
+            Statement::While(_loc, cond, body) => v.visit_while(*_loc, cond, body),
+            Statement::Expression(_loc, expr) => {
+                v.visit_expr(*_loc, expr)?;
 
                 //TODO: check this out if we need this or not
-                v.visit_stray_semicolon(*loc)
+                v.visit_stray_semicolon(*_loc)
             }
-            Statement::VariableDefinition(loc, declaration, expr) => {
-                v.visit_var_definition_stmt(*loc, declaration, expr)
+            Statement::VariableDefinition(_loc, declaration, expr) => {
+                v.visit_var_definition_stmt(*_loc, declaration, expr)
             }
-            Statement::For(loc, init, cond, update, body) => {
-                v.visit_for(*loc, init, cond, update, body)
+            Statement::For(_loc, init, cond, update, body) => {
+                v.visit_for(*_loc, init, cond, update, body)
             }
-            Statement::DoWhile(loc, body, cond) => v.visit_do_while(*loc, body, cond),
-            Statement::Continue(loc) => v.visit_continue(*loc, true),
-            Statement::Break(loc) => v.visit_break(*loc, true),
-            Statement::Return(loc, expr) => v.visit_return(*loc, expr),
-            Statement::Revert(loc, error, args) => v.visit_revert(*loc, error, args),
-            Statement::RevertNamedArgs(loc, error, args) => {
-                v.visit_revert_named_args(*loc, error, args)
+            Statement::DoWhile(_loc, body, cond) => v.visit_do_while(*_loc, body, cond),
+            Statement::Continue(_loc) => v.visit_continue(*_loc, true),
+            Statement::Break(_loc) => v.visit_break(*_loc, true),
+            Statement::Return(_loc, expr) => v.visit_return(*_loc, expr),
+            Statement::Revert(_loc, error, args) => v.visit_revert(*_loc, error, args),
+            Statement::RevertNamedArgs(_loc, error, args) => {
+                v.visit_revert_named_args(*_loc, error, args)
             }
-            Statement::Emit(loc, event) => v.visit_emit(*loc, event),
-            Statement::Try(loc, expr, returns, clauses) => {
-                v.visit_try(*loc, expr, returns, clauses)
+            Statement::Emit(_loc, event) => v.visit_emit(*_loc, event),
+            Statement::Try(_loc, expr, returns, clauses) => {
+                v.visit_try(*_loc, expr, returns, clauses)
             }
-            Statement::Error(loc) => v.visit_parser_error(*loc),
+            Statement::Error(_loc) => v.visit_parser_error(*_loc),
         }
     }
 }
@@ -841,24 +1544,24 @@ impl Visitable for YulStatement {
         V: Visitor,
     {
         match self {
-            YulStatement::Assign(loc, exprs, expr) => {
-                v.visit_yul_assignment(*loc, exprs, &mut Some(expr))
+            YulStatement::Assign(_loc, exprs, expr) => {
+                v.visit_yul_assignment(*_loc, exprs, &mut Some(expr))
             }
             YulStatement::Block(block) => {
                 v.visit_yul_block(block.loc, block.statements.as_mut(), false)
             }
-            YulStatement::Break(loc) => v.visit_break(*loc, false),
-            YulStatement::Continue(loc) => v.visit_continue(*loc, false),
+            YulStatement::Break(_loc) => v.visit_break(*_loc, false),
+            YulStatement::Continue(_loc) => v.visit_continue(*_loc, false),
             YulStatement::For(stmt) => v.visit_yul_for(stmt),
             YulStatement::FunctionCall(stmt) => v.visit_yul_function_call(stmt),
             YulStatement::FunctionDefinition(stmt) => v.visit_yul_fun_def(stmt),
-            YulStatement::If(loc, expr, block) => v.visit_yul_if(*loc, expr, block),
-            YulStatement::Leave(loc) => v.visit_yul_leave(*loc),
+            YulStatement::If(_loc, expr, block) => v.visit_yul_if(*_loc, expr, block),
+            YulStatement::Leave(_loc) => v.visit_yul_leave(*_loc),
             YulStatement::Switch(stmt) => v.visit_yul_switch(stmt),
-            YulStatement::VariableDeclaration(loc, idents, expr) => {
-                v.visit_yul_var_declaration(*loc, idents, expr)
+            YulStatement::VariableDeclaration(_loc, idents, expr) => {
+                v.visit_yul_var_declaration(*_loc, idents, expr)
             }
-            YulStatement::Error(loc) => v.visit_parser_error(*loc),
+            YulStatement::Error(_loc) => v.visit_parser_error(*_loc),
         }
     }
 }
