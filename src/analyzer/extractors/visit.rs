@@ -243,7 +243,7 @@ pub trait Visitor {
     fn visit_annotation(&mut self, _annotation: &mut Annotation) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_pragma(
         &mut self,
         _loc: Loc,
@@ -252,7 +252,7 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_import_plain(
         &mut self,
         _loc: Loc,
@@ -260,7 +260,7 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_import_global(
         &mut self,
         _loc: Loc,
@@ -269,7 +269,7 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_import_renames(
         &mut self,
         _loc: Loc,
@@ -278,7 +278,7 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_assembly(
         &mut self,
         _loc: Loc,
@@ -581,7 +581,7 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_hex_number_literal(
         &mut self,
         _loc: Loc,
@@ -590,7 +590,7 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_rational_number_literal(
         &mut self,
         _loc: Loc,
@@ -601,7 +601,7 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_number_literal(
         &mut self,
         _loc: Loc,
@@ -1260,7 +1260,7 @@ pub trait Visitor {
         }
         Ok(())
     }
-
+    //TODO:
     fn visit_catch_clause(&mut self, _clause: &mut CatchClause) -> Result<(), Self::Error> {
         Ok(())
     }
@@ -1325,7 +1325,7 @@ pub trait Visitor {
         }
         Ok(())
     }
-
+    //TODO:
     fn visit_var_attribute(
         &mut self,
         _variable_attribute: &mut VariableAttribute,
@@ -1405,11 +1405,11 @@ pub trait Visitor {
         }
         Ok(())
     }
-
+    //TODO:
     fn visit_using_list(&mut self, _using_list: &mut UsingList) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_yul_block(
         &mut self,
         _loc: Loc,
@@ -1418,11 +1418,11 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_yul_expr(&mut self, _expr: &mut YulExpression) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_yul_assignment<T>(
         &mut self,
         _loc: Loc,
@@ -1434,19 +1434,19 @@ pub trait Visitor {
     {
         Ok(())
     }
-
+    //TODO:
     fn visit_yul_for(&mut self, _stmt: &mut YulFor) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_yul_function_call(&mut self, _stmt: &mut YulFunctionCall) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_yul_fun_def(&mut self, _stmt: &mut YulFunctionDefinition) -> Result<(), Self::Error> {
         Ok(())
     }
-
+    //TODO:
     fn visit_yul_if(
         &mut self,
         _loc: Loc,
