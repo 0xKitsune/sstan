@@ -531,6 +531,11 @@ pub trait Visitor {
         _loc: Loc,
         _parameter_list: &mut Vec<(Loc, Option<Parameter>)>,
     ) -> Result<(), Self::Error> {
+        for (_, parameter) in _parameter_list.iter_mut() {
+            if let Some(parameter) = parameter {
+                self.visit_parameter(parameter)?;
+            }
+        }
         Ok(())
     }
 
@@ -539,6 +544,9 @@ pub trait Visitor {
         _loc: Loc,
         _expr_vec: &mut Vec<Expression>,
     ) -> Result<(), Self::Error> {
+        for expr in _expr_vec.iter_mut() {
+            self.visit_expr(expr.loc(), expr)?;
+        }
         Ok(())
     }
 
@@ -550,6 +558,7 @@ pub trait Visitor {
     }
 
     fn visit_variable(&mut self, _loc: Loc, _ident: &mut Identifier) -> Result<(), Self::Error> {
+        self.visit_ident(_ident.loc, _ident)?;
         Ok(())
     }
 
@@ -606,6 +615,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -615,6 +626,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
     fn visit_assign_divide(
@@ -623,6 +636,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
     fn visit_assign_multiply(
@@ -631,6 +646,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
     fn visit_assign_subtract(
@@ -639,6 +656,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
     fn visit_assign_shift_right(
@@ -647,6 +666,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
     fn visit_assign_shift_left(
@@ -655,6 +676,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -664,6 +687,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -673,6 +698,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -682,6 +709,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -691,6 +720,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -701,6 +732,9 @@ pub trait Visitor {
         _expr_1: &mut Box<Expression>,
         _expr_2: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
+        self.visit_expr(_expr_2.loc(), _expr_2)?;
         Ok(())
     }
 
@@ -710,6 +744,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -719,6 +755,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -728,6 +766,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -737,6 +777,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -746,6 +788,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -755,6 +799,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -764,6 +810,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -773,6 +821,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -782,6 +832,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -791,6 +843,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -800,6 +854,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -809,6 +865,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -818,6 +876,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -827,6 +887,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -836,6 +898,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -845,6 +909,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -854,6 +920,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
@@ -863,6 +931,8 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
     fn visit_power(
@@ -871,14 +941,18 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        self.visit_expr(_expr_1.loc(), _expr_1)?;
         Ok(())
     }
 
     fn visit_negate(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
     fn visit_delete(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
@@ -887,10 +961,12 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
     fn visit_not(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
@@ -900,6 +976,10 @@ pub trait Visitor {
         _ident: &mut Box<Expression>,
         _params: &mut Vec<NamedArgument>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_ident.loc(), _ident)?;
+        for named_arg in _params.iter_mut() {
+            self.visit_named_arg(named_arg)?;
+        }
         Ok(())
     }
 
@@ -909,6 +989,8 @@ pub trait Visitor {
         _expr: &mut Box<Expression>,
         _statement: &mut Box<Statement>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
+        self.visit_statement(_statement)?;
         Ok(())
     }
 
@@ -918,6 +1000,10 @@ pub trait Visitor {
         _expr: &mut Box<Expression>,
         _params: &mut Vec<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
+        for param in _params.iter_mut() {
+            self.visit_expr(param.loc(), param)?;
+        }
         Ok(())
     }
 
@@ -927,6 +1013,8 @@ pub trait Visitor {
         _expr: &mut Box<Expression>,
         _ident: &mut Identifier,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
+        self.visit_ident(_ident.loc, _ident)?;
         Ok(())
     }
 
@@ -935,6 +1023,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
@@ -945,6 +1034,13 @@ pub trait Visitor {
         _option_expr_0: &mut Option<Box<Expression>>,
         _option_expr_1: &mut Option<Box<Expression>>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
+        if let Some(expr) = _option_expr_0 {
+            self.visit_expr(expr.loc(), expr)?;
+        }
+        if let Some(expr) = _option_expr_1 {
+            self.visit_expr(expr.loc(), expr)?;
+        }
         Ok(())
     }
 
@@ -954,10 +1050,15 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Option<Box<Expression>>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr_0.loc(), _expr_0)?;
+        if let Some(expr) = _expr_1 {
+            self.visit_expr(expr.loc(), expr)?;
+        }
         Ok(())
     }
 
     fn visit_new(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
@@ -966,6 +1067,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
@@ -974,6 +1076,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
@@ -982,6 +1085,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
@@ -990,6 +1094,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
@@ -998,6 +1103,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
 
@@ -1006,6 +1112,7 @@ pub trait Visitor {
         _loc: Loc,
         _ident: &mut Identifier,
     ) -> Result<(), Self::Error> {
+        self.visit_ident(_ident.loc, _ident)?;
         Ok(())
     }
 
@@ -1021,6 +1128,7 @@ pub trait Visitor {
     }
 
     fn visit_emit(&mut self, _loc: Loc, _event: &mut Expression) -> Result<(), Self::Error> {
+        self.visit_expr(_event.loc(), _event)?;
         Ok(())
     }
     fn visit_var_definition(&mut self, var: &mut VariableDefinition) -> Result<(), Self::Error> {
@@ -1045,6 +1153,10 @@ pub trait Visitor {
         _declaration: &mut VariableDeclaration,
         _expr: &mut Option<Expression>,
     ) -> Result<(), Self::Error> {
+        self.visit_var_declaration(_declaration)?;
+        if let Some(expr) = _expr {
+            self.visit_expr(expr.loc(), expr)?;
+        }
         Ok(())
     }
 
@@ -1076,6 +1188,9 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Option<Expression>,
     ) -> Result<(), Self::Error> {
+        if let Some(expr) = _expr {
+            self.visit_expr(expr.loc(), expr)?;
+        }
         Ok(())
     }
 
@@ -1085,6 +1200,12 @@ pub trait Visitor {
         _error: &mut Option<IdentifierPath>,
         _args: &mut Vec<Expression>,
     ) -> Result<(), Self::Error> {
+        if let Some(ref mut error) = _error {
+            self.visit_ident_path(error)?;
+        }
+        for arg in _args.iter_mut() {
+            self.visit_expr(arg.loc(), arg)?;
+        }
         Ok(())
     }
 
@@ -1094,6 +1215,12 @@ pub trait Visitor {
         _error: &mut Option<IdentifierPath>,
         _args: &mut Vec<NamedArgument>,
     ) -> Result<(), Self::Error> {
+        if let Some(ref mut error) = _error {
+            self.visit_ident_path(error)?;
+        }
+        for arg in _args.iter_mut() {
+            self.visit_named_arg(arg)?;
+        }
         Ok(())
     }
 
@@ -1113,6 +1240,22 @@ pub trait Visitor {
         _returns: &mut Option<(Vec<(Loc, Option<Parameter>)>, Box<Statement>)>,
         _clauses: &mut Vec<CatchClause>,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_expr.loc(), _expr)?;
+        if let Some(returns) = _returns {
+            for (_, param) in returns.0.iter_mut() {
+                if let Some(param) = param {
+                    self.visit_parameter(param)?;
+                }
+            }
+            self.visit_statement(&mut returns.1)?;
+        }
+        for clause in _clauses.iter_mut() {
+            self.visit_catch_clause(clause)?;
+        }
+        Ok(())
+    }
+
+    fn visit_catch_clause(&mut self, _clause: &mut CatchClause) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -1124,6 +1267,11 @@ pub trait Visitor {
         _else_branch: &mut Option<Box<Statement>>,
         _is_first_stmt: bool,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_cond.loc(), _cond)?;
+        self.visit_statement(_if_branch)?;
+        if let Some(else_branch) = _else_branch {
+            self.visit_statement(else_branch)?;
+        }
         Ok(())
     }
 
@@ -1133,6 +1281,8 @@ pub trait Visitor {
         _body: &mut Statement,
         _cond: &mut Expression,
     ) -> Result<(), Self::Error> {
+        self.visit_statement(_body)?;
+        self.visit_expr(_cond.loc(), _cond)?;
         Ok(())
     }
 
@@ -1142,6 +1292,8 @@ pub trait Visitor {
         _cond: &mut Expression,
         _body: &mut Statement,
     ) -> Result<(), Self::Error> {
+        self.visit_expr(_cond.loc(), _cond)?;
+        self.visit_statement(_body)?;
         Ok(())
     }
 
@@ -1153,6 +1305,18 @@ pub trait Visitor {
         _update: &mut Option<Box<Expression>>,
         _body: &mut Option<Box<Statement>>,
     ) -> Result<(), Self::Error> {
+        if let Some(init) = _init {
+            self.visit_statement(init)?;
+        }
+        if let Some(cond) = _cond {
+            self.visit_expr(cond.loc(), cond)?;
+        }
+        if let Some(update) = _update {
+            self.visit_expr(update.loc(), update)?;
+        }
+        if let Some(body) = _body {
+            self.visit_statement(body)?;
+        }
         Ok(())
     }
 
