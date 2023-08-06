@@ -295,10 +295,16 @@ pub trait Visitor {
         _unchecked: bool,
         _statements: &mut Vec<Statement>,
     ) -> Result<(), Self::Error> {
+        for statement in _statements {
+            self.visit_statement(statement)?;
+        }
         Ok(())
     }
 
     fn visit_args(&mut self, _loc: Loc, _args: &mut Vec<NamedArgument>) -> Result<(), Self::Error> {
+        for arg in _args {
+            self.visit_named_arg(arg)?;
+        }
         Ok(())
     }
 
