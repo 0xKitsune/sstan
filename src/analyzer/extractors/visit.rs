@@ -1,5 +1,44 @@
 use solang_parser::pt::*;
 
+macro_rules! visit_function {
+    ($func_name:ident, 1) => {
+        fn $func_name(
+            &mut self,
+            _loc: Loc,
+            _expr_0: &mut Box<Expression>,
+        ) -> Result<(), Self::Error> {
+            self.visit_expr(_expr_0.loc(), _expr_0)?;
+            Ok(())
+        }
+    };
+    ($func_name:ident, 2) => {
+        fn $func_name(
+            &mut self,
+            _loc: Loc,
+            _expr_0: &mut Box<Expression>,
+            _expr_1: &mut Box<Expression>,
+        ) -> Result<(), Self::Error> {
+            self.visit_expr(_expr_0.loc(), _expr_0)?;
+            self.visit_expr(_expr_1.loc(), _expr_1)?;
+            Ok(())
+        }
+    };
+    ($func_name:ident, 3) => {
+        fn $func_name(
+            &mut self,
+            _loc: Loc,
+            _expr_0: &mut Box<Expression>,
+            _expr_1: &mut Box<Expression>,
+            _expr_2: &mut Box<Expression>,
+        ) -> Result<(), Self::Error> {
+            self.visit_expr(_expr_0.loc(), _expr_0)?;
+            self.visit_expr(_expr_1.loc(), _expr_1)?;
+            self.visit_expr(_expr_2.loc(), _expr_2)?;
+            Ok(())
+        }
+    };
+}
+
 /// A trait that is invoked while traversing the Solidity Parse Tree.
 /// Each method of the [Visitor] trait is a hook that can be potentially overridden.
 ///
@@ -216,14 +255,19 @@ pub trait Visitor {
         &mut self,
         _contract_part: &mut ContractPart,
     ) -> Result<(), Self::Error> {
+        //TODO:
+
         Ok(())
     }
 
     fn visit_contract_type(&mut self, _ty: &mut ContractTy) -> Result<(), Self::Error> {
+        //TODO:
+
         Ok(())
     }
 
     fn visit_import(&mut self, _import: &mut Import) -> Result<(), Self::Error> {
+        //TODO:
         Ok(())
     }
     fn visit_enum(&mut self, enum_definition: &mut Box<EnumDefinition>) -> Result<(), Self::Error> {
@@ -502,7 +546,7 @@ pub trait Visitor {
             }
 
             Expression::StringLiteral(string_literal_vec) => {
-                self.visit_string_literal(string_literal_vec)?; //TODO: FIXME: No location passed here
+                self.visit_string_literal(string_literal_vec)?;
             }
 
             Expression::Type(_loc, _type) => {
@@ -510,7 +554,7 @@ pub trait Visitor {
             }
 
             Expression::HexLiteral(hex_literal_vec) => {
-                self.visit_hex_literal(hex_literal_vec)?; //TODO: FIXME: No location passed here
+                self.visit_hex_literal(hex_literal_vec)?;
             }
 
             Expression::AddressLiteral(_loc, value) => {
@@ -581,400 +625,85 @@ pub trait Visitor {
     ) -> Result<(), Self::Error> {
         Ok(())
     }
-    //TODO:
+
     fn visit_hex_number_literal(
         &mut self,
         _loc: Loc,
         _string_0: &mut String,
-        _ident: &mut Option<Identifier>,
+        ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        if let Some(ident) = ident {
+            self.visit_ident(ident.loc, ident)?;
+        }
         Ok(())
     }
-    //TODO:
+
     fn visit_rational_number_literal(
         &mut self,
         _loc: Loc,
         _string_0: &mut String,
         _string_1: &mut String,
         _string_2: &mut String,
-        _ident: &mut Option<Identifier>,
+        ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        if let Some(ident) = ident {
+            self.visit_ident(ident.loc, ident)?;
+        }
         Ok(())
     }
-    //TODO:
+
     fn visit_number_literal(
         &mut self,
         _loc: Loc,
         _string_0: &mut String,
         _string_1: &mut String,
-        _ident: &mut Option<Identifier>,
+        ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        if let Some(ident) = ident {
+            self.visit_ident(ident.loc, ident)?;
+        }
         Ok(())
     }
 
     fn visit_bool_literal(&mut self, _loc: Loc, _value: &mut bool) -> Result<(), Self::Error> {
         Ok(())
     }
-    fn visit_assign_add(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
 
-    fn visit_assign_modulo(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-    fn visit_assign_divide(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-    fn visit_assign_multiply(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-    fn visit_assign_subtract(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-    fn visit_assign_shift_right(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-    fn visit_assign_shift_left(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_assign_and(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_assign_xor(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_assign_or(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_assign(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_conditional_operator(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-        _expr_2: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        self.visit_expr(_expr_2.loc(), _expr_2)?;
-        Ok(())
-    }
-
-    fn visit_or(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_and(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_not_equal(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_equal(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_more_equal(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_more(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_less_equal(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_less(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_bitwise_or(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_bitwise_xor(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_bitwise_and(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_shift_right(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_shift_left(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_subtract(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_add(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_modulo(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_divide(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_multiply(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-    fn visit_power(
-        &mut self,
-        _loc: Loc,
-        _expr_0: &mut Box<Expression>,
-        _expr_1: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr_0.loc(), _expr_0)?;
-        self.visit_expr(_expr_1.loc(), _expr_1)?;
-        Ok(())
-    }
-
-    fn visit_negate(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
-        self.visit_expr(_expr.loc(), _expr)?;
-        Ok(())
-    }
-
-    fn visit_delete(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
-        self.visit_expr(_expr.loc(), _expr)?;
-        Ok(())
-    }
-
-    fn visit_bitwise_not(
-        &mut self,
-        _loc: Loc,
-        _expr: &mut Box<Expression>,
-    ) -> Result<(), Self::Error> {
-        self.visit_expr(_expr.loc(), _expr)?;
-        Ok(())
-    }
-
-    fn visit_not(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
-        self.visit_expr(_expr.loc(), _expr)?;
-        Ok(())
-    }
+    visit_function!(visit_assign_add, 2);
+    visit_function!(visit_assign_modulo, 2);
+    visit_function!(visit_assign_divide, 2);
+    visit_function!(visit_assign_multiply, 2);
+    visit_function!(visit_assign_subtract, 2);
+    visit_function!(visit_assign_shift_right, 2);
+    visit_function!(visit_assign_shift_left, 2);
+    visit_function!(visit_assign_and, 2);
+    visit_function!(visit_assign_xor, 2);
+    visit_function!(visit_assign_or, 2);
+    visit_function!(visit_assign, 2);
+    visit_function!(visit_or, 2);
+    visit_function!(visit_and, 2);
+    visit_function!(visit_not_equal, 2);
+    visit_function!(visit_equal, 2);
+    visit_function!(visit_more_equal, 2);
+    visit_function!(visit_more, 2);
+    visit_function!(visit_less_equal, 2);
+    visit_function!(visit_less, 2);
+    visit_function!(visit_bitwise_or, 2);
+    visit_function!(visit_conditional_operator, 3);
+    visit_function!(visit_bitwise_xor, 2);
+    visit_function!(visit_bitwise_and, 2);
+    visit_function!(visit_shift_right, 2);
+    visit_function!(visit_shift_left, 2);
+    visit_function!(visit_subtract, 2);
+    visit_function!(visit_add, 2);
+    visit_function!(visit_modulo, 2);
+    visit_function!(visit_divide, 2);
+    visit_function!(visit_multiply, 2);
+    visit_function!(visit_power, 2);
+    visit_function!(visit_negate, 1);
+    visit_function!(visit_delete, 1);
+    visit_function!(visit_bitwise_not, 1);
+    visit_function!(visit_not, 1);
 
     fn visit_named_function_call(
         &mut self,
