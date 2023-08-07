@@ -1019,6 +1019,23 @@ pub trait Visitor {
         _loc: Loc,
         _storage: &mut StorageLocation,
     ) -> Result<(), Self::Error> {
+        match _storage {
+            StorageLocation::Storage(loc) => self.visit_storage(*loc)?,
+            StorageLocation::Memory(loc) => self.visit_memory(*loc)?,
+            StorageLocation::Calldata(loc) => self.visit_calldata(*loc)?,
+        }
+        Ok(())
+    }
+
+    fn visit_storage(&mut self, _loc: Loc) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_memory(&mut self, _loc: Loc) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_calldata(&mut self, _loc: Loc) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -1158,11 +1175,80 @@ pub trait Visitor {
         }
         Ok(())
     }
-    //TODO:
+
     fn visit_var_attribute(
         &mut self,
         _variable_attribute: &mut VariableAttribute,
     ) -> Result<(), Self::Error> {
+        match _variable_attribute {
+            VariableAttribute::Visibility(visibility) => {
+                self.visit_visibility(visibility)?;
+            }
+            VariableAttribute::Constant(loc) => {
+                self.visit_constant(*loc)?;
+            }
+
+            VariableAttribute::Immutable(loc) => {
+                self.visit_immutable(*loc)?;
+            }
+
+            VariableAttribute::Override(loc, paths) => {
+                self.visit_override(*loc, paths)?;
+            }
+        }
+        Ok(())
+    }
+
+    fn visit_override(
+        &mut self,
+        _loc: Loc,
+        _paths: &mut Vec<IdentifierPath>,
+    ) -> Result<(), Self::Error> {
+        for path in _paths.iter_mut() {
+            self.visit_ident_path(path)?;
+        }
+        Ok(())
+    }
+
+    fn visit_immutable(&mut self, _loc: Loc) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_constant(&mut self, _loc: Loc) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_visibility(&mut self, _visibility: &mut Visibility) -> Result<(), Self::Error> {
+        match _visibility {
+            Visibility::Private(loc) => {
+                self.visit_private(*loc)?;
+            }
+            Visibility::Public(loc) => {
+                self.visit_public(*loc)?;
+            }
+            Visibility::Internal(loc) => {
+                self.visit_internal(*loc)?;
+            }
+            Visibility::External(loc) => {
+                self.visit_external(*loc)?;
+            }
+        }
+        Ok(())
+    }
+
+    fn visit_private(&mut self, _loc: Option<Loc>) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_public(&mut self, _loc: Option<Loc>) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_internal(&mut self, _loc: Option<Loc>) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_external(&mut self, _loc: Option<Loc>) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -1238,11 +1324,45 @@ pub trait Visitor {
         }
         Ok(())
     }
-    //TODO:
-    fn visit_using_list(&mut self, _using_list: &mut UsingList) -> Result<(), Self::Error> {
+
+    fn visit_using_list(&mut self, using_list: &mut UsingList) -> Result<(), Self::Error> {
+        match using_list {
+            UsingList::Library(path) => {
+                self.visit_using_library(path)?;
+            }
+            UsingList::Functions(functions) => {
+                for function in functions.iter_mut() {
+                    self.visit_using_function(function)?;
+                }
+            }
+            UsingList::Error => self.visit_using_error()?,
+        }
         Ok(())
     }
-    //TODO:
+
+    fn visit_using_error(&mut self) -> Result<(), Self::Error> {
+        Ok(())
+    }
+
+    fn visit_using_library(&mut self, path: &mut IdentifierPath) -> Result<(), Self::Error> {
+        self.visit_ident_path(path)?;
+        Ok(())
+    }
+
+    fn visit_using_function(&mut self, function: &mut UsingFunction) -> Result<(), Self::Error> {
+        self.visit_ident_path(&mut function.path)?;
+        if let Some(ref mut op) = function.oper {
+            self.visit_user_defined_operator(op)?;
+        }
+        Ok(())
+    }
+
+    fn visit_user_defined_operator(
+        &mut self,
+        _op: &mut UserDefinedOperator,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
     fn visit_yul_block(
         &mut self,
         _loc: Loc,
@@ -1309,7 +1429,7 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_yul_expr(&mut self, loc: Loc, expr: &mut YulExpression) -> Result<(), Self::Error> {
+    fn visit_yul_expr(&mut self, _loc: Loc, expr: &mut YulExpression) -> Result<(), Self::Error> {
         match expr {
             YulExpression::BoolLiteral(loc, value, ident) => {
                 self.visit_yul_bool_literal(*loc, value, ident)?;
@@ -1433,21 +1553,35 @@ pub trait Visitor {
         )?;
         Ok(())
     }
-    //TODO:
+
     fn visit_yul_function_call(&mut self, _stmt: &mut YulFunctionCall) -> Result<(), Self::Error> {
+        self.visit_ident(_stmt.id.loc, &mut _stmt.id)?;
+        for arg in _stmt.arguments.iter_mut() {
+            self.visit_yul_expr(arg.loc(), arg)?;
+        }
         Ok(())
     }
-    //TODO:
+
     fn visit_yul_fun_def(&mut self, _stmt: &mut YulFunctionDefinition) -> Result<(), Self::Error> {
+        self.visit_ident(_stmt.id.loc, &mut _stmt.id)?;
+        for param in _stmt.params.iter_mut() {
+            self.visit_yul_typed_ident(param)?;
+        }
+        for ret in _stmt.returns.iter_mut() {
+            self.visit_yul_typed_ident(ret)?;
+        }
+        self.visit_yul_block(_stmt.body.loc, &mut _stmt.body.statements, false)?;
         Ok(())
     }
-    //TODO:
+
     fn visit_yul_if(
         &mut self,
         _loc: Loc,
         _expr: &mut YulExpression,
         _block: &mut YulBlock,
     ) -> Result<(), Self::Error> {
+        self.visit_yul_expr(_expr.loc(), _expr)?;
+        self.visit_yul_block(_block.loc, &mut _block.statements, false)?;
         Ok(())
     }
 
@@ -1456,9 +1590,50 @@ pub trait Visitor {
     }
 
     fn visit_yul_switch(&mut self, _stmt: &mut YulSwitch) -> Result<(), Self::Error> {
+        self.visit_yul_expr(_stmt.condition.loc(), &mut _stmt.condition)?;
+        for case in _stmt.cases.iter_mut() {
+            self.visit_yul_switch_options(case)?;
+        }
+        if let Some(default) = _stmt.default.as_mut() {
+            self.visit_yul_switch_options(default)?;
+        }
         Ok(())
     }
 
+    fn visit_yul_switch_options(
+        &mut self,
+        _stmt: &mut YulSwitchOptions,
+    ) -> Result<(), Self::Error> {
+        match _stmt {
+            YulSwitchOptions::Case(loc, expr, block) => {
+                self.visit_yul_switch_case(*loc, expr, block)?;
+            }
+            YulSwitchOptions::Default(loc, block) => {
+                self.visit_yul_switch_default(*loc, block)?;
+            }
+        }
+        Ok(())
+    }
+
+    fn visit_yul_switch_default(
+        &mut self,
+        _loc: Loc,
+        _block: &mut YulBlock,
+    ) -> Result<(), Self::Error> {
+        self.visit_yul_block(_block.loc, &mut _block.statements, false)?;
+        Ok(())
+    }
+
+    fn visit_yul_switch_case(
+        &mut self,
+        _loc: Loc,
+        _expr: &mut YulExpression,
+        _block: &mut YulBlock,
+    ) -> Result<(), Self::Error> {
+        self.visit_yul_expr(_expr.loc(), _expr)?;
+        self.visit_yul_block(_block.loc, &mut _block.statements, false)?;
+        Ok(())
+    }
     fn visit_yul_var_declaration(
         &mut self,
         _loc: Loc,
