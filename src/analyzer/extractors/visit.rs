@@ -1484,7 +1484,3 @@ pub trait Visitor {
         Ok(())
     }
 }
-
-pub trait Visitable {}
-
-//TODO: write a macro to implement visitable on all solang types
