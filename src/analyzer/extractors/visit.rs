@@ -1,6 +1,6 @@
 use solang_parser::pt::*;
 
-macro_rules! visit_function {
+macro_rules! visit_exprs {
     ($func_name:ident, 1) => {
         fn $func_name(
             &mut self,
@@ -652,7 +652,9 @@ pub trait Visitor {
             }
 
             Expression::HexLiteral(hex_literal_vec) => {
-                self.visit_hex_literal(hex_literal_vec)?;
+                for literal in hex_literal_vec.iter_mut() {
+                    self.visit_hex_literal(literal)?;
+                }
             }
 
             Expression::AddressLiteral(_loc, value) => {
@@ -698,10 +700,7 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_hex_literal(
-        &mut self,
-        _hex_literal_vec: &mut Vec<HexLiteral>,
-    ) -> Result<(), Self::Error> {
+    fn visit_hex_literal(&mut self, _hex_literal: &mut HexLiteral) -> Result<(), Self::Error> {
         Ok(())
     }
 
@@ -774,41 +773,41 @@ pub trait Visitor {
         Ok(())
     }
 
-    visit_function!(visit_assign_add, 2);
-    visit_function!(visit_assign_modulo, 2);
-    visit_function!(visit_assign_divide, 2);
-    visit_function!(visit_assign_multiply, 2);
-    visit_function!(visit_assign_subtract, 2);
-    visit_function!(visit_assign_shift_right, 2);
-    visit_function!(visit_assign_shift_left, 2);
-    visit_function!(visit_assign_and, 2);
-    visit_function!(visit_assign_xor, 2);
-    visit_function!(visit_assign_or, 2);
-    visit_function!(visit_assign, 2);
-    visit_function!(visit_or, 2);
-    visit_function!(visit_and, 2);
-    visit_function!(visit_not_equal, 2);
-    visit_function!(visit_equal, 2);
-    visit_function!(visit_more_equal, 2);
-    visit_function!(visit_more, 2);
-    visit_function!(visit_less_equal, 2);
-    visit_function!(visit_less, 2);
-    visit_function!(visit_bitwise_or, 2);
-    visit_function!(visit_conditional_operator, 3);
-    visit_function!(visit_bitwise_xor, 2);
-    visit_function!(visit_bitwise_and, 2);
-    visit_function!(visit_shift_right, 2);
-    visit_function!(visit_shift_left, 2);
-    visit_function!(visit_subtract, 2);
-    visit_function!(visit_add, 2);
-    visit_function!(visit_modulo, 2);
-    visit_function!(visit_divide, 2);
-    visit_function!(visit_multiply, 2);
-    visit_function!(visit_power, 2);
-    visit_function!(visit_negate, 1);
-    visit_function!(visit_delete, 1);
-    visit_function!(visit_bitwise_not, 1);
-    visit_function!(visit_not, 1);
+    visit_exprs!(visit_assign_add, 2);
+    visit_exprs!(visit_assign_modulo, 2);
+    visit_exprs!(visit_assign_divide, 2);
+    visit_exprs!(visit_assign_multiply, 2);
+    visit_exprs!(visit_assign_subtract, 2);
+    visit_exprs!(visit_assign_shift_right, 2);
+    visit_exprs!(visit_assign_shift_left, 2);
+    visit_exprs!(visit_assign_and, 2);
+    visit_exprs!(visit_assign_xor, 2);
+    visit_exprs!(visit_assign_or, 2);
+    visit_exprs!(visit_assign, 2);
+    visit_exprs!(visit_or, 2);
+    visit_exprs!(visit_and, 2);
+    visit_exprs!(visit_not_equal, 2);
+    visit_exprs!(visit_equal, 2);
+    visit_exprs!(visit_more_equal, 2);
+    visit_exprs!(visit_more, 2);
+    visit_exprs!(visit_less_equal, 2);
+    visit_exprs!(visit_less, 2);
+    visit_exprs!(visit_bitwise_or, 2);
+    visit_exprs!(visit_conditional_operator, 3);
+    visit_exprs!(visit_bitwise_xor, 2);
+    visit_exprs!(visit_bitwise_and, 2);
+    visit_exprs!(visit_shift_right, 2);
+    visit_exprs!(visit_shift_left, 2);
+    visit_exprs!(visit_subtract, 2);
+    visit_exprs!(visit_add, 2);
+    visit_exprs!(visit_modulo, 2);
+    visit_exprs!(visit_divide, 2);
+    visit_exprs!(visit_multiply, 2);
+    visit_exprs!(visit_power, 2);
+    visit_exprs!(visit_negate, 1);
+    visit_exprs!(visit_delete, 1);
+    visit_exprs!(visit_bitwise_not, 1);
+    visit_exprs!(visit_not, 1);
 
     fn visit_named_function_call(
         &mut self,
@@ -1342,11 +1341,12 @@ pub trait Visitor {
 
     fn visit_yul_hex_string_literal(
         &mut self,
-        _expr: &mut HexLiteral,
-        _ident: &mut Option<Identifier>,
+        expr: &mut HexLiteral,
+        ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
-        self.visit_hex_literal(&mut [*_expr].to_vec())?;
-        if let Some(ref mut ident) = _ident {
+        self.visit_hex_literal(expr)?;
+
+        if let Some(ref mut ident) = ident {
             self.visit_ident(ident.loc, ident)?;
         }
         Ok(())
@@ -1474,12 +1474,9 @@ pub trait Visitor {
         Ok(())
     }
 
-    fn visit_yul_typed_ident(
-        &mut self,
-        _ident: &mut YulTypedIdentifier,
-    ) -> Result<(), Self::Error> {
-        self.visit_ident(_ident.id.loc, &_ident.id)?;
-        self.visit_ident(_ident.ty.loc, &_ident.ty)?;
+    fn visit_yul_typed_ident(&mut self, ident: &mut YulTypedIdentifier) -> Result<(), Self::Error> {
+        self.visit_ident(ident.id.loc, &mut ident.id)?;
+
         Ok(())
     }
 
@@ -1488,275 +1485,6 @@ pub trait Visitor {
     }
 }
 
-// /// All [`solang_parser::pt`] types, such as [Statement], should implement the [Visitable] trait
-// /// that accepts a trait [Visitor] implementation, which has various callback handles for Solidity
-// /// Parse Tree nodes.
-// ///
-// /// We want to take a `&mut self` to be able to implement some advanced features in the future such
-// /// as modifying the Parse Tree before formatting it.
-// pub trait Visitable {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor;
-// }
+pub trait Visitable {}
 
-// impl<T> Visitable for &mut T
-// where
-//     T: Visitable,
-// {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         T::visit(self, v)
-//     }
-// }
-
-// impl<T> Visitable for Option<T>
-// where
-//     T: Visitable,
-// {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         if let Some(inner) = self.as_mut() {
-//             inner.visit(v)
-//         } else {
-//             Ok(())
-//         }
-//     }
-// }
-
-// impl<T> Visitable for Box<T>
-// where
-//     T: Visitable,
-// {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         T::visit(self, v)
-//     }
-// }
-
-// impl<T> Visitable for Vec<T>
-// where
-//     T: Visitable,
-// {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         for item in self.iter_mut() {
-//             item.visit(v)?;
-//         }
-//         Ok(())
-//     }
-// }
-
-// impl Visitable for SourceUnitPart {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         match self {
-//             SourceUnitPart::ContractDefinition(contract) => v.visit_contract(contract),
-//             SourceUnitPart::PragmaDirective(_loc, ident, str) => v.visit_pragma(*_loc, ident, str),
-//             SourceUnitPart::ImportDirective(import) => import.visit(v),
-//             SourceUnitPart::EnumDefinition(enumeration) => v.visit_enum(enumeration),
-//             SourceUnitPart::StructDefinition(structure) => v.visit_struct(structure),
-//             SourceUnitPart::EventDefinition(event) => v.visit_event(event),
-//             SourceUnitPart::ErrorDefinition(error) => v.visit_error(error),
-//             SourceUnitPart::FunctionDefinition(function) => v.visit_function(function),
-//             SourceUnitPart::VariableDefinition(variable) => v.visit_var_definition(variable),
-//             SourceUnitPart::TypeDefinition(def) => v.visit_type_definition(def),
-//             SourceUnitPart::StraySemicolon(_loc) => v.visit_stray_semicolon(*_loc),
-//             SourceUnitPart::Using(using) => v.visit_using(using),
-//             SourceUnitPart::Annotation(annotation) => v.visit_annotation(annotation),
-//         }
-//     }
-// }
-
-// impl Visitable for Import {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         match self {
-//             Import::Plain(import, _loc) => v.visit_import_plain(*_loc, import),
-//             Import::GlobalSymbol(global, import_as, _loc) => {
-//                 v.visit_import_global(*_loc, global, import_as)
-//             }
-//             Import::Rename(from, imports, _loc) => v.visit_import_renames(*_loc, imports, from),
-//         }
-//     }
-// }
-
-// impl Visitable for ContractPart {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         match self {
-//             ContractPart::StructDefinition(structure) => v.visit_struct(structure),
-//             ContractPart::EventDefinition(event) => v.visit_event(event),
-//             ContractPart::ErrorDefinition(error) => v.visit_error(error),
-//             ContractPart::EnumDefinition(enumeration) => v.visit_enum(enumeration),
-//             ContractPart::VariableDefinition(variable) => v.visit_var_definition(variable),
-//             ContractPart::FunctionDefinition(function) => v.visit_function(function),
-//             ContractPart::TypeDefinition(def) => v.visit_type_definition(def),
-//             ContractPart::StraySemicolon(_loc) => v.visit_stray_semicolon(*_loc),
-//             ContractPart::Using(using) => v.visit_using(using),
-//             ContractPart::Annotation(annotation) => v.visit_annotation(annotation),
-//         }
-//     }
-// }
-
-// impl Visitable for Statement {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         match self {
-//             Statement::Block {
-//                 loc,
-//                 unchecked,
-//                 statements,
-//             } => v.visit_block(*loc, *unchecked, statements),
-//             Statement::Assembly {
-//                 loc,
-//                 dialect,
-//                 block,
-//                 flags,
-//             } => v.visit_assembly(*loc, dialect, block, flags),
-//             Statement::Args(_loc, args) => v.visit_args(*_loc, args),
-//             Statement::If(_loc, cond, if_branch, else_branch) => {
-//                 v.visit_if(*_loc, cond, if_branch, else_branch, true)
-//             }
-//             Statement::While(_loc, cond, body) => v.visit_while(*_loc, cond, body),
-//             Statement::Expression(_loc, expr) => {
-//                 v.visit_expr(*_loc, expr)?;
-
-//                 //TODO: check this out if we need this or not
-//                 v.visit_stray_semicolon(*_loc)
-//             }
-//             Statement::VariableDefinition(_loc, declaration, expr) => {
-//                 v.visit_var_definition_stmt(*_loc, declaration, expr)
-//             }
-//             Statement::For(_loc, init, cond, update, body) => {
-//                 v.visit_for(*_loc, init, cond, update, body)
-//             }
-//             Statement::DoWhile(_loc, body, cond) => v.visit_do_while(*_loc, body, cond),
-//             Statement::Continue(_loc) => v.visit_continue(*_loc, true),
-//             Statement::Break(_loc) => v.visit_break(*_loc, true),
-//             Statement::Return(_loc, expr) => v.visit_return(*_loc, expr),
-//             Statement::Revert(_loc, error, args) => v.visit_revert(*_loc, error, args),
-//             Statement::RevertNamedArgs(_loc, error, args) => {
-//                 v.visit_revert_named_args(*_loc, error, args)
-//             }
-//             Statement::Emit(_loc, event) => v.visit_emit(*_loc, event),
-//             Statement::Try(_loc, expr, returns, clauses) => {
-//                 v.visit_try(*_loc, expr, returns, clauses)
-//             }
-//             Statement::Error(_loc) => v.visit_parser_error(*_loc),
-//         }
-//     }
-// }
-
-// // impl Visitable for Loc {
-// //     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-// //     where
-// //         V: Visitor,
-// //     {
-// //         v.visit_source(*self)
-// //     }
-// // }
-
-// impl Visitable for Expression {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         v.visit_expr(self.loc(), self)
-//     }
-// }
-
-// impl Visitable for Identifier {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         v.visit_ident(self.loc, self)
-//     }
-// }
-
-// impl Visitable for VariableDeclaration {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         v.visit_var_declaration(self)
-//     }
-// }
-
-// impl Visitable for YulBlock {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         v.visit_yul_block(self.loc, self.statements.as_mut(), false)
-//     }
-// }
-
-// impl Visitable for YulStatement {
-//     fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//     where
-//         V: Visitor,
-//     {
-//         match self {
-//             YulStatement::Assign(_loc, exprs, expr) => {
-//                 v.visit_yul_assignment(*_loc, exprs, &mut Some(expr))
-//             }
-//             YulStatement::Block(block) => {
-//                 v.visit_yul_block(block.loc, block.statements.as_mut(), false)
-//             }
-//             YulStatement::Break(_loc) => v.visit_break(*_loc, false),
-//             YulStatement::Continue(_loc) => v.visit_continue(*_loc, false),
-//             YulStatement::For(stmt) => v.visit_yul_for(stmt),
-//             YulStatement::FunctionCall(stmt) => v.visit_yul_function_call(stmt),
-//             YulStatement::FunctionDefinition(stmt) => v.visit_yul_fun_def(stmt),
-//             YulStatement::If(_loc, expr, block) => v.visit_yul_if(*_loc, expr, block),
-//             YulStatement::Leave(_loc) => v.visit_yul_leave(*_loc),
-//             YulStatement::Switch(stmt) => v.visit_yul_switch(stmt),
-//             YulStatement::VariableDeclaration(_loc, idents, expr) => {
-//                 v.visit_yul_var_declaration(*_loc, idents, expr)
-//             }
-//             YulStatement::Error(_loc) => v.visit_parser_error(*_loc),
-//         }
-//     }
-// }
-
-// macro_rules! impl_visitable {
-//     ($type:ty, $func:ident) => {
-//         impl Visitable for $type {
-//             fn visit<V>(&mut self, v: &mut V) -> Result<(), V::Error>
-//             where
-//                 V: Visitor,
-//             {
-//                 v.$func(self)
-//             }
-//         }
-//     };
-// }
-
-// impl_visitable!(SourceUnit, visit_source_unit);
-// impl_visitable!(FunctionAttribute, visit_function_attribute);
-// impl_visitable!(VariableAttribute, visit_var_attribute);
-// impl_visitable!(Parameter, visit_parameter);
-// impl_visitable!(Base, visit_base);
-// impl_visitable!(EventParameter, visit_event_parameter);
-// impl_visitable!(ErrorParameter, visit_error_parameter);
-// impl_visitable!(IdentifierPath, visit_ident_path);
-// // impl_visitable!(YulExpression, visit_yul_expr);
-// impl_visitable!(YulTypedIdentifier, visit_yul_typed_ident);
+//TODO: write a macro to implement visitable on all solang types
