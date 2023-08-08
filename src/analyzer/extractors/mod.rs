@@ -1,7 +1,12 @@
 use solang_parser::pt::{
-    ContractDefinition, ContractPart, EventDefinition, FunctionAttribute, FunctionDefinition,
-    FunctionTy, NamedArgument, SourceUnit, SourceUnitPart, Statement, StructDefinition,
-    VariableDeclaration, Expression, ParameterList, ErrorDefinition, ContractTy, Import, EnumDefinition, Annotation, Identifier, StringLiteral, YulBlock, Parameter, Loc, HexLiteral, Type, VariableDefinition, StorageLocation, IdentifierPath, CatchClause, VariableAttribute, Visibility, EventParameter, ErrorParameter, TypeDefinition, Using, UsingList, UsingFunction, UserDefinedOperator, YulStatement, YulExpression, YulFunctionDefinition, YulFunctionCall, YulSwitch, YulSwitchOptions, YulTypedIdentifier,
+    Annotation, CatchClause, ContractDefinition, ContractPart, ContractTy, EnumDefinition,
+    ErrorDefinition, ErrorParameter, EventDefinition, EventParameter, Expression,
+    FunctionAttribute, FunctionDefinition, FunctionTy, HexLiteral, Identifier, IdentifierPath,
+    Import, Loc, NamedArgument, Parameter, ParameterList, SourceUnit, SourceUnitPart, Statement,
+    StorageLocation, StringLiteral, StructDefinition, Type, TypeDefinition, UserDefinedOperator,
+    Using, UsingFunction, UsingList, VariableAttribute, VariableDeclaration, VariableDefinition,
+    Visibility, YulBlock, YulExpression, YulFunctionCall, YulFunctionDefinition, YulStatement,
+    YulSwitch, YulSwitchOptions, YulTypedIdentifier,
 };
 
 use self::visit::Visitor;
