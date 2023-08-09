@@ -35,7 +35,7 @@ pub fn cache_array_length_optimization(source_unit: &mut SourceUnit) -> eyre::Re
     }
 
     //Return the identified optimization locations
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 #[test]
@@ -72,9 +72,10 @@ fn test_cache_array_length_optimization() {
         }    
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = cache_array_length_optimization(source_unit);
+    let optimization_locations =
+        cache_array_length_optimization(&mut source_unit).expect("TODO: propagate this instead");
 
     assert_eq!(optimization_locations.len(), 2)
 }

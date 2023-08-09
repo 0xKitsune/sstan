@@ -53,7 +53,8 @@ contract Contract0 {
 
     let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = address_balance_optimization(&mut source_unit);
+    let optimization_locations =
+        address_balance_optimization(&mut source_unit).expect("TODO: propagate this instead");
 
     assert_eq!(optimization_locations.len(), 2)
 }

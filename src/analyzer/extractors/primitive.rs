@@ -5,7 +5,7 @@ use solang_parser::pt::*;
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor, Target};
 
 pub struct MemberAccessExtractor {
-    targets: Vec<pt::Expression>,
+    targets: Vec<Expression>,
 }
 
 impl MemberAccessExtractor {
@@ -17,7 +17,7 @@ impl MemberAccessExtractor {
 impl Visitor for MemberAccessExtractor {
     type Error = ExtractionError;
 
-    fn visit_expr(&mut self, _loc: pt::Loc, expr: &mut pt::Expression) -> Result<(), Self::Error> {
+    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
             Expression::MemberAccess(_, _, _) => {
                 self.targets.push(expr.clone());
@@ -69,5 +69,44 @@ impl<V: Visitable> Extractor<V, Statement> for ForExtractor {
         let mut for_extractor = Self::new();
         v.visit(&mut for_extractor)?;
         Ok(for_extractor.targets)
+    }
+}
+
+pub struct EqualityExtractor {
+    targets: Vec<Expression>,
+}
+
+impl EqualityExtractor {
+    pub fn new() -> Self {
+        Self { targets: vec![] }
+    }
+}
+
+impl Visitor for EqualityExtractor {
+    type Error = ExtractionError;
+
+    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+        match expr {
+            Expression::Equal(_, _, _)
+            | Expression::NotEqual(_, _, _)
+            | Expression::LessEqual(_, _, _)
+            | Expression::MoreEqual(_, _, _)
+            | Expression::Less(_, _, _)
+            | Expression::More(_, _, _) => {
+                self.targets.push(expr.clone());
+            }
+
+            _ => {}
+        }
+
+        Ok(())
+    }
+}
+
+impl<V: Visitable> Extractor<V, Expression> for EqualityExtractor {
+    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
+        let mut equality_extractor = Self::new();
+        v.visit(&mut equality_extractor)?;
+        Ok(equality_extractor.targets)
     }
 }

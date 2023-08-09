@@ -2,22 +2,22 @@ use std::collections::HashSet;
 
 use solang_parser::pt::{self, Loc, SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
+use crate::analyzer::{
+    ast::{self, Target},
+    extractors::{primitive::EqualityExtractor, Extractor},
+};
 
 pub const ZERO: &str = "0";
 
-pub fn address_zero_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn address_zero_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let target_nodes =
-        ast::extract_targets_from_node(vec![Target::Equal, Target::NotEqual], source_unit.into());
+    let equality_nodes = EqualityExtractor::extract(source_unit)?;
 
-    for node in target_nodes {
+    for node in equality_nodes {
         //We can use unwrap because Target::Equal and Target::NotEqual are expressions
 
-        let expression = node.expression().unwrap();
-
-        match expression {
+        match node {
             pt::Expression::NotEqual(loc, box_expression, box_expression_1) => {
                 if check_for_address_zero(*box_expression)
                     || check_for_address_zero(*box_expression_1)
@@ -36,7 +36,7 @@ pub fn address_zero_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
         }
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 fn check_for_address_zero(box_expression: pt::Expression) -> bool {
@@ -85,9 +85,10 @@ fn test_address_zero_optimization() {
      }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = address_zero_optimization(source_unit);
+    let optimization_locations =
+        address_zero_optimization(&mut source_unit).expect("TODO: propagate this instead");
 
     assert_eq!(optimization_locations.len(), 4)
 }
