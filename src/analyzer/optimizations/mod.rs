@@ -205,10 +205,10 @@ pub fn analyze_for_optimization(
     let mut line_numbers: BTreeSet<LineNumber> = BTreeSet::new();
 
     //Parse the file into a the ast
-    let source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match optimization {
-        Optimization::AddressBalance => address_balance_optimization(source_unit),
+        Optimization::AddressBalance => address_balance_optimization(&mut source_unit),
         Optimization::AddressZero => address_zero_optimization(source_unit),
         Optimization::AssignUpdateArrayValue => assign_update_array_optimization(source_unit),
         Optimization::CacheArrayLength => cache_array_length_optimization(source_unit),
