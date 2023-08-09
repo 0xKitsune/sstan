@@ -1,4 +1,4 @@
-use super::visit::Visitor;
+use super::visitor::Visitor;
 use solang_parser::pt::*;
 /// All [`solang_parser::pt`] types, such as [Statement], should implement the [Visitable] trait
 /// that accepts a trait [Visitor] implementation, which has various callback handles for Solidity

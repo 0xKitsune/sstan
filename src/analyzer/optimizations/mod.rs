@@ -201,7 +201,7 @@ pub fn analyze_for_optimization(
     file_contents: &str,
     file_number: usize,
     optimization: Optimization,
-) -> BTreeSet<LineNumber> {
+) -> eyre::Result<BTreeSet<LineNumber>> {
     let mut line_numbers: BTreeSet<LineNumber> = BTreeSet::new();
 
     //Parse the file into a the ast

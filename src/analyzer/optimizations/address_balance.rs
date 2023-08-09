@@ -10,11 +10,10 @@ use crate::analyzer::extractors::Extractor;
 pub const BALANCE: &str = "balance";
 
 //Use selfbalance() instead of address(this).balance()
-pub fn address_balance_optimization(source_unit: &mut SourceUnit) -> HashSet<Loc> {
+pub fn address_balance_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let member_access_nodes =
-        MemberAccessExtractor::extract(source_unit).expect("TODO: handle this error");
+    let member_access_nodes = MemberAccessExtractor::extract(source_unit)?;
 
     for node in member_access_nodes {
         //We can use unwrap because Target::MemberAccess is an expression
@@ -31,7 +30,7 @@ pub fn address_balance_optimization(source_unit: &mut SourceUnit) -> HashSet<Loc
         }
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 #[test]
