@@ -23,9 +23,11 @@ pub mod string_errors;
 mod template;
 
 use std::{
-    collections::{BTreeSet, HashMap},
+    collections::{BTreeSet, HashMap, HashSet},
     fs, vec,
 };
+
+use solang_parser::pt::Loc;
 
 use self::{
     address_balance::address_balance_optimization,
@@ -209,9 +211,10 @@ pub fn analyze_for_optimization(
 
     let locations = match optimization {
         Optimization::AddressBalance => address_balance_optimization(&mut source_unit),
-        Optimization::AddressZero => address_zero_optimization(source_unit),
-        Optimization::AssignUpdateArrayValue => assign_update_array_optimization(source_unit),
-        Optimization::CacheArrayLength => cache_array_length_optimization(source_unit),
+        Optimization::AddressZero => address_zero_optimization(&mut source_unit),
+        Optimization::AssignUpdateArrayValue => assign_update_array_optimization(&mut source_unit),
+        Optimization::CacheArrayLength => cache_array_length_optimization(&mut source_unit),
+        _ => Ok(HashSet::<Loc>::new()),
         Optimization::ConstantVariables => constant_variable_optimization(source_unit),
         Optimization::BoolEqualsBool => bool_equals_bool_optimization(source_unit),
         Optimization::ImmutableVarialbes => immutable_variables_optimization(source_unit),
@@ -236,6 +239,7 @@ pub fn analyze_for_optimization(
     for loc in locations {
         line_numbers.insert(utils::get_line_number(loc.start(), file_contents));
     }
+
 
     line_numbers
 }
