@@ -9,18 +9,27 @@ use solang_parser::pt::{
     YulSwitch, YulSwitchOptions, YulTypedIdentifier,
 };
 
-use self::visit::Visitor;
+use self::{visit::Visitor, visitable::Visitable};
 
 pub mod compound;
 pub mod primitive;
 pub mod visit;
+pub mod visitable;
+use thiserror::Error;
 
 pub trait Extractor<V, T>: Visitor
 where
-    V: Target,
+    V: Visitable,
     T: Target,
 {
-    fn extract(v: V) -> Vec<T>;
+    fn extract(v: &mut V) -> Result<Vec<T>, Self::Error>;
+}
+
+//TODO: this is just a placeholder, we will need to update this
+#[derive(Error, Debug)]
+pub enum ExtractionError {
+    #[error("Error while extracting target")]
+    ExtractionError,
 }
 
 pub trait Target {}

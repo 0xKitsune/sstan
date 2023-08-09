@@ -7,6 +7,31 @@ use crate::analyzer::ast::{self, Target};
 
 pub const BALANCE: &str = "balance";
 
+// //Use selfbalance() instead of address(this).balance()
+// pub fn address_balance_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+//     let mut optimization_locations: HashSet<Loc> = HashSet::new();
+
+//     let target_nodes = ast::extract_target_from_node(Target::MemberAccess, source_unit.into());
+
+//     for node in target_nodes {
+//         //We can use unwrap because Target::MemberAccess is an expression
+//         let expression = node.expression().unwrap();
+
+//         if let pt::Expression::MemberAccess(loc, box_expression, identifier) = expression {
+//             if let pt::Expression::FunctionCall(_, box_expression, _) = *box_expression {
+//                 if let pt::Expression::Type(_, pt::Type::Address) = *box_expression {
+//                     //if address(0x...).balance or address(this).balance
+//                     if identifier.name == *BALANCE {
+//                         optimization_locations.insert(loc);
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     optimization_locations
+// }
+
 //Use selfbalance() instead of address(this).balance()
 pub fn address_balance_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
