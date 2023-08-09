@@ -4,16 +4,16 @@ use solang_parser::pt::{Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::ast::{self, Target};
-use crate::analyzer::extractors::{primitive::EqualityExtractor, Extractor};
+use crate::analyzer::extractors::{primitive::AssignmentExtractor, Extractor};
 //TODO: Clean up this function
 pub fn assign_update_array_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Extract the target nodes from the source_unit
-    let nodes = EqualityExtractor::extract(source_unit).unwrap();
+    let assignment_nodes = AssignmentExtractor::extract(source_unit).unwrap();
     //For each target node that was extracted, check for the optimization patterns
-    for node in nodes {
+    for node in assignment_nodes {
         //We can use unwrap because Target::Assign is an expression
         if let Expression::Assign(loc, box_expression, box_expression_1) = node {
             if let Expression::ArraySubscript(

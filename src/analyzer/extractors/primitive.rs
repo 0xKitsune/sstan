@@ -110,3 +110,47 @@ impl<V: Visitable> Extractor<V, Expression> for EqualityExtractor {
         Ok(equality_extractor.targets)
     }
 }
+
+pub struct AssignmentExtractor {
+    targets: Vec<Expression>,
+}
+
+impl AssignmentExtractor {
+    pub fn new() -> Self {
+        Self { targets: vec![] }
+    }
+}
+
+impl Visitor for AssignmentExtractor {
+    type Error = ExtractionError;
+
+    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+        match expr {
+            Expression::Assign(_, _, _)
+            | Expression::AssignOr(_, _, _)
+            | Expression::AssignAnd(_, _, _)
+            | Expression::AssignXor(_, _, _)
+            | Expression::AssignShiftLeft(_, _, _)
+            | Expression::AssignShiftRight(_, _, _)
+            | Expression::AssignAdd(_, _, _)
+            | Expression::AssignSubtract(_, _, _)
+            | Expression::AssignMultiply(_, _, _)
+            | Expression::AssignDivide(_, _, _)
+            | Expression::AssignModulo(_, _, _) => {
+                self.targets.push(expr.clone());
+            }
+
+            _ => {}
+        }
+
+        Ok(())
+    }
+}
+
+impl<V: Visitable> Extractor<V, Expression> for AssignmentExtractor {
+    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
+        let mut equality_extractor = Self::new();
+        v.visit(&mut equality_extractor)?;
+        Ok(equality_extractor.targets)
+    }
+}
