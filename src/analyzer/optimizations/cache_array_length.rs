@@ -15,13 +15,13 @@ pub fn cache_array_length_optimization(source_unit: &mut SourceUnit) -> eyre::Re
 
     //Extract the target nodes from the source_unit
 
-    let for_nodes = ForExtractor::extract(source_unit)?;
+    let mut for_nodes = ForExtractor::extract(source_unit)?;
 
     //For each target node that was extracted, check for the optimization patterns
-    for node in for_nodes {
-        if let pt::Statement::For(_, _, Some(box_expression), _, _) = node {
+    for node in for_nodes.iter_mut() {
+        if let pt::Statement::For(_, _, Some(ref mut box_expression), _, _) = node {
             //get all of the .length in the for loop definition
-            let member_access_nodes = MemberAccessExtractor::extract(&mut box_expression)?;
+            let member_access_nodes = MemberAccessExtractor::extract(box_expression)?;
 
             for node in member_access_nodes {
                 //Can unwrap because Target::MemberAccess will always be an expression
