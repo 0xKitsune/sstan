@@ -3,7 +3,6 @@ use std::collections::HashSet;
 use solang_parser::pt::{Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
 use crate::analyzer::extractors::{primitive::AssignmentExtractor, Extractor};
 //TODO: Clean up this function
 pub fn assign_update_array_optimization(

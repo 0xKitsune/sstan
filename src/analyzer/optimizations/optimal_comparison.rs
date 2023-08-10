@@ -3,7 +3,6 @@ use std::collections::HashSet;
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
 use crate::analyzer::extractors::{primitive::EqualityExtractor, Extractor};
 
 pub fn optimal_comparison_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {

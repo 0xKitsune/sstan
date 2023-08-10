@@ -245,7 +245,7 @@ impl Visitor for BlockExtractor {
                 loc: _,
                 unchecked: _,
                 statements: _,
-            } => self.targets.push(*statement),
+            } => self.targets.push(statement.clone()),
             _ => {}
         }
 
@@ -275,7 +275,7 @@ impl Visitor for FunctionExtractor {
     type Error = ExtractionError;
 
     fn visit_function(&mut self, function: &mut FunctionDefinition) -> Result<(), Self::Error> {
-        self.targets.push(*function);
+        self.targets.push(function.clone());
         Ok(())
     }
 }

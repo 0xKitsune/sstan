@@ -146,7 +146,7 @@ pub fn str_to_optimization(opt: &str) -> Optimization {
 pub fn analyze_dir(
     target_dir: &str,
     optimizations: Vec<Optimization>,
-) -> HashMap<Optimization, Vec<(String, BTreeSet<LineNumber>)>> {
+) -> eyre::Result<HashMap<Optimization, Vec<(String, BTreeSet<LineNumber>)>>> {
     //Initialize a new hashmap to keep track of all the optimizations across the target dir
     let mut optimization_locations: HashMap<Optimization, Vec<(String, BTreeSet<LineNumber>)>> =
         HashMap::new();
@@ -168,7 +168,7 @@ pub fn analyze_dir(
                     .to_str()
                     .expect("Could not get nested dir"),
                 optimizations.clone(),
-            ))
+            )?)
         } else {
             let file_name = file_path
                 .file_name()
@@ -182,7 +182,7 @@ pub fn analyze_dir(
 
                 //For each active optimization
                 for optimization in &optimizations {
-                    let line_numbers = analyze_for_optimization(&file_contents, i, *optimization);
+                    let line_numbers = analyze_for_optimization(&file_contents, i, *optimization)?;
 
                     if !line_numbers.is_empty() {
                         let file_optimizations = optimization_locations
@@ -196,7 +196,7 @@ pub fn analyze_dir(
         }
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 pub fn analyze_for_optimization(
@@ -210,17 +210,16 @@ pub fn analyze_for_optimization(
     let mut source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match optimization {
-        Optimization::AddressBalance => address_balance_optimization(&mut source_unit),
-        Optimization::AddressZero => address_zero_optimization(&mut source_unit),
-        Optimization::AssignUpdateArrayValue => assign_update_array_optimization(&mut source_unit),
-        Optimization::CacheArrayLength => cache_array_length_optimization(&mut source_unit),
-        _ => Ok(HashSet::<Loc>::new()),
+        Optimization::AddressBalance => address_balance_optimization(&mut source_unit)?,
+        Optimization::AddressZero => address_zero_optimization(&mut source_unit)?,
+        Optimization::AssignUpdateArrayValue => assign_update_array_optimization(&mut source_unit)?,
+        Optimization::CacheArrayLength => cache_array_length_optimization(&mut source_unit)?,
         Optimization::ConstantVariables => constant_variable_optimization(source_unit),
-        Optimization::BoolEqualsBool => bool_equals_bool_optimization(&mut source_unit),
+        Optimization::BoolEqualsBool => bool_equals_bool_optimization(&mut source_unit)?,
         Optimization::ImmutableVarialbes => immutable_variables_optimization(source_unit),
-        Optimization::IncrementDecrement => increment_decrement_optimization(&mut source_unit),
+        Optimization::IncrementDecrement => increment_decrement_optimization(&mut source_unit)?,
         Optimization::MemoryToCalldata => memory_to_calldata_optimization(source_unit),
-        Optimization::MultipleRequire => multiple_require_optimization(&mut source_unit),
+        Optimization::MultipleRequire => multiple_require_optimization(&mut source_unit)?,
         Optimization::PackStorageVariables => pack_storage_variables_optimization(source_unit),
         Optimization::PackStructVariables => pack_struct_variables_optimization(source_unit),
         Optimization::PayableFunction => payable_function_optimization(source_unit),
@@ -232,7 +231,7 @@ pub fn analyze_for_optimization(
         Optimization::SolidityMath => solidity_math_optimization(source_unit),
         Optimization::Sstore => sstore_optimization(source_unit),
         Optimization::StringErrors => string_error_optimization(source_unit),
-        Optimization::OptimalComparison => optimal_comparison_optimization(&mut source_unit),
+        Optimization::OptimalComparison => optimal_comparison_optimization(&mut source_unit)?,
         Optimization::ShortRevertString => short_revert_string_optimization(source_unit),
     };
 
@@ -240,5 +239,5 @@ pub fn analyze_for_optimization(
         line_numbers.insert(utils::get_line_number(loc.start(), file_contents));
     }
 
-    line_numbers
+    Ok(line_numbers)
 }
