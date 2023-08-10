@@ -12,9 +12,7 @@ pub fn multiple_require_optimization(source_unit: &mut SourceUnit) -> eyre::Resu
     let target_nodes = FunctionCallExtractor::extract(source_unit)?;
 
     for node in target_nodes {
-
-        if let Expression::FunctionCall(loc, function_identifier, function_call_expressions) =
-        node
+        if let Expression::FunctionCall(loc, function_identifier, function_call_expressions) = node
         {
             //if the function call identifier is a variable
             if let Expression::Variable(identifier) = *function_identifier {
