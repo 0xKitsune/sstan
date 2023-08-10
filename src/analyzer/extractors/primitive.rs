@@ -192,6 +192,40 @@ impl<V: Visitable> Extractor<V, Expression> for IncrementorExtractor {
     }
 }
 
+pub struct FunctionCallExtractor {
+    targets: Vec<Expression>,
+}
+
+impl FunctionCallExtractor {
+    pub fn new() -> Self {
+        Self { targets: vec![] }
+    }
+}
+
+impl Visitor for FunctionCallExtractor {
+    type Error = ExtractionError;
+
+    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+        match expr {
+            Expression::FunctionCall(_, _, _) => {
+                self.targets.push(expr.clone());
+            }
+
+            _ => {}
+        }
+
+        Ok(())
+    }
+}
+
+impl<V: Visitable> Extractor<V, Expression> for FunctionCallExtractor {
+    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
+        let mut equality_extractor = Self::new();
+        v.visit(&mut equality_extractor)?;
+        Ok(equality_extractor.targets)
+    }
+}
+
 pub struct BlockExtractor {
     targets: Vec<Statement>,
 }
