@@ -15,7 +15,6 @@ pub fn bool_equals_bool_optimization(source_unit: &mut SourceUnit) -> eyre::Resu
 
     //For each target node that was extracted, check for the optimization patterns
     for node in equality_nodes {
-
         match node {
             pt::Expression::NotEqual(loc, box_expression, box_expression_1) => {
                 if check_for_bool_equals_bool(*box_expression, *box_expression_1) {

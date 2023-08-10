@@ -154,3 +154,75 @@ impl<V: Visitable> Extractor<V, Expression> for AssignmentExtractor {
         Ok(equality_extractor.targets)
     }
 }
+
+pub struct IncrementorExtractor {
+    targets: Vec<Expression>,
+}
+
+impl IncrementorExtractor {
+    pub fn new() -> Self {
+        Self { targets: vec![] }
+    }
+}
+
+impl Visitor for IncrementorExtractor {
+    type Error = ExtractionError;
+
+    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+        match expr {
+            Expression::PreDecrement(_, _)
+            | Expression::PostDecrement(_, _)
+            | Expression::PreIncrement(_, _)
+            | Expression::PostIncrement(_, _) => {
+                self.targets.push(expr.clone());
+            }
+
+            _ => {}
+        }
+
+        Ok(())
+    }
+}
+
+impl<V: Visitable> Extractor<V, Expression> for IncrementorExtractor {
+    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
+        let mut equality_extractor = Self::new();
+        v.visit(&mut equality_extractor)?;
+        Ok(equality_extractor.targets)
+    }
+}
+
+pub struct BlockExtractor {
+    targets: Vec<Statement>,
+}
+
+impl BlockExtractor {
+    pub fn new() -> Self {
+        Self { targets: vec![] }
+    }
+}
+
+impl Visitor for BlockExtractor {
+    type Error = ExtractionError;
+
+    fn visit_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
+        match statement {
+            Statement::Block {
+                loc: _,
+                unchecked: _,
+                statements: _,
+            } => self.targets.push(*statement),
+            _ => {}
+        }
+
+        Ok(())
+    }
+}
+
+impl<V: Visitable> Extractor<V, Statement> for BlockExtractor {
+    fn extract(v: &mut V) -> Result<Vec<Statement>, ExtractionError> {
+        let mut equality_extractor = Self::new();
+        v.visit(&mut equality_extractor)?;
+        Ok(equality_extractor.targets)
+    }
+}

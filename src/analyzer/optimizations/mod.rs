@@ -218,7 +218,7 @@ pub fn analyze_for_optimization(
         Optimization::ConstantVariables => constant_variable_optimization(source_unit),
         Optimization::BoolEqualsBool => bool_equals_bool_optimization(&mut source_unit),
         Optimization::ImmutableVarialbes => immutable_variables_optimization(source_unit),
-        Optimization::IncrementDecrement => increment_decrement_optimization(source_unit),
+        Optimization::IncrementDecrement => increment_decrement_optimization(&mut source_unit),
         Optimization::MemoryToCalldata => memory_to_calldata_optimization(source_unit),
         Optimization::MultipleRequire => multiple_require_optimization(source_unit),
         Optimization::PackStorageVariables => pack_storage_variables_optimization(source_unit),
@@ -239,7 +239,6 @@ pub fn analyze_for_optimization(
     for loc in locations {
         line_numbers.insert(utils::get_line_number(loc.start(), file_contents));
     }
-
 
     line_numbers
 }
