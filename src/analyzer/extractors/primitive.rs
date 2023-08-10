@@ -226,3 +226,30 @@ impl<V: Visitable> Extractor<V, Statement> for BlockExtractor {
         Ok(equality_extractor.targets)
     }
 }
+
+pub struct FunctionExtractor {
+    targets: Vec<FunctionDefinition>,
+}
+
+impl FunctionExtractor {
+    pub fn new() -> Self {
+        Self { targets: vec![] }
+    }
+}
+
+impl Visitor for FunctionExtractor {
+    type Error = ExtractionError;
+
+    fn visit_function(&mut self, function: &mut FunctionDefinition) -> Result<(), Self::Error> {
+        self.targets.push(*function);
+        Ok(())
+    }
+}
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for FunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let mut equality_extractor = Self::new();
+        v.visit(&mut equality_extractor)?;
+        Ok(equality_extractor.targets)
+    }
+}
