@@ -17,7 +17,7 @@ impl MemberAccessExtractor {
 impl Visitor for MemberAccessExtractor {
     type Error = ExtractionError;
 
-    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+    fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
             Expression::MemberAccess(_, _, _) => {
                 self.targets.push(expr.clone());
@@ -51,7 +51,7 @@ impl ForExtractor {
 impl Visitor for ForExtractor {
     type Error = ExtractionError;
 
-    fn visit_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
+    fn extract_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
         match statement {
             Statement::For(_, _, _, _, _) => {
                 self.targets.push(statement.clone());
@@ -91,7 +91,7 @@ impl EqualityExtractor {
 impl Visitor for EqualityExtractor {
     type Error = ExtractionError;
 
-    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+    fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
             Expression::Equal(_, _, _)
             | Expression::NotEqual(_, _, _)
@@ -130,7 +130,7 @@ impl AssignmentExtractor {
 impl Visitor for AssignmentExtractor {
     type Error = ExtractionError;
 
-    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+    fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
             Expression::Assign(_, _, _)
             | Expression::AssignOr(_, _, _)
@@ -174,7 +174,7 @@ impl IncrementorExtractor {
 impl Visitor for IncrementorExtractor {
     type Error = ExtractionError;
 
-    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+    fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
             Expression::PreDecrement(_, _)
             | Expression::PostDecrement(_, _)
@@ -211,7 +211,7 @@ impl FunctionCallExtractor {
 impl Visitor for FunctionCallExtractor {
     type Error = ExtractionError;
 
-    fn visit_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+    fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
             Expression::FunctionCall(_, _, _) => {
                 self.targets.push(expr.clone());
@@ -245,7 +245,7 @@ impl BlockExtractor {
 impl Visitor for BlockExtractor {
     type Error = ExtractionError;
 
-    fn visit_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
+    fn extract_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
         match statement {
             Statement::Block {
                 loc: _,
@@ -280,7 +280,7 @@ impl FunctionExtractor {
 impl Visitor for FunctionExtractor {
     type Error = ExtractionError;
 
-    fn visit_function(&mut self, function: &mut FunctionDefinition) -> Result<(), Self::Error> {
+    fn extract_function(&mut self, function: &mut FunctionDefinition) -> Result<(), Self::Error> {
         self.targets.push(function.clone());
         Ok(())
     }
