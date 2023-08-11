@@ -4,31 +4,28 @@ use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::ast::{self, Target};
+use crate::analyzer::extractors::primitive::{ForExtractor, MemberAccessExtractor};
+use crate::analyzer::extractors::Extractor;
 
 pub const LENGTH: &str = "length";
 
-pub fn cache_array_length_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn cache_array_length_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Extract the target nodes from the source_unit
-    let target_nodes = ast::extract_target_from_node(Target::For, source_unit.into());
+
+    let mut for_nodes = ForExtractor::extract(source_unit)?;
 
     //For each target node that was extracted, check for the optimization patterns
-    for node in target_nodes {
-        //Can unwrap because Target::For will always be a statement
-        let statement = node.statement().unwrap();
-
-        if let pt::Statement::For(_, _, Some(box_expression), _, _) = statement {
+    for node in for_nodes.iter_mut() {
+        if let pt::Statement::For(_, _, Some(ref mut box_expression), _, _) = node {
             //get all of the .length in the for loop definition
-
-            let member_access_nodes =
-                ast::extract_target_from_node(Target::MemberAccess, box_expression.into());
+            let member_access_nodes = MemberAccessExtractor::extract(box_expression)?;
 
             for node in member_access_nodes {
                 //Can unwrap because Target::MemberAccess will always be an expression
-                let member_access = node.expression().unwrap();
-                if let pt::Expression::MemberAccess(loc, _, identifier) = member_access {
+                if let pt::Expression::MemberAccess(loc, _, identifier) = node {
                     if identifier.name == LENGTH {
                         optimization_locations.insert(loc);
                     }
@@ -38,7 +35,7 @@ pub fn cache_array_length_optimization(source_unit: SourceUnit) -> HashSet<Loc> 
     }
 
     //Return the identified optimization locations
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 #[test]
@@ -75,9 +72,10 @@ fn test_cache_array_length_optimization() {
         }    
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = cache_array_length_optimization(source_unit);
+    let optimization_locations =
+        cache_array_length_optimization(&mut source_unit).expect("TODO: propagate this instead");
 
     assert_eq!(optimization_locations.len(), 2)
 }

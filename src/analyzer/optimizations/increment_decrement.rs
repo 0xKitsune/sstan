@@ -2,33 +2,33 @@ use solang_parser::pt::{self, Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 use std::collections::HashSet;
 
-use crate::analyzer::ast::Node;
-use crate::analyzer::ast::{self, Target};
-
-pub fn increment_decrement_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+use crate::analyzer::extractors::primitive::{BlockExtractor, IncrementorExtractor};
+use crate::analyzer::extractors::Extractor;
+pub fn increment_decrement_optimization(
+    source_unit: &mut SourceUnit,
+) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Get all increment/decrement expressions in unchecked blocks so that the analyzer does not mark these as optimization targets
-    let block_nodes = ast::extract_target_from_node(Target::Block, source_unit.clone().into());
+    let block_nodes = BlockExtractor::extract(source_unit)?;
     let mut unchecked_locations: HashSet<Loc> = HashSet::new();
     for node in block_nodes {
         if let pt::Statement::Block {
             loc: _,
             unchecked,
-            statements,
-        } = node.statement().unwrap()
+            mut statements,
+        } = node
         {
             if unchecked {
-                for statement in statements {
-                    unchecked_locations
-                        .extend(extract_pre_increment_pre_decrement(statement.into()));
+                for statement in statements.iter_mut() {
+                    unchecked_locations.extend(extract_pre_increment_pre_decrement(statement));
                 }
             }
         }
     }
 
     //Get all increment / decrement locations
-    let locations = extract_increment_decrement(source_unit.into());
+    let locations = extract_increment_decrement(source_unit);
 
     for loc in locations {
         if !unchecked_locations.contains(&loc) {
@@ -36,27 +36,16 @@ pub fn increment_decrement_optimization(source_unit: SourceUnit) -> HashSet<Loc>
         }
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
-pub fn extract_increment_decrement(node: Node) -> HashSet<Loc> {
+pub fn extract_increment_decrement(node: &mut SourceUnit) -> HashSet<Loc> {
     let mut locations: HashSet<Loc> = HashSet::new();
 
-    let target_nodes = ast::extract_targets_from_node(
-        vec![
-            Target::PreIncrement,
-            Target::PreDecrement,
-            Target::PostIncrement,
-            Target::PostDecrement,
-        ],
-        node,
-    );
+    let target_nodes = IncrementorExtractor::extract(node).unwrap();
 
     for node in target_nodes {
-        //We can use expect because all targets are expressions
-        let expression = node.expression().unwrap();
-
-        match expression {
+        match node {
             Expression::PreIncrement(loc, _) => {
                 locations.insert(loc);
             }
@@ -76,17 +65,13 @@ pub fn extract_increment_decrement(node: Node) -> HashSet<Loc> {
     locations
 }
 
-pub fn extract_pre_increment_pre_decrement(node: Node) -> HashSet<Loc> {
+pub fn extract_pre_increment_pre_decrement(node: &mut pt::Statement) -> HashSet<Loc> {
     let mut locations: HashSet<Loc> = HashSet::new();
 
-    let target_nodes =
-        ast::extract_targets_from_node(vec![Target::PreIncrement, Target::PreDecrement], node);
+    let target_nodes = IncrementorExtractor::extract(node).unwrap();
 
     for node in target_nodes {
-        //We can use expect because all targets are expressions
-        let expression = node.expression().unwrap();
-
-        match expression {
+        match node {
             Expression::PreIncrement(loc, _) => {
                 locations.insert(loc);
             }
@@ -131,9 +116,9 @@ fn test_increment_optimization() {
     
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = increment_decrement_optimization(source_unit);
+    let optimization_locations = increment_decrement_optimization(&mut source_unit);
 
-    assert_eq!(optimization_locations.len(), 3)
+    assert_eq!(optimization_locations.unwrap().len(), 3)
 }

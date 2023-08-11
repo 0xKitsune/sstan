@@ -3,20 +3,16 @@ use std::collections::HashSet;
 use solang_parser::pt::{Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
+use crate::analyzer::extractors::{primitive::FunctionCallExtractor, Extractor};
 
 //Use multiple require statements instead of one single require statement with multiple conditions
-pub fn multiple_require_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn multiple_require_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let target_nodes = ast::extract_target_from_node(Target::FunctionCall, source_unit.into());
+    let target_nodes = FunctionCallExtractor::extract(source_unit)?;
 
     for node in target_nodes {
-        //We can use unwrap because Target::FunctionCall is an expression
-        let expression = node.expression().unwrap();
-
-        if let Expression::FunctionCall(loc, function_identifier, function_call_expressions) =
-            expression
+        if let Expression::FunctionCall(loc, function_identifier, function_call_expressions) = node
         {
             //if the function call identifier is a variable
             if let Expression::Variable(identifier) = *function_identifier {
@@ -36,7 +32,7 @@ pub fn multiple_require_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
         }
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 #[test]
@@ -61,9 +57,9 @@ fn test_multiple_require_optimization() {
     }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = multiple_require_optimization(source_unit);
+    let optimization_locations = multiple_require_optimization(&mut source_unit);
 
-    assert_eq!(optimization_locations.len(), 2)
+    assert_eq!(optimization_locations.unwrap().len(), 2)
 }
