@@ -232,7 +232,7 @@ pub trait Visitor {
     }
 
     fn visit_event(&mut self, event: &mut EventDefinition) -> Result<(), Self::Error> {
-        self.extract_event(event);
+        self.extract_event(event)?;
         if let Some(ref mut identifier) = event.name {
             self.visit_ident(identifier.loc, identifier)?;
         }
@@ -340,22 +340,18 @@ pub trait Visitor {
     }
 
     fn visit_abstract(&mut self, _loc: Loc) -> Result<(), Self::Error> {
-        self.extract_abstract(_loc)?;
         Ok(())
     }
 
     fn visit_contract_keyword(&mut self, _loc: Loc) -> Result<(), Self::Error> {
-        self.extract_contract_keyword(_loc)?;
         Ok(())
     }
 
     fn visit_interface(&mut self, _loc: Loc) -> Result<(), Self::Error> {
-        self.extract_interface(_loc)?;
         Ok(())
     }
 
     fn visit_library(&mut self, _loc: Loc) -> Result<(), Self::Error> {
-        self.extract_library(_loc)?;
         Ok(())
     }
 
@@ -1897,7 +1893,7 @@ pub trait Visitor {
     default_extractor!(extract_using, _using: &mut Using);
     default_extractor!(extract_using_list, _using_list: &mut UsingList);
     default_extractor!(extract_using_library, _path: &mut IdentifierPath);
-    default_extractor!(extract_using_function, function: &mut UsingFunction);
+    default_extractor!(extract_using_function, _function: &mut UsingFunction);
     default_extractor!(extract_user_defined_operator, _op: &mut UserDefinedOperator);
     default_extractor!(extract_yul_block, _loc: Loc, _stmts: &mut Vec<YulStatement>, _attempt_single_line: bool);
     default_extractor!(extract_yul_statement, _stmt: &mut YulStatement);
