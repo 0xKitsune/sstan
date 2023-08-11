@@ -93,7 +93,7 @@ pub trait Visitor {
     }
 
     fn visit_function(&mut self, function: &mut FunctionDefinition) -> Result<(), Self::Error> {
-        self.extract_function(function);
+        self.extract_function(function)?;
         self.visit_function_type(&mut function.ty)?;
         if let Some(ref mut identifier) = function.name {
             self.visit_ident(identifier.loc, identifier)?;
@@ -116,7 +116,7 @@ pub trait Visitor {
 
     /// Statement visitor
     fn visit_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
-        self.extract_statement(statement);
+        self.extract_statement(statement)?;
         match statement {
             Statement::Block {
                 loc,
@@ -170,7 +170,7 @@ pub trait Visitor {
     }
 
     fn visit_returns(&mut self, returns: &mut ParameterList) -> Result<(), Self::Error> {
-        self.extract_returns(returns);
+        self.extract_returns(returns)?;
         for parameter in returns {
             if let Some(ref mut param) = parameter.1 {
                 self.visit_parameter(param)?;
@@ -184,7 +184,7 @@ pub trait Visitor {
         &mut self,
         _attributes: &mut Vec<FunctionAttribute>,
     ) -> Result<(), Self::Error> {
-        self.extract_function_attributes(_attributes);
+        self.extract_function_attributes(_attributes)?;
         for attribute in _attributes {
             self.visit_function_attribute(attribute)?;
         }
