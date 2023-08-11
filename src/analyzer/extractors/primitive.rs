@@ -4,6 +4,8 @@ use solang_parser::pt::*;
 
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor, Target};
 
+/// Macro that defines a new extractor struct and implements the Extractor trait for it.
+/// The second argument defines the target type that the extractor will extract.
 macro_rules! extractor {
     ($extractor_name:ident, $target_type:ty) => {
         pub struct $extractor_name {
