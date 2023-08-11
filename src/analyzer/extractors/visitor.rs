@@ -1,5 +1,8 @@
 use solang_parser::pt::*;
 
+use super::visitable::Visitable;
+
+/// Macro to implmement expression visitor methods
 macro_rules! visit_exprs {
     ($func_name:ident, 1) => {
         fn $func_name(
@@ -39,6 +42,15 @@ macro_rules! visit_exprs {
     };
 }
 
+/// Macro to implement default extractor implementations
+macro_rules! default_extractor {
+    ($name:ident, $( $arg_name:ident : $arg_type:ty ),+ ) => {
+        fn $name(&mut self, $( $arg_name: $arg_type, )+ ) -> Result<(), Self::Error> {
+            Ok(())
+        }
+    };
+}
+
 /// A trait that is invoked while traversing the Solidity Parse Tree.
 /// Each method of the [Visitor] trait is a hook that can be potentially overridden.
 ///
@@ -47,6 +59,7 @@ pub trait Visitor {
     type Error: std::error::Error;
 
     fn visit_source_unit(&mut self, source_unit: &mut SourceUnit) -> Result<(), Self::Error> {
+        self.extract_source_unit(source_unit)?;
         for part in &mut source_unit.0 {
             self.visit_source_unit_part(part)?;
         }
@@ -58,6 +71,7 @@ pub trait Visitor {
         &mut self,
         source_unit_part: &mut SourceUnitPart,
     ) -> Result<(), Self::Error> {
+        self.extract_source_unit_part(source_unit_part)?;
         match source_unit_part {
             SourceUnitPart::ContractDefinition(contract) => self.visit_contract(contract)?,
             SourceUnitPart::PragmaDirective(_loc, ident, str) => {
@@ -79,6 +93,7 @@ pub trait Visitor {
     }
 
     fn visit_function(&mut self, function: &mut FunctionDefinition) -> Result<(), Self::Error> {
+        self.extract_function(function);
         self.visit_function_type(&mut function.ty)?;
         if let Some(ref mut identifier) = function.name {
             self.visit_ident(identifier.loc, identifier)?;
@@ -101,6 +116,7 @@ pub trait Visitor {
 
     /// Statement visitor
     fn visit_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
+        self.extract_statement(statement);
         match statement {
             Statement::Block {
                 loc,
@@ -147,12 +163,14 @@ pub trait Visitor {
     }
 
     fn visit_named_arg(&mut self, arg: &mut NamedArgument) -> Result<(), Self::Error> {
+        self.extract_named_arg(arg)?;
         self.visit_expr(arg.expr.loc(), &mut arg.expr)?;
         self.visit_ident(arg.name.loc, &mut arg.name)?;
         Ok(())
     }
 
     fn visit_returns(&mut self, returns: &mut ParameterList) -> Result<(), Self::Error> {
+        self.extract_returns(returns);
         for parameter in returns {
             if let Some(ref mut param) = parameter.1 {
                 self.visit_parameter(param)?;
@@ -166,6 +184,7 @@ pub trait Visitor {
         &mut self,
         _attributes: &mut Vec<FunctionAttribute>,
     ) -> Result<(), Self::Error> {
+        self.extract_function_attributes(_attributes);
         for attribute in _attributes {
             self.visit_function_attribute(attribute)?;
         }
@@ -176,6 +195,7 @@ pub trait Visitor {
         &mut self,
         _attribute: &mut FunctionAttribute,
     ) -> Result<(), Self::Error> {
+        self.extract_function_attribute(_attribute);
         Ok(())
     }
     //pub type ParameterList = Vec<(Loc, Option<Parameter>)>;
@@ -183,6 +203,7 @@ pub trait Visitor {
         &mut self,
         parameter_list: &mut ParameterList,
     ) -> Result<(), Self::Error> {
+        self.extract_parameter_list(parameter_list);
         for parameter in parameter_list {
             if let Some(ref mut param) = parameter.1 {
                 self.visit_parameter(param)?;
@@ -193,9 +214,11 @@ pub trait Visitor {
     }
 
     fn visit_function_type(&mut self, _ty: &mut FunctionTy) -> Result<(), Self::Error> {
+        self.extract_function_type(_ty);
         Ok(())
     }
     fn visit_error(&mut self, error: &mut ErrorDefinition) -> Result<(), Self::Error> {
+        self.extract_error(error);
         self.visit_expr(error.keyword.loc(), &mut error.keyword)?;
 
         if let Some(ref mut identifier) = error.name {
@@ -209,6 +232,7 @@ pub trait Visitor {
     }
 
     fn visit_event(&mut self, event: &mut EventDefinition) -> Result<(), Self::Error> {
+        self.extract_event(event);
         if let Some(ref mut identifier) = event.name {
             self.visit_ident(identifier.loc, identifier)?;
         }
@@ -219,6 +243,7 @@ pub trait Visitor {
     }
 
     fn visit_struct(&mut self, structure: &mut StructDefinition) -> Result<(), Self::Error> {
+        self.extract_struct(structure);
         if let Some(ident) = structure.name.as_mut() {
             self.visit_ident(ident.loc, ident)?;
         }
@@ -229,6 +254,7 @@ pub trait Visitor {
     }
 
     fn visit_fields(&mut self, _fields: &mut Vec<VariableDeclaration>) -> Result<(), Self::Error> {
+        self.extract_fields(_fields);
         for field in _fields {
             self.visit_var_declaration(field)?;
         }
@@ -236,6 +262,7 @@ pub trait Visitor {
     }
 
     fn visit_contract(&mut self, contract: &mut ContractDefinition) -> Result<(), Self::Error> {
+        self.extract_contract(contract);
         self.visit_contract_type(&mut contract.ty)?;
         if let Some(ref mut identifier) = contract.name {
             self.visit_ident(identifier.loc, identifier)?;
@@ -255,6 +282,7 @@ pub trait Visitor {
         &mut self,
         _contract_part: &mut ContractPart,
     ) -> Result<(), Self::Error> {
+        self.extract_contract_part(_contract_part);
         match _contract_part {
             ContractPart::StructDefinition(struct_definition) => {
                 self.visit_struct(struct_definition)?;
@@ -292,6 +320,7 @@ pub trait Visitor {
     }
 
     fn visit_contract_type(&mut self, _ty: &mut ContractTy) -> Result<(), Self::Error> {
+        self.extract_contract_type(_ty);
         match _ty {
             ContractTy::Abstract(loc) => {
                 self.visit_abstract(*loc)?;
@@ -311,22 +340,27 @@ pub trait Visitor {
     }
 
     fn visit_abstract(&mut self, _loc: Loc) -> Result<(), Self::Error> {
+        self.extract_abstract(_loc);
         Ok(())
     }
 
     fn visit_contract_keyword(&mut self, _loc: Loc) -> Result<(), Self::Error> {
+        self.extract_contract_keyword(_loc);
         Ok(())
     }
 
     fn visit_interface(&mut self, _loc: Loc) -> Result<(), Self::Error> {
+        self.extract_interface(_loc);
         Ok(())
     }
 
     fn visit_library(&mut self, _loc: Loc) -> Result<(), Self::Error> {
+        self.extract_library(_loc);
         Ok(())
     }
 
     fn visit_import(&mut self, _import: &mut Import) -> Result<(), Self::Error> {
+        self.extract_import(_import);
         match _import {
             Import::Plain(str, loc) => {
                 self.visit_import_plain(*loc, str)?;
@@ -342,6 +376,7 @@ pub trait Visitor {
     }
 
     fn visit_enum(&mut self, enum_definition: &mut Box<EnumDefinition>) -> Result<(), Self::Error> {
+        self.extract_enum(enum_definition);
         if let Some(ref mut identifier) = enum_definition.name {
             self.visit_ident(identifier.loc, identifier)?;
         }
@@ -356,6 +391,7 @@ pub trait Visitor {
     }
 
     fn visit_annotation(&mut self, _annotation: &mut Annotation) -> Result<(), Self::Error> {
+        self.extract_annotation(_annotation);
         self.visit_ident(_annotation.id.loc, &mut _annotation.id)?;
         if let Some(ref mut value) = _annotation.value {
             self.visit_expr(value.loc(), value)?;
@@ -369,6 +405,7 @@ pub trait Visitor {
         _ident: &mut Option<Identifier>,
         _str: &mut Option<StringLiteral>,
     ) -> Result<(), Self::Error> {
+        self.extract_pragma(_loc, _ident, _str);
         if let Some(ident) = _ident {
             self.visit_ident(ident.loc, ident)?;
         }
@@ -382,6 +419,7 @@ pub trait Visitor {
         _loc: Loc,
         _import: &mut StringLiteral,
     ) -> Result<(), Self::Error> {
+        self.extract_import_plain(_loc, _import);
         self.visit_string_literal(_import)?;
         Ok(())
     }
@@ -391,6 +429,7 @@ pub trait Visitor {
         _global: &mut StringLiteral,
         _alias: &mut Identifier,
     ) -> Result<(), Self::Error> {
+        self.extract_import_global(_loc, _global, _alias);
         self.visit_string_literal(_global)?;
         self.visit_ident(_alias.loc, _alias)?;
         Ok(())
@@ -402,6 +441,7 @@ pub trait Visitor {
         _imports: &mut [(Identifier, Option<Identifier>)],
         _from: &mut StringLiteral,
     ) -> Result<(), Self::Error> {
+        self.extract_import_renames(_loc, _imports, _from);
         self.visit_string_literal(_from)?;
         for (ident_0, ident_1) in _imports {
             self.visit_ident(ident_0.loc, ident_0)?;
@@ -419,6 +459,7 @@ pub trait Visitor {
         _block: &mut YulBlock,
         _flags: &mut Option<Vec<StringLiteral>>,
     ) -> Result<(), Self::Error> {
+        self.extract_assembly(_loc, _dialect, _block, _flags)?;
         if let Some(ref mut dialect) = _dialect {
             self.visit_string_literal(dialect)?;
         }
@@ -437,6 +478,7 @@ pub trait Visitor {
         _unchecked: bool,
         _statements: &mut Vec<Statement>,
     ) -> Result<(), Self::Error> {
+        self.extract_block(_loc, _unchecked, _statements)?;
         for statement in _statements {
             self.visit_statement(statement)?;
         }
@@ -444,6 +486,7 @@ pub trait Visitor {
     }
 
     fn visit_args(&mut self, _loc: Loc, _args: &mut Vec<NamedArgument>) -> Result<(), Self::Error> {
+        self.extract_args(_loc, _args)?;
         for arg in _args {
             self.visit_named_arg(arg)?;
         }
@@ -454,6 +497,7 @@ pub trait Visitor {
     /// Don't write semicolon at the end because expressions can appear as both
     /// part of other node and a statement in the function body
     fn visit_expr(&mut self, _loc: Loc, _expr: &mut Expression) -> Result<(), Self::Error> {
+        self.extract_expr(_loc, _expr)?;
         match _expr {
             Expression::PostIncrement(_loc, expr) => {
                 self.visit_post_increment(*_loc, expr)?;
@@ -681,6 +725,7 @@ pub trait Visitor {
         _loc: Loc,
         _parameter_list: &mut Vec<(Loc, Option<Parameter>)>,
     ) -> Result<(), Self::Error> {
+        self.extract_list(_loc, _parameter_list)?;
         for (_, parameter) in _parameter_list.iter_mut() {
             if let Some(parameter) = parameter {
                 self.visit_parameter(parameter)?;
@@ -694,6 +739,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr_vec: &mut Vec<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_array_literal(_loc, _expr_vec)?;
         for expr in _expr_vec.iter_mut() {
             self.visit_expr(expr.loc(), expr)?;
         }
@@ -701,18 +747,22 @@ pub trait Visitor {
     }
 
     fn visit_hex_literal(&mut self, _hex_literal: &mut HexLiteral) -> Result<(), Self::Error> {
+        self.extract_hex_literal(_hex_literal)?;
         Ok(())
     }
 
     fn visit_variable(&mut self, _loc: Loc, _ident: &mut Identifier) -> Result<(), Self::Error> {
+        self.extract_variable(_loc, _ident)?;
         self.visit_ident(_ident.loc, _ident)?;
         Ok(())
     }
 
     fn visit_address_literal(&mut self, _loc: Loc, _value: &mut String) -> Result<(), Self::Error> {
+        self.extract_address_literal(_loc, _value)?;
         Ok(())
     }
     fn visit_type(&mut self, _loc: Loc, _type: &mut Type) -> Result<(), Self::Error> {
+        self.extract_type(_loc, _type)?;
         Ok(())
     }
 
@@ -720,6 +770,7 @@ pub trait Visitor {
         &mut self,
         _string_literal_vec: &mut Vec<StringLiteral>,
     ) -> Result<(), Self::Error> {
+        self.extract_string_literal_vec(_string_literal_vec)?;
         Ok(())
     }
 
@@ -727,6 +778,7 @@ pub trait Visitor {
         &mut self,
         _string_literal: &mut StringLiteral,
     ) -> Result<(), Self::Error> {
+        self.extract_string_literal(_string_literal)?;
         Ok(())
     }
 
@@ -736,6 +788,7 @@ pub trait Visitor {
         _string_0: &mut String,
         ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        self.extract_hex_number_literal(_loc, _string_0, ident)?;
         if let Some(ident) = ident {
             self.visit_ident(ident.loc, ident)?;
         }
@@ -750,6 +803,7 @@ pub trait Visitor {
         _string_2: &mut String,
         ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        self.extract_rational_number_literal(_loc, _string_0, _string_1, _string_2, ident)?;
         if let Some(ident) = ident {
             self.visit_ident(ident.loc, ident)?;
         }
@@ -763,6 +817,7 @@ pub trait Visitor {
         _string_1: &mut String,
         ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        self.extract_number_literal(_loc, _string_0, _string_1, ident)?;
         if let Some(ident) = ident {
             self.visit_ident(ident.loc, ident)?;
         }
@@ -770,6 +825,7 @@ pub trait Visitor {
     }
 
     fn visit_bool_literal(&mut self, _loc: Loc, _value: &mut bool) -> Result<(), Self::Error> {
+        self.extract_bool_literal(_loc, _value)?;
         Ok(())
     }
 
@@ -815,6 +871,7 @@ pub trait Visitor {
         _ident: &mut Box<Expression>,
         _params: &mut Vec<NamedArgument>,
     ) -> Result<(), Self::Error> {
+        self.extract_named_function_call(_loc, _ident, _params)?;
         self.visit_expr(_ident.loc(), _ident)?;
         for named_arg in _params.iter_mut() {
             self.visit_named_arg(named_arg)?;
@@ -828,6 +885,7 @@ pub trait Visitor {
         _expr: &mut Box<Expression>,
         _statement: &mut Box<Statement>,
     ) -> Result<(), Self::Error> {
+        self.extract_function_call_block(_loc, _expr, _statement)?;
         self.visit_expr(_expr.loc(), _expr)?;
         self.visit_statement(_statement)?;
         Ok(())
@@ -839,6 +897,7 @@ pub trait Visitor {
         _expr: &mut Box<Expression>,
         _params: &mut Vec<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_function_call(_loc, _expr, _params)?;
         self.visit_expr(_expr.loc(), _expr)?;
         for param in _params.iter_mut() {
             self.visit_expr(param.loc(), param)?;
@@ -852,6 +911,7 @@ pub trait Visitor {
         _expr: &mut Box<Expression>,
         _ident: &mut Identifier,
     ) -> Result<(), Self::Error> {
+        self.extract_member_access(_loc, _expr, _ident)?;
         self.visit_expr(_expr.loc(), _expr)?;
         self.visit_ident(_ident.loc, _ident)?;
         Ok(())
@@ -862,6 +922,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_parenthesis(_loc, _expr)?;
         self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
@@ -873,6 +934,7 @@ pub trait Visitor {
         _option_expr_0: &mut Option<Box<Expression>>,
         _option_expr_1: &mut Option<Box<Expression>>,
     ) -> Result<(), Self::Error> {
+        self.extract_array_slice(_loc, _expr, _option_expr_0, _option_expr_1)?;
         self.visit_expr(_expr.loc(), _expr)?;
         if let Some(expr) = _option_expr_0 {
             self.visit_expr(expr.loc(), expr)?;
@@ -889,6 +951,7 @@ pub trait Visitor {
         _expr_0: &mut Box<Expression>,
         _expr_1: &mut Option<Box<Expression>>,
     ) -> Result<(), Self::Error> {
+        self.extract_array_subscript(_loc, _expr_0, _expr_1)?;
         self.visit_expr(_expr_0.loc(), _expr_0)?;
         if let Some(expr) = _expr_1 {
             self.visit_expr(expr.loc(), expr)?;
@@ -897,6 +960,7 @@ pub trait Visitor {
     }
 
     fn visit_new(&mut self, _loc: Loc, _expr: &mut Box<Expression>) -> Result<(), Self::Error> {
+        self.extract_new(_loc, _expr)?;
         self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
@@ -906,6 +970,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_unary_plus(_loc, _expr)?;
         self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
@@ -915,6 +980,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_pre_decrement(_loc, _expr)?;
         self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
@@ -924,6 +990,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_post_decrement(_loc, _expr)?;
         self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
@@ -933,6 +1000,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_pre_increment(_loc, _expr)?;
         self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
@@ -942,6 +1010,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Box<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_post_increment(_loc, _expr)?;
         self.visit_expr(_expr.loc(), _expr)?;
         Ok(())
     }
@@ -951,11 +1020,13 @@ pub trait Visitor {
         _loc: Loc,
         _ident: &mut Identifier,
     ) -> Result<(), Self::Error> {
+        self.extract_contract_ident(_loc, _ident)?;
         self.visit_ident(_ident.loc, _ident)?;
         Ok(())
     }
 
     fn visit_ident(&mut self, _loc: Loc, _ident: &mut Identifier) -> Result<(), Self::Error> {
+        self.extract_ident(_loc, _ident)?;
         Ok(())
     }
 
@@ -963,14 +1034,17 @@ pub trait Visitor {
         &mut self,
         _identifier_path: &mut IdentifierPath,
     ) -> Result<(), Self::Error> {
+        self.extract_ident_path(_identifier_path)?;
         Ok(())
     }
 
     fn visit_emit(&mut self, _loc: Loc, _event: &mut Expression) -> Result<(), Self::Error> {
+        self.extract_emit(_loc, _event)?;
         self.visit_expr(_event.loc(), _event)?;
         Ok(())
     }
     fn visit_var_definition(&mut self, var: &mut VariableDefinition) -> Result<(), Self::Error> {
+        self.extract_var_definition(var)?;
         self.visit_expr(var.ty.loc(), &mut var.ty)?;
         for attr in var.attrs.iter_mut() {
             self.visit_var_attribute(attr)?;
@@ -992,6 +1066,7 @@ pub trait Visitor {
         _declaration: &mut VariableDeclaration,
         _expr: &mut Option<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_var_definition_stmt(_loc, _declaration, _expr)?;
         self.visit_var_declaration(_declaration)?;
         if let Some(expr) = _expr {
             self.visit_expr(expr.loc(), expr)?;
@@ -1003,6 +1078,7 @@ pub trait Visitor {
         &mut self,
         var_declaration: &mut VariableDeclaration,
     ) -> Result<(), Self::Error> {
+        self.extract_var_declaration(var_declaration)?;
         self.visit_expr(var_declaration.ty.loc(), &mut var_declaration.ty)?;
 
         if let Some(ref mut storage) = var_declaration.storage {
@@ -1019,6 +1095,7 @@ pub trait Visitor {
         _loc: Loc,
         _storage: &mut StorageLocation,
     ) -> Result<(), Self::Error> {
+        self.extract_storage_loc(_loc, _storage)?;
         match _storage {
             StorageLocation::Storage(loc) => self.visit_storage(*loc)?,
             StorageLocation::Memory(loc) => self.visit_memory(*loc)?,
@@ -1044,6 +1121,7 @@ pub trait Visitor {
         _loc: Loc,
         _expr: &mut Option<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_return(_loc, _expr)?;
         if let Some(expr) = _expr {
             self.visit_expr(expr.loc(), expr)?;
         }
@@ -1056,6 +1134,7 @@ pub trait Visitor {
         _error: &mut Option<IdentifierPath>,
         _args: &mut Vec<Expression>,
     ) -> Result<(), Self::Error> {
+        self.extract_revert(_loc, _error, _args)?;
         if let Some(ref mut error) = _error {
             self.visit_ident_path(error)?;
         }
@@ -1071,6 +1150,7 @@ pub trait Visitor {
         _error: &mut Option<IdentifierPath>,
         _args: &mut Vec<NamedArgument>,
     ) -> Result<(), Self::Error> {
+        self.extract_revert_named_args(_loc, _error, _args)?;
         if let Some(ref mut error) = _error {
             self.visit_ident_path(error)?;
         }
@@ -1081,10 +1161,12 @@ pub trait Visitor {
     }
 
     fn visit_break(&mut self, _loc: Loc, _semicolon: bool) -> Result<(), Self::Error> {
+        self.extract_break(_loc, _semicolon)?;
         Ok(())
     }
 
     fn visit_continue(&mut self, _loc: Loc, _semicolon: bool) -> Result<(), Self::Error> {
+        self.extract_continue(_loc, _semicolon)?;
         Ok(())
     }
 
@@ -1096,6 +1178,7 @@ pub trait Visitor {
         _returns: &mut Option<(Vec<(Loc, Option<Parameter>)>, Box<Statement>)>,
         _clauses: &mut Vec<CatchClause>,
     ) -> Result<(), Self::Error> {
+        self.extract_try(_loc, _expr, _returns, _clauses)?;
         self.visit_expr(_expr.loc(), _expr)?;
         if let Some(returns) = _returns {
             for (_, param) in returns.0.iter_mut() {
@@ -1112,6 +1195,7 @@ pub trait Visitor {
     }
     //TODO:
     fn visit_catch_clause(&mut self, _clause: &mut CatchClause) -> Result<(), Self::Error> {
+        self.extract_catch_clause(_clause)?;
         Ok(())
     }
 
@@ -1123,6 +1207,7 @@ pub trait Visitor {
         _else_branch: &mut Option<Box<Statement>>,
         _is_first_stmt: bool,
     ) -> Result<(), Self::Error> {
+        self.extract_if(_loc, _cond, _if_branch, _else_branch, _is_first_stmt)?;
         self.visit_expr(_cond.loc(), _cond)?;
         self.visit_statement(_if_branch)?;
         if let Some(else_branch) = _else_branch {
@@ -1137,6 +1222,7 @@ pub trait Visitor {
         _body: &mut Statement,
         _cond: &mut Expression,
     ) -> Result<(), Self::Error> {
+        self.extract_do_while(_loc, _body, _cond);
         self.visit_statement(_body)?;
         self.visit_expr(_cond.loc(), _cond)?;
         Ok(())
@@ -1148,6 +1234,7 @@ pub trait Visitor {
         _cond: &mut Expression,
         _body: &mut Statement,
     ) -> Result<(), Self::Error> {
+        self.extract_while(_loc, _cond, _body)?;
         self.visit_expr(_cond.loc(), _cond)?;
         self.visit_statement(_body)?;
         Ok(())
@@ -1161,6 +1248,7 @@ pub trait Visitor {
         _update: &mut Option<Box<Expression>>,
         _body: &mut Option<Box<Statement>>,
     ) -> Result<(), Self::Error> {
+        self.extract_for(_loc, _init, _cond, _update, _body)?;
         if let Some(init) = _init {
             self.visit_statement(init)?;
         }
@@ -1180,6 +1268,7 @@ pub trait Visitor {
         &mut self,
         _variable_attribute: &mut VariableAttribute,
     ) -> Result<(), Self::Error> {
+        self.extract_var_attribute(_variable_attribute);
         match _variable_attribute {
             VariableAttribute::Visibility(visibility) => {
                 self.visit_visibility(visibility)?;
@@ -1204,6 +1293,7 @@ pub trait Visitor {
         _loc: Loc,
         _paths: &mut Vec<IdentifierPath>,
     ) -> Result<(), Self::Error> {
+        self.extract_override(_loc, _paths)?;
         for path in _paths.iter_mut() {
             self.visit_ident_path(path)?;
         }
@@ -1219,6 +1309,7 @@ pub trait Visitor {
     }
 
     fn visit_visibility(&mut self, _visibility: &mut Visibility) -> Result<(), Self::Error> {
+        self.extract_visibility(_visibility)?;
         match _visibility {
             Visibility::Private(loc) => {
                 self.visit_private(*loc)?;
@@ -1253,6 +1344,7 @@ pub trait Visitor {
     }
 
     fn visit_base(&mut self, base: &mut Base) -> Result<(), Self::Error> {
+        self.extract_base(base)?;
         self.visit_ident_path(&mut base.name)?;
 
         if let Some(ref mut args) = base.args {
@@ -1263,6 +1355,7 @@ pub trait Visitor {
         Ok(())
     }
     fn visit_parameter(&mut self, parameter: &mut Parameter) -> Result<(), Self::Error> {
+        self.extract_parameter(parameter)?;
         if let Some(ref mut annotation) = parameter.annotation {
             self.visit_annotation(annotation)?;
         }
@@ -1278,6 +1371,7 @@ pub trait Visitor {
         Ok(())
     }
     fn visit_event_parameter(&mut self, param: &mut EventParameter) -> Result<(), Self::Error> {
+        self.extract_event_parameter(param)?;
         self.visit_expr(param.ty.loc(), &mut param.ty)?;
         if let Some(ref mut ident) = param.name {
             self.visit_ident(ident.loc, ident)?;
@@ -1286,6 +1380,7 @@ pub trait Visitor {
     }
 
     fn visit_error_parameter(&mut self, param: &mut ErrorParameter) -> Result<(), Self::Error> {
+        self.extract_error_parameter(param)?;
         self.visit_expr(param.ty.loc(), &mut param.ty)?;
         if let Some(ref mut ident) = param.name {
             self.visit_ident(ident.loc, ident)?;
@@ -1293,6 +1388,7 @@ pub trait Visitor {
         Ok(())
     }
     fn visit_type_definition(&mut self, def: &mut TypeDefinition) -> Result<(), Self::Error> {
+        self.extract_type_definition(def)?;
         self.visit_ident(def.name.loc, &mut def.name)?;
         self.visit_expr(def.ty.loc(), &mut def.ty)?;
 
@@ -1315,6 +1411,7 @@ pub trait Visitor {
         Ok(())
     }
     fn visit_using(&mut self, using: &mut Using) -> Result<(), Self::Error> {
+        self.extract_using(using)?;
         self.visit_using_list(&mut using.list)?;
         if let Some(ref mut ty) = using.ty {
             self.visit_expr(ty.loc(), ty)?;
@@ -1326,6 +1423,7 @@ pub trait Visitor {
     }
 
     fn visit_using_list(&mut self, using_list: &mut UsingList) -> Result<(), Self::Error> {
+        self.extract_using_list(using_list)?;
         match using_list {
             UsingList::Library(path) => {
                 self.visit_using_library(path)?;
@@ -1345,11 +1443,13 @@ pub trait Visitor {
     }
 
     fn visit_using_library(&mut self, path: &mut IdentifierPath) -> Result<(), Self::Error> {
+        self.extract_using_library(path)?;
         self.visit_ident_path(path)?;
         Ok(())
     }
 
     fn visit_using_function(&mut self, function: &mut UsingFunction) -> Result<(), Self::Error> {
+        self.extract_using_function(function)?;
         self.visit_ident_path(&mut function.path)?;
         if let Some(ref mut op) = function.oper {
             self.visit_user_defined_operator(op)?;
@@ -1361,6 +1461,7 @@ pub trait Visitor {
         &mut self,
         _op: &mut UserDefinedOperator,
     ) -> Result<(), Self::Error> {
+        self.extract_user_defined_operator(_op)?;
         Ok(())
     }
     fn visit_yul_block(
@@ -1369,6 +1470,7 @@ pub trait Visitor {
         _stmts: &mut Vec<YulStatement>,
         _attempt_single_line: bool,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_block(_loc, _stmts, _attempt_single_line)?;
         for stmt in _stmts.iter_mut() {
             self.visit_yul_statement(stmt)?;
         }
@@ -1376,6 +1478,7 @@ pub trait Visitor {
     }
 
     fn visit_yul_statement(&mut self, _stmt: &mut YulStatement) -> Result<(), Self::Error> {
+        self.extract_yul_statement(_stmt)?;
         match _stmt {
             YulStatement::Assign(loc, exprs, expr) => {
                 self.visit_yul_assignment(*loc, exprs, &mut Some(expr))?;
@@ -1430,6 +1533,7 @@ pub trait Visitor {
     }
 
     fn visit_yul_expr(&mut self, _loc: Loc, expr: &mut YulExpression) -> Result<(), Self::Error> {
+        self.extract_yul_expr(_loc, expr)?;
         match expr {
             YulExpression::BoolLiteral(loc, value, ident) => {
                 self.visit_yul_bool_literal(*loc, value, ident)?;
@@ -1464,6 +1568,7 @@ pub trait Visitor {
         expr: &mut HexLiteral,
         ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_hex_string_literal(expr, ident)?;
         self.visit_hex_literal(expr)?;
 
         if let Some(ref mut ident) = ident {
@@ -1478,6 +1583,7 @@ pub trait Visitor {
         _expr: &mut YulExpression,
         _ident: &mut Identifier,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_suffix_access(_loc, _expr, _ident)?;
         self.visit_yul_expr(_expr.loc(), _expr)?;
         self.visit_ident(_ident.loc, _ident)?;
         Ok(())
@@ -1488,6 +1594,7 @@ pub trait Visitor {
         string_literal: &mut StringLiteral,
         ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_string_literal(string_literal, ident)?;
         self.visit_string_literal(string_literal)?;
         if let Some(ref mut ident) = ident {
             self.visit_ident(ident.loc, ident)?;
@@ -1502,6 +1609,7 @@ pub trait Visitor {
         _suffix: &mut String,
         _ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_number_literal(_loc, _number, _suffix, _ident)?;
         if let Some(ident) = _ident {
             self.visit_ident(ident.loc, ident)?;
         }
@@ -1514,6 +1622,7 @@ pub trait Visitor {
         _val: &mut bool,
         _ident: &mut Option<Identifier>,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_bool_literal(_loc, _val, _ident)?;
         if let Some(ident) = _ident {
             self.visit_ident(ident.loc, ident)?;
         }
@@ -1525,6 +1634,7 @@ pub trait Visitor {
         _exprs: &mut Vec<YulExpression>,
         _expr: &mut Option<&mut YulExpression>,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_assignment(_loc, _exprs, _expr)?;
         for expr in _exprs {
             self.visit_yul_expr(expr.loc(), expr)?;
         }
@@ -1535,6 +1645,7 @@ pub trait Visitor {
     }
 
     fn visit_yul_for(&mut self, _stmt: &mut YulFor) -> Result<(), Self::Error> {
+        self.extract_yul_for(_stmt)?;
         self.visit_yul_block(
             _stmt.init_block.loc,
             &mut _stmt.init_block.statements,
@@ -1555,6 +1666,7 @@ pub trait Visitor {
     }
 
     fn visit_yul_function_call(&mut self, _stmt: &mut YulFunctionCall) -> Result<(), Self::Error> {
+        self.extract_yul_function_call(_stmt)?;
         self.visit_ident(_stmt.id.loc, &mut _stmt.id)?;
         for arg in _stmt.arguments.iter_mut() {
             self.visit_yul_expr(arg.loc(), arg)?;
@@ -1563,6 +1675,7 @@ pub trait Visitor {
     }
 
     fn visit_yul_fun_def(&mut self, _stmt: &mut YulFunctionDefinition) -> Result<(), Self::Error> {
+        self.extract_yul_fun_def(_stmt)?;
         self.visit_ident(_stmt.id.loc, &mut _stmt.id)?;
         for param in _stmt.params.iter_mut() {
             self.visit_yul_typed_ident(param)?;
@@ -1580,6 +1693,7 @@ pub trait Visitor {
         _expr: &mut YulExpression,
         _block: &mut YulBlock,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_if(_loc, _expr, _block)?;
         self.visit_yul_expr(_expr.loc(), _expr)?;
         self.visit_yul_block(_block.loc, &mut _block.statements, false)?;
         Ok(())
@@ -1590,6 +1704,7 @@ pub trait Visitor {
     }
 
     fn visit_yul_switch(&mut self, _stmt: &mut YulSwitch) -> Result<(), Self::Error> {
+        self.extract_yul_switch(_stmt)?;
         self.visit_yul_expr(_stmt.condition.loc(), &mut _stmt.condition)?;
         for case in _stmt.cases.iter_mut() {
             self.visit_yul_switch_options(case)?;
@@ -1604,6 +1719,7 @@ pub trait Visitor {
         &mut self,
         _stmt: &mut YulSwitchOptions,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_switch_options(_stmt)?;
         match _stmt {
             YulSwitchOptions::Case(loc, expr, block) => {
                 self.visit_yul_switch_case(*loc, expr, block)?;
@@ -1620,6 +1736,7 @@ pub trait Visitor {
         _loc: Loc,
         _block: &mut YulBlock,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_switch_default(_loc, _block)?;
         self.visit_yul_block(_block.loc, &mut _block.statements, false)?;
         Ok(())
     }
@@ -1630,6 +1747,7 @@ pub trait Visitor {
         _expr: &mut YulExpression,
         _block: &mut YulBlock,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_switch_case(_loc, _expr, _block)?;
         self.visit_yul_expr(_expr.loc(), _expr)?;
         self.visit_yul_block(_block.loc, &mut _block.statements, false)?;
         Ok(())
@@ -1640,6 +1758,7 @@ pub trait Visitor {
         _idents: &mut Vec<YulTypedIdentifier>,
         _expr: &mut Option<YulExpression>,
     ) -> Result<(), Self::Error> {
+        self.extract_yul_var_declaration(_loc, _idents, _expr)?;
         for ident in _idents {
             self.visit_yul_typed_ident(ident)?;
         }
@@ -1650,6 +1769,7 @@ pub trait Visitor {
     }
 
     fn visit_yul_typed_ident(&mut self, ident: &mut YulTypedIdentifier) -> Result<(), Self::Error> {
+        self.extract_yul_typed_ident(ident)?;
         self.visit_ident(ident.id.loc, &mut ident.id)?;
 
         Ok(())
@@ -1658,4 +1778,155 @@ pub trait Visitor {
     fn visit_parser_error(&mut self, _loc: Loc) -> Result<(), Self::Error> {
         Ok(())
     }
+
+    default_extractor!(extract_source_unit, _source_unit: &mut SourceUnit);
+    default_extractor!(extract_source_unit_part, _source_unit_part: &mut SourceUnitPart);
+    default_extractor!(extract_function, _function: &mut FunctionDefinition);
+    default_extractor!(extract_statement, _statement: &mut Statement);
+    default_extractor!(extract_named_arg, _arg: &mut NamedArgument);
+    default_extractor!(extract_returns, _returns: &mut ParameterList);
+    default_extractor!(extract_function_attributes, _attributes: &mut Vec<FunctionAttribute>);
+    default_extractor!(extract_function_attribute, _attribute: &mut FunctionAttribute);
+    default_extractor!(extract_parameter_list, _parameter_list: &mut ParameterList);
+    default_extractor!(extract_function_type, _ty: &mut FunctionTy);
+    default_extractor!(extract_error, _error: &mut ErrorDefinition);
+    default_extractor!(extract_event, _event: &mut EventDefinition);
+    default_extractor!(extract_struct, _structure: &mut StructDefinition);
+    default_extractor!(extract_fields, _fields: &mut Vec<VariableDeclaration>);
+    default_extractor!(extract_contract, _contract: &mut ContractDefinition);
+    default_extractor!(extract_contract_part, _contract_part: &mut ContractPart);
+    default_extractor!(extract_contract_type, _ty: &mut ContractTy);
+    default_extractor!(extract_abstract, _loc: Loc);
+    default_extractor!(extract_contract_keyword, _loc: Loc);
+    default_extractor!(extract_interface, _loc: Loc);
+    default_extractor!(extract_library, _loc: Loc);
+    default_extractor!(extract_import, _import: &mut Import);
+    default_extractor!(extract_enum, _enum_definition: &mut Box<EnumDefinition>);
+    default_extractor!(extract_annotation, _annotation: &mut Annotation);
+    default_extractor!(extract_pragma, _loc: Loc, _ident: &mut Option<Identifier>, _str: &mut Option<StringLiteral>);
+    default_extractor!(extract_import_plain, _loc: Loc, _import: &mut StringLiteral);
+    default_extractor!(extract_import_global, _loc: Loc, _global: &mut StringLiteral, _alias: &mut Identifier);
+    default_extractor!(extract_import_renames, _loc: Loc, _imports: &mut [(Identifier, Option<Identifier>)], _from: &mut StringLiteral);
+    default_extractor!(extract_assembly, _loc: Loc, _dialect: &mut Option<StringLiteral>, _block: &mut YulBlock, _flags: &mut Option<Vec<StringLiteral>>);
+    default_extractor!(extract_block, _loc: Loc, _unchecked: bool, _statements: &mut Vec<Statement>);
+    default_extractor!(extract_args, _loc: Loc, _args: &mut Vec<NamedArgument>);
+    default_extractor!(extract_expr, _loc: Loc, _expr: &mut Expression);
+    default_extractor!(extract_list, _loc: Loc, _parameter_list: &mut Vec<(Loc, Option<Parameter>)>);
+    default_extractor!(extract_array_literal, _loc: Loc, _expr_vec: &mut Vec<Expression>);
+    default_extractor!(extract_hex_literal, _hex_literal: &mut HexLiteral);
+    default_extractor!(extract_variable, _loc: Loc, _ident: &mut Identifier);
+    default_extractor!(extract_address_literal, _loc: Loc, _value: &mut String);
+    default_extractor!(extract_type, _loc: Loc, _type: &mut Type);
+    default_extractor!(extract_string_literal_vec, _string_literal_vec: &mut Vec<StringLiteral>);
+    default_extractor!(extract_string_literal, _string_literal: &mut StringLiteral);
+    default_extractor!(extract_hex_number_literal, _loc: Loc, _string_0: &mut String, _ident: &mut Option<Identifier>);
+    default_extractor!(extract_rational_number_literal, _loc: Loc, _string_0: &mut String, _string_1: &mut String, _string_2: &mut String, _ident: &mut Option<Identifier>);
+    default_extractor!(extract_number_literal, _loc: Loc, _string_0: &mut String, _string_1: &mut String, _ident: &mut Option<Identifier>);
+    default_extractor!(extract_bool_literal, _loc: Loc, _value: &mut bool);
+    default_extractor!(extract_assign_add, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign_modulo, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign_divide, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign_multiply, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign_subtract, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign_shift_right, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign_shift_left, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign_and, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign_xor, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign_or, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_assign, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_or, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_and, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_not_equal, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_equal, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_more_equal, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_more, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_less_equal, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_less, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_bitwise_or, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_conditional_operator, _expr: &mut Expression, _expr1: &mut Expression, _expr2: &mut Expression);
+    default_extractor!(extract_bitwise_xor, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_bitwise_and, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_shift_right, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_shift_left, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_subtract, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_add, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_modulo, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_divide, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_multiply, _expr: &mut Expression, _expr1: &mut Expression);
+    default_extractor!(extract_power, _expr: &mut Expression, _expr2: &mut Expression);
+    default_extractor!(extract_negate, _expr: &mut Expression);
+    default_extractor!(extract_delete, _expr: &mut Expression);
+    default_extractor!(extract_bitwise_not, _expr: &mut Expression);
+    default_extractor!(extract_not, _expr: &mut Expression);
+    default_extractor!(extract_named_function_call, _loc: Loc, _ident: &mut Box<Expression>, _params: &mut Vec<NamedArgument>);
+    default_extractor!(extract_function_call_block, _loc: Loc, _expr: &mut Box<Expression>, _statement: &mut Box<Statement>);
+    default_extractor!(extract_function_call, _loc: Loc, _expr: &mut Box<Expression>, _params: &mut Vec<Expression>);
+    default_extractor!(extract_member_access, _loc: Loc, _expr: &mut Box<Expression>, _ident: &mut Identifier);
+    default_extractor!(extract_parenthesis, _loc: Loc, _expr: &mut Box<Expression>);
+    default_extractor!(extract_array_slice, _loc: Loc, _expr: &mut Box<Expression>, _option_expr_0: &mut Option<Box<Expression>>, _option_expr_1: &mut Option<Box<Expression>>);
+    default_extractor!(extract_array_subscript, _loc: Loc, _expr_0: &mut Box<Expression>, _expr_1: &mut Option<Box<Expression>>);
+    default_extractor!(extract_new, _loc: Loc, _expr: &mut Box<Expression>);
+    default_extractor!(extract_unary_plus, _loc: Loc, _expr: &mut Box<Expression>);
+    default_extractor!(extract_pre_decrement, _loc: Loc, _expr: &mut Box<Expression>);
+    default_extractor!(extract_post_decrement, _loc: Loc, _expr: &mut Box<Expression>);
+    default_extractor!(extract_pre_increment, _loc: Loc, _expr: &mut Box<Expression>);
+    default_extractor!(extract_post_increment, _loc: Loc, _expr: &mut Box<Expression>);
+    default_extractor!(extract_contract_ident, _loc: Loc, _ident: &mut Identifier);
+    default_extractor!(extract_ident, _loc: Loc, _ident: &mut Identifier);
+    default_extractor!(extract_ident_path, _identifier_path: &mut IdentifierPath);
+    default_extractor!(extract_emit, _loc: Loc, _event: &mut Expression);
+    default_extractor!(extract_var_definition, _var: &mut VariableDefinition);
+    default_extractor!(extract_var_definition_stmt, _loc: Loc, _declaration: &mut VariableDeclaration, _expr: &mut Option<Expression>);
+    default_extractor!(extract_var_declaration, _var_declaration: &mut VariableDeclaration);
+    default_extractor!(extract_storage_loc, _loc: Loc, _storage: &mut StorageLocation);
+    default_extractor!(extract_storage, _loc: Loc);
+    default_extractor!(extract_memory, _loc: Loc);
+    default_extractor!(extract_calldata, _loc: Loc);
+    default_extractor!(extract_return, _loc: Loc, _expr: &mut Option<Expression>);
+    default_extractor!(extract_revert, _loc: Loc, _error: &mut Option<IdentifierPath>, _args: &mut Vec<Expression>);
+    default_extractor!(extract_revert_named_args, _loc: Loc, _error: &mut Option<IdentifierPath>, _args: &mut Vec<NamedArgument>);
+    default_extractor!(extract_break, _loc: Loc, _semicolon: bool);
+    default_extractor!(extract_continue, _loc: Loc, _semicolon: bool);
+    default_extractor!(extract_try, _loc: Loc, _expr: &mut Expression, _returns: &mut Option<(Vec<(Loc, Option<Parameter>)>, Box<Statement>)>, _clauses: &mut Vec<CatchClause>);
+    default_extractor!(extract_catch_clause, _clause: &mut CatchClause);
+    default_extractor!(extract_if, _loc: Loc, _cond: &mut Expression, _if_branch: &mut Box<Statement>, _else_branch: &mut Option<Box<Statement>>, _is_first_stmt: bool);
+    default_extractor!(extract_do_while, _loc: Loc, _body: &mut Statement, _cond: &mut Expression);
+    default_extractor!(extract_while, _loc: Loc, _cond: &mut Expression, _body: &mut Statement);
+    default_extractor!(extract_for, _loc: Loc, _init: &mut Option<Box<Statement>>, _cond: &mut Option<Box<Expression>>, _update: &mut Option<Box<Expression>>, _body: &mut Option<Box<Statement>>);
+    default_extractor!(extract_var_attribute, _variable_attribute: &mut VariableAttribute);
+    default_extractor!(extract_override, _loc: Loc, _paths: &mut Vec<IdentifierPath>);
+    default_extractor!(extract_immutable, _loc: Loc);
+    default_extractor!(extract_constant, _loc: Loc);
+    default_extractor!(extract_visibility, _visibility: &mut Visibility);
+    default_extractor!(extract_base, base: &mut Base);
+    default_extractor!(extract_parameter, parameter: &mut Parameter);
+    default_extractor!(extract_event_parameter, param: &mut EventParameter);
+    default_extractor!(extract_error_parameter, param: &mut ErrorParameter);
+    default_extractor!(extract_type_definition, def: &mut TypeDefinition);
+    default_extractor!(extract_stray_semicolon, _loc: Loc);
+    default_extractor!(extract_using, using: &mut Using);
+    default_extractor!(extract_using_list, using_list: &mut UsingList);
+    default_extractor!(extract_using_library, path: &mut IdentifierPath);
+    default_extractor!(extract_using_function, function: &mut UsingFunction);
+    default_extractor!(extract_user_defined_operator, _op: &mut UserDefinedOperator);
+    default_extractor!(extract_yul_block, _loc: Loc, _stmts: &mut Vec<YulStatement>, _attempt_single_line: bool);
+    default_extractor!(extract_yul_statement, _stmt: &mut YulStatement);
+    default_extractor!(extract_yul_expr, _loc: Loc, expr: &mut YulExpression);
+    default_extractor!(extract_yul_hex_string_literal, expr: &mut HexLiteral, ident: &mut Option<Identifier>);
+    default_extractor!(extract_yul_suffix_access, _loc: Loc, _expr: &mut YulExpression, _ident: &mut Identifier);
+    default_extractor!(extract_yul_string_literal, string_literal: &mut StringLiteral, ident: &mut Option<Identifier>);
+    default_extractor!(extract_yul_number_literal, _loc: Loc, _number: &mut String, _suffix: &mut String, _ident: &mut Option<Identifier>);
+    default_extractor!(extract_yul_bool_literal, _loc: Loc, _val: &mut bool, _ident: &mut Option<Identifier>);
+    default_extractor!(extract_yul_assignment, _loc: Loc, _exprs: &mut Vec<YulExpression>, _expr: &mut Option<&mut YulExpression>);
+    default_extractor!(extract_yul_for, _stmt: &mut YulFor);
+    default_extractor!(extract_yul_function_call, _stmt: &mut YulFunctionCall);
+    default_extractor!(extract_yul_fun_def, _stmt: &mut YulFunctionDefinition);
+    default_extractor!(extract_yul_if, _loc: Loc, _expr: &mut YulExpression, _block: &mut YulBlock);
+    default_extractor!(extract_yul_leave, _loc: Loc);
+    default_extractor!(extract_yul_switch, _stmt: &mut YulSwitch);
+    default_extractor!(extract_yul_switch_options, _stmt: &mut YulSwitchOptions);
+    default_extractor!(extract_yul_switch_default, _loc: Loc, _block: &mut YulBlock);
+    default_extractor!(extract_yul_switch_case, _loc: Loc, _expr: &mut YulExpression, _block: &mut YulBlock);
+    default_extractor!(extract_yul_var_declaration, _loc: Loc, _idents: &mut Vec<YulTypedIdentifier>, _expr: &mut Option<YulExpression>);
+    default_extractor!(extract_yul_typed_ident, ident: &mut YulTypedIdentifier);
 }

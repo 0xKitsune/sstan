@@ -72,6 +72,12 @@ impl<V: Visitable> Extractor<V, Statement> for ForExtractor {
     }
 }
 
+pub struct DefaultVisitor {}
+
+impl Visitor for DefaultVisitor {
+    type Error = ExtractionError;
+}
+
 pub struct EqualityExtractor {
     targets: Vec<Expression>,
 }

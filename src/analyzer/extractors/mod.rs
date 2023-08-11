@@ -13,8 +13,8 @@ use self::{visitable::Visitable, visitor::Visitor};
 
 pub mod compound;
 pub mod primitive;
-pub mod visitable;
-pub mod visitor;
+mod visitable;
+mod visitor;
 use thiserror::Error;
 
 pub trait Extractor<V, T>: Visitor
