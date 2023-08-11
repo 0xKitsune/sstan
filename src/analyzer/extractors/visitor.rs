@@ -1796,10 +1796,6 @@ pub trait Visitor {
     default_extractor!(extract_contract, _contract: &mut ContractDefinition);
     default_extractor!(extract_contract_part, _contract_part: &mut ContractPart);
     default_extractor!(extract_contract_type, _ty: &mut ContractTy);
-    default_extractor!(extract_abstract, _loc: Loc);
-    default_extractor!(extract_contract_keyword, _loc: Loc);
-    default_extractor!(extract_interface, _loc: Loc);
-    default_extractor!(extract_library, _loc: Loc);
     default_extractor!(extract_import, _import: &mut Import);
     default_extractor!(extract_enum, _enum_definition: &mut Box<EnumDefinition>);
     default_extractor!(extract_annotation, _annotation: &mut Annotation);
@@ -1879,9 +1875,6 @@ pub trait Visitor {
     default_extractor!(extract_var_definition_stmt, _loc: Loc, _declaration: &mut VariableDeclaration, _expr: &mut Option<Expression>);
     default_extractor!(extract_var_declaration, _var_declaration: &mut VariableDeclaration);
     default_extractor!(extract_storage_loc, _loc: Loc, _storage: &mut StorageLocation);
-    default_extractor!(extract_storage, _loc: Loc);
-    default_extractor!(extract_memory, _loc: Loc);
-    default_extractor!(extract_calldata, _loc: Loc);
     default_extractor!(extract_return, _loc: Loc, _expr: &mut Option<Expression>);
     default_extractor!(extract_revert, _loc: Loc, _error: &mut Option<IdentifierPath>, _args: &mut Vec<Expression>);
     default_extractor!(extract_revert_named_args, _loc: Loc, _error: &mut Option<IdentifierPath>, _args: &mut Vec<NamedArgument>);
@@ -1895,18 +1888,15 @@ pub trait Visitor {
     default_extractor!(extract_for, _loc: Loc, _init: &mut Option<Box<Statement>>, _cond: &mut Option<Box<Expression>>, _update: &mut Option<Box<Expression>>, _body: &mut Option<Box<Statement>>);
     default_extractor!(extract_var_attribute, _variable_attribute: &mut VariableAttribute);
     default_extractor!(extract_override, _loc: Loc, _paths: &mut Vec<IdentifierPath>);
-    default_extractor!(extract_immutable, _loc: Loc);
-    default_extractor!(extract_constant, _loc: Loc);
     default_extractor!(extract_visibility, _visibility: &mut Visibility);
     default_extractor!(extract_base, _base: &mut Base);
     default_extractor!(extract_parameter,_parameter: &mut Parameter);
     default_extractor!(extract_event_parameter, _param: &mut EventParameter);
     default_extractor!(extract_error_parameter, _param: &mut ErrorParameter);
     default_extractor!(extract_type_definition, _def: &mut TypeDefinition);
-    default_extractor!(extract_stray_semicolon, _loc: Loc);
     default_extractor!(extract_using, _using: &mut Using);
     default_extractor!(extract_using_list, _using_list: &mut UsingList);
-    default_extractor!(extract_using_library,_ path: &mut IdentifierPath);
+    default_extractor!(extract_using_library, _path: &mut IdentifierPath);
     default_extractor!(extract_using_function, function: &mut UsingFunction);
     default_extractor!(extract_user_defined_operator, _op: &mut UserDefinedOperator);
     default_extractor!(extract_yul_block, _loc: Loc, _stmts: &mut Vec<YulStatement>, _attempt_single_line: bool);
@@ -1922,7 +1912,6 @@ pub trait Visitor {
     default_extractor!(extract_yul_function_call, _stmt: &mut YulFunctionCall);
     default_extractor!(extract_yul_fun_def, _stmt: &mut YulFunctionDefinition);
     default_extractor!(extract_yul_if, _loc: Loc, _expr: &mut YulExpression, _block: &mut YulBlock);
-    default_extractor!(extract_yul_leave, _loc: Loc);
     default_extractor!(extract_yul_switch, _stmt: &mut YulSwitch);
     default_extractor!(extract_yul_switch_options, _stmt: &mut YulSwitchOptions);
     default_extractor!(extract_yul_switch_default, _loc: Loc, _block: &mut YulBlock);
