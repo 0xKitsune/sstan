@@ -3,43 +3,40 @@ use std::collections::HashSet;
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
+use crate::analyzer::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 use crate::analyzer::utils;
 
-pub fn pack_storage_variables_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn pack_storage_variables_optimization(
+    source_unit: &mut SourceUnit,
+) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let target_nodes =
-        ast::extract_target_from_node(Target::ContractDefinition, source_unit.into());
+    let target_nodes = ContractDefinitionExtractor::extract(source_unit)?;
 
     for node in target_nodes {
-        let source_unit_part = node.source_unit_part().unwrap();
+        let mut variable_sizes: Vec<u16> = vec![];
 
-        if let pt::SourceUnitPart::ContractDefinition(contract_definition) = source_unit_part {
-            let mut variable_sizes: Vec<u16> = vec![];
-
-            for part in contract_definition.clone().parts {
-                if let pt::ContractPart::VariableDefinition(box_variable_definition) = part {
-                    variable_sizes.push(utils::get_type_size(box_variable_definition.ty));
-                }
+        for part in node.clone().parts {
+            if let pt::ContractPart::VariableDefinition(box_variable_definition) = part {
+                variable_sizes.push(utils::get_type_size(box_variable_definition.ty));
             }
+        }
 
-            //Cache a version of variable sizes that is unordered
-            let unordered_variable_sizes = variable_sizes.clone();
+        //Cache a version of variable sizes that is unordered
+        let unordered_variable_sizes = variable_sizes.clone();
 
-            //Sort the variable sizes
-            variable_sizes.sort();
+        //Sort the variable sizes
+        variable_sizes.sort();
 
-            //If the ordered version is smaller than the unordered, add loc
-            if utils::storage_slots_used(unordered_variable_sizes)
-                > utils::storage_slots_used(variable_sizes)
-            {
-                optimization_locations.insert(contract_definition.loc);
-            }
+        //If the ordered version is smaller than the unordered, add loc
+        if utils::storage_slots_used(unordered_variable_sizes)
+            > utils::storage_slots_used(variable_sizes)
+        {
+            optimization_locations.insert(node.loc);
         }
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 #[test]
@@ -55,9 +52,9 @@ fn test_pack_storage_variables_optimization() {
     }
     "#;
 
-    let source_unit = solang_parser::parse(contract, 0).unwrap().0;
-    let optimization_locations = pack_storage_variables_optimization(source_unit);
-    assert_eq!(optimization_locations.len(), 0);
+    let mut source_unit = solang_parser::parse(contract, 0).unwrap().0;
+    let optimization_locations = pack_storage_variables_optimization(&mut source_unit);
+    assert_eq!(optimization_locations.unwrap().len(), 0);
 
     // Cannot pack better, 2x bytes24 don't fit in a slot
     let contract = r#"
@@ -68,9 +65,9 @@ fn test_pack_storage_variables_optimization() {
         }
         "#;
 
-    let source_unit = solang_parser::parse(contract, 0).unwrap().0;
-    let optimization_locations = pack_storage_variables_optimization(source_unit);
-    assert_eq!(optimization_locations.len(), 0);
+    let mut source_unit = solang_parser::parse(contract, 0).unwrap().0;
+    let optimization_locations = pack_storage_variables_optimization(&mut source_unit);
+    assert_eq!(optimization_locations.unwrap().len(), 0);
 
     // Cannot pack better, bool are stored with uint8 so cannot move bo1
     let contract = r#"
@@ -85,9 +82,9 @@ fn test_pack_storage_variables_optimization() {
         }
         "#;
 
-    let source_unit = solang_parser::parse(contract, 0).unwrap().0;
-    let optimization_locations = pack_storage_variables_optimization(source_unit);
-    assert_eq!(optimization_locations.len(), 0);
+    let mut source_unit = solang_parser::parse(contract, 0).unwrap().0;
+    let optimization_locations = pack_storage_variables_optimization(&mut source_unit);
+    assert_eq!(optimization_locations.unwrap().len(), 0);
 
     // Suboptimal, can be packed better
     let contract = r#"
@@ -100,9 +97,9 @@ fn test_pack_storage_variables_optimization() {
     }
     "#;
 
-    let source_unit = solang_parser::parse(contract, 0).unwrap().0;
-    let optimization_locations = pack_storage_variables_optimization(source_unit);
-    assert_eq!(optimization_locations.len(), 1);
+    let mut source_unit = solang_parser::parse(contract, 0).unwrap().0;
+    let optimization_locations = pack_storage_variables_optimization(&mut source_unit);
+    assert_eq!(optimization_locations.unwrap().len(), 1);
 
     // Suboptimal, can be packed better (owner,bool,num0);
     let contract = r#"
@@ -113,9 +110,9 @@ fn test_pack_storage_variables_optimization() {
     }
     "#;
 
-    let source_unit = solang_parser::parse(contract, 0).unwrap().0;
-    let optimization_locations = pack_storage_variables_optimization(source_unit);
-    assert_eq!(optimization_locations.len(), 1);
+    let mut source_unit = solang_parser::parse(contract, 0).unwrap().0;
+    let optimization_locations = pack_storage_variables_optimization(&mut source_unit);
+    assert_eq!(optimization_locations.unwrap().len(), 1);
 
     // Suboptimal, can be packed better (owner,num1,b0,num0)
     let contract = r#"
@@ -127,7 +124,7 @@ fn test_pack_storage_variables_optimization() {
         }
         "#;
 
-    let source_unit = solang_parser::parse(contract, 0).unwrap().0;
-    let optimization_locations = pack_storage_variables_optimization(source_unit);
-    assert_eq!(optimization_locations.len(), 1);
+    let mut source_unit = solang_parser::parse(contract, 0).unwrap().0;
+    let optimization_locations = pack_storage_variables_optimization(&mut source_unit);
+    assert_eq!(optimization_locations.unwrap().len(), 1);
 }

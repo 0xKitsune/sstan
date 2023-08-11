@@ -220,7 +220,9 @@ pub fn analyze_for_optimization(
         Optimization::IncrementDecrement => increment_decrement_optimization(&mut source_unit)?,
         Optimization::MemoryToCalldata => memory_to_calldata_optimization(source_unit),
         Optimization::MultipleRequire => multiple_require_optimization(&mut source_unit)?,
-        Optimization::PackStorageVariables => pack_storage_variables_optimization(source_unit),
+        Optimization::PackStorageVariables => {
+            pack_storage_variables_optimization(&mut source_unit)?
+        }
         Optimization::PackStructVariables => pack_struct_variables_optimization(source_unit),
         Optimization::PayableFunction => payable_function_optimization(source_unit),
         Optimization::PrivateConstant => private_constant_optimization(source_unit),
