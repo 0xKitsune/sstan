@@ -195,7 +195,7 @@ pub trait Visitor {
         &mut self,
         _attribute: &mut FunctionAttribute,
     ) -> Result<(), Self::Error> {
-        self.extract_function_attribute(_attribute);
+        self.extract_function_attribute(_attribute)?;
         Ok(())
     }
     //pub type ParameterList = Vec<(Loc, Option<Parameter>)>;
@@ -203,7 +203,7 @@ pub trait Visitor {
         &mut self,
         parameter_list: &mut ParameterList,
     ) -> Result<(), Self::Error> {
-        self.extract_parameter_list(parameter_list);
+        self.extract_parameter_list(parameter_list)?;
         for parameter in parameter_list {
             if let Some(ref mut param) = parameter.1 {
                 self.visit_parameter(param)?;
@@ -214,11 +214,11 @@ pub trait Visitor {
     }
 
     fn visit_function_type(&mut self, _ty: &mut FunctionTy) -> Result<(), Self::Error> {
-        self.extract_function_type(_ty);
+        self.extract_function_type(_ty)?;
         Ok(())
     }
     fn visit_error(&mut self, error: &mut ErrorDefinition) -> Result<(), Self::Error> {
-        self.extract_error(error);
+        self.extract_error(error)?;
         self.visit_expr(error.keyword.loc(), &mut error.keyword)?;
 
         if let Some(ref mut identifier) = error.name {
@@ -243,7 +243,7 @@ pub trait Visitor {
     }
 
     fn visit_struct(&mut self, structure: &mut StructDefinition) -> Result<(), Self::Error> {
-        self.extract_struct(structure);
+        self.extract_struct(structure)?;
         if let Some(ident) = structure.name.as_mut() {
             self.visit_ident(ident.loc, ident)?;
         }
@@ -254,7 +254,7 @@ pub trait Visitor {
     }
 
     fn visit_fields(&mut self, _fields: &mut Vec<VariableDeclaration>) -> Result<(), Self::Error> {
-        self.extract_fields(_fields);
+        self.extract_fields(_fields)?;
         for field in _fields {
             self.visit_var_declaration(field)?;
         }
@@ -262,7 +262,7 @@ pub trait Visitor {
     }
 
     fn visit_contract(&mut self, contract: &mut ContractDefinition) -> Result<(), Self::Error> {
-        self.extract_contract(contract);
+        self.extract_contract(contract)?;
         self.visit_contract_type(&mut contract.ty)?;
         if let Some(ref mut identifier) = contract.name {
             self.visit_ident(identifier.loc, identifier)?;
@@ -282,7 +282,7 @@ pub trait Visitor {
         &mut self,
         _contract_part: &mut ContractPart,
     ) -> Result<(), Self::Error> {
-        self.extract_contract_part(_contract_part);
+        self.extract_contract_part(_contract_part)?;
         match _contract_part {
             ContractPart::StructDefinition(struct_definition) => {
                 self.visit_struct(struct_definition)?;
@@ -320,7 +320,7 @@ pub trait Visitor {
     }
 
     fn visit_contract_type(&mut self, _ty: &mut ContractTy) -> Result<(), Self::Error> {
-        self.extract_contract_type(_ty);
+        self.extract_contract_type(_ty)?;
         match _ty {
             ContractTy::Abstract(loc) => {
                 self.visit_abstract(*loc)?;
@@ -340,27 +340,27 @@ pub trait Visitor {
     }
 
     fn visit_abstract(&mut self, _loc: Loc) -> Result<(), Self::Error> {
-        self.extract_abstract(_loc);
+        self.extract_abstract(_loc)?;
         Ok(())
     }
 
     fn visit_contract_keyword(&mut self, _loc: Loc) -> Result<(), Self::Error> {
-        self.extract_contract_keyword(_loc);
+        self.extract_contract_keyword(_loc)?;
         Ok(())
     }
 
     fn visit_interface(&mut self, _loc: Loc) -> Result<(), Self::Error> {
-        self.extract_interface(_loc);
+        self.extract_interface(_loc)?;
         Ok(())
     }
 
     fn visit_library(&mut self, _loc: Loc) -> Result<(), Self::Error> {
-        self.extract_library(_loc);
+        self.extract_library(_loc)?;
         Ok(())
     }
 
     fn visit_import(&mut self, _import: &mut Import) -> Result<(), Self::Error> {
-        self.extract_import(_import);
+        self.extract_import(_import)?;
         match _import {
             Import::Plain(str, loc) => {
                 self.visit_import_plain(*loc, str)?;
@@ -376,7 +376,7 @@ pub trait Visitor {
     }
 
     fn visit_enum(&mut self, enum_definition: &mut Box<EnumDefinition>) -> Result<(), Self::Error> {
-        self.extract_enum(enum_definition);
+        self.extract_enum(enum_definition)?;
         if let Some(ref mut identifier) = enum_definition.name {
             self.visit_ident(identifier.loc, identifier)?;
         }
@@ -391,7 +391,7 @@ pub trait Visitor {
     }
 
     fn visit_annotation(&mut self, _annotation: &mut Annotation) -> Result<(), Self::Error> {
-        self.extract_annotation(_annotation);
+        self.extract_annotation(_annotation)?;
         self.visit_ident(_annotation.id.loc, &mut _annotation.id)?;
         if let Some(ref mut value) = _annotation.value {
             self.visit_expr(value.loc(), value)?;
@@ -405,7 +405,7 @@ pub trait Visitor {
         _ident: &mut Option<Identifier>,
         _str: &mut Option<StringLiteral>,
     ) -> Result<(), Self::Error> {
-        self.extract_pragma(_loc, _ident, _str);
+        self.extract_pragma(_loc, _ident, _str)?;
         if let Some(ident) = _ident {
             self.visit_ident(ident.loc, ident)?;
         }
@@ -419,7 +419,7 @@ pub trait Visitor {
         _loc: Loc,
         _import: &mut StringLiteral,
     ) -> Result<(), Self::Error> {
-        self.extract_import_plain(_loc, _import);
+        self.extract_import_plain(_loc, _import)?;
         self.visit_string_literal(_import)?;
         Ok(())
     }
@@ -429,7 +429,7 @@ pub trait Visitor {
         _global: &mut StringLiteral,
         _alias: &mut Identifier,
     ) -> Result<(), Self::Error> {
-        self.extract_import_global(_loc, _global, _alias);
+        self.extract_import_global(_loc, _global, _alias)?;
         self.visit_string_literal(_global)?;
         self.visit_ident(_alias.loc, _alias)?;
         Ok(())
@@ -441,7 +441,7 @@ pub trait Visitor {
         _imports: &mut [(Identifier, Option<Identifier>)],
         _from: &mut StringLiteral,
     ) -> Result<(), Self::Error> {
-        self.extract_import_renames(_loc, _imports, _from);
+        self.extract_import_renames(_loc, _imports, _from)?;
         self.visit_string_literal(_from)?;
         for (ident_0, ident_1) in _imports {
             self.visit_ident(ident_0.loc, ident_0)?;
@@ -1222,7 +1222,7 @@ pub trait Visitor {
         _body: &mut Statement,
         _cond: &mut Expression,
     ) -> Result<(), Self::Error> {
-        self.extract_do_while(_loc, _body, _cond);
+        self.extract_do_while(_loc, _body, _cond)?;
         self.visit_statement(_body)?;
         self.visit_expr(_cond.loc(), _cond)?;
         Ok(())
@@ -1268,7 +1268,7 @@ pub trait Visitor {
         &mut self,
         _variable_attribute: &mut VariableAttribute,
     ) -> Result<(), Self::Error> {
-        self.extract_var_attribute(_variable_attribute);
+        self.extract_var_attribute(_variable_attribute)?;
         match _variable_attribute {
             VariableAttribute::Visibility(visibility) => {
                 self.visit_visibility(visibility)?;
