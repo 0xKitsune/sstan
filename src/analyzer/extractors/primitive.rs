@@ -4,71 +4,51 @@ use solang_parser::pt::*;
 
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor, Target};
 
-pub struct MemberAccessExtractor {
-    targets: Vec<Expression>,
+macro_rules! extractor {
+    ($extractor_name:ident, $target_type:ty) => {
+        pub struct $extractor_name {
+            targets: Vec<$target_type>,
+        }
+
+        impl $extractor_name {
+            pub fn new() -> Self {
+                Self { targets: vec![] }
+            }
+        }
+
+        impl<V: Visitable> Extractor<V, $target_type> for $extractor_name {
+            fn extract(v: &mut V) -> Result<Vec<$target_type>, ExtractionError> {
+                let mut extractor_instance = Self::new();
+                v.visit(&mut extractor_instance)?;
+                Ok(extractor_instance.targets)
+            }
+        }
+    };
 }
 
-impl MemberAccessExtractor {
-    pub fn new() -> Self {
-        Self { targets: vec![] }
-    }
-}
+extractor!(MemberAccessExtractor, Expression);
 
 impl Visitor for MemberAccessExtractor {
     type Error = ExtractionError;
-
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
-            Expression::MemberAccess(_, _, _) => {
-                self.targets.push(expr.clone());
-            }
-
+            Expression::MemberAccess(_, _, _) => self.targets.push(expr.clone()),
             _ => {}
         }
-
         Ok(())
     }
 }
 
-impl<V: Visitable> Extractor<V, Expression> for MemberAccessExtractor {
-    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
-        let mut member_access_extractor = Self::new();
-        v.visit(&mut member_access_extractor)?;
-        Ok(member_access_extractor.targets)
-    }
-}
-
-pub struct ForExtractor {
-    targets: Vec<Statement>,
-}
-
-impl ForExtractor {
-    pub fn new() -> Self {
-        Self { targets: vec![] }
-    }
-}
+extractor!(ForExtractor, Statement);
 
 impl Visitor for ForExtractor {
     type Error = ExtractionError;
-
     fn extract_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
         match statement {
-            Statement::For(_, _, _, _, _) => {
-                self.targets.push(statement.clone());
-            }
-
+            Statement::For(_, _, _, _, _) => self.targets.push(statement.clone()),
             _ => {}
         }
-
         Ok(())
-    }
-}
-
-impl<V: Visitable> Extractor<V, Statement> for ForExtractor {
-    fn extract(v: &mut V) -> Result<Vec<Statement>, ExtractionError> {
-        let mut for_extractor = Self::new();
-        v.visit(&mut for_extractor)?;
-        Ok(for_extractor.targets)
     }
 }
 
@@ -78,19 +58,10 @@ impl Visitor for DefaultVisitor {
     type Error = ExtractionError;
 }
 
-pub struct EqualityExtractor {
-    targets: Vec<Expression>,
-}
-
-impl EqualityExtractor {
-    pub fn new() -> Self {
-        Self { targets: vec![] }
-    }
-}
+extractor!(EqualityExtractor, Expression);
 
 impl Visitor for EqualityExtractor {
     type Error = ExtractionError;
-
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
             Expression::Equal(_, _, _)
@@ -98,38 +69,17 @@ impl Visitor for EqualityExtractor {
             | Expression::LessEqual(_, _, _)
             | Expression::MoreEqual(_, _, _)
             | Expression::Less(_, _, _)
-            | Expression::More(_, _, _) => {
-                self.targets.push(expr.clone());
-            }
-
+            | Expression::More(_, _, _) => self.targets.push(expr.clone()),
             _ => {}
         }
-
         Ok(())
     }
 }
 
-impl<V: Visitable> Extractor<V, Expression> for EqualityExtractor {
-    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
-        let mut equality_extractor = Self::new();
-        v.visit(&mut equality_extractor)?;
-        Ok(equality_extractor.targets)
-    }
-}
-
-pub struct AssignmentExtractor {
-    targets: Vec<Expression>,
-}
-
-impl AssignmentExtractor {
-    pub fn new() -> Self {
-        Self { targets: vec![] }
-    }
-}
+extractor!(AssignmentExtractor, Expression);
 
 impl Visitor for AssignmentExtractor {
     type Error = ExtractionError;
-
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
             Expression::Assign(_, _, _)
@@ -142,109 +92,46 @@ impl Visitor for AssignmentExtractor {
             | Expression::AssignSubtract(_, _, _)
             | Expression::AssignMultiply(_, _, _)
             | Expression::AssignDivide(_, _, _)
-            | Expression::AssignModulo(_, _, _) => {
-                self.targets.push(expr.clone());
-            }
-
+            | Expression::AssignModulo(_, _, _) => self.targets.push(expr.clone()),
             _ => {}
         }
-
         Ok(())
     }
 }
 
-impl<V: Visitable> Extractor<V, Expression> for AssignmentExtractor {
-    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
-        let mut equality_extractor = Self::new();
-        v.visit(&mut equality_extractor)?;
-        Ok(equality_extractor.targets)
-    }
-}
-
-pub struct IncrementorExtractor {
-    targets: Vec<Expression>,
-}
-
-impl IncrementorExtractor {
-    pub fn new() -> Self {
-        Self { targets: vec![] }
-    }
-}
+extractor!(IncrementorExtractor, Expression);
 
 impl Visitor for IncrementorExtractor {
     type Error = ExtractionError;
-
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
             Expression::PreDecrement(_, _)
             | Expression::PostDecrement(_, _)
             | Expression::PreIncrement(_, _)
-            | Expression::PostIncrement(_, _) => {
-                self.targets.push(expr.clone());
-            }
-
+            | Expression::PostIncrement(_, _) => self.targets.push(expr.clone()),
             _ => {}
         }
-
         Ok(())
     }
 }
 
-impl<V: Visitable> Extractor<V, Expression> for IncrementorExtractor {
-    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
-        let mut equality_extractor = Self::new();
-        v.visit(&mut equality_extractor)?;
-        Ok(equality_extractor.targets)
-    }
-}
-
-pub struct FunctionCallExtractor {
-    targets: Vec<Expression>,
-}
-
-impl FunctionCallExtractor {
-    pub fn new() -> Self {
-        Self { targets: vec![] }
-    }
-}
+extractor!(FunctionCallExtractor, Expression);
 
 impl Visitor for FunctionCallExtractor {
     type Error = ExtractionError;
-
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
         match expr {
-            Expression::FunctionCall(_, _, _) => {
-                self.targets.push(expr.clone());
-            }
-
+            Expression::FunctionCall(_, _, _) => self.targets.push(expr.clone()),
             _ => {}
         }
-
         Ok(())
     }
 }
 
-impl<V: Visitable> Extractor<V, Expression> for FunctionCallExtractor {
-    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
-        let mut equality_extractor = Self::new();
-        v.visit(&mut equality_extractor)?;
-        Ok(equality_extractor.targets)
-    }
-}
-
-pub struct BlockExtractor {
-    targets: Vec<Statement>,
-}
-
-impl BlockExtractor {
-    pub fn new() -> Self {
-        Self { targets: vec![] }
-    }
-}
+extractor!(BlockExtractor, Statement);
 
 impl Visitor for BlockExtractor {
     type Error = ExtractionError;
-
     fn extract_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
         match statement {
             Statement::Block {
@@ -254,42 +141,16 @@ impl Visitor for BlockExtractor {
             } => self.targets.push(statement.clone()),
             _ => {}
         }
-
         Ok(())
     }
 }
 
-impl<V: Visitable> Extractor<V, Statement> for BlockExtractor {
-    fn extract(v: &mut V) -> Result<Vec<Statement>, ExtractionError> {
-        let mut equality_extractor = Self::new();
-        v.visit(&mut equality_extractor)?;
-        Ok(equality_extractor.targets)
-    }
-}
-
-pub struct FunctionExtractor {
-    targets: Vec<FunctionDefinition>,
-}
-
-impl FunctionExtractor {
-    pub fn new() -> Self {
-        Self { targets: vec![] }
-    }
-}
+extractor!(FunctionExtractor, FunctionDefinition);
 
 impl Visitor for FunctionExtractor {
     type Error = ExtractionError;
-
     fn extract_function(&mut self, function: &mut FunctionDefinition) -> Result<(), Self::Error> {
         self.targets.push(function.clone());
         Ok(())
-    }
-}
-
-impl<V: Visitable> Extractor<V, FunctionDefinition> for FunctionExtractor {
-    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
-        let mut equality_extractor = Self::new();
-        v.visit(&mut equality_extractor)?;
-        Ok(equality_extractor.targets)
     }
 }
