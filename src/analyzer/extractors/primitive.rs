@@ -1,11 +1,9 @@
+use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor, Target};
+use crate::default_extractor;
+use solang_parser::pt::*;
 use std::{collections::HashSet, error::Error};
 
-use solang_parser::pt::*;
-
-use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor, Target};
-use crate::extractor;
-
-extractor!(MemberAccessExtractor, Expression);
+default_extractor!(MemberAccessExtractor, Expression);
 
 impl Visitor for MemberAccessExtractor {
     type Error = ExtractionError;
@@ -18,7 +16,7 @@ impl Visitor for MemberAccessExtractor {
     }
 }
 
-extractor!(ForExtractor, Statement);
+default_extractor!(ForExtractor, Statement);
 
 impl Visitor for ForExtractor {
     type Error = ExtractionError;
@@ -31,7 +29,7 @@ impl Visitor for ForExtractor {
     }
 }
 
-extractor!(EqualityExtractor, Expression);
+default_extractor!(EqualityExtractor, Expression);
 
 impl Visitor for EqualityExtractor {
     type Error = ExtractionError;
@@ -49,7 +47,7 @@ impl Visitor for EqualityExtractor {
     }
 }
 
-extractor!(AssignmentExtractor, Expression);
+default_extractor!(AssignmentExtractor, Expression);
 
 impl Visitor for AssignmentExtractor {
     type Error = ExtractionError;
@@ -72,7 +70,7 @@ impl Visitor for AssignmentExtractor {
     }
 }
 
-extractor!(IncrementorExtractor, Expression);
+default_extractor!(IncrementorExtractor, Expression);
 
 impl Visitor for IncrementorExtractor {
     type Error = ExtractionError;
@@ -88,7 +86,7 @@ impl Visitor for IncrementorExtractor {
     }
 }
 
-extractor!(FunctionCallExtractor, Expression);
+default_extractor!(FunctionCallExtractor, Expression);
 
 impl Visitor for FunctionCallExtractor {
     type Error = ExtractionError;
@@ -101,7 +99,7 @@ impl Visitor for FunctionCallExtractor {
     }
 }
 
-extractor!(BlockExtractor, Statement);
+default_extractor!(BlockExtractor, Statement);
 
 impl Visitor for BlockExtractor {
     type Error = ExtractionError;
@@ -118,7 +116,7 @@ impl Visitor for BlockExtractor {
     }
 }
 
-extractor!(FunctionExtractor, FunctionDefinition);
+default_extractor!(FunctionExtractor, FunctionDefinition);
 
 impl Visitor for FunctionExtractor {
     type Error = ExtractionError;
@@ -128,7 +126,7 @@ impl Visitor for FunctionExtractor {
     }
 }
 
-extractor!(ContractDefinitionExtractor, ContractDefinition);
+default_extractor!(ContractDefinitionExtractor, ContractDefinition);
 
 impl Visitor for ContractDefinitionExtractor {
     type Error = ExtractionError;

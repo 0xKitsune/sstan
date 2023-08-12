@@ -6,11 +6,10 @@ use solang_parser::{self, pt::SourceUnit};
 use crate::analyzer::ast::{self, Target};
 use crate::analyzer::utils;
 
-pub fn constant_variable_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn constant_variable_optimization(source_unit: &mut SourceUnit) -> HashSet<Loc> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let mut storage_variables =
-        utils::get_32_byte_storage_variables(source_unit.clone(), true, false);
+    let mut storage_variables = utils::get_32_byte_storage_variables(source_unit, true, false);
 
     let target_nodes = ast::extract_targets_from_node(
         vec![
@@ -30,7 +29,7 @@ pub fn constant_variable_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
             Target::AssignSubtract,
             Target::AssignXor,
         ],
-        source_unit.into(),
+        source_unit.clone().into(),
     );
 
     for node in target_nodes {
@@ -208,8 +207,8 @@ fn test_constant_variable_optimization() {
  
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = constant_variable_optimization(source_unit);
+    let optimization_locations = constant_variable_optimization(&mut source_unit);
     assert_eq!(optimization_locations.len(), 2)
 }

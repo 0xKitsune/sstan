@@ -6,18 +6,18 @@ use solang_parser::{self, pt::SourceUnit};
 use crate::analyzer::ast::{self, Target};
 use crate::analyzer::utils::get_32_byte_storage_variables;
 
-pub fn immutable_variables_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn immutable_variables_optimization(source_unit: &mut SourceUnit) -> HashSet<Loc> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Get all storage variables that are not marked constant or immutable
-    let storage_variables = get_32_byte_storage_variables(source_unit.clone(), true, true);
+    let storage_variables = get_32_byte_storage_variables(source_unit, true, true);
 
     let mut potential_immutable_variables =
         get_storage_variables_assigned_in_constructor(source_unit.clone(), storage_variables);
 
     let contract_definition_nodes =
-        ast::extract_target_from_node(Target::ContractDefinition, source_unit.into());
+        ast::extract_target_from_node(Target::ContractDefinition, source_unit.clone().into());
 
     for contract_definition_node in contract_definition_nodes {
         let target_nodes = ast::extract_target_from_node(
@@ -354,8 +354,8 @@ fn test_immutable_variables_optimization() {
     }
  
     "#;
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = immutable_variables_optimization(source_unit);
+    let optimization_locations = immutable_variables_optimization(&mut source_unit);
     assert_eq!(optimization_locations.len(), 2)
 }

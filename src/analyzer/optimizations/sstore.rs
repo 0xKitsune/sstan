@@ -6,15 +6,15 @@ use solang_parser::{self, pt::SourceUnit};
 use crate::analyzer::ast::{self, Target};
 use crate::analyzer::utils;
 
-pub fn sstore_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn sstore_optimization(source_unit: &mut SourceUnit) -> HashSet<Loc> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Get all storage variables
-    let storage_variables = utils::get_32_byte_storage_variables(source_unit.clone(), true, true);
+    let storage_variables = utils::get_32_byte_storage_variables(source_unit, true, true);
 
     //Extract the target nodes from the source_unit
-    let target_nodes = ast::extract_target_from_node(Target::Assign, source_unit.into());
+    let target_nodes = ast::extract_target_from_node(Target::Assign, source_unit.clone().into());
 
     for node in target_nodes {
         //We can use unwrap because Target::Assign is an expression
@@ -58,9 +58,9 @@ fn test_sstore_optimization() {
     }
  
     "#;
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = sstore_optimization(source_unit);
+    let optimization_locations = sstore_optimization(&mut source_unit);
 
     assert_eq!(optimization_locations.len(), 3);
 }

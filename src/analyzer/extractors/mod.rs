@@ -1,3 +1,8 @@
+pub mod compound;
+pub mod primitive;
+mod visitable;
+mod visitor;
+use self::{visitable::Visitable, visitor::Visitor};
 use solang_parser::pt::{
     Annotation, CatchClause, ContractDefinition, ContractPart, ContractTy, EnumDefinition,
     ErrorDefinition, ErrorParameter, EventDefinition, EventParameter, Expression,
@@ -8,13 +13,6 @@ use solang_parser::pt::{
     Visibility, YulBlock, YulExpression, YulFunctionCall, YulFunctionDefinition, YulStatement,
     YulSwitch, YulSwitchOptions, YulTypedIdentifier,
 };
-
-use self::{visitable::Visitable, visitor::Visitor};
-
-pub mod compound;
-pub mod primitive;
-mod visitable;
-mod visitor;
 use thiserror::Error;
 
 pub trait Extractor<V, T>: Visitor
@@ -101,7 +99,7 @@ impl_target!(
 /// Macro that defines a new extractor struct and implements the Extractor trait for it.
 /// The second argument defines the target type that the extractor will extract.
 #[macro_export]
-macro_rules! extractor {
+macro_rules! default_extractor {
     ($extractor_name:ident, $target_type:ty) => {
         pub struct $extractor_name {
             targets: Vec<$target_type>,
@@ -119,6 +117,17 @@ macro_rules! extractor {
                 v.visit(&mut extractor_instance)?;
                 Ok(extractor_instance.targets)
             }
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! compound_extractor {
+    ($extractor_name:ident, $target_type:ty) => {
+        pub struct $extractor_name {}
+
+        impl Visitor for $extractor_name {
+            type Error = ExtractionError;
         }
     };
 }

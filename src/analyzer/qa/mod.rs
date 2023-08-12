@@ -104,12 +104,12 @@ pub fn analyze_for_qa(
     let mut line_numbers: BTreeSet<LineNumber> = BTreeSet::new();
 
     //Parse the file into a the ast
-    let source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match qa {
         QualityAssurance::ConstructorOrder => constructor_order_qa(source_unit),
         QualityAssurance::PrivateVarsLeadingUnderscore => {
-            private_vars_leading_underscore(source_unit)
+            private_vars_leading_underscore(&mut source_unit)
         }
         QualityAssurance::PrivateFuncLeadingUnderscore => {
             private_func_leading_underscore(source_unit)

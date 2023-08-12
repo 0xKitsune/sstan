@@ -5,7 +5,7 @@ use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::utils::get_32_byte_storage_variables;
 
-pub fn private_vars_leading_underscore(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn private_vars_leading_underscore(source_unit: &mut SourceUnit) -> HashSet<Loc> {
     //Create a new hashset that stores the location of each qa target identified
     let mut qa_locations: HashSet<Loc> = HashSet::new();
 
@@ -53,8 +53,8 @@ fn test_private_vars_leading_underscore() {
     }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let qa_locations = private_vars_leading_underscore(source_unit);
+    let qa_locations = private_vars_leading_underscore(&mut source_unit);
     assert_eq!(qa_locations.len(), 3)
 }

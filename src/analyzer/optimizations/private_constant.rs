@@ -4,7 +4,7 @@ use solang_parser::pt::{self, Loc, SourceUnit};
 
 use crate::analyzer::utils;
 
-pub fn private_constant_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn private_constant_optimization(source_unit: &mut SourceUnit) -> HashSet<Loc> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     let storage_variables = utils::get_32_byte_storage_variables(source_unit, false, true);
@@ -61,7 +61,7 @@ contract Contract0 {
 }
 
     "#;
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
-    let optimization_locations = private_constant_optimization(source_unit);
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let optimization_locations = private_constant_optimization(&mut source_unit);
     assert_eq!(optimization_locations.len(), 2)
 }
