@@ -3,6 +3,7 @@ use std::{collections::HashSet, error::Error};
 use solang_parser::pt::*;
 
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor, Target};
+use crate::extractor;
 
 extractor!(MemberAccessExtractor, Expression);
 

@@ -100,6 +100,7 @@ impl_target!(
 
 /// Macro that defines a new extractor struct and implements the Extractor trait for it.
 /// The second argument defines the target type that the extractor will extract.
+#[macro_export]
 macro_rules! extractor {
     ($extractor_name:ident, $target_type:ty) => {
         pub struct $extractor_name {
