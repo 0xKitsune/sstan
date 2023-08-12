@@ -3,6 +3,8 @@ use regex::Regex;
 use solang_parser::pt::{self, Loc, SourceUnit, SourceUnitPart};
 use std::collections::HashMap;
 
+use super::extractors::{primitive::ContractDefinitionExtractor, ExtractionError, Extractor};
+
 pub type LineNumber = i32;
 
 // This is used as the initial string when parsing a solidity version
@@ -72,46 +74,43 @@ pub fn storage_slots_used(variables: Vec<u16>) -> u32 {
     slots_used
 }
 
+//TODO: move this to a compound extractor
 pub fn get_32_byte_storage_variables(
-    source_unit: pt::SourceUnit,
+    source_unit: &mut pt::SourceUnit,
     ignore_constants: bool,
     ignore_immutables: bool,
 ) -> HashMap<String, (Option<Vec<pt::VariableAttribute>>, Loc)> {
     let mut storage_variables: HashMap<String, (Option<Vec<pt::VariableAttribute>>, Loc)> =
         HashMap::new();
 
-    let target_nodes = extract_target_from_node(Target::ContractDefinition, source_unit.into());
+    let contracts =
+        ContractDefinitionExtractor::extract(source_unit).expect("TODO: handle this error");
+    for node in contracts {
+        'outer: for part in node.parts {
+            if let pt::ContractPart::VariableDefinition(box_variable_definition) = part {
+                let mut variable_attributes: Option<Vec<pt::VariableAttribute>> = None;
+                //if the variable is constant, mark constant_variable as true
 
-    for node in target_nodes {
-        let source_unit_part = node.source_unit_part().unwrap();
-
-        if let pt::SourceUnitPart::ContractDefinition(contract_definition) = source_unit_part {
-            'outer: for part in contract_definition.parts {
-                if let pt::ContractPart::VariableDefinition(box_variable_definition) = part {
-                    let mut variable_attributes: Option<Vec<pt::VariableAttribute>> = None;
-                    //if the variable is constant, mark constant_variable as true
-
-                    if !box_variable_definition.attrs.is_empty() {
-                        for attribute in box_variable_definition.attrs.clone() {
-                            if let pt::VariableAttribute::Constant(_) = attribute {
-                                if ignore_constants {
-                                    continue 'outer;
-                                }
-                            } else if let pt::VariableAttribute::Immutable(_) = attribute {
-                                if ignore_immutables {
-                                    continue 'outer;
-                                }
+                if !box_variable_definition.attrs.is_empty() {
+                    for attribute in box_variable_definition.attrs.clone() {
+                        if let pt::VariableAttribute::Constant(_) = attribute {
+                            if ignore_constants {
+                                continue 'outer;
+                            }
+                        } else if let pt::VariableAttribute::Immutable(_) = attribute {
+                            if ignore_immutables {
+                                continue 'outer;
                             }
                         }
-
-                        variable_attributes = Some(box_variable_definition.attrs);
                     }
 
-                    if let pt::Expression::Type(loc, ty) = box_variable_definition.ty {
-                        if let pt::Type::Mapping { .. } = ty {
-                        } else if let Some(name) = box_variable_definition.name {
-                            storage_variables.insert(name.to_string(), (variable_attributes, loc));
-                        }
+                    variable_attributes = Some(box_variable_definition.attrs);
+                }
+
+                if let pt::Expression::Type(loc, ty) = box_variable_definition.ty {
+                    if let pt::Type::Mapping { .. } = ty {
+                    } else if let Some(name) = box_variable_definition.name {
+                        storage_variables.insert(name.to_string(), (variable_attributes, loc));
                     }
                 }
             }

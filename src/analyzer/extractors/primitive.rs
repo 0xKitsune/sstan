@@ -127,3 +127,13 @@ impl Visitor for FunctionExtractor {
         Ok(())
     }
 }
+
+extractor!(ContractDefinitionExtractor, ContractDefinition);
+
+impl Visitor for ContractDefinitionExtractor {
+    type Error = ExtractionError;
+    fn extract_contract(&mut self, contract: &mut ContractDefinition) -> Result<(), Self::Error> {
+        self.targets.push(contract.clone());
+        Ok(())
+    }
+}
