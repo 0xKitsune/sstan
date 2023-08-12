@@ -45,7 +45,7 @@ pub fn str_to_qa(qa: &str) -> QualityAssurance {
 pub fn analyze_dir(
     target_dir: &str,
     qa: Vec<QualityAssurance>,
-) -> HashMap<QualityAssurance, Vec<(String, BTreeSet<LineNumber>)>> {
+) -> eyre::Result<HashMap<QualityAssurance, Vec<(String, BTreeSet<LineNumber>)>>> {
     //Initialize a new hashmap to keep track of all the optimizations across the target dir
     let mut qa_locations: HashMap<QualityAssurance, Vec<(String, BTreeSet<LineNumber>)>> =
         HashMap::new();
@@ -67,7 +67,7 @@ pub fn analyze_dir(
                     .to_str()
                     .expect("Could not get nested dir"),
                 qa.clone(),
-            ))
+            )?)
         } else {
             let file_name = file_path
                 .file_name()
@@ -81,7 +81,7 @@ pub fn analyze_dir(
 
                 //For each active optimization
                 for target in &qa {
-                    let line_numbers = analyze_for_qa(&file_contents, i, *target);
+                    let line_numbers = analyze_for_qa(&file_contents, i, *target)?;
 
                     if !line_numbers.is_empty() {
                         let file_optimizations = qa_locations.entry(*target).or_insert(vec![]);
@@ -93,26 +93,26 @@ pub fn analyze_dir(
         }
     }
 
-    qa_locations
+    Ok(qa_locations)
 }
 
 pub fn analyze_for_qa(
     file_contents: &str,
     file_number: usize,
     qa: QualityAssurance,
-) -> BTreeSet<LineNumber> {
+) -> eyre::Result<BTreeSet<LineNumber>> {
     let mut line_numbers: BTreeSet<LineNumber> = BTreeSet::new();
 
     //Parse the file into a the ast
     let mut source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match qa {
-        QualityAssurance::ConstructorOrder => constructor_order_qa(source_unit),
+        QualityAssurance::ConstructorOrder => constructor_order_qa(&mut source_unit)?,
         QualityAssurance::PrivateVarsLeadingUnderscore => {
             private_vars_leading_underscore(&mut source_unit)
         }
         QualityAssurance::PrivateFuncLeadingUnderscore => {
-            private_func_leading_underscore(source_unit)
+            private_func_leading_underscore(&mut source_unit)?
         }
     };
 
@@ -120,5 +120,5 @@ pub fn analyze_for_qa(
         line_numbers.insert(utils::get_line_number(loc.start(), file_contents));
     }
 
-    line_numbers
+    Ok(line_numbers)
 }
