@@ -161,3 +161,13 @@ impl Visitor for StructDefinitionExtractor {
         Ok(())
     }
 }
+
+default_extractor!(UsingListExtractor, UsingList);
+
+impl Visitor for UsingListExtractor {
+    type Error = ExtractionError;
+    fn extract_using_list(&mut self, using_list: &mut UsingList) -> Result<(), Self::Error> {
+        self.targets.push(using_list.clone());
+        Ok(())
+    }
+}
