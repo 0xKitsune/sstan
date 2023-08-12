@@ -4,30 +4,6 @@ use solang_parser::pt::*;
 
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor, Target};
 
-/// Macro that defines a new extractor struct and implements the Extractor trait for it.
-/// The second argument defines the target type that the extractor will extract.
-macro_rules! extractor {
-    ($extractor_name:ident, $target_type:ty) => {
-        pub struct $extractor_name {
-            targets: Vec<$target_type>,
-        }
-
-        impl $extractor_name {
-            pub fn new() -> Self {
-                Self { targets: vec![] }
-            }
-        }
-
-        impl<V: Visitable> Extractor<V, $target_type> for $extractor_name {
-            fn extract(v: &mut V) -> Result<Vec<$target_type>, ExtractionError> {
-                let mut extractor_instance = Self::new();
-                v.visit(&mut extractor_instance)?;
-                Ok(extractor_instance.targets)
-            }
-        }
-    };
-}
-
 extractor!(MemberAccessExtractor, Expression);
 
 impl Visitor for MemberAccessExtractor {
