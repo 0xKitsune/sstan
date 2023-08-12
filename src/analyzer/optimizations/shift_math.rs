@@ -4,7 +4,6 @@ use std::u32;
 use solang_parser::pt::{Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
 use crate::analyzer::extractors::{primitive::UrnaryOpteratorExtractor, Extractor};
 
 pub fn shift_math_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
