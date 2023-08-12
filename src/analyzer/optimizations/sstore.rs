@@ -1,39 +1,42 @@
 use std::collections::HashSet;
 
-use solang_parser::pt::{self, Loc};
+use solang_parser::pt::{self, Identifier, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::ast::{self, Target};
-use crate::analyzer::utils;
+use crate::analyzer::extractors::primitive::AssignmentExtractor;
+use crate::analyzer::extractors::{compound::StorageVariableExtractor, Extractor};
 
-pub fn sstore_optimization(source_unit: &mut SourceUnit) -> HashSet<Loc> {
+pub fn sstore_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Get all storage variables
-    let storage_variables = utils::get_32_byte_storage_variables(source_unit, true, true);
+    let storage_variables = StorageVariableExtractor::extract(source_unit)?;
 
     //Extract the target nodes from the source_unit
-    let target_nodes = ast::extract_target_from_node(Target::Assign, source_unit.clone().into());
+    let assignment_nodes = AssignmentExtractor::extract(source_unit)?;
 
-    for node in target_nodes {
+    for node in assignment_nodes {
         //We can use unwrap because Target::Assign is an expression
-        let expression = node.expression().unwrap();
-
         //if the expression is an Assign
-        if let pt::Expression::Assign(loc, box_expression, _) = expression {
+        if let pt::Expression::Assign(loc, box_expression, _) = node {
             //if the first expr in the assign expr is a variable
             if let pt::Expression::Variable(identifier) = *box_expression {
-                //if the variable name exists in the storage variable hashmap
-                if storage_variables.contains_key(&identifier.name) {
-                    //add the location to the optimization locations
-                    optimization_locations.insert(loc);
+                for storage_variable in &storage_variables {
+                    //if the variable name exists in the storage variable hashmap
+                    if let Some(name) = &storage_variable.name {
+                        if name.name == identifier.name {
+                            //add the location to the optimization locations
+                            optimization_locations.insert(loc);
+                        }
+                    }
                 }
             }
         }
     }
     //Return the identified optimization locations
-    optimization_locations
+    Ok(optimization_locations)
 }
 #[test]
 fn test_sstore_optimization() {
@@ -62,5 +65,5 @@ fn test_sstore_optimization() {
 
     let optimization_locations = sstore_optimization(&mut source_unit);
 
-    assert_eq!(optimization_locations.len(), 3);
+    assert_eq!(optimization_locations.unwrap().len(), 3);
 }
