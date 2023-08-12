@@ -228,7 +228,7 @@ pub fn analyze_for_optimization(
         Optimization::SafeMathPost080 => safe_math_post_080_optimization(&mut source_unit)?,
         Optimization::ShiftMath => shift_math_optimization(&mut source_unit)?,
         Optimization::SolidityKeccak256 => solidity_keccak256_optimization(&mut source_unit)?,
-        Optimization::SolidityMath => solidity_math_optimization(source_unit),
+        Optimization::SolidityMath => solidity_math_optimization(&mut source_unit)?,
         Optimization::Sstore => sstore_optimization(&mut source_unit),
         Optimization::StringErrors => string_error_optimization(source_unit),
         Optimization::OptimalComparison => optimal_comparison_optimization(&mut source_unit)?,
