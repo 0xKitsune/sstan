@@ -4,7 +4,7 @@ use super::{
     primitive::{ContractDefinitionExtractor, PragmaDirectiveExtractor},
     visitable::Visitable,
     visitor::Visitor,
-    ExtractionError, Extractor, SolidityVersion, Target,
+    ExtractionError, Extractor, SolidityVersion,
 };
 use crate::compound_extractor;
 use solang_parser::pt::*;
@@ -131,7 +131,7 @@ impl<V: Visitable> Extractor<V, Option<SolidityVersion>> for SolidityVerisonExtr
         if let SourceUnitPart::PragmaDirective(_, _, Some(version)) = &pragma_directive[0] {
             let solidity_version = SolidityVersion::from_str(&version.string)?;
 
-            return Ok(vec![Some(solidity_version)]);
+            Ok(vec![Some(solidity_version)])
         } else {
             Ok(vec![None])
         }

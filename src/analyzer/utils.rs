@@ -3,7 +3,7 @@ use regex::Regex;
 use solang_parser::pt::{self, Loc, SourceUnit, SourceUnitPart};
 use std::collections::HashMap;
 
-use super::extractors::{primitive::ContractDefinitionExtractor, ExtractionError, Extractor};
+use super::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 
 pub type LineNumber = i32;
 

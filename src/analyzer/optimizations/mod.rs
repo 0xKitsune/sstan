@@ -23,11 +23,11 @@ pub mod string_errors;
 mod template;
 
 use std::{
-    collections::{BTreeSet, HashMap, HashSet},
+    collections::{BTreeSet, HashMap},
     fs, vec,
 };
 
-use solang_parser::pt::Loc;
+
 
 use self::{
     address_balance::address_balance_optimization,

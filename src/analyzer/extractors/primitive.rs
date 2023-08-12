@@ -1,6 +1,6 @@
-use std::default;
 
-use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor, Target};
+
+use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor};
 use crate::default_extractor;
 use solang_parser::pt::*;
 

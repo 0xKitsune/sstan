@@ -2,7 +2,6 @@ use solang_parser::pt::{self, Expression, Loc, SourceUnit};
 use std::collections::HashSet;
 
 use crate::analyzer::{
-    ast::{self, Node, Target},
     extractors::{
         compound::SolidityVerisonExtractor,
         primitive::{MemberAccessExtractor, UsingListExtractor},
