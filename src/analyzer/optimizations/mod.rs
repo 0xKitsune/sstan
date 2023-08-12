@@ -225,7 +225,7 @@ pub fn analyze_for_optimization(
         }
         Optimization::PackStructVariables => pack_struct_variables_optimization(&mut source_unit)?,
         Optimization::PayableFunction => payable_function_optimization(source_unit),
-        Optimization::PrivateConstant => private_constant_optimization(&mut source_unit),
+        Optimization::PrivateConstant => private_constant_optimization(&mut source_unit)?,
         Optimization::SafeMathPre080 => safe_math_pre_080_optimization(source_unit),
         Optimization::SafeMathPost080 => safe_math_post_080_optimization(source_unit),
         Optimization::ShiftMath => shift_math_optimization(source_unit),

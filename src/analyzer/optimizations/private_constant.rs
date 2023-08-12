@@ -2,41 +2,35 @@ use std::collections::HashSet;
 
 use solang_parser::pt::{self, Loc, SourceUnit};
 
-use crate::analyzer::utils;
+use crate::analyzer::extractors::{compound::ConstantStorageVariableExtractor, Extractor};
 
-pub fn private_constant_optimization(source_unit: &mut SourceUnit) -> HashSet<Loc> {
+pub fn private_constant_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let storage_variables = utils::get_32_byte_storage_variables(source_unit, false, true);
+    let constant_target_nodes = ConstantStorageVariableExtractor::extract(source_unit).unwrap();
+    for node in constant_target_nodes {
+        let mut has_visibility_attribute = false;
 
-    for (_, variable_data) in storage_variables {
-        let (option_variable_attributes, loc) = variable_data;
-
-        if let Some(variable_attributes) = option_variable_attributes {
-            let mut is_constant = false;
-            let mut is_private = false;
-
-            for variable_attribute in variable_attributes {
-                match variable_attribute {
-                    pt::VariableAttribute::Constant(_) => {
-                        is_constant = true;
-                    }
-
-                    pt::VariableAttribute::Visibility(pt::Visibility::Private(_)) => {
-                        is_private = true
-                    }
-
-                    _ => {}
+        for attr in node.attrs {
+            match attr {
+                pt::VariableAttribute::Visibility(pt::Visibility::External(_))
+                | pt::VariableAttribute::Visibility(pt::Visibility::Public(_))
+                | pt::VariableAttribute::Visibility(pt::Visibility::Internal(_)) => {
+                    optimization_locations.insert(node.loc);
+                    has_visibility_attribute = true;
                 }
+                pt::VariableAttribute::Visibility(pt::Visibility::Private(_)) => {
+                    has_visibility_attribute = true;
+                }
+                _ => {}
             }
-
-            if is_constant && !is_private {
-                optimization_locations.insert(loc);
-            }
+        }
+        if !has_visibility_attribute {
+            optimization_locations.insert(node.loc);
         }
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 #[test]
@@ -63,5 +57,5 @@ contract Contract0 {
     "#;
     let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
     let optimization_locations = private_constant_optimization(&mut source_unit);
-    assert_eq!(optimization_locations.len(), 2)
+    assert_eq!(optimization_locations.unwrap().len(), 2)
 }
