@@ -1,6 +1,10 @@
+use std::str::FromStr;
+
 use super::{
-    primitive::ContractDefinitionExtractor, visitable::Visitable, visitor::Visitor,
-    ExtractionError, Extractor, Target,
+    primitive::{ContractDefinitionExtractor, PragmaDirectiveExtractor},
+    visitable::Visitable,
+    visitor::Visitor,
+    ExtractionError, Extractor, SolidityVersion, Target,
 };
 use crate::compound_extractor;
 use solang_parser::pt::*;
@@ -117,41 +121,19 @@ impl<V: Visitable> Extractor<V, VariableDefinition> for MutableStorageVariableEx
     }
 }
 
-// fn extract(v: &mut V) -> Result<Vec<VariableDefinition>, ExtractionError> {
-//     let mut extractor_instance = Self::new();
-//     let contracts = ContractDefinitionExtractor::extract(v)?;
+compound_extractor!(SolidityVerisonExtractor, Option<SolidityVersion>);
 
-//     for node in contracts {
-//         'outer: for part in node.parts {
-//             if let ContractPart::VariableDefinition(box_variable_definition) = part {
-//                 let mut variable_attributes: Option<Vec<VariableAttribute>> = None;
-//                 //if the variable is constant, mark constant_variable as true
+impl<V: Visitable> Extractor<V, Option<SolidityVersion>> for SolidityVerisonExtractor {
+    fn extract(v: &mut V) -> Result<Vec<Option<SolidityVersion>>, ExtractionError> {
+        let pragma_directive = PragmaDirectiveExtractor::extract(v)?;
 
-//                 if !box_variable_definition.attrs.is_empty() {
-//                     for attribute in box_variable_definition.attrs.clone() {
-//                         if let VariableAttribute::Constant(_) = attribute {
-//                             if ignore_constants {
-//                                 continue 'outer;
-//                             }
-//                         } else if let VariableAttribute::Immutable(_) = attribute {
-//                             if ignore_immutables {
-//                                 continue 'outer;
-//                             }
-//                         }
-//                     }
+        //TODO: right now this is only getting the first one, we should loop through this in case we are going through multiple contracts
+        if let SourceUnitPart::PragmaDirective(_, _, Some(version)) = &pragma_directive[0] {
+            let solidity_version = SolidityVersion::from_str(&version.string)?;
 
-//                     variable_attributes = Some(box_variable_definition.attrs);
-//                 }
-
-//                 if let pt::Expression::Type(loc, ty) = box_variable_definition.ty {
-//                     if let pt::Type::Mapping { .. } = ty {
-//                     } else if let Some(name) = box_variable_definition.name {
-//                         storage_variables.insert(name.to_string(), (variable_attributes, loc));
-//                     }
-//                 }
-//             }
-//         }
-//     }
-
-//     todo!()
-// }
+            return Ok(vec![Some(solidity_version)]);
+        } else {
+            Ok(vec![None])
+        }
+    }
+}

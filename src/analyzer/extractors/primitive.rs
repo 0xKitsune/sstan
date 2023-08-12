@@ -135,3 +135,18 @@ impl Visitor for ContractDefinitionExtractor {
         Ok(())
     }
 }
+
+default_extractor!(PragmaDirectiveExtractor, SourceUnitPart);
+
+impl Visitor for PragmaDirectiveExtractor {
+    type Error = ExtractionError;
+    fn extract_source_unit_part(
+        &mut self,
+        source_unit_part: &mut SourceUnitPart,
+    ) -> Result<(), Self::Error> {
+        if let SourceUnitPart::PragmaDirective(_, _, _) = source_unit_part {
+            self.targets.push(source_unit_part.clone());
+        }
+        Ok(())
+    }
+}
