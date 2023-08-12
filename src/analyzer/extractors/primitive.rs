@@ -1,7 +1,8 @@
+use std::default;
+
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor, Target};
 use crate::default_extractor;
 use solang_parser::pt::*;
-use std::{collections::HashSet, error::Error};
 
 default_extractor!(MemberAccessExtractor, Expression);
 
@@ -147,6 +148,16 @@ impl Visitor for PragmaDirectiveExtractor {
         if let SourceUnitPart::PragmaDirective(_, _, _) = source_unit_part {
             self.targets.push(source_unit_part.clone());
         }
+        Ok(())
+    }
+}
+
+default_extractor!(StructDefinitionExtractor, StructDefinition);
+
+impl Visitor for StructDefinitionExtractor {
+    type Error = ExtractionError;
+    fn extract_struct(&mut self, struct_def: &mut StructDefinition) -> Result<(), Self::Error> {
+        self.targets.push(struct_def.clone());
         Ok(())
     }
 }

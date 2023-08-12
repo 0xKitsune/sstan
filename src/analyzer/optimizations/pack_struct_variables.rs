@@ -4,35 +4,23 @@ use solang_parser::pt::{ContractPart, Loc, StructDefinition};
 use solang_parser::{self, pt::SourceUnit, pt::SourceUnitPart};
 
 use crate::analyzer::ast::{self, Target};
+use crate::analyzer::extractors::{primitive::StructDefinitionExtractor, Extractor};
 use crate::analyzer::utils;
 
 ///Identifiy opportunities to pack structs to save gas
-pub fn pack_struct_variables_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn pack_struct_variables_optimization(
+    source_unit: &mut SourceUnit,
+) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let target_nodes = ast::extract_target_from_node(Target::StructDefinition, source_unit.into());
-
+    let target_nodes = StructDefinitionExtractor::extract(source_unit)?;
     for node in target_nodes {
-        if node.is_source_unit_part() {
-            if let SourceUnitPart::StructDefinition(struct_definition) =
-                node.source_unit_part().unwrap()
-            {
-                let struct_location = struct_definition.loc;
-                if struct_can_be_packed(*struct_definition) {
-                    optimization_locations.insert(struct_location);
-                }
-            }
-        } else if node.is_contract_part() {
-            if let ContractPart::StructDefinition(struct_definition) = node.contract_part().unwrap()
-            {
-                let struct_location = struct_definition.loc;
-                if struct_can_be_packed(*struct_definition) {
-                    optimization_locations.insert(struct_location);
-                }
-            }
+        if struct_can_be_packed(node.clone()) {
+            optimization_locations.insert(node.loc);
         }
     }
-    optimization_locations
+
+    Ok(optimization_locations)
 }
 
 fn struct_can_be_packed(struct_definition: StructDefinition) -> bool {
@@ -119,9 +107,9 @@ contract OrderRouter {
 }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let _optimization_locations = pack_struct_variables_optimization(source_unit);
+    let optimization_locations = pack_struct_variables_optimization(&mut source_unit);
 
-    // assert_eq!(optimization_locations.len(), 4)
+    assert_eq!(optimization_locations.unwrap().len(), 4)
 }
