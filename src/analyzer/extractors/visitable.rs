@@ -269,3 +269,4 @@ impl_visitable!(EventParameter, visit_event_parameter);
 impl_visitable!(ErrorParameter, visit_error_parameter);
 impl_visitable!(IdentifierPath, visit_ident_path);
 impl_visitable!(YulTypedIdentifier, visit_yul_typed_ident);
+impl_visitable!(ContractDefinition, visit_contract);
