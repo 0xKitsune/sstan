@@ -4,52 +4,32 @@ use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::ast::{self, Target};
+use crate::analyzer::extractors::primitive::AssignmentExtractor;
+use crate::analyzer::extractors::{primitive::FunctionExtractor, Extractor};
 
-pub fn memory_to_calldata_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn memory_to_calldata_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Extract the target nodes from the source_unit
-    let target_nodes =
-        ast::extract_target_from_node(Target::FunctionDefinition, source_unit.into());
+    let mut target_nodes = FunctionExtractor::extract(source_unit)?;
 
     //For each target node that was extracted, check for the optimization patterns
-    for node in target_nodes {
+    for node in target_nodes.iter_mut() {
         //extract the box function definition depending on if the node is a contract part or a source unit part
-        let box_function_definition = if node.is_contract_part() {
-            let contract_part = node.contract_part().unwrap();
 
-            if let pt::ContractPart::FunctionDefinition(box_function_definition) = contract_part {
-                box_function_definition
-            } else {
-                continue;
-            }
-        } else {
-            //if the Function definition is not a contract part, then it must be a source unit part
-            let contract_part = node.source_unit_part().unwrap();
-
-            if let pt::SourceUnitPart::FunctionDefinition(box_function_definition) = contract_part {
-                box_function_definition
-            } else {
-                continue;
-            }
-        };
-
-        let mut memory_args = get_function_definition_memory_args(*box_function_definition.clone());
+        let mut memory_args = get_function_definition_memory_args(node.clone());
 
         // Constructor can only use `memory`
-        if box_function_definition.ty == pt::FunctionTy::Constructor {
+        if node.ty == pt::FunctionTy::Constructor {
             continue;
         }
 
-        if let Some(body) = box_function_definition.body {
-            let assign_nodes = ast::extract_target_from_node(Target::Assign, body.into());
+        if let Some(ref mut body) = node.body {
+            let assign_nodes = AssignmentExtractor::extract(body)?;
 
             for assign_node in assign_nodes {
-                //Can unwrap because Target::Assign will always be an expression
-                let expression = assign_node.expression().unwrap();
-
-                if let pt::Expression::Assign(_, box_expression, _) = expression {
+                if let pt::Expression::Assign(_, box_expression, _) = assign_node {
                     //check if the left hand side is a variable
                     match *box_expression {
                         //if assignment is to variable
@@ -80,7 +60,7 @@ pub fn memory_to_calldata_optimization(source_unit: SourceUnit) -> HashSet<Loc> 
     }
 
     //Return the identified optimization locations
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 fn get_function_definition_memory_args(
@@ -166,8 +146,8 @@ contract Contract1 {
 }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = memory_to_calldata_optimization(source_unit);
-    assert_eq!(optimization_locations.len(), 2)
+    let optimization_locations = memory_to_calldata_optimization(&mut source_unit);
+    assert_eq!(optimization_locations.unwrap().len(), 2)
 }

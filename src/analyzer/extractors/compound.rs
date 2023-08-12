@@ -1,4 +1,4 @@
-use std::str::FromStr;
+use std::{str::FromStr, vec};
 
 use super::{
     primitive::{ContractDefinitionExtractor, FunctionExtractor, PragmaDirectiveExtractor},
@@ -48,6 +48,20 @@ impl<V: Visitable> Extractor<V, FunctionDefinition> for ConstructorExtractor {
             .cloned()
             .collect::<Vec<FunctionDefinition>>();
         Ok(constructors)
+    }
+}
+
+compound_extractor!(ContractPartFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for ContractPartFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let mut contracts = ContractDefinitionExtractor::extract(v)?;
+        let mut contract_part_functions = vec![];
+        for contract in contracts.iter_mut() {
+            contract_part_functions.extend(FunctionExtractor::extract(contract)?);
+        }
+
+        Ok(contract_part_functions)
     }
 }
 
