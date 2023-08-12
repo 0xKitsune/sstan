@@ -375,10 +375,8 @@ pub trait Visitor {
             self.visit_ident(identifier.loc, identifier)?;
         }
 
-        for value in enum_definition.values.clone() {
-            if let Some(mut value) = value {
-                self.visit_ident(value.loc, &mut value)?;
-            }
+        for ref mut value in enum_definition.values.clone().into_iter().flatten() {
+            self.visit_ident(value.loc, value)?;
         }
 
         Ok(())
