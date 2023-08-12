@@ -1,9 +1,8 @@
 use std::collections::HashSet;
 
-use solang_parser::pt::{ContractPart, Loc, StructDefinition};
-use solang_parser::{self, pt::SourceUnit, pt::SourceUnitPart};
+use solang_parser::pt::{Loc, StructDefinition};
+use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
 use crate::analyzer::extractors::{primitive::StructDefinitionExtractor, Extractor};
 use crate::analyzer::utils;
 
