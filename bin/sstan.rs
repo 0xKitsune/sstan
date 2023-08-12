@@ -17,7 +17,7 @@ extern crate colour;
 fn main() -> eyre::Result<()> {
     let opts = Opts::new();
 
-    let vulnerabilities = vulnerabilities::analyze_dir(&opts.path, opts.vulnerabilities);
+    let vulnerabilities = vulnerabilities::analyze_dir(&opts.path, opts.vulnerabilities)?;
     let optimizations = optimizations::analyze_dir(&opts.path, opts.optimizations)?;
     let qa = qa::analyze_dir(&opts.path, opts.qa)?;
 

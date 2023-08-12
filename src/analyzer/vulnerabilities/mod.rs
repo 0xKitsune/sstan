@@ -51,7 +51,7 @@ pub fn str_to_vulnerability(vuln: &str) -> Vulnerability {
 pub fn analyze_dir(
     target_dir: &str,
     vulnerabilities: Vec<Vulnerability>,
-) -> HashMap<Vulnerability, Vec<(String, BTreeSet<LineNumber>)>> {
+) -> eyre::Result<HashMap<Vulnerability, Vec<(String, BTreeSet<LineNumber>)>>> {
     //Initialize a new hashmap to keep track of all the optimizations across the target dir
     let mut vulnerability_locations: HashMap<Vulnerability, Vec<(String, BTreeSet<LineNumber>)>> =
         HashMap::new();
@@ -73,7 +73,7 @@ pub fn analyze_dir(
                     .to_str()
                     .expect("Could not get nested dir"),
                 vulnerabilities.clone(),
-            ))
+            )?)
         } else {
             let file_name = file_path
                 .file_name()
@@ -87,7 +87,8 @@ pub fn analyze_dir(
 
                 //For each active optimization
                 for vulnerability in &vulnerabilities {
-                    let line_numbers = analyze_for_vulnerability(&file_contents, i, *vulnerability);
+                    let line_numbers =
+                        analyze_for_vulnerability(&file_contents, i, *vulnerability)?;
 
                     if !line_numbers.is_empty() {
                         let file_optimizations = vulnerability_locations
@@ -101,18 +102,18 @@ pub fn analyze_dir(
         }
     }
 
-    vulnerability_locations
+    Ok(vulnerability_locations)
 }
 
 pub fn analyze_for_vulnerability(
     file_contents: &str,
     file_number: usize,
     vulnerability: Vulnerability,
-) -> BTreeSet<LineNumber> {
+) -> eyre::Result<BTreeSet<LineNumber>> {
     let mut line_numbers: BTreeSet<LineNumber> = BTreeSet::new();
 
     //Parse the file into a the ast
-    let source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match vulnerability {
         Vulnerability::FloatingPragma => floating_pragma_vulnerability(source_unit),
@@ -120,12 +121,14 @@ pub fn analyze_for_vulnerability(
         Vulnerability::UnprotectedSelfdestruct => {
             unprotected_self_destruct_vulnerability(source_unit)
         }
-        Vulnerability::DivideBeforeMultiply => divide_before_multiply_vulnerability(source_unit),
+        Vulnerability::DivideBeforeMultiply => {
+            divide_before_multiply_vulnerability(&mut source_unit)?
+        }
     };
 
     for loc in locations {
         line_numbers.insert(utils::get_line_number(loc.start(), file_contents));
     }
 
-    line_numbers
+    Ok(line_numbers)
 }
