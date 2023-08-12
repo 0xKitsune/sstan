@@ -1,41 +1,26 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
-use solang_parser::pt::{self, Loc};
+use solang_parser::pt::{self, Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
-use crate::analyzer::utils;
+use crate::analyzer::extractors::primitive::IncrementorExtractor;
+use crate::analyzer::extractors::{primitive::AssignmentExtractor, Extractor};
+use crate::analyzer::utils::get_32_byte_storage_variables;
 
-pub fn constant_variable_optimization(source_unit: &mut SourceUnit) -> HashSet<Loc> {
+pub fn constant_variable_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let mut storage_variables = utils::get_32_byte_storage_variables(source_unit, true, false);
+    let mut storage_variables = get_32_byte_storage_variables(source_unit, true, false);
 
-    let target_nodes = ast::extract_targets_from_node(
-        vec![
-            Target::Assign,
-            Target::PreIncrement,
-            Target::PostIncrement,
-            Target::PreDecrement,
-            Target::PostDecrement,
-            Target::AssignAdd,
-            Target::AssignAnd,
-            Target::AssignDivide,
-            Target::AssignModulo,
-            Target::AssignMultiply,
-            Target::AssignOr,
-            Target::AssignShiftLeft,
-            Target::AssignShiftRight,
-            Target::AssignSubtract,
-            Target::AssignXor,
-        ],
-        source_unit.clone().into(),
-    );
+    let assignment_nodes = AssignmentExtractor::extract(source_unit)?;
+    let incrementor_nodes = IncrementorExtractor::extract(source_unit)?;
+    let nodes = assignment_nodes
+        .into_iter()
+        .chain(incrementor_nodes.into_iter())
+        .collect::<Vec<pt::Expression>>();
 
-    for node in target_nodes {
-        let expression = node.expression().unwrap();
-
-        match expression {
+    for node in nodes {
+        match node {
             pt::Expression::Assign(_, box_expression, _) => {
                 if let pt::Expression::Variable(identifier) = *box_expression {
                     //if the variable name exists in the storage variable hashmap
@@ -181,7 +166,7 @@ pub fn constant_variable_optimization(source_unit: &mut SourceUnit) -> HashSet<L
         optimization_locations.insert(variable.1 .1);
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 #[test]
@@ -210,5 +195,5 @@ fn test_constant_variable_optimization() {
     let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
     let optimization_locations = constant_variable_optimization(&mut source_unit);
-    assert_eq!(optimization_locations.len(), 2)
+    assert_eq!(optimization_locations.unwrap().len(), 2)
 }

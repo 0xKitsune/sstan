@@ -6,13 +6,14 @@ use solang_parser::{self, pt::SourceUnit};
 use crate::analyzer::ast::{self, Target};
 use crate::analyzer::extractors::primitive::AssignmentExtractor;
 use crate::analyzer::extractors::{compound::StorageVariableExtractor, Extractor};
+use crate::analyzer::utils::get_32_byte_storage_variables;
 
 pub fn sstore_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Get all storage variables
-    let storage_variables = StorageVariableExtractor::extract(source_unit)?;
+    let storage_variables = get_32_byte_storage_variables(source_unit, false, true);
 
     //Extract the target nodes from the source_unit
     let assignment_nodes = AssignmentExtractor::extract(source_unit)?;
@@ -23,14 +24,8 @@ pub fn sstore_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet
         if let pt::Expression::Assign(loc, box_expression, _) = node {
             //if the first expr in the assign expr is a variable
             if let pt::Expression::Variable(identifier) = *box_expression {
-                for storage_variable in &storage_variables {
-                    //if the variable name exists in the storage variable hashmap
-                    if let Some(name) = &storage_variable.name {
-                        if name.name == identifier.name {
-                            //add the location to the optimization locations
-                            optimization_locations.insert(loc);
-                        }
-                    }
+                if storage_variables.contains_key(&identifier.name) {
+                    optimization_locations.insert(loc);
                 }
             }
         }

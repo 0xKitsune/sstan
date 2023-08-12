@@ -212,7 +212,7 @@ pub fn analyze_for_optimization(
         Optimization::AddressZero => address_zero_optimization(&mut source_unit)?,
         Optimization::AssignUpdateArrayValue => assign_update_array_optimization(&mut source_unit)?,
         Optimization::CacheArrayLength => cache_array_length_optimization(&mut source_unit)?,
-        Optimization::ConstantVariables => constant_variable_optimization(&mut source_unit),
+        Optimization::ConstantVariables => constant_variable_optimization(&mut source_unit)?,
         Optimization::BoolEqualsBool => bool_equals_bool_optimization(&mut source_unit)?,
         Optimization::ImmutableVarialbes => immutable_variables_optimization(&mut source_unit),
         Optimization::IncrementDecrement => increment_decrement_optimization(&mut source_unit)?,
