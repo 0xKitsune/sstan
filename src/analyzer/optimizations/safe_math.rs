@@ -1,12 +1,10 @@
 use solang_parser::pt::{self, Expression, Loc, SourceUnit};
 use std::collections::HashSet;
 
-use crate::analyzer::{
-    extractors::{
-        compound::SolidityVerisonExtractor,
-        primitive::{MemberAccessExtractor, UsingListExtractor},
-        Extractor,
-    },
+use crate::analyzer::extractors::{
+    compound::SolidityVerisonExtractor,
+    primitive::{MemberAccessExtractor, UsingListExtractor},
+    Extractor,
 };
 
 pub const SAFE_MATH: &str = "SafeMath";

@@ -1,8 +1,7 @@
 use std::collections::HashSet;
 
-use solang_parser::pt::{Loc};
+use solang_parser::pt::Loc;
 use solang_parser::{self, pt::SourceUnit};
-
 
 use crate::analyzer::extractors::{compound::StorageVariableExtractor, Extractor};
 use crate::analyzer::utils;

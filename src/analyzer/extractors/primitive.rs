@@ -1,5 +1,3 @@
-
-
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor};
 use crate::default_extractor;
 use solang_parser::pt::*;
@@ -168,6 +166,69 @@ impl Visitor for UsingListExtractor {
     type Error = ExtractionError;
     fn extract_using_list(&mut self, using_list: &mut UsingList) -> Result<(), Self::Error> {
         self.targets.push(using_list.clone());
+        Ok(())
+    }
+}
+
+default_extractor!(UrnaryOpteratorExtractor, Expression);
+// pub enum Expression {
+//     /// `!<1>`
+//     Not(Loc, Box<Expression>),
+//     /// `~<1>`
+//     BitwiseNot(Loc, Box<Expression>),
+//     UnaryPlus(Loc, Box<Expression>),
+//     /// `-<1>`
+//     Negate(Loc, Box<Expression>),
+//     /// `<1> ** <2>`
+//     Power(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> * <2>`
+//     Multiply(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> / <2>`
+//     Divide(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> % <2>`
+//     Modulo(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> + <2>`
+//     Add(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> - <2>`
+//     Subtract(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> << <2>`
+//     ShiftLeft(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> >> <2>`
+//     ShiftRight(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> & <2>`
+//     BitwiseAnd(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> ^ <2>`
+//     BitwiseXor(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> | <2>`
+//     BitwiseOr(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> && <2>`
+//     And(Loc, Box<Expression>, Box<Expression>),
+//     /// `<1> || <2>`
+//     Or(Loc, Box<Expression>, Box<Expression>),
+// }
+impl Visitor for UrnaryOpteratorExtractor {
+    type Error = ExtractionError;
+    fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+        match expr {
+            Expression::Not(_, _)
+            | Expression::BitwiseNot(_, _)
+            | Expression::UnaryPlus(_, _)
+            | Expression::Negate(_, _)
+            | Expression::Power(_, _, _)
+            | Expression::Multiply(_, _, _)
+            | Expression::Divide(_, _, _)
+            | Expression::Modulo(_, _, _)
+            | Expression::Add(_, _, _)
+            | Expression::Subtract(_, _, _)
+            | Expression::ShiftLeft(_, _, _)
+            | Expression::ShiftRight(_, _, _)
+            | Expression::BitwiseAnd(_, _, _)
+            | Expression::BitwiseXor(_, _, _)
+            | Expression::BitwiseOr(_, _, _)
+            | Expression::And(_, _, _)
+            | Expression::Or(_, _, _) => self.targets.push(expr.clone()),
+            _ => {}
+        }
         Ok(())
     }
 }

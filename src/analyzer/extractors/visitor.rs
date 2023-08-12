@@ -1,7 +1,5 @@
 use solang_parser::pt::*;
 
-
-
 /// Macro to implmement expression visitor methods
 macro_rules! visit_exprs {
     ($func_name:ident, 1) => {
