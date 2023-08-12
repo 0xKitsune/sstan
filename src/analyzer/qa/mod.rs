@@ -109,7 +109,7 @@ pub fn analyze_for_qa(
     let locations = match qa {
         QualityAssurance::ConstructorOrder => constructor_order_qa(&mut source_unit)?,
         QualityAssurance::PrivateVarsLeadingUnderscore => {
-            private_vars_leading_underscore(&mut source_unit)
+            private_vars_leading_underscore(&mut source_unit)?
         }
         QualityAssurance::PrivateFuncLeadingUnderscore => {
             private_func_leading_underscore(&mut source_unit)?
