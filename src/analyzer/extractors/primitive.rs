@@ -54,12 +54,6 @@ impl Visitor for ForExtractor {
     }
 }
 
-pub struct DefaultVisitor {}
-
-impl Visitor for DefaultVisitor {
-    type Error = ExtractionError;
-}
-
 extractor!(EqualityExtractor, Expression);
 
 impl Visitor for EqualityExtractor {
