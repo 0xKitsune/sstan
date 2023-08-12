@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 use super::{
-    primitive::{ContractDefinitionExtractor, PragmaDirectiveExtractor},
+    primitive::{ContractDefinitionExtractor, FunctionExtractor, PragmaDirectiveExtractor},
     visitable::Visitable,
     visitor::Visitor,
     ExtractionError, Extractor, SolidityVersion,
@@ -28,6 +28,26 @@ impl<V: Visitable> Extractor<V, VariableDefinition> for StorageVariableExtractor
             .collect::<Vec<VariableDefinition>>();
 
         Ok(storage_variables)
+    }
+}
+
+compound_extractor!(ConstructorExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for ConstructorExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let constructors = functions
+            .iter()
+            .filter_map(|function| {
+                if let FunctionTy::Constructor = function.ty {
+                    Some(function)
+                } else {
+                    None
+                }
+            })
+            .cloned()
+            .collect::<Vec<FunctionDefinition>>();
+        Ok(constructors)
     }
 }
 
