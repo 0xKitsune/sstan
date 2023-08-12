@@ -13,29 +13,27 @@ pub fn short_revert_string_optimization(
     let mut optimization_locations = HashSet::<Loc>::new();
 
     let solidity_versions = SolidityVerisonExtractor::extract(source_unit)?;
-    for version in solidity_versions {
-        if let Some(version) = version {
-            if !(version.minor >= 8 && version.patch >= 4) {
-                let target_nodes = FunctionCallExtractor::extract(source_unit)?;
+    for version in solidity_versions.into_iter().flatten() {
+        if !(version.minor >= 8 && version.patch >= 4) {
+            let target_nodes = FunctionCallExtractor::extract(source_unit)?;
 
-                for node in target_nodes {
-                    if let pt::Expression::FunctionCall(_, ident, expressions) = node {
-                        match (*ident, expressions.last()) {
-                            (
-                                // identifier is variable
-                                pt::Expression::Variable(identifier),
-                                // last expression is string literal
-                                Some(pt::Expression::StringLiteral(literals)),
-                            ) if identifier.name.eq("require") => {
-                                if let Some(literal) = literals.get(0) {
-                                    if literal.string.len() >= 32 {
-                                        optimization_locations.insert(literal.loc);
-                                    }
+            for node in target_nodes {
+                if let pt::Expression::FunctionCall(_, ident, expressions) = node {
+                    match (*ident, expressions.last()) {
+                        (
+                            // identifier is variable
+                            pt::Expression::Variable(identifier),
+                            // last expression is string literal
+                            Some(pt::Expression::StringLiteral(literals)),
+                        ) if identifier.name.eq("require") => {
+                            if let Some(literal) = literals.get(0) {
+                                if literal.string.len() >= 32 {
+                                    optimization_locations.insert(literal.loc);
                                 }
                             }
-                            _ => (),
-                        };
-                    }
+                        }
+                        _ => (),
+                    };
                 }
             }
         }

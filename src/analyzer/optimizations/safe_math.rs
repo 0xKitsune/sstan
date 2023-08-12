@@ -29,15 +29,12 @@ pub fn safe_math_optimization(
 
     let solidity_versions = SolidityVerisonExtractor::extract(source_unit)?;
 
-    for version in solidity_versions {
-        if let Some(version) = version {
-            if (pre_080 && version.minor < 8) || (!pre_080 && version.minor >= 8) {
-                //if using safe math
-                if check_if_using_safe_math(&mut source_unit.clone())? {
-                    //get all locations that safe math functions are used
-                    optimization_locations
-                        .extend(parse_contract_for_safe_math_functions(source_unit)?);
-                }
+    for version in solidity_versions.into_iter().flatten() {
+        if (pre_080 && version.minor < 8) || (!pre_080 && version.minor >= 8) {
+            //if using safe math
+            if check_if_using_safe_math(&mut source_unit.clone())? {
+                //get all locations that safe math functions are used
+                optimization_locations.extend(parse_contract_for_safe_math_functions(source_unit)?);
             }
         }
     }
