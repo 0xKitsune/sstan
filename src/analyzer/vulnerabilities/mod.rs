@@ -117,7 +117,9 @@ pub fn analyze_for_vulnerability(
 
     let locations = match vulnerability {
         Vulnerability::FloatingPragma => floating_pragma_vulnerability(&mut source_unit)?,
-        Vulnerability::UnsafeERC20Operation => unsafe_erc20_operation_vulnerability(source_unit),
+        Vulnerability::UnsafeERC20Operation => {
+            unsafe_erc20_operation_vulnerability(&mut source_unit)?
+        }
         Vulnerability::UnprotectedSelfdestruct => {
             unprotected_self_destruct_vulnerability(&mut source_unit)?
         }
