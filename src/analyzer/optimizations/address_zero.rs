@@ -2,10 +2,7 @@ use std::collections::HashSet;
 
 use solang_parser::pt::{self, Loc, SourceUnit};
 
-use crate::analyzer::{
-    ast::{self, Target},
-    extractors::{primitive::EqualityExtractor, Extractor},
-};
+use crate::analyzer::extractors::{primitive::EqualityExtractor, Extractor};
 
 pub const ZERO: &str = "0";
 

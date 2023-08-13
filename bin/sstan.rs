@@ -14,14 +14,15 @@ use clap::Parser;
 #[macro_use]
 extern crate colour;
 
-fn main() {
+fn main() -> eyre::Result<()> {
     let opts = Opts::new();
 
-    let vulnerabilities = vulnerabilities::analyze_dir(&opts.path, opts.vulnerabilities);
-    let optimizations = optimizations::analyze_dir(&opts.path, opts.optimizations).unwrap();
-    let qa = qa::analyze_dir(&opts.path, opts.qa);
+    let vulnerabilities = vulnerabilities::analyze_dir(&opts.path, opts.vulnerabilities)?;
+    let optimizations = optimizations::analyze_dir(&opts.path, opts.optimizations)?;
+    let qa = qa::analyze_dir(&opts.path, opts.qa)?;
 
     generate_report(vulnerabilities, optimizations, qa);
+    Ok(())
 }
 
 #[derive(Parser, Debug)]

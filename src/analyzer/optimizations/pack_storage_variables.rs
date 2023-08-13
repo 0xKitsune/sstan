@@ -1,9 +1,9 @@
 use std::collections::HashSet;
 
-use solang_parser::pt::{self, Loc};
+use solang_parser::pt::Loc;
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::extractors::{primitive::ContractDefinitionExtractor, Extractor};
+use crate::analyzer::extractors::{compound::StorageVariableExtractor, Extractor};
 use crate::analyzer::utils;
 
 pub fn pack_storage_variables_optimization(
@@ -11,29 +11,23 @@ pub fn pack_storage_variables_optimization(
 ) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let target_nodes = ContractDefinitionExtractor::extract(source_unit)?;
+    let target_nodes = StorageVariableExtractor::extract(source_unit)?;
+    let mut variable_sizes: Vec<u16> = vec![];
 
-    for node in target_nodes {
-        let mut variable_sizes: Vec<u16> = vec![];
+    for node in target_nodes.clone() {
+        variable_sizes.push(utils::get_type_size(node.ty));
+    }
+    //Cache a version of variable sizes that is unordered
+    let unordered_variable_sizes = variable_sizes.clone();
 
-        for part in node.clone().parts {
-            if let pt::ContractPart::VariableDefinition(box_variable_definition) = part {
-                variable_sizes.push(utils::get_type_size(box_variable_definition.ty));
-            }
-        }
+    //Sort the variable sizes
+    variable_sizes.sort();
 
-        //Cache a version of variable sizes that is unordered
-        let unordered_variable_sizes = variable_sizes.clone();
-
-        //Sort the variable sizes
-        variable_sizes.sort();
-
-        //If the ordered version is smaller than the unordered, add loc
-        if utils::storage_slots_used(unordered_variable_sizes)
-            > utils::storage_slots_used(variable_sizes)
-        {
-            optimization_locations.insert(node.loc);
-        }
+    //If the ordered version is smaller than the unordered, add loc
+    if utils::storage_slots_used(unordered_variable_sizes)
+        > utils::storage_slots_used(variable_sizes)
+    {
+        optimization_locations.insert(target_nodes[0].loc);
     }
 
     Ok(optimization_locations)

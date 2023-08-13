@@ -3,22 +3,24 @@ use std::collections::HashSet;
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
+use crate::analyzer::extractors::primitive::MemberAccessExtractor;
+use crate::analyzer::extractors::Extractor;
 
-pub fn unsafe_erc20_operation_vulnerability(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn unsafe_erc20_operation_vulnerability(
+    source_unit: &mut SourceUnit,
+) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each vulnerability target identified
     let mut vulnerability_locations: HashSet<Loc> = HashSet::new();
 
     //Extract the target nodes from the source_unit
-    let target_nodes = ast::extract_target_from_node(Target::MemberAccess, source_unit.into());
+    let member_access_nodes = MemberAccessExtractor::extract(source_unit)?;
 
     //For each target node that was extracted, check for the vulnerability patterns
 
-    for node in target_nodes {
+    for node in member_access_nodes {
         //We can use unwrap because Target::MemberAccess is an expression
-        let expression = node.expression().unwrap();
 
-        if let pt::Expression::MemberAccess(loc, _, identifier) = expression {
+        if let pt::Expression::MemberAccess(loc, _, identifier) = node {
             if identifier.name == "transfer"
                 || identifier.name == "transferFrom"
                 || identifier.name == "approve"
@@ -29,7 +31,7 @@ pub fn unsafe_erc20_operation_vulnerability(source_unit: SourceUnit) -> HashSet<
     }
 
     //Return the identified vulnerability locations
-    vulnerability_locations
+    Ok(vulnerability_locations)
 }
 
 #[test]
@@ -37,7 +39,6 @@ fn test_unsafe_erc20_operation_vulnerability() {
     let file_contents = r#"
     
     contract Contract0 {
-
         IERC20 e;
 
         constructor(){
@@ -53,8 +54,8 @@ fn test_unsafe_erc20_operation_vulnerability() {
     }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let vulnerability_locations = unsafe_erc20_operation_vulnerability(source_unit);
-    assert_eq!(vulnerability_locations.len(), 3)
+    let vulnerability_locations = unsafe_erc20_operation_vulnerability(&mut source_unit);
+    assert_eq!(vulnerability_locations.unwrap().len(), 3)
 }

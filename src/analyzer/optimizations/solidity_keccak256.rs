@@ -3,22 +3,21 @@ use std::collections::HashSet;
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
+use crate::analyzer::extractors::{primitive::FunctionCallExtractor, Extractor};
 
 //Use assembly to hash instead of keccak256
-pub fn solidity_keccak256_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn solidity_keccak256_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Extract the target nodes from the source_unit
-    let target_nodes = ast::extract_target_from_node(Target::FunctionCall, source_unit.into());
+    let function_call_nodes = FunctionCallExtractor::extract(source_unit)?;
 
     //For each target node that was extracted, check for the optimization patterns
-    for node in target_nodes {
+    for node in function_call_nodes {
         //Can unwrap because FunctionCall is an expression
-        let expression = node.expression().unwrap();
 
-        if let pt::Expression::FunctionCall(_, box_expression, _) = expression {
+        if let pt::Expression::FunctionCall(_, box_expression, _) = node {
             if let pt::Expression::Variable(variable) = *box_expression {
                 if variable.name == "keccak256" {
                     optimization_locations.insert(variable.loc);
@@ -28,7 +27,7 @@ pub fn solidity_keccak256_optimization(source_unit: SourceUnit) -> HashSet<Loc> 
     }
 
     //Return the identified optimization locations
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 #[test]
@@ -59,9 +58,9 @@ contract Contract0 {
 }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = solidity_keccak256_optimization(source_unit);
+    let optimization_locations = solidity_keccak256_optimization(&mut source_unit);
 
-    assert_eq!(optimization_locations.len(), 2)
+    assert_eq!(optimization_locations.unwrap().len(), 2)
 }

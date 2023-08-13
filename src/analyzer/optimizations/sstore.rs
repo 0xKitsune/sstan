@@ -3,37 +3,34 @@ use std::collections::HashSet;
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
-use crate::analyzer::utils;
+use crate::analyzer::extractors::primitive::AssignmentExtractor;
+use crate::analyzer::extractors::Extractor;
+use crate::analyzer::utils::get_32_byte_storage_variables;
 
-pub fn sstore_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn sstore_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each optimization target identified
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
     //Get all storage variables
-    let storage_variables = utils::get_32_byte_storage_variables(source_unit.clone(), true, true);
+    let storage_variables = get_32_byte_storage_variables(source_unit, false, true);
 
     //Extract the target nodes from the source_unit
-    let target_nodes = ast::extract_target_from_node(Target::Assign, source_unit.into());
+    let assignment_nodes = AssignmentExtractor::extract(source_unit)?;
 
-    for node in target_nodes {
+    for node in assignment_nodes {
         //We can use unwrap because Target::Assign is an expression
-        let expression = node.expression().unwrap();
-
         //if the expression is an Assign
-        if let pt::Expression::Assign(loc, box_expression, _) = expression {
+        if let pt::Expression::Assign(loc, box_expression, _) = node {
             //if the first expr in the assign expr is a variable
             if let pt::Expression::Variable(identifier) = *box_expression {
-                //if the variable name exists in the storage variable hashmap
                 if storage_variables.contains_key(&identifier.name) {
-                    //add the location to the optimization locations
                     optimization_locations.insert(loc);
                 }
             }
         }
     }
     //Return the identified optimization locations
-    optimization_locations
+    Ok(optimization_locations)
 }
 #[test]
 fn test_sstore_optimization() {
@@ -58,9 +55,9 @@ fn test_sstore_optimization() {
     }
  
     "#;
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = sstore_optimization(source_unit);
+    let optimization_locations = sstore_optimization(&mut source_unit);
 
-    assert_eq!(optimization_locations.len(), 3);
+    assert_eq!(optimization_locations.unwrap().len(), 3);
 }

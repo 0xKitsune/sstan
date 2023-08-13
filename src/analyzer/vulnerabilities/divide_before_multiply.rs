@@ -1,26 +1,28 @@
 use std::collections::HashSet;
 
-use solang_parser::pt::{self, Loc};
+use solang_parser::pt::{self, Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{extract_targets_from_node, Target};
+use crate::analyzer::extractors::{
+    primitive::{AssignmentExtractor, UrnaryOpteratorExtractor},
+    Extractor,
+};
 
-pub fn divide_before_multiply_vulnerability(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn divide_before_multiply_vulnerability(
+    source_unit: &mut SourceUnit,
+) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each vulnerability target identified
     let mut vulnerability_locations: HashSet<Loc> = HashSet::new();
 
     //Extract the target nodes from the source_unit
-    let target_nodes = extract_targets_from_node(
-        vec![Target::Multiply, Target::AssignDivide],
-        source_unit.into(),
-    );
+    let target_nodes = AssignmentExtractor::extract(source_unit)?
+        .into_iter()
+        .chain(UrnaryOpteratorExtractor::extract(source_unit)?.into_iter())
+        .collect::<Vec<Expression>>();
 
     //For each target node that was extracted, check for the vulnerability patterns
     for node in target_nodes {
-        //We can use unwrap because Target::Multiply is an expression
-        let expression = node.expression().unwrap();
-
-        match expression {
+        match node {
             pt::Expression::Multiply(loc, box_expression, _) => {
                 let mut curr_expression = *box_expression;
                 loop {
@@ -74,7 +76,7 @@ pub fn divide_before_multiply_vulnerability(source_unit: SourceUnit) -> HashSet<
     }
 
     //Return the identified vulnerability locations
-    vulnerability_locations
+    Ok(vulnerability_locations)
 }
 
 #[test]
@@ -134,8 +136,8 @@ fn test_divide_before_multiply_vulnerability() {
     }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let vulnerability_locations = divide_before_multiply_vulnerability(source_unit);
-    assert_eq!(vulnerability_locations.len(), 22)
+    let vulnerability_locations = divide_before_multiply_vulnerability(&mut source_unit);
+    assert_eq!(vulnerability_locations.unwrap().len(), 22)
 }

@@ -3,6 +3,7 @@ pub mod address_zero;
 pub mod assign_update_array_value;
 pub mod bool_equals_bool;
 pub mod cache_array_length;
+pub mod cache_storage_in_memory;
 pub mod constant_variables;
 pub mod immutable_variables;
 pub mod increment_decrement;
@@ -13,6 +14,7 @@ pub mod pack_storage_variables;
 pub mod pack_struct_variables;
 pub mod payable_function;
 pub mod private_constant;
+pub mod public_functions;
 pub mod safe_math;
 pub mod shift_math;
 pub mod short_revert_string;
@@ -23,11 +25,9 @@ pub mod string_errors;
 mod template;
 
 use std::{
-    collections::{BTreeSet, HashMap, HashSet},
+    collections::{BTreeSet, HashMap},
     fs, vec,
 };
-
-use solang_parser::pt::Loc;
 
 use self::{
     address_balance::address_balance_optimization,
@@ -35,6 +35,7 @@ use self::{
     assign_update_array_value::assign_update_array_optimization,
     bool_equals_bool::bool_equals_bool_optimization,
     cache_array_length::cache_array_length_optimization,
+    cache_storage_in_memory::cache_storage_in_memory_optimization,
     constant_variables::constant_variable_optimization,
     immutable_variables::immutable_variables_optimization,
     increment_decrement::increment_decrement_optimization,
@@ -45,6 +46,7 @@ use self::{
     pack_struct_variables::pack_struct_variables_optimization,
     payable_function::payable_function_optimization,
     private_constant::private_constant_optimization,
+    public_functions::public_function_optimization,
     safe_math::{safe_math_post_080_optimization, safe_math_pre_080_optimization},
     shift_math::shift_math_optimization,
     short_revert_string::short_revert_string_optimization,
@@ -58,6 +60,7 @@ use super::utils::{self, LineNumber};
 
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 pub enum Optimization {
+    PublicFunctions,
     AddressBalance,
     AddressZero,
     AssignUpdateArrayValue,
@@ -81,10 +84,12 @@ pub enum Optimization {
     StringErrors,
     OptimalComparison,
     ShortRevertString,
+    CacheStorageInMemory,
 }
 
 pub fn get_all_optimizations() -> Vec<Optimization> {
     vec![
+        Optimization::PublicFunctions,
         Optimization::AddressBalance,
         Optimization::AddressZero,
         Optimization::AssignUpdateArrayValue,
@@ -108,6 +113,7 @@ pub fn get_all_optimizations() -> Vec<Optimization> {
         Optimization::StringErrors,
         Optimization::OptimalComparison,
         Optimization::ShortRevertString,
+        Optimization::CacheStorageInMemory,
     ]
 }
 
@@ -136,7 +142,8 @@ pub fn str_to_optimization(opt: &str) -> Optimization {
         "string_errors" => Optimization::StringErrors,
         "optimal_comparison" => Optimization::OptimalComparison,
         "short_revert_string" => Optimization::ShortRevertString,
-
+        "cache_storage_in_memory" => Optimization::CacheStorageInMemory,
+        "public_functions" => Optimization::PublicFunctions,
         other => {
             panic!("Unrecgonized optimization: {}", other)
         }
@@ -210,31 +217,35 @@ pub fn analyze_for_optimization(
     let mut source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match optimization {
+        Optimization::CacheStorageInMemory => {
+            cache_storage_in_memory_optimization(&mut source_unit)?
+        }
+        Optimization::PublicFunctions => public_function_optimization(&mut source_unit)?,
         Optimization::AddressBalance => address_balance_optimization(&mut source_unit)?,
         Optimization::AddressZero => address_zero_optimization(&mut source_unit)?,
         Optimization::AssignUpdateArrayValue => assign_update_array_optimization(&mut source_unit)?,
         Optimization::CacheArrayLength => cache_array_length_optimization(&mut source_unit)?,
-        Optimization::ConstantVariables => constant_variable_optimization(source_unit),
+        Optimization::ConstantVariables => constant_variable_optimization(&mut source_unit)?,
         Optimization::BoolEqualsBool => bool_equals_bool_optimization(&mut source_unit)?,
-        Optimization::ImmutableVarialbes => immutable_variables_optimization(source_unit),
+        Optimization::ImmutableVarialbes => immutable_variables_optimization(&mut source_unit)?,
         Optimization::IncrementDecrement => increment_decrement_optimization(&mut source_unit)?,
-        Optimization::MemoryToCalldata => memory_to_calldata_optimization(source_unit),
+        Optimization::MemoryToCalldata => memory_to_calldata_optimization(&mut source_unit)?,
         Optimization::MultipleRequire => multiple_require_optimization(&mut source_unit)?,
         Optimization::PackStorageVariables => {
             pack_storage_variables_optimization(&mut source_unit)?
         }
-        Optimization::PackStructVariables => pack_struct_variables_optimization(source_unit),
-        Optimization::PayableFunction => payable_function_optimization(source_unit),
-        Optimization::PrivateConstant => private_constant_optimization(source_unit),
-        Optimization::SafeMathPre080 => safe_math_pre_080_optimization(source_unit),
-        Optimization::SafeMathPost080 => safe_math_post_080_optimization(source_unit),
-        Optimization::ShiftMath => shift_math_optimization(source_unit),
-        Optimization::SolidityKeccak256 => solidity_keccak256_optimization(source_unit),
-        Optimization::SolidityMath => solidity_math_optimization(source_unit),
-        Optimization::Sstore => sstore_optimization(source_unit),
-        Optimization::StringErrors => string_error_optimization(source_unit),
+        Optimization::PackStructVariables => pack_struct_variables_optimization(&mut source_unit)?,
+        Optimization::PayableFunction => payable_function_optimization(&mut source_unit)?,
+        Optimization::PrivateConstant => private_constant_optimization(&mut source_unit)?,
+        Optimization::SafeMathPre080 => safe_math_pre_080_optimization(&mut source_unit)?,
+        Optimization::SafeMathPost080 => safe_math_post_080_optimization(&mut source_unit)?,
+        Optimization::ShiftMath => shift_math_optimization(&mut source_unit)?,
+        Optimization::SolidityKeccak256 => solidity_keccak256_optimization(&mut source_unit)?,
+        Optimization::SolidityMath => solidity_math_optimization(&mut source_unit)?,
+        Optimization::Sstore => sstore_optimization(&mut source_unit)?,
+        Optimization::StringErrors => string_error_optimization(&mut source_unit)?,
         Optimization::OptimalComparison => optimal_comparison_optimization(&mut source_unit)?,
-        Optimization::ShortRevertString => short_revert_string_optimization(source_unit),
+        Optimization::ShortRevertString => short_revert_string_optimization(&mut source_unit)?,
     };
 
     for loc in locations {

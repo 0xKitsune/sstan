@@ -1,9 +1,10 @@
 use solang_parser::pt::{self, Expression, Loc, SourceUnit};
 use std::collections::HashSet;
 
-use crate::analyzer::{
-    ast::{self, Node, Target},
-    utils,
+use crate::analyzer::extractors::{
+    compound::SolidityVerisonExtractor,
+    primitive::{MemberAccessExtractor, UsingListExtractor},
+    Extractor,
 };
 
 pub const SAFE_MATH: &str = "SafeMath";
@@ -12,91 +13,74 @@ pub const DIV: &str = "div";
 pub const SUB: &str = "sub";
 pub const MUL: &str = "mul";
 
-pub fn safe_math_pre_080_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn safe_math_pre_080_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     safe_math_optimization(source_unit, true)
 }
 
-pub fn safe_math_post_080_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn safe_math_post_080_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     safe_math_optimization(source_unit, false)
 }
 
-pub fn safe_math_optimization(source_unit: SourceUnit, pre_080: bool) -> HashSet<Loc> {
+pub fn safe_math_optimization(
+    source_unit: &mut SourceUnit,
+    pre_080: bool,
+) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let solidity_version = utils::get_solidity_version_from_source_unit(source_unit.clone())
-        .expect("Could not extract solidity version from source unit");
+    let solidity_versions = SolidityVerisonExtractor::extract(source_unit)?;
 
-    if (pre_080 && solidity_version.1 < 8) || (!pre_080 && solidity_version.1 >= 8) {
-        //if using safe math
-        if check_if_using_safe_math(source_unit.clone()) {
-            //get all locations that safe math functions are used
-            optimization_locations.extend(parse_contract_for_safe_math_functions(source_unit));
+    for version in solidity_versions.into_iter().flatten() {
+        if (pre_080 && version.minor < 8) || (!pre_080 && version.minor >= 8) {
+            //if using safe math
+            if check_if_using_safe_math(&mut source_unit.clone())? {
+                //get all locations that safe math functions are used
+                optimization_locations.extend(parse_contract_for_safe_math_functions(source_unit)?);
+            }
         }
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
-fn check_if_using_safe_math(source_unit: SourceUnit) -> bool {
+fn check_if_using_safe_math(source_unit: &mut SourceUnit) -> eyre::Result<bool> {
     let mut using_safe_math: bool = false;
 
-    let target_nodes = ast::extract_target_from_node(Target::Using, source_unit.into());
-
-    for node in target_nodes {
-        match node {
-            Node::SourceUnitPart(pt::SourceUnitPart::Using(box_using)) => {
-                if let pt::UsingList::Library(identifier_path) = box_using.list {
-                    for identifier in identifier_path.identifiers {
-                        if identifier.name == SAFE_MATH {
-                            using_safe_math = true;
-                        }
-                    }
+    let using_list_nodes = UsingListExtractor::extract(source_unit)?;
+    for node in using_list_nodes {
+        if let pt::UsingList::Library(identifier_path) = node {
+            for identifier in identifier_path.identifiers {
+                if identifier.name == SAFE_MATH {
+                    using_safe_math = true;
                 }
             }
-
-            Node::ContractPart(pt::ContractPart::Using(box_using)) => {
-                if let pt::UsingList::Library(identifier_path) = box_using.list {
-                    for identifier in identifier_path.identifiers {
-                        if identifier.name == SAFE_MATH {
-                            using_safe_math = true;
-                        }
-                    }
-                }
-            }
-
-            _ => {}
         }
     }
 
-    using_safe_math
+    Ok(using_safe_math)
 }
 
-fn parse_contract_for_safe_math_functions(source_unit: SourceUnit) -> HashSet<Loc> {
+fn parse_contract_for_safe_math_functions(
+    source_unit: &mut SourceUnit,
+) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let target_nodes = ast::extract_target_from_node(Target::FunctionCall, source_unit.into());
+    let member_access_nodes = MemberAccessExtractor::extract(source_unit)?;
 
-    for node in target_nodes {
-        //Can use unwrap because Target::FunctionCall.expression() will always be Some(expression)
-        let expression = node.expression().unwrap();
-
-        //if the expression is a function call
-        if let Expression::FunctionCall(_, function_identifier, _) = expression {
-            //if the function call identifier is a variable
-            if let Expression::MemberAccess(loc, _, identifier) = *function_identifier {
-                //if the identifier name is add, sub, mul or div
-                if identifier.name == ADD
-                    || identifier.name == SUB
-                    || identifier.name == MUL
-                    || identifier.name == DIV
-                {
-                    optimization_locations.insert(loc);
-                }
+    for node in member_access_nodes {
+        //if the function call identifier is a variable
+        if let Expression::MemberAccess(loc, _, identifier) = node {
+            //if the identifier name is add, sub, mul or div
+            if identifier.name == ADD
+                || identifier.name == SUB
+                || identifier.name == MUL
+                || identifier.name == DIV
+            {
+                optimization_locations.insert(loc);
             }
         }
     }
 
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 #[test]
@@ -123,11 +107,11 @@ fn test_analyze_for_safe_math_pre_080() {
     }
  
     "#;
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = safe_math_pre_080_optimization(source_unit);
+    let optimization_locations = safe_math_pre_080_optimization(&mut source_unit);
 
-    assert_eq!(optimization_locations.len(), 4);
+    assert_eq!(optimization_locations.unwrap().len(), 4);
 }
 
 #[test]
@@ -154,9 +138,9 @@ fn test_analyze_for_safe_math_post_080() {
     }
  
     "#;
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = safe_math_post_080_optimization(source_unit);
+    let optimization_locations = safe_math_post_080_optimization(&mut source_unit);
 
-    assert_eq!(optimization_locations.len(), 4);
+    assert_eq!(optimization_locations.unwrap().len(), 4);
 }

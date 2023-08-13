@@ -4,19 +4,16 @@ use std::u32;
 use solang_parser::pt::{Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
+use crate::analyzer::extractors::{primitive::UrnaryOpteratorExtractor, Extractor};
 
-pub fn shift_math_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn shift_math_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
 
-    let target_nodes =
-        ast::extract_targets_from_node(vec![Target::Multiply, Target::Divide], source_unit.into());
+    let urnary_operator_nodes = UrnaryOpteratorExtractor::extract(source_unit)?;
 
-    for node in target_nodes {
+    for node in urnary_operator_nodes {
         //We can use expect because both Target::Multiply and Target::Divide are expressions
-        let expression = node.expression().expect("Node is not an expression");
-
-        match expression {
+        match node {
             Expression::Multiply(loc, box_expression, box_expression_1) => {
                 if check_if_inputs_are_power_of_two(*box_expression, *box_expression_1) {
                     optimization_locations.insert(loc);
@@ -32,7 +29,7 @@ pub fn shift_math_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
             _ => {}
         }
     }
-    optimization_locations
+    Ok(optimization_locations)
 }
 
 fn check_if_inputs_are_power_of_two(
@@ -45,8 +42,8 @@ fn check_if_inputs_are_power_of_two(
     //if the first expression is a number literal that is a power of 2
     if let Expression::NumberLiteral(_, val_string, _, _) = box_expression {
         let value = val_string
-            .parse::<u32>()
-            .expect("Could not parse NumberLiteral value from string to u32");
+            .parse::<u128>()
+            .expect("Could not parse NumberLiteral value from string to u128");
 
         if (value != 0) && ((value & (value - 1)) == 0) {
             is_even = true;
@@ -56,8 +53,8 @@ fn check_if_inputs_are_power_of_two(
     //if the first expression is a number literal that is a power of 2
     if let Expression::NumberLiteral(_, val_string, _, _) = box_expression_1 {
         let value = val_string
-            .parse::<u32>()
-            .expect("Could not parse NumberLiteral value from string to u32");
+            .parse::<u128>()
+            .expect("Could not parse NumberLiteral value from string to u128");
 
         if (value != 0) && ((value & (value - 1)) == 0) {
             is_even = true;
@@ -84,9 +81,9 @@ fn test_shift_math_optimization() {
     }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let optimization_locations = shift_math_optimization(source_unit);
+    let optimization_locations = shift_math_optimization(&mut source_unit);
 
-    assert_eq!(optimization_locations.len(), 3)
+    assert_eq!(optimization_locations.unwrap().len(), 3)
 }
