@@ -1,6 +1,8 @@
+use std::collections::HashSet;
+
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor};
 use crate::default_extractor;
-use solang_parser::pt::*;
+use solang_parser::pt::{self, *};
 
 default_extractor!(MemberAccessExtractor, Expression);
 
@@ -22,6 +24,22 @@ impl Visitor for ForExtractor {
     fn extract_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
         match statement {
             Statement::For(_, _, _, _, _) => self.targets.push(statement.clone()),
+            _ => {}
+        }
+        Ok(())
+    }
+}
+
+default_extractor!(PlainImportExtractor, Import);
+
+impl Visitor for PlainImportExtractor {
+    type Error = ExtractionError;
+    fn extract_import(
+        &mut self,
+        import: &mut solang_parser::pt::Import,
+    ) -> Result<(), Self::Error> {
+        match import {
+            Import::Plain(_, _) => self.targets.push(import.clone()),
             _ => {}
         }
         Ok(())
@@ -126,7 +144,18 @@ impl Visitor for FunctionExtractor {
 }
 
 default_extractor!(ContractDefinitionExtractor, ContractDefinition);
+impl ContractDefinitionExtractor {
+    pub fn extract_names(contracts: Vec<ContractDefinition>) -> HashSet<String> {
+        let mut names = HashSet::new();
+        for contract in contracts.iter() {
+            if let Some(name) = &contract.name {
+                names.insert(name.to_string());
+            }
+        }
 
+        names
+    }
+}
 impl Visitor for ContractDefinitionExtractor {
     type Error = ExtractionError;
     fn extract_contract(&mut self, contract: &mut ContractDefinition) -> Result<(), Self::Error> {

@@ -1,6 +1,8 @@
 pub mod constructor_order;
 pub mod private_func_leading_underscore;
 pub mod private_vars_leading_underscore;
+
+pub mod import_identifiers;
 pub mod template;
 
 use std::{
@@ -9,7 +11,7 @@ use std::{
 };
 
 use self::{
-    constructor_order::constructor_order_qa,
+    constructor_order::constructor_order_qa, import_identifiers::import_identifiers,
     private_func_leading_underscore::private_func_leading_underscore,
     private_vars_leading_underscore::private_vars_leading_underscore,
 };
@@ -21,6 +23,7 @@ pub enum QualityAssurance {
     ConstructorOrder,
     PrivateVarsLeadingUnderscore,
     PrivateFuncLeadingUnderscore,
+    ImportIdentifiers,
 }
 
 pub fn get_all_qa() -> Vec<QualityAssurance> {
@@ -28,6 +31,7 @@ pub fn get_all_qa() -> Vec<QualityAssurance> {
         QualityAssurance::ConstructorOrder,
         QualityAssurance::PrivateVarsLeadingUnderscore,
         QualityAssurance::PrivateFuncLeadingUnderscore,
+        QualityAssurance::ImportIdentifiers,
     ]
 }
 
@@ -114,6 +118,7 @@ pub fn analyze_for_qa(
         QualityAssurance::PrivateFuncLeadingUnderscore => {
             private_func_leading_underscore(&mut source_unit)?
         }
+        QualityAssurance::ImportIdentifiers => import_identifiers(&mut source_unit)?,
     };
 
     for loc in locations {

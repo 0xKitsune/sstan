@@ -6,7 +6,8 @@ use crate::analyzer::utils::LineNumber;
 use crate::report::report_sections::qa::overview;
 
 use super::report_sections::qa::{
-    constructor_order, private_func_leading_underscore, private_vars_leading_underscore,
+    constructor_order, import_identifiers, private_func_leading_underscore,
+    private_vars_leading_underscore,
 };
 
 pub fn generate_qa_report(
@@ -56,5 +57,6 @@ pub fn get_qa_report_section(qa: QualityAssurance) -> String {
         QualityAssurance::PrivateFuncLeadingUnderscore => {
             private_func_leading_underscore::report_section_content()
         }
+        QualityAssurance::ImportIdentifiers => import_identifiers::report_section_content(),
     }
 }
