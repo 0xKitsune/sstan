@@ -3,7 +3,6 @@ use std::collections::{HashMap, HashSet};
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
 use crate::analyzer::extractors::compound::ConstructorExtractor;
 use crate::analyzer::extractors::primitive::{
     AssignmentExtractor, FunctionExtractor, IncrementorExtractor,
@@ -21,7 +20,6 @@ pub fn immutable_variables_optimization(
     let storage_variables = get_32_byte_storage_variables(source_unit, true, true);
     let mut potential_immutable_variables =
         get_storage_variables_assigned_in_constructor(&mut source_unit.clone(), storage_variables)?;
-    dbg!(&potential_immutable_variables);
     let mut functions = FunctionExtractor::extract(source_unit).unwrap();
     for node in functions.iter_mut() {
         if let pt::FunctionTy::Constructor = node.ty {

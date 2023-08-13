@@ -3,7 +3,6 @@ use std::collections::{HashMap, HashSet};
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
 use crate::analyzer::extractors::primitive::AssignmentExtractor;
 use crate::analyzer::extractors::{primitive::FunctionExtractor, Extractor};
 
