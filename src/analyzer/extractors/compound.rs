@@ -187,6 +187,9 @@ impl<V: Visitable> Extractor<V, Option<SolidityVersion>> for SolidityVerisonExtr
         let pragma_directive = PragmaDirectiveExtractor::extract(v)?;
 
         //TODO: right now this is only getting the first one, we should loop through this in case we are going through multiple contracts
+        if pragma_directive.len() == 0 {
+            return Ok(vec![None]);
+        };
         if let SourceUnitPart::PragmaDirective(_, _, Some(version)) = &pragma_directive[0] {
             let solidity_version = SolidityVersion::from_str(&version.string)?;
 
