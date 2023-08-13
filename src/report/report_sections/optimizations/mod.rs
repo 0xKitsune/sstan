@@ -3,6 +3,7 @@ pub mod address_zero;
 pub mod assign_update_array_value;
 pub mod bool_equals_bool;
 pub mod cache_array_length;
+pub mod cache_storage_in_memory;
 pub mod constant_variable;
 pub mod immutable_variable;
 pub mod increment_decrement;

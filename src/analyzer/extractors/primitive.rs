@@ -171,41 +171,7 @@ impl Visitor for UsingListExtractor {
 }
 
 default_extractor!(UrnaryOpteratorExtractor, Expression);
-// pub enum Expression {
-//     /// `!<1>`
-//     Not(Loc, Box<Expression>),
-//     /// `~<1>`
-//     BitwiseNot(Loc, Box<Expression>),
-//     UnaryPlus(Loc, Box<Expression>),
-//     /// `-<1>`
-//     Negate(Loc, Box<Expression>),
-//     /// `<1> ** <2>`
-//     Power(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> * <2>`
-//     Multiply(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> / <2>`
-//     Divide(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> % <2>`
-//     Modulo(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> + <2>`
-//     Add(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> - <2>`
-//     Subtract(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> << <2>`
-//     ShiftLeft(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> >> <2>`
-//     ShiftRight(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> & <2>`
-//     BitwiseAnd(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> ^ <2>`
-//     BitwiseXor(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> | <2>`
-//     BitwiseOr(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> && <2>`
-//     And(Loc, Box<Expression>, Box<Expression>),
-//     /// `<1> || <2>`
-//     Or(Loc, Box<Expression>, Box<Expression>),
-// }
+
 impl Visitor for UrnaryOpteratorExtractor {
     type Error = ExtractionError;
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
@@ -227,6 +193,19 @@ impl Visitor for UrnaryOpteratorExtractor {
             | Expression::BitwiseOr(_, _, _)
             | Expression::And(_, _, _)
             | Expression::Or(_, _, _) => self.targets.push(expr.clone()),
+            _ => {}
+        }
+        Ok(())
+    }
+}
+
+default_extractor!(VariableExtractor, Expression);
+
+impl Visitor for VariableExtractor {
+    type Error = ExtractionError;
+    fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+        match expr {
+            Expression::Variable(_) => self.targets.push(expr.clone()),
             _ => {}
         }
         Ok(())

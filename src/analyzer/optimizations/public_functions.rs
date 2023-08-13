@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
-use solang_parser::pt::{ContractDefinition, Expression, FunctionDefinition, Loc, SourceUnit};
+use solang_parser::pt::{Expression, FunctionDefinition, Loc, SourceUnit};
 
 use crate::analyzer::extractors::{
     compound::PublicFunctionExtractor,

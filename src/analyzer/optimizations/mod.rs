@@ -3,6 +3,7 @@ pub mod address_zero;
 pub mod assign_update_array_value;
 pub mod bool_equals_bool;
 pub mod cache_array_length;
+pub mod cache_storage_in_memory;
 pub mod constant_variables;
 pub mod immutable_variables;
 pub mod increment_decrement;
@@ -34,6 +35,7 @@ use self::{
     assign_update_array_value::assign_update_array_optimization,
     bool_equals_bool::bool_equals_bool_optimization,
     cache_array_length::cache_array_length_optimization,
+    cache_storage_in_memory::cache_storage_in_memory_optimization,
     constant_variables::constant_variable_optimization,
     immutable_variables::immutable_variables_optimization,
     increment_decrement::increment_decrement_optimization,
@@ -82,6 +84,7 @@ pub enum Optimization {
     StringErrors,
     OptimalComparison,
     ShortRevertString,
+    CacheStorageInMemory,
 }
 
 pub fn get_all_optimizations() -> Vec<Optimization> {
@@ -110,6 +113,7 @@ pub fn get_all_optimizations() -> Vec<Optimization> {
         Optimization::StringErrors,
         Optimization::OptimalComparison,
         Optimization::ShortRevertString,
+        Optimization::CacheStorageInMemory,
     ]
 }
 
@@ -138,7 +142,8 @@ pub fn str_to_optimization(opt: &str) -> Optimization {
         "string_errors" => Optimization::StringErrors,
         "optimal_comparison" => Optimization::OptimalComparison,
         "short_revert_string" => Optimization::ShortRevertString,
-
+        "cache_storage_in_memory" => Optimization::CacheStorageInMemory,
+        "public_functions" => Optimization::PublicFunctions,
         other => {
             panic!("Unrecgonized optimization: {}", other)
         }
@@ -212,6 +217,9 @@ pub fn analyze_for_optimization(
     let mut source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match optimization {
+        Optimization::CacheStorageInMemory => {
+            cache_storage_in_memory_optimization(&mut source_unit)?
+        }
         Optimization::PublicFunctions => public_function_optimization(&mut source_unit)?,
         Optimization::AddressBalance => address_balance_optimization(&mut source_unit)?,
         Optimization::AddressZero => address_zero_optimization(&mut source_unit)?,
