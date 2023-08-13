@@ -119,7 +119,7 @@ pub fn analyze_for_vulnerability(
         Vulnerability::FloatingPragma => floating_pragma_vulnerability(&mut source_unit)?,
         Vulnerability::UnsafeERC20Operation => unsafe_erc20_operation_vulnerability(source_unit),
         Vulnerability::UnprotectedSelfdestruct => {
-            unprotected_self_destruct_vulnerability(source_unit)
+            unprotected_self_destruct_vulnerability(&mut source_unit)?
         }
         Vulnerability::DivideBeforeMultiply => {
             divide_before_multiply_vulnerability(&mut source_unit)?

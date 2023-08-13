@@ -1,11 +1,13 @@
 use std::collections::HashSet;
 
 use solang_parser::pt::{
-    Base, ContractPart, Expression, FunctionAttribute, FunctionDefinition, FunctionTy, Identifier,
+    Base, Expression, FunctionAttribute, FunctionDefinition, FunctionTy, Identifier,
     IdentifierPath, Loc, SourceUnit, Visibility,
 };
 
-use crate::analyzer::ast::{self, Target};
+use crate::analyzer::extractors::{
+    compound::ContractPartFunctionExtractor, primitive::FunctionCallExtractor, Extractor,
+};
 
 pub const SELF_DESTRUCT: &str = "selfdestruct";
 pub const SUICIDE: &str = "suicide";
@@ -13,62 +15,46 @@ pub const ONLY: &str = "only";
 pub const MSG: &str = "msg";
 pub const SENDER: &str = "sender";
 
-pub fn unprotected_self_destruct_vulnerability(source_unit: SourceUnit) -> HashSet<Loc> {
+pub fn unprotected_self_destruct_vulnerability(
+    source_unit: &mut SourceUnit,
+) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each vulnerability target identified
     let mut vulnerability_locations: HashSet<Loc> = HashSet::new();
 
-    let contract_definition_nodes =
-        ast::extract_target_from_node(Target::ContractDefinition, source_unit.into());
+    let mut function_nodes = ContractPartFunctionExtractor::extract(source_unit)?;
 
-    for contract_definition_node in contract_definition_nodes {
-        let target_nodes =
-            ast::extract_target_from_node(Target::FunctionDefinition, contract_definition_node);
+    for node in function_nodes.iter_mut() {
+        //If there is function body
+        if node.body.is_some() {
+            //Skip the constructor as it cannot be affected
+            if node.ty == FunctionTy::Constructor {
+                continue;
+            }
 
-        for node in target_nodes {
-            //We can use unwrap because Target::FunctionDefinition is a contract_part
-            let contract_part = node.contract_part().unwrap();
+            if !node.attributes.is_empty() {
+                //Skip functions that are not public or external as they cannot be affected
+                if !_is_public_or_external(&node) {
+                    continue;
+                }
 
-            if let ContractPart::FunctionDefinition(box_function_definition) = contract_part {
-                //If there is function body
-                if box_function_definition.body.is_some() {
-                    //Skip the constructor as it cannot be affected
-                    if box_function_definition.ty == FunctionTy::Constructor {
-                        continue;
-                    }
-
-                    if !box_function_definition.attributes.is_empty() {
-                        //Skip functions that are not public or external as they cannot be affected
-                        if !_is_public_or_external(&box_function_definition) {
-                            continue;
-                        }
-
-                        let function_body_nodes = ast::extract_target_from_node(
-                            Target::FunctionCall,
-                            box_function_definition.body.clone().unwrap().into(),
-                        );
-
-                        for function_body_node in function_body_nodes {
-                            //We can use unwrap because Target::FunctionCall is an expression
-                            let expression = function_body_node.expression().unwrap();
-
-                            if let Expression::FunctionCall(loc, box_identifier, ..) = expression {
-                                //If the function is a selfdestruct call
-                                if is_self_destruct(*box_identifier) {
-                                    //Check if a function is protected using modifiers or conditions.
-                                    //This check is not exhaustive. For instance, it does not check if the modifier
-                                    //is implemented correctly. It only checks if the modifier name contains the word "only".
-                                    //Otherwise, it checks if there are any conditions on `msg.sender` applied.
-                                    if contains_protection_modifiers(&box_function_definition)
-                                        || contains_msg_sender_conditions(&box_function_definition)
-                                    {
-                                        continue;
-                                    }
-
-                                    //If the function is not protected, add the loc of the
-                                    //selfdestruct call to the vulnerability_locations set.
-                                    vulnerability_locations.insert(loc);
-                                }
+                let mut function_body_nodes = FunctionCallExtractor::extract(node)?;
+                for function_body_node in function_body_nodes.iter_mut() {
+                    if let Expression::FunctionCall(loc, box_identifier, ..) = function_body_node {
+                        //If the function is a selfdestruct call
+                        if is_self_destruct(*box_identifier.clone()) {
+                            //Check if a function is protected using modifiers or conditions.
+                            //This check is not exhaustive. For instance, it does not check if the modifier
+                            //is implemented correctly. It only checks if the modifier name contains the word "only".
+                            //Otherwise, it checks if there are any conditions on `msg.sender` applied.
+                            if contains_protection_modifiers(&node)
+                                || contains_msg_sender_conditions(node)?
+                            {
+                                continue;
                             }
+
+                            //If the function is not protected, add the loc of the
+                            //selfdestruct call to the vulnerability_locations set.
+                            vulnerability_locations.insert(*loc);
                         }
                     }
                 }
@@ -77,7 +63,7 @@ pub fn unprotected_self_destruct_vulnerability(source_unit: SourceUnit) -> HashS
     }
 
     //Return the identified vulnerability locations
-    vulnerability_locations
+    Ok(vulnerability_locations)
 }
 
 //Return true if the visibility of a given function is public or external. Return false otherwise.
@@ -142,66 +128,61 @@ fn contains_protection_modifiers(function_definition: &FunctionDefinition) -> bo
 
 //Check if there are any conditions applied on msg.sender
 //examples: `require(msg.sender == owner)` or `check(msg.sender)`
-fn contains_msg_sender_conditions(function_definition: &FunctionDefinition) -> bool {
-    //If the function has no body, early-return false
-    if function_definition.body.is_none() {
-        return false;
-    }
+fn contains_msg_sender_conditions(
+    function_definition: &mut FunctionDefinition,
+) -> eyre::Result<bool> {
+    if let Some(ref mut statement) = function_definition.body {
+        let function_body_nodes = FunctionCallExtractor::extract(statement)?;
 
-    let function_body_nodes = ast::extract_target_from_node(
-        Target::FunctionCall,
-        function_definition.body.clone().unwrap().into(),
-    );
+        for node in function_body_nodes {
+            //We can use unwrap because Target::MemberAccess is an expression
+            if let Expression::FunctionCall(_, box_identifier, function_args) = node {
+                //Skip if the function call is a selfdestruct, as it does not affect this vulnerability
+                if is_self_destruct(*box_identifier) {
+                    continue;
+                }
 
-    for node in function_body_nodes {
-        //We can use unwrap because Target::MemberAccess is an expression
-        let expression = node.expression().unwrap();
+                for expression in function_args {
+                    match expression {
+                        //Match for both `function(msg.sender == owner)` or `function(msg.sender != owner)`
+                        Expression::Equal(_, box_expression, _)
+                        | Expression::NotEqual(_, box_expression, _) => {
+                            if let Expression::MemberAccess(_, box_expression, identifier) =
+                                *box_expression
+                            {
+                                //If the member access identifier is "msg.sender"
+                                let Identifier { name: right, .. } = identifier;
+                                if let Expression::Variable(Identifier { name: left, .. }) =
+                                    *box_expression
+                                {
+                                    if left == MSG && right == SENDER {
+                                        return Ok(true);
+                                    }
+                                }
+                            }
+                        }
 
-        if let Expression::FunctionCall(_, box_identifier, function_args) = expression {
-            //Skip if the function call is a selfdestruct, as it does not affect this vulnerability
-            if is_self_destruct(*box_identifier) {
-                continue;
-            }
-
-            for expression in function_args {
-                match expression {
-                    //Match for both `function(msg.sender == owner)` or `function(msg.sender != owner)`
-                    Expression::Equal(_, box_expression, _)
-                    | Expression::NotEqual(_, box_expression, _) => {
-                        if let Expression::MemberAccess(_, box_expression, identifier) =
-                            *box_expression
-                        {
+                        //Match for `function(msg.sender)`
+                        Expression::MemberAccess(_, box_expression, identifier) => {
                             //If the member access identifier is "msg.sender"
                             let Identifier { name: right, .. } = identifier;
                             if let Expression::Variable(Identifier { name: left, .. }) =
                                 *box_expression
                             {
                                 if left == MSG && right == SENDER {
-                                    return true;
+                                    return Ok(true);
                                 }
                             }
                         }
-                    }
 
-                    //Match for `function(msg.sender)`
-                    Expression::MemberAccess(_, box_expression, identifier) => {
-                        //If the member access identifier is "msg.sender"
-                        let Identifier { name: right, .. } = identifier;
-                        if let Expression::Variable(Identifier { name: left, .. }) = *box_expression
-                        {
-                            if left == MSG && right == SENDER {
-                                return true;
-                            }
-                        }
-                    }
-
-                    _ => {}
-                };
+                        _ => {}
+                    };
+                }
             }
         }
     }
 
-    false
+    Ok(false)
 }
 
 #[test]
@@ -237,8 +218,8 @@ fn test_unprotected_selfdestruct_vulnerability() {
     }
     "#;
 
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
+    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
 
-    let vulnerability_locations = unprotected_self_destruct_vulnerability(source_unit);
-    assert_eq!(vulnerability_locations.len(), 2)
+    let vulnerability_locations = unprotected_self_destruct_vulnerability(&mut source_unit);
+    assert_eq!(vulnerability_locations.unwrap().len(), 2)
 }
