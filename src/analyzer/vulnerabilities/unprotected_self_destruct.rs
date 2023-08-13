@@ -33,7 +33,7 @@ pub fn unprotected_self_destruct_vulnerability(
 
             if !node.attributes.is_empty() {
                 //Skip functions that are not public or external as they cannot be affected
-                if !_is_public_or_external(&node) {
+                if !_is_public_or_external(node) {
                     continue;
                 }
 
@@ -46,7 +46,7 @@ pub fn unprotected_self_destruct_vulnerability(
                             //This check is not exhaustive. For instance, it does not check if the modifier
                             //is implemented correctly. It only checks if the modifier name contains the word "only".
                             //Otherwise, it checks if there are any conditions on `msg.sender` applied.
-                            if contains_protection_modifiers(&node)
+                            if contains_protection_modifiers(node)
                                 || contains_msg_sender_conditions(node)?
                             {
                                 continue;

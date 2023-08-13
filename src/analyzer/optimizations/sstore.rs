@@ -3,9 +3,8 @@ use std::collections::HashSet;
 use solang_parser::pt::{self, Identifier, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::analyzer::ast::{self, Target};
 use crate::analyzer::extractors::primitive::AssignmentExtractor;
-use crate::analyzer::extractors::{compound::StorageVariableExtractor, Extractor};
+use crate::analyzer::extractors::Extractor;
 use crate::analyzer::utils::get_32_byte_storage_variables;
 
 pub fn sstore_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {

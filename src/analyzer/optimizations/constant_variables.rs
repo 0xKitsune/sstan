@@ -1,6 +1,6 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
-use solang_parser::pt::{self, Expression, Loc};
+use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::extractors::primitive::IncrementorExtractor;
