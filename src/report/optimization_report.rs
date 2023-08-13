@@ -8,9 +8,8 @@ use crate::report::report_sections::optimizations::{
     address_balance, address_zero, assign_update_array_value, bool_equals_bool, cache_array_length,
     constant_variable, immutable_variable, increment_decrement, memory_to_calldata,
     multiple_require, optimal_comparison, overview, pack_storage_variables, pack_struct_variables,
-    payable_function, private_constant, safe_math_post_080, safe_math_pre_080, shift_math,
-    short_revert_string, solidity_keccak256, solidity_math, sstore, string_errors,
-    public_functions,
+    payable_function, private_constant, public_functions, safe_math_post_080, safe_math_pre_080,
+    shift_math, short_revert_string, solidity_keccak256, solidity_math, sstore, string_errors,
 };
 
 pub fn generate_optimization_report(

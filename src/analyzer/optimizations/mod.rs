@@ -44,6 +44,7 @@ use self::{
     pack_struct_variables::pack_struct_variables_optimization,
     payable_function::payable_function_optimization,
     private_constant::private_constant_optimization,
+    public_functions::public_function_optimization,
     safe_math::{safe_math_post_080_optimization, safe_math_pre_080_optimization},
     shift_math::shift_math_optimization,
     short_revert_string::short_revert_string_optimization,
@@ -51,7 +52,6 @@ use self::{
     solidity_math::solidity_math_optimization,
     sstore::sstore_optimization,
     string_errors::string_error_optimization,
-    public_functions::public_function_optimization,
 };
 
 use super::utils::{self, LineNumber};
