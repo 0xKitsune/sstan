@@ -105,7 +105,10 @@ impl<V: Visitable> Extractor<V, FunctionDefinition> for PublicFunctionExtractor 
             .filter_map(|function| {
                 // Check if there's any attribute that's an Immutable
                 if function.attributes.iter().any(|attribute| {
-                    matches!(attribute, FunctionAttribute::Visibility(Visibility::Public(_)))
+                    matches!(
+                        attribute,
+                        FunctionAttribute::Visibility(Visibility::Public(_))
+                    )
                 }) {
                     Some(function.clone())
                 } else {

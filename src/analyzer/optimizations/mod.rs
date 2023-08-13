@@ -1,4 +1,3 @@
-pub mod public_functions;
 pub mod address_balance;
 pub mod address_zero;
 pub mod assign_update_array_value;
@@ -14,6 +13,7 @@ pub mod pack_storage_variables;
 pub mod pack_struct_variables;
 pub mod payable_function;
 pub mod private_constant;
+pub mod public_functions;
 pub mod safe_math;
 pub mod shift_math;
 pub mod short_revert_string;
@@ -51,12 +51,14 @@ use self::{
     solidity_math::solidity_math_optimization,
     sstore::sstore_optimization,
     string_errors::string_error_optimization,
+    public_functions::public_function_optimization,
 };
 
 use super::utils::{self, LineNumber};
 
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 pub enum Optimization {
+    PublicFunctions,
     AddressBalance,
     AddressZero,
     AssignUpdateArrayValue,
@@ -84,6 +86,7 @@ pub enum Optimization {
 
 pub fn get_all_optimizations() -> Vec<Optimization> {
     vec![
+        Optimization::PublicFunctions,
         Optimization::AddressBalance,
         Optimization::AddressZero,
         Optimization::AssignUpdateArrayValue,
@@ -209,6 +212,7 @@ pub fn analyze_for_optimization(
     let mut source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match optimization {
+        Optimization::PublicFunctions => public_function_optimization(&mut source_unit)?,
         Optimization::AddressBalance => address_balance_optimization(&mut source_unit)?,
         Optimization::AddressZero => address_zero_optimization(&mut source_unit)?,
         Optimization::AssignUpdateArrayValue => assign_update_array_optimization(&mut source_unit)?,

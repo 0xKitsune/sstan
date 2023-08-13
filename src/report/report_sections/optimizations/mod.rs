@@ -22,3 +22,4 @@ pub mod solidity_keccak256;
 pub mod solidity_math;
 pub mod sstore;
 pub mod string_errors;
+pub mod public_functions;

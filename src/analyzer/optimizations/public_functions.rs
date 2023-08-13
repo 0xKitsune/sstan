@@ -1,8 +1,12 @@
-use std::collections::{HashSet, HashMap};
+use std::collections::{HashMap, HashSet};
 
-use solang_parser::pt::{SourceUnit, Loc, FunctionDefinition, ContractDefinition, Expression};
+use solang_parser::pt::{ContractDefinition, Expression, FunctionDefinition, Loc, SourceUnit};
 
-use crate::analyzer::extractors::{compound::PublicFunctionExtractor, Extractor, primitive::{FunctionCallExtractor, ContractDefinitionExtractor}};
+use crate::analyzer::extractors::{
+    compound::PublicFunctionExtractor,
+    primitive::{ContractDefinitionExtractor, FunctionCallExtractor},
+    Extractor,
+};
 
 pub fn public_function_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
@@ -12,7 +16,9 @@ pub fn public_function_optimization(source_unit: &mut SourceUnit) -> eyre::Resul
         let mut function_names = extract_names(public_functions)?;
         let function_calls = FunctionCallExtractor::extract(contract)?;
         for function_call in function_calls {
-            if let Expression::FunctionCall(_loc, function_identifier, _function_call_expressions) = function_call {
+            if let Expression::FunctionCall(_loc, function_identifier, _function_call_expressions) =
+                function_call
+            {
                 if let Expression::Variable(identifier) = *function_identifier {
                     if function_names.contains_key(&identifier.name) {
                         function_names.remove(&identifier.name);
