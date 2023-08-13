@@ -1,9 +1,9 @@
 use std::collections::{HashMap, HashSet};
 
-use solang_parser::pt::{Expression, Loc, SourceUnit, VariableDefinition};
+use solang_parser::pt::{Expression, Loc, SourceUnit};
 
 use crate::analyzer::extractors::{
-    compound::{NonConstantImmutableStorageVariableExtractor, StorageVariableExtractor},
+    compound::{NonConstantImmutableStorageVariableExtractor},
     primitive::{ContractDefinitionExtractor, FunctionExtractor, VariableExtractor},
     Extractor,
 };

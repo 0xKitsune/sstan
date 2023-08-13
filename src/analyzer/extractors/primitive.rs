@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor};
 use crate::default_extractor;
-use solang_parser::pt::{self, *};
+use solang_parser::pt::{*};
 
 default_extractor!(MemberAccessExtractor, Expression);
 
