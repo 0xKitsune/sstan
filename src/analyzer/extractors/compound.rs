@@ -95,6 +95,28 @@ impl<V: Visitable> Extractor<V, VariableDefinition> for ImmutableStorageVariable
     }
 }
 
+compound_extractor!(PublicFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for PublicFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let public_functions = functions
+            .iter()
+            .filter_map(|function| {
+                // Check if there's any attribute that's an Immutable
+                if function.attributes.iter().any(|attribute| {
+                    matches!(attribute, FunctionAttribute::Visibility(Visibility::Public(_)))
+                }) {
+                    Some(function.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<FunctionDefinition>>();
+        Ok(public_functions)
+    }
+}
+
 compound_extractor!(ConstantStorageVariableExtractor, VariableDefinition);
 
 impl<V: Visitable> Extractor<V, VariableDefinition> for ConstantStorageVariableExtractor {

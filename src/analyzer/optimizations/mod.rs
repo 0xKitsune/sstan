@@ -1,3 +1,4 @@
+pub mod public_functions;
 pub mod address_balance;
 pub mod address_zero;
 pub mod assign_update_array_value;
