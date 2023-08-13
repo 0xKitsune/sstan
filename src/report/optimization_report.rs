@@ -9,8 +9,8 @@ use crate::report::report_sections::optimizations::{
     cache_storage_in_memory, constant_variable, immutable_variable, increment_decrement,
     memory_to_calldata, multiple_require, optimal_comparison, overview, pack_storage_variables,
     pack_struct_variables, payable_function, private_constant, public_functions,
-    safe_math_post_080, safe_math_pre_080, shift_math, short_revert_string, solidity_keccak256,
-    solidity_math, sstore, string_errors,
+    read_from_storage_in_for_loop, safe_math_post_080, safe_math_pre_080, shift_math,
+    short_revert_string, solidity_keccak256, solidity_math, sstore, string_errors,
 };
 
 pub fn generate_optimization_report(
@@ -58,6 +58,9 @@ pub fn generate_optimization_report(
 
 pub fn get_optimization_report_section(optimization: Optimization) -> String {
     match optimization {
+        Optimization::ReadFromStorageInForLoop => {
+            read_from_storage_in_for_loop::report_section_content()
+        }
         Optimization::CacheStorageInMemory => cache_storage_in_memory::report_section_content(),
         Optimization::PublicFunctions => public_functions::report_section_content(),
         Optimization::AddressBalance => address_balance::report_section_content(),

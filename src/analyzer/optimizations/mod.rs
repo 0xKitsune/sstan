@@ -1,5 +1,6 @@
 pub mod address_balance;
 pub mod address_zero;
+
 pub mod assign_update_array_value;
 pub mod bool_equals_bool;
 pub mod cache_array_length;
@@ -15,6 +16,7 @@ pub mod pack_struct_variables;
 pub mod payable_function;
 pub mod private_constant;
 pub mod public_functions;
+pub mod read_storage_in_for_loop;
 pub mod safe_math;
 pub mod shift_math;
 pub mod short_revert_string;
@@ -47,6 +49,7 @@ use self::{
     payable_function::payable_function_optimization,
     private_constant::private_constant_optimization,
     public_functions::public_function_optimization,
+    read_storage_in_for_loop::read_storage_in_for_loop_optimization,
     safe_math::{safe_math_post_080_optimization, safe_math_pre_080_optimization},
     shift_math::shift_math_optimization,
     short_revert_string::short_revert_string_optimization,
@@ -85,6 +88,7 @@ pub enum Optimization {
     OptimalComparison,
     ShortRevertString,
     CacheStorageInMemory,
+    ReadFromStorageInForLoop,
 }
 
 pub fn get_all_optimizations() -> Vec<Optimization> {
@@ -114,6 +118,7 @@ pub fn get_all_optimizations() -> Vec<Optimization> {
         Optimization::OptimalComparison,
         Optimization::ShortRevertString,
         Optimization::CacheStorageInMemory,
+        Optimization::ReadFromStorageInForLoop,
     ]
 }
 
@@ -144,6 +149,7 @@ pub fn str_to_optimization(opt: &str) -> Optimization {
         "short_revert_string" => Optimization::ShortRevertString,
         "cache_storage_in_memory" => Optimization::CacheStorageInMemory,
         "public_functions" => Optimization::PublicFunctions,
+        "read_from_storage_in_for_loop" => Optimization::ReadFromStorageInForLoop,
         other => {
             panic!("Unrecgonized optimization: {}", other)
         }
@@ -217,6 +223,9 @@ pub fn analyze_for_optimization(
     let mut source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
 
     let locations = match optimization {
+        Optimization::ReadFromStorageInForLoop => {
+            read_storage_in_for_loop_optimization(&mut source_unit)?
+        }
         Optimization::CacheStorageInMemory => {
             cache_storage_in_memory_optimization(&mut source_unit)?
         }
