@@ -1,4 +1,4 @@
-use std::{collections::HashSet, hash::Hash};
+use std::{collections::HashSet};
 
 use solang_parser::pt::{Loc, SourceUnit};
 
@@ -10,7 +10,6 @@ use crate::analyzer::{
         },
         Extractor,
     },
-    qa,
 };
 
 pub fn constructor_var_initialization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
