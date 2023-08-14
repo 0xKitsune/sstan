@@ -31,6 +31,19 @@ impl<V: Visitable> Extractor<V, VariableDefinition> for StorageVariableExtractor
     }
 }
 
+impl StorageVariableExtractor {
+    pub fn extract_names(storage_variables: Vec<VariableDefinition>) -> HashSet<String> {
+        let mut names = HashSet::new();
+        for variable in storage_variables {
+            if let Some(name) = variable.name {
+                names.insert(name.name);
+            }
+        }
+
+        names
+    }
+}
+
 compound_extractor!(
     NonConstantImmutableStorageVariableExtractor,
     VariableDefinition

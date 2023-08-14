@@ -3,6 +3,8 @@ pub mod private_func_leading_underscore;
 pub mod private_vars_leading_underscore;
 
 pub mod import_identifiers;
+
+pub mod constructor_var_initialization;
 pub mod template;
 
 use std::{

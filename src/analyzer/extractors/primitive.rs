@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use super::{visitable::Visitable, visitor::Visitor, ExtractionError, Extractor};
 use crate::default_extractor;
-use solang_parser::pt::{*};
+use solang_parser::pt::*;
 
 default_extractor!(MemberAccessExtractor, Expression);
 
@@ -61,6 +61,30 @@ impl Visitor for EqualityExtractor {
             _ => {}
         }
         Ok(())
+    }
+}
+
+impl EqualityExtractor {
+    pub fn extract_not_equal(exprs: Vec<Expression>) -> Vec<Expression> {
+        let mut extracted = Vec::new();
+        for expr in exprs {
+            match expr {
+                Expression::NotEqual(_, _, _) => extracted.push(expr),
+                _ => {}
+            }
+        }
+        extracted
+    }
+
+    pub fn extract_equal(exprs: Vec<Expression>) -> Vec<Expression> {
+        let mut extracted = Vec::new();
+        for expr in exprs {
+            match expr {
+                Expression::Equal(_, _, _) => extracted.push(expr),
+                _ => {}
+            }
+        }
+        extracted
     }
 }
 
@@ -238,5 +262,41 @@ impl Visitor for VariableExtractor {
             _ => {}
         }
         Ok(())
+    }
+}
+
+impl VariableExtractor {
+    pub fn extract_names(expressions: Vec<Expression>) -> HashSet<String> {
+        let mut names = HashSet::new();
+        for expr in expressions.iter() {
+            if let Expression::Variable(var) = expr {
+                names.insert(var.name.to_string());
+            }
+        }
+
+        names
+    }
+}
+
+default_extractor!(ParameterExtractor, Parameter);
+
+impl Visitor for ParameterExtractor {
+    type Error = ExtractionError;
+    fn extract_parameter(&mut self, parameter: &mut Parameter) -> Result<(), Self::Error> {
+        self.targets.push(parameter.clone());
+        Ok(())
+    }
+}
+
+impl ParameterExtractor {
+    pub fn extract_names(parameters: Vec<Parameter>) -> HashSet<String> {
+        let mut names = HashSet::new();
+        for parameter in parameters.iter() {
+            if let Some(name) = &parameter.name {
+                names.insert(name.to_string());
+            }
+        }
+
+        names
     }
 }
