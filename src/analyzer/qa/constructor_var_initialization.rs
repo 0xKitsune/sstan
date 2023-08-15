@@ -1,15 +1,13 @@
-use std::{collections::HashSet};
+use std::collections::HashSet;
 
-use solang_parser::pt::{Loc, SourceUnit};
+use solang_parser::pt::{Expression, Loc, SourceUnit};
 
-use crate::analyzer::{
-    extractors::{
-        compound::ConstructorExtractor,
-        primitive::{
-            ContractDefinitionExtractor, EqualityExtractor, ParameterExtractor, VariableExtractor,
-        },
-        Extractor,
+use crate::analyzer::extractors::{
+    compound::ConstructorExtractor,
+    primitive::{
+        ContractDefinitionExtractor, EqualityExtractor, ParameterExtractor, VariableExtractor,
     },
+    Extractor,
 };
 
 pub fn constructor_var_initialization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
@@ -22,16 +20,24 @@ pub fn constructor_var_initialization(source_unit: &mut SourceUnit) -> eyre::Res
         for constructor in constructors.iter_mut() {
             let parameter_names =
                 ParameterExtractor::extract_names(ParameterExtractor::extract(constructor)?);
-            let mut not_equal_checks =
-                EqualityExtractor::extract_not_equal(EqualityExtractor::extract(constructor)?);
-            let mut not_equal_check_variable_names: HashSet<String> = HashSet::new();
-            for not_equal_check in not_equal_checks.iter_mut() {
-                not_equal_check_variable_names.extend(VariableExtractor::extract_names(
-                    VariableExtractor::extract(not_equal_check)?,
-                ));
+            let mut equalities = EqualityExtractor::extract(constructor)?;
+            let mut equality_variable_names: HashSet<String> = HashSet::new();
+            for equality in equalities.iter_mut() {
+                match equality {
+                    Expression::NotEqual(_, _, _)
+                    | Expression::LessEqual(_, _, _)
+                    | Expression::Less(_, _, _)
+                    | Expression::More(_, _, _)
+                    | Expression::MoreEqual(_, _, _) => {
+                        equality_variable_names.extend(VariableExtractor::extract_names(
+                            VariableExtractor::extract(equality)?,
+                        ));
+                    }
+                    _ => {}
+                }
             }
             for parameter in parameter_names {
-                if !not_equal_check_variable_names.contains(&parameter) {
+                if !equality_variable_names.contains(&parameter) {
                     qa_locations.insert(constructor.loc);
                 }
             }
