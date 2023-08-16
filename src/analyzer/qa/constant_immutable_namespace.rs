@@ -3,12 +3,9 @@ use std::collections::HashSet;
 use regex::Regex;
 use solang_parser::pt::{Loc, SourceUnit};
 
-use crate::{
-    analyzer::extractors::{
-        compound::{ConstantStorageVariableExtractor, ImmutableStorageVariableExtractor},
-        Extractor,
-    },
-    report::report_sections::optimizations::immutable_variable,
+use crate::analyzer::extractors::{
+    compound::{ConstantStorageVariableExtractor, ImmutableStorageVariableExtractor},
+    Extractor,
 };
 
 pub fn constant_immutable_namespace(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {

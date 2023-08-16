@@ -2,13 +2,10 @@ use std::collections::{HashMap, HashSet};
 
 use solang_parser::pt::{Expression, Loc, SourceUnit};
 
-use crate::{
-    analyzer::extractors::{
-        compound::InternalFunctionExtractor,
-        primitive::{ContractDefinitionExtractor, FunctionCallExtractor},
-        Extractor,
-    },
-    report::report_sections::qa,
+use crate::analyzer::extractors::{
+    compound::InternalFunctionExtractor,
+    primitive::{ContractDefinitionExtractor, FunctionCallExtractor},
+    Extractor,
 };
 
 pub fn unused_functions(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {

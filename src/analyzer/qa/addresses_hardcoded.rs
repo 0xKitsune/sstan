@@ -8,7 +8,7 @@ pub fn addresses_hardcoded(source_unit: &mut SourceUnit) -> eyre::Result<HashSet
     let mut qa_locations: HashSet<Loc> = HashSet::new();
     let assignments = AssignmentExtractor::extract(source_unit)?;
     for assignment in assignments.iter() {
-        if let pt::Expression::Assign(loc, expr_0, expr) = assignment {
+        if let pt::Expression::Assign(loc, expr_0, _) = assignment {
             //Assignment to address literal
             if matches!(expr_0.as_ref(), pt::Expression::AddressLiteral(_, _)) {
                 qa_locations.insert(*loc);

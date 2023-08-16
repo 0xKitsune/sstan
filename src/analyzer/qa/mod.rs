@@ -7,6 +7,7 @@ pub mod interface_namespace;
 pub mod large_multiples_of_ten;
 pub mod private_func_leading_underscore;
 pub mod private_vars_leading_underscore;
+pub mod storage_variable_namespace;
 pub mod template;
 pub mod unused_functions;
 pub mod unused_returns;
