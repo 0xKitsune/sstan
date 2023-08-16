@@ -4,17 +4,9 @@ fn main() {
         pragma solidity ^0.8.16;
 
         contract SimpleStore {
-            uint x;
-            address z = address(1);
-            function set(uint newValue) {
-                x = 100000;
-                uint256 y = 1e18;
-                address p = address(1);
-            }
+           
+            address hardcoded = 0xCF93bC53DA6D3543ec2B39EB9Fb3eb1472502afA;
             
-            function get() returns (uint) {
-                return x;
-            }
         }
     "#;
 

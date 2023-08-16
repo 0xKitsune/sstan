@@ -1,17 +1,16 @@
 use std::collections::HashSet;
 
-use solang_parser::pt::{self, Loc, SourceUnit};
+use solang_parser::pt::{Expression, Loc, SourceUnit};
 
-use crate::analyzer::extractors::{primitive::AssignmentExtractor, Extractor};
+use crate::analyzer::extractors::{compound::StorageVariableExtractor, Extractor};
 
 pub fn addresses_hardcoded(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut qa_locations: HashSet<Loc> = HashSet::new();
-    let assignments = AssignmentExtractor::extract(source_unit)?;
-    for assignment in assignments.iter() {
-        if let pt::Expression::Assign(loc, expr_0, expr) = assignment {
-            //Assignment to address literal
-            if matches!(expr_0.as_ref(), pt::Expression::AddressLiteral(_, _)) {
-                qa_locations.insert(*loc);
+    let variables = StorageVariableExtractor::extract(source_unit)?;
+    for variable in variables.iter() {
+        if let Some(initializer) = variable.initializer.clone() {
+            if let Expression::HexNumberLiteral(_, _, _) = initializer {
+                qa_locations.insert(variable.loc);
             }
         }
     }
@@ -23,10 +22,10 @@ fn test_hardcoded_address() {
     let file_contents_1 = r#"
     contract Contract0 {
         address public owner;
-        address hardcoded = "0x01111111111111";
+        address hardcoded = 0xCF93bC53DA6D3543ec2B39EB9Fb3eb1472502afA;
         constructor(address _owner) {
             owner = _owner;
-            address hardcoded = address(0x01111111111111);
+        
         }
     }
     "#;

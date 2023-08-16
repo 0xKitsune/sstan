@@ -2,10 +2,7 @@ use std::collections::HashSet;
 
 use solang_parser::pt::{Loc, SourceUnit};
 
-use crate::{
-    analyzer::extractors::{compound::InterfaceExtractor, Extractor},
-    report::report_sections::qa,
-};
+use crate::analyzer::extractors::{compound::InterfaceExtractor, Extractor};
 
 pub fn interfaces_namespace(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut qa_locations: HashSet<Loc> = HashSet::new();
