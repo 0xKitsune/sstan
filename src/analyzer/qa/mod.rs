@@ -6,6 +6,8 @@ pub mod import_identifiers;
 
 pub mod constructor_var_initialization;
 pub mod large_multiples_of_ten;
+
+pub mod addresses_hardcoded;
 pub mod template;
 pub mod unused_returns;
 

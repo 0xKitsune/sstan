@@ -5,10 +5,11 @@ fn main() {
 
         contract SimpleStore {
             uint x;
-
+            address z = address(1);
             function set(uint newValue) {
                 x = 100000;
                 uint256 y = 1e18;
+                address p = address(1);
             }
             
             function get() returns (uint) {
