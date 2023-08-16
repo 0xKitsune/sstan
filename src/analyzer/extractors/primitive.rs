@@ -313,3 +313,13 @@ impl ParameterExtractor {
         names
     }
 }
+
+default_extractor!(EventExtractor, EventDefinition);
+
+impl Visitor for EventExtractor {
+    type Error = ExtractionError;
+    fn extract_event(&mut self, _event: &mut EventDefinition) -> Result<(), ExtractionError> {
+        self.targets.push(_event.clone());
+        Ok(())
+    }
+}

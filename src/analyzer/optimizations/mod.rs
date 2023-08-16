@@ -1,11 +1,11 @@
 pub mod address_balance;
 pub mod address_zero;
-
 pub mod assign_update_array_value;
 pub mod bool_equals_bool;
 pub mod cache_array_length;
 pub mod cache_storage_in_memory;
 pub mod constant_variables;
+pub mod event_indexing;
 pub mod immutable_variables;
 pub mod increment_decrement;
 pub mod memory_to_calldata;
