@@ -336,3 +336,78 @@ impl<V: Visitable> Extractor<V, Option<SolidityVersion>> for SolidityVerisonExtr
         }
     }
 }
+
+compound_extractor!(InternalFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for InternalFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let internal_functions = functions
+            .iter()
+            .flat_map(|function| {
+                function
+                    .attributes
+                    .iter()
+                    .filter_map(|attr: &FunctionAttribute| {
+                        if let FunctionAttribute::Visibility(Visibility::Internal(_)) = attr {
+                            Some(function.clone())
+                        } else {
+                            None
+                        }
+                    })
+            })
+            .collect::<Vec<FunctionDefinition>>();
+
+        Ok(internal_functions)
+    }
+}
+
+compound_extractor!(ExternalFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for ExternalFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let internal_functions = functions
+            .iter()
+            .flat_map(|function| {
+                function
+                    .attributes
+                    .iter()
+                    .filter_map(|attr: &FunctionAttribute| {
+                        if let FunctionAttribute::Visibility(Visibility::External(_)) = attr {
+                            Some(function.clone())
+                        } else {
+                            None
+                        }
+                    })
+            })
+            .collect::<Vec<FunctionDefinition>>();
+
+        Ok(internal_functions)
+    }
+}
+
+compound_extractor!(PrivateFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for PrivateFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let internal_functions = functions
+            .iter()
+            .flat_map(|function| {
+                function
+                    .attributes
+                    .iter()
+                    .filter_map(|attr: &FunctionAttribute| {
+                        if let FunctionAttribute::Visibility(Visibility::Private(_)) = attr {
+                            Some(function.clone())
+                        } else {
+                            None
+                        }
+                    })
+            })
+            .collect::<Vec<FunctionDefinition>>();
+
+        Ok(internal_functions)
+    }
+}

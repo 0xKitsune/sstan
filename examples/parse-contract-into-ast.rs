@@ -15,6 +15,10 @@ fn main() {
             function get() returns (uint) {
                 return x;
             }
+
+            function get2() public {
+                get();
+            }
         }
     "#;
 
