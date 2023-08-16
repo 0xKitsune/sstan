@@ -1,8 +1,8 @@
 pub mod constructor_order;
+pub mod import_identifiers;
+pub mod interface_namespace;
 pub mod private_func_leading_underscore;
 pub mod private_vars_leading_underscore;
-
-pub mod import_identifiers;
 
 pub mod constructor_var_initialization;
 pub mod large_multiples_of_ten;
