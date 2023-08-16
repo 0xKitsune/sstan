@@ -5,7 +5,9 @@ pub mod private_vars_leading_underscore;
 pub mod import_identifiers;
 
 pub mod constructor_var_initialization;
+
 pub mod template;
+pub mod unused_returns;
 
 use std::{
     collections::{BTreeSet, HashMap},

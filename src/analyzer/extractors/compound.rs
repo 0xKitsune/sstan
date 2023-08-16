@@ -44,6 +44,86 @@ impl StorageVariableExtractor {
     }
 }
 
+compound_extractor!(ContractExtractor, ContractDefinition);
+
+impl<V: Visitable> Extractor<V, ContractDefinition> for ContractExtractor {
+    fn extract(v: &mut V) -> Result<Vec<ContractDefinition>, ExtractionError> {
+        let contracts = ContractDefinitionExtractor::extract(v)?;
+        let filtered_contracts = contracts
+            .iter()
+            .filter_map(|contract| {
+                if matches!(contract.ty, ContractTy::Contract(_)) {
+                    Some(contract.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<ContractDefinition>>();
+
+        Ok(filtered_contracts)
+    }
+}
+
+compound_extractor!(AbstractContractExtractor, ContractDefinition);
+
+impl<V: Visitable> Extractor<V, ContractDefinition> for AbstractContractExtractor {
+    fn extract(v: &mut V) -> Result<Vec<ContractDefinition>, ExtractionError> {
+        let contracts = ContractDefinitionExtractor::extract(v)?;
+        let filtered_contracts = contracts
+            .iter()
+            .filter_map(|contract| {
+                if matches!(contract.ty, ContractTy::Abstract(_)) {
+                    Some(contract.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<ContractDefinition>>();
+
+        Ok(filtered_contracts)
+    }
+}
+
+compound_extractor!(InterfaceExtractor, ContractDefinition);
+
+impl<V: Visitable> Extractor<V, ContractDefinition> for InterfaceExtractor {
+    fn extract(v: &mut V) -> Result<Vec<ContractDefinition>, ExtractionError> {
+        let contracts = ContractDefinitionExtractor::extract(v)?;
+        let filtered_contracts = contracts
+            .iter()
+            .filter_map(|contract| {
+                if matches!(contract.ty, ContractTy::Interface(_)) {
+                    Some(contract.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<ContractDefinition>>();
+
+        Ok(filtered_contracts)
+    }
+}
+
+compound_extractor!(LibraryExtractor, ContractDefinition);
+
+impl<V: Visitable> Extractor<V, ContractDefinition> for LibraryExtractor {
+    fn extract(v: &mut V) -> Result<Vec<ContractDefinition>, ExtractionError> {
+        let contracts = ContractDefinitionExtractor::extract(v)?;
+        let filtered_contracts = contracts
+            .iter()
+            .filter_map(|contract| {
+                if matches!(contract.ty, ContractTy::Library(_)) {
+                    Some(contract.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<ContractDefinition>>();
+
+        Ok(filtered_contracts)
+    }
+}
+
 compound_extractor!(
     NonConstantImmutableStorageVariableExtractor,
     VariableDefinition
