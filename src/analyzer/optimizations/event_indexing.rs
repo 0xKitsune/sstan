@@ -22,9 +22,10 @@ pub fn event_indexing_optimization(source_unit: &mut SourceUnit) -> eyre::Result
                 non_array_indexed_parameter_count += 1;
             }
         }
-
+        //If there are more than 3 non-array indexed parameters, and less than 3 indexed events, then the event is not optimized.
         if non_array_indexed_parameter_count >= 3 && indexed_events_count < 3 {
             optimization_locations.insert(event.loc.clone());
+        //If there are less than 3 non-array indexed parameters, and the number of indexed events is not equal to the number of non-array indexed parameters, then the event is not optimized.
         } else if non_array_indexed_parameter_count < 3
             && indexed_events_count != non_array_indexed_parameter_count
         {
