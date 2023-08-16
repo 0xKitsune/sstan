@@ -7,7 +7,8 @@ fn main() {
             uint x;
 
             function set(uint newValue) {
-                x = newValue;
+                x = 100000;
+                uint256 y = 1e18;
             }
             
             function get() returns (uint) {

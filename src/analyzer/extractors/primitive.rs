@@ -111,6 +111,19 @@ impl Visitor for AssignmentExtractor {
     }
 }
 
+default_extractor!(NumberLiteralExtractor, Expression);
+
+impl Visitor for NumberLiteralExtractor {
+    type Error = ExtractionError;
+    fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+        match expr {
+            Expression::NumberLiteral(_, _, _, _) => self.targets.push(expr.clone()),
+            _ => {}
+        }
+        Ok(())
+    }
+}
+
 default_extractor!(IncrementorExtractor, Expression);
 
 impl Visitor for IncrementorExtractor {
