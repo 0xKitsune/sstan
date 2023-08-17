@@ -3,13 +3,13 @@ use std::collections::HashSet;
 use regex::Regex;
 use solang_parser::pt::{Loc, SourceUnit};
 
-use crate::analyzer::extractors::{compound::StorageVariableExtractor, Extractor};
+use crate::analyzer::extractors::{compound:: MutableStorageVariableExtractor, Extractor};
 
 pub fn variable_namespace(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let re: Regex = Regex::new(r"\b[A-Z][A-Z0-9_]*\b")?;
 
     let mut qa_locations = HashSet::new();
-    let variables = StorageVariableExtractor::extract(source_unit)?;
+    let variables = MutableStorageVariableExtractor::extract(source_unit)?;
     for variable in variables {
         if let Some(name) = variable.name {
             if re.is_match(name.name.as_str()) {

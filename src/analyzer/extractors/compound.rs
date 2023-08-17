@@ -299,12 +299,12 @@ impl<V: Visitable> Extractor<V, VariableDefinition> for MutableStorageVariableEx
                     if let ContractPart::VariableDefinition(variable_definition) = part {
                         // Check if the variable is not constant or immutable
                         if variable_definition.attrs.iter().any(|attribute| {
-                            !(matches!(attribute, VariableAttribute::Constant(_))
+                            (matches!(attribute, VariableAttribute::Constant(_))
                                 || matches!(attribute, VariableAttribute::Immutable(_)))
                         }) {
-                            Some(*variable_definition.clone())
-                        } else {
                             None
+                        } else {
+                            Some(*variable_definition.clone())
                         }
                     } else {
                         None
