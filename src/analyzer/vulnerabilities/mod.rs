@@ -1,10 +1,10 @@
 pub mod divide_before_multiply;
 pub mod floating_pragma;
+pub mod incorrect_shift_math;
 pub mod template;
+pub mod uninitialized_storage;
 pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
-pub mod uninitialized_storage;
-pub mod incorrect_shift_math;
 
 use std::{
     collections::{BTreeSet, HashMap},

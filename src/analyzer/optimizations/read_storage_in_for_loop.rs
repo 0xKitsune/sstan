@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use solang_parser::pt::{Expression, Loc, SourceUnit};
 
 use crate::analyzer::extractors::{
-    compound::NonConstantImmutableStorageVariableExtractor,
+    compound::MutableStorageVariableExtractor,
     primitive::{ContractDefinitionExtractor, ForExtractor, VariableExtractor},
     Extractor,
 };
@@ -16,9 +16,13 @@ pub fn read_storage_in_for_loop_optimization(
     let mut contracts = ContractDefinitionExtractor::extract(source_unit)?;
 
     for contract in contracts.iter_mut() {
-        let storage_variables = NonConstantImmutableStorageVariableExtractor::extract(contract)?;
-        let variable_names =
-            NonConstantImmutableStorageVariableExtractor::extract_names(storage_variables);
+        let storage_variables = MutableStorageVariableExtractor::extract(contract)?;
+        let mut variable_names = HashSet::new();
+        for storage_variable in storage_variables {
+            if let Some(identifier) = storage_variable.name {
+                variable_names.insert(identifier.name);
+            }
+        }
 
         let mut for_loops = ForExtractor::extract(contract)?;
         for for_loop in for_loops.iter_mut() {

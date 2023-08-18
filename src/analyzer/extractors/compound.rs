@@ -127,50 +127,6 @@ impl<V: Visitable> Extractor<V, ContractDefinition> for LibraryExtractor {
     }
 }
 
-compound_extractor!(
-    NonConstantImmutableStorageVariableExtractor,
-    VariableDefinition
-);
-
-impl NonConstantImmutableStorageVariableExtractor {
-    pub fn extract_names(storage_variables: Vec<VariableDefinition>) -> HashSet<String> {
-        let mut names = HashSet::new();
-        for variable in storage_variables {
-            if let Some(name) = variable.name {
-                names.insert(name.name);
-            }
-        }
-
-        names
-    }
-}
-impl<V: Visitable> Extractor<V, VariableDefinition>
-    for NonConstantImmutableStorageVariableExtractor
-{
-    fn extract(v: &mut V) -> Result<Vec<VariableDefinition>, ExtractionError> {
-        let storage_variables = StorageVariableExtractor::extract(v)?;
-        let constant_storage_variables = ConstantStorageVariableExtractor::extract(v)?;
-        let immutable_storage_variables = ImmutableStorageVariableExtractor::extract(v)?;
-
-        let constant_storage_variable_names = Self::extract_names(constant_storage_variables);
-        let immutable_storage_variable_names = Self::extract_names(immutable_storage_variables);
-
-        let mut non_constant_immutable_storage_vars: Vec<VariableDefinition> = vec![];
-
-        for variable in storage_variables {
-            if let Some(name) = variable.name.clone() {
-                if !constant_storage_variable_names.contains(&name.name)
-                    && !immutable_storage_variable_names.contains(&name.name)
-                {
-                    non_constant_immutable_storage_vars.push(variable);
-                }
-            }
-        }
-
-        Ok(non_constant_immutable_storage_vars)
-    }
-}
-
 compound_extractor!(ConstructorExtractor, FunctionDefinition);
 
 impl<V: Visitable> Extractor<V, FunctionDefinition> for ConstructorExtractor {
