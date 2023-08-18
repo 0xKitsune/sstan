@@ -323,3 +323,16 @@ impl Visitor for EventExtractor {
         Ok(())
     }
 }
+
+default_extractor!(YulFunctionCallExtractor, YulFunctionCall);
+
+impl Visitor for YulFunctionCallExtractor {
+    type Error = ExtractionError;
+    fn extract_yul_function_call(
+        &mut self,
+        _stmt: &mut YulFunctionCall,
+    ) -> Result<(), Self::Error> {
+        self.targets.push(_stmt.clone());
+        Ok(())
+    }
+}

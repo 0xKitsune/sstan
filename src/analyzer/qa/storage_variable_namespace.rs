@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use regex::Regex;
 use solang_parser::pt::{Loc, SourceUnit};
 
-use crate::analyzer::extractors::{compound:: MutableStorageVariableExtractor, Extractor};
+use crate::analyzer::extractors::{compound::MutableStorageVariableExtractor, Extractor};
 
 pub fn variable_namespace(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let re: Regex = Regex::new(r"\b[A-Z][A-Z0-9_]*\b")?;

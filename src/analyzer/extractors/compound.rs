@@ -1,7 +1,10 @@
 use std::{collections::HashSet, str::FromStr, vec};
 
 use super::{
-    primitive::{ContractDefinitionExtractor, FunctionExtractor, PragmaDirectiveExtractor},
+    primitive::{
+        ContractDefinitionExtractor, FunctionExtractor, PragmaDirectiveExtractor,
+        YulFunctionCallExtractor,
+    },
     visitable::Visitable,
     visitor::Visitor,
     ExtractionError, Extractor, SolidityVersion,
@@ -409,5 +412,25 @@ impl<V: Visitable> Extractor<V, FunctionDefinition> for PrivateFunctionExtractor
             .collect::<Vec<FunctionDefinition>>();
 
         Ok(internal_functions)
+    }
+}
+
+compound_extractor!(YulShiftExtractor, YulFunctionCall);
+
+impl<V: Visitable> Extractor<V, YulFunctionCall> for YulShiftExtractor {
+    fn extract(v: &mut V) -> Result<Vec<YulFunctionCall>, ExtractionError> {
+        let functions = YulFunctionCallExtractor::extract(v)?;
+        let shift_functions = functions
+            .iter()
+            .filter_map(|function| {
+                if function.id.name == "shl" || function.id.name == "shr" {
+                    Some(function.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<YulFunctionCall>>();
+
+        Ok(shift_functions)
     }
 }

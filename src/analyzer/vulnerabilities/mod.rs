@@ -4,6 +4,8 @@ pub mod template;
 pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
 
+pub mod incorrect_shift_math;
+
 use std::{
     collections::{BTreeSet, HashMap},
     fs,

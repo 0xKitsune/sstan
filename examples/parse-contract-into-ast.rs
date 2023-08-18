@@ -6,6 +6,13 @@ fn main() {
         contract SimpleStore {
            
             address hardcoded = 0xCF93bC53DA6D3543ec2B39EB9Fb3eb1472502afA;
+
+            function foo() public returns (uint256 x) {
+                x = 1;
+                assembly {
+                    x := shl(x, 1)
+                }
+            }
             
         }
     "#;
