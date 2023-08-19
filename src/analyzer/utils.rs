@@ -1,11 +1,12 @@
 use crate::analyzer::ast::{self, extract_target_from_node, Target};
 use regex::Regex;
 use solang_parser::pt::{self, Loc, SourceUnit, SourceUnitPart};
-use std::collections::HashMap;
+use std::{collections::HashMap, path::PathBuf};
 
 use super::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 
 pub type LineNumber = i32;
+pub type Outcome = (PathBuf, Loc);
 
 // This is used as the initial string when parsing a solidity version
 pub const ZERO_ZERO_ZERO: &str = "0.0.0";

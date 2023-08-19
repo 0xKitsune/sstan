@@ -31,6 +31,8 @@ use std::{
     fs, vec,
 };
 
+use solang_parser::pt::Loc;
+
 use self::{
     address_balance::address_balance_optimization,
     address_zero::address_zero_optimization,

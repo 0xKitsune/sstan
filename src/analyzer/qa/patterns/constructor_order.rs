@@ -7,7 +7,7 @@ use crate::analyzer::extractors::compound::ContractPartFunctionExtractor;
 use crate::analyzer::extractors::Extractor;
 
 // Constructor must be placed before any other function
-pub fn constructor_order_qa(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
+pub fn constructor_order(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each qa target identified
     let mut qa_locations: HashSet<Loc> = HashSet::new();
 
@@ -93,7 +93,7 @@ fn test_constructor_order_qa() {
         for i in 0..assertions.len() - 1 {
             let mut source_unit = solang_parser::parse(test_contracts[i], 0).unwrap().0;
 
-            let qa_locations = constructor_order_qa(&mut source_unit);
+            let qa_locations = constructor_order(&mut source_unit);
             assert_eq!(qa_locations.unwrap().len(), assertions[i]);
         }
     }
