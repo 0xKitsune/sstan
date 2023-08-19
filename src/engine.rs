@@ -30,6 +30,8 @@ impl Outcome for Vec<T: Outcome> {
     }
 }
 
+//TODO: also have trait for GPTReportSection or something
+
 pub trait EngineModule<T: Outcome> {
     //TODO: define some traits for each component of the engine module,
 
