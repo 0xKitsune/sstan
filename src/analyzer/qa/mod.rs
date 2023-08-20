@@ -22,11 +22,16 @@ pub enum QualityAssuranceTarget {
     ImportIdentifiers,
 }
 
-//TODO: make a macro to define the type and the report description.
+//TODO: make a macro to define the type and the report description. the macro should just take many of these, so tha it can create the enum. 
+There should be a file for it in the qa, vuln or optimizations dir and then a file for each pattern with tests.
 quality_assurance_outcome!(
     ConstructorOrderOutcome,
     r#"""The constructor should be the first function in the contract"""#
 );
+
+
+
+
 
 //TODO: it will generate all this
 pub enum QualityAssuranceOutcome {
