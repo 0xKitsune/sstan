@@ -43,6 +43,8 @@ pub enum QualityAssuranceOutcome {
 pub struct ConstructorOrderOutcome {
     pub outcomes: Vec<Outcome>,
 }
+
+
 pub const CONSTRUCTOR_ORDER_DESCRIPTION: &str =
     "The constructor should be the first function in the contract";
 impl Reporting for ConstructorOrderOutcome {
