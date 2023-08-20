@@ -1,7 +1,7 @@
 //TODO: we could have something here that creates the OptimizationOutcome enum
 
 //optimizations!(
-// (ConstructorOrder, "This is the description that will be used when into_report")
+// (ConstructorOrder, "This is the description that will be used when into_report, maybe add an example or something")
 // )
 
 //TODO: have some trait that is implemented on each struct created like ConstructorOrder::find() -> Vec<OptimizationOutcome> or something
