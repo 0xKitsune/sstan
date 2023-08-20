@@ -9,3 +9,5 @@ pub mod private_func_leading_underscore;
 pub mod private_vars_leading_underscore;
 pub mod unused_functions;
 pub mod unused_returns;
+pub mod constructor_var_initialization;
+pub mod storage_variable_namespace;

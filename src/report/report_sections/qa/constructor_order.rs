@@ -7,7 +7,7 @@ Constructor definition must be placed after Modifiers definitions and before any
 
 Ex:
 
-Bad
+Incorrect
 ```js
 contract A {
     function () public {}
@@ -15,7 +15,7 @@ contract A {
 }
 ```
 
-Good
+Correct
 ```js
 contract A {
     constructor() {}
