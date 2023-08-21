@@ -1,3 +1,7 @@
+
+# Total Findings: 181
+The following report details all vulnerabilities, qa and gas findings.
+
 # Vulnerabilities - (Total Vulnerabilities 4)
 
 The following sections detail the high, medium and low severity vulnerabilities found throughout the codebase.
@@ -83,7 +87,7 @@ contract A {
 
 
 
-# Gas Optimizations - (Total Optimizations 168)
+# Gas Optimizations - (Total Optimizations: 157)
 
 The following sections detail the gas optimizations found throughout the codebase. 
 Each optimization is documented with the setup, an explainer for the optimization, a gas report and line identifiers for each optimization across the codebase. For each section's gas report, the optimizer was turned on and set to 10000 runs. 
@@ -1652,7 +1656,7 @@ contract Contract1 {
 
 
 
-# QA (Total Findings: )
+# QA (Total Findings: 10)
 The following section details all of the quality assurance findings.
 
 
