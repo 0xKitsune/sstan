@@ -3,6 +3,7 @@ pub mod floating_pragma;
 pub mod incorrect_shift_math;
 pub mod template;
 pub mod uninitialized_storage;
+
 pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
 
@@ -16,6 +17,8 @@ use super::utils::{self, LineNumber};
 use self::{
     divide_before_multiply::divide_before_multiply_vulnerability,
     floating_pragma::floating_pragma_vulnerability,
+    incorrect_shift_math::incorrect_shift_math_vulnerability,
+    uninitialized_storage::uninitialized_storage_variable,
     unprotected_self_destruct::unprotected_self_destruct_vulnerability,
     unsafe_erc20_operation::unsafe_erc20_operation_vulnerability,
 };
@@ -27,6 +30,8 @@ pub enum Vulnerability {
     UnsafeERC20Operation,
     UnprotectedSelfdestruct,
     DivideBeforeMultiply,
+    IncorrectShiftMath,
+    UninitializedStorage,
 }
 
 pub fn get_all_vulnerabilities() -> Vec<Vulnerability> {
@@ -35,6 +40,8 @@ pub fn get_all_vulnerabilities() -> Vec<Vulnerability> {
         Vulnerability::UnprotectedSelfdestruct,
         Vulnerability::DivideBeforeMultiply,
         Vulnerability::FloatingPragma,
+        Vulnerability::IncorrectShiftMath,
+        Vulnerability::UninitializedStorage,
     ]
 }
 
@@ -44,6 +51,9 @@ pub fn str_to_vulnerability(vuln: &str) -> Vulnerability {
         "unsafe_erc20_operation" => Vulnerability::UnsafeERC20Operation,
         "unprotected_selfdestruct" => Vulnerability::UnprotectedSelfdestruct,
         "divide_before_multiply" => Vulnerability::DivideBeforeMultiply,
+        "incorrect_shift_math" => Vulnerability::IncorrectShiftMath,
+        "uninitialized_storage" => Vulnerability::UninitializedStorage,
+
         other => {
             panic!("Unrecgonized vulnerability: {}", other)
         }
@@ -128,6 +138,8 @@ pub fn analyze_for_vulnerability(
         Vulnerability::DivideBeforeMultiply => {
             divide_before_multiply_vulnerability(&mut source_unit)?
         }
+        Vulnerability::IncorrectShiftMath => incorrect_shift_math_vulnerability(&mut source_unit)?,
+        Vulnerability::UninitializedStorage => uninitialized_storage_variable(&mut source_unit)?,
     };
 
     for loc in locations {

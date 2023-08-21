@@ -31,6 +31,14 @@ pub enum QualityAssurance {
     PrivateVarsLeadingUnderscore,
     PrivateFuncLeadingUnderscore,
     ImportIdentifiers,
+    AddressHardcoded,
+    ConstantImmutableNamespace,
+    InterfaceNamespace,
+    LargeMultiplesOfTen,
+    StorageVariableNamespace,
+    UnusedFunctions,
+    UnusedReturns,
+    ConstructorVarInitialization,
 }
 
 pub fn get_all_qa() -> Vec<QualityAssurance> {
@@ -39,6 +47,14 @@ pub fn get_all_qa() -> Vec<QualityAssurance> {
         QualityAssurance::PrivateVarsLeadingUnderscore,
         QualityAssurance::PrivateFuncLeadingUnderscore,
         QualityAssurance::ImportIdentifiers,
+        QualityAssurance::AddressHardcoded,
+        QualityAssurance::ConstantImmutableNamespace,
+        QualityAssurance::InterfaceNamespace,
+        QualityAssurance::LargeMultiplesOfTen,
+        QualityAssurance::StorageVariableNamespace,
+        QualityAssurance::UnusedFunctions,
+        QualityAssurance::UnusedReturns,
+        QualityAssurance::ConstructorVarInitialization,
     ]
 }
 
@@ -47,6 +63,16 @@ pub fn str_to_qa(qa: &str) -> QualityAssurance {
         "constructor_order" => QualityAssurance::ConstructorOrder,
         "private_vars_leading_underscore" => QualityAssurance::PrivateVarsLeadingUnderscore,
         "private_func_leading_underscore" => QualityAssurance::PrivateFuncLeadingUnderscore,
+        "import_identifiers" => QualityAssurance::ImportIdentifiers,
+        "address_hardcoded" => QualityAssurance::AddressHardcoded,
+        "constant_immutable_namespace" => QualityAssurance::ConstantImmutableNamespace,
+        "interface_namespace" => QualityAssurance::InterfaceNamespace,
+        "large_multiples_of_ten" => QualityAssurance::LargeMultiplesOfTen,
+        "storage_variable_namespace" => QualityAssurance::StorageVariableNamespace,
+        "unused_functions" => QualityAssurance::UnusedFunctions,
+        "unused_returns" => QualityAssurance::UnusedReturns,
+        "constructor_var_initialization" => QualityAssurance::ConstructorVarInitialization,
+
         other => {
             panic!("Unrecgonized qa: {}", other)
         }
@@ -126,6 +152,26 @@ pub fn analyze_for_qa(
             private_func_leading_underscore(&mut source_unit)?
         }
         QualityAssurance::ImportIdentifiers => import_identifiers(&mut source_unit)?,
+        QualityAssurance::AddressHardcoded => {
+            addresses_hardcoded::addresses_hardcoded(&mut source_unit)?
+        }
+        QualityAssurance::ConstantImmutableNamespace => {
+            constant_immutable_namespace::constant_immutable_namespace(&mut source_unit)?
+        }
+        QualityAssurance::InterfaceNamespace => {
+            interface_namespace::interfaces_namespace(&mut source_unit)?
+        }
+        QualityAssurance::LargeMultiplesOfTen => {
+            large_multiples_of_ten::large_multiples_of_ten(&mut source_unit)?
+        }
+        QualityAssurance::StorageVariableNamespace => {
+            storage_variable_namespace::variable_namespace(&mut source_unit)?
+        }
+        QualityAssurance::UnusedFunctions => unused_functions::unused_functions(&mut source_unit)?,
+        QualityAssurance::UnusedReturns => unused_returns::unused_returns(&mut source_unit)?,
+        QualityAssurance::ConstructorVarInitialization => {
+            constructor_var_initialization::constructor_var_initialization(&mut source_unit)?
+        }
     };
 
     for loc in locations {

@@ -19,22 +19,11 @@ fn main() -> eyre::Result<()> {
 
     let vulnerabilities = vulnerabilities::analyze_dir(&opts.path, opts.vulnerabilities)?;
 
-    for item in &vulnerabilities {
-        println!("Vuln: {:?}", item);
-    }
-
     let optimizations = optimizations::analyze_dir(&opts.path, opts.optimizations)?;
 
-    for item in &optimizations {
-        println!("Opt: {:?}", item);
-    }
-
     let qa = qa::analyze_dir(&opts.path, opts.qa)?;
-    for item in &qa {
-        println!("QA: {:?}", item);
-    }
 
-    // generate_report(vulnerabilities, optimizations, qa);
+    generate_report(vulnerabilities, optimizations, qa);
     Ok(())
 }
 

@@ -6,8 +6,10 @@ use crate::analyzer::utils::LineNumber;
 use crate::report::report_sections::qa::overview;
 
 use super::report_sections::qa::{
-    constructor_order, import_identifiers, private_func_leading_underscore,
-    private_vars_leading_underscore,
+    address_hardcoded, constant_immutable_namespace, constructor_order,
+    constructor_var_initialization, import_identifiers, interface_namespace,
+    large_multiples_of_ten, private_func_leading_underscore, private_vars_leading_underscore,
+    unused_functions, unused_returns,
 };
 
 pub fn generate_qa_report(
@@ -58,5 +60,19 @@ pub fn get_qa_report_section(qa: QualityAssurance) -> String {
             private_func_leading_underscore::report_section_content()
         }
         QualityAssurance::ImportIdentifiers => import_identifiers::report_section_content(),
+        QualityAssurance::AddressHardcoded => address_hardcoded::report_section_content(),
+        QualityAssurance::ConstantImmutableNamespace => {
+            constant_immutable_namespace::report_section_content()
+        }
+        QualityAssurance::InterfaceNamespace => interface_namespace::report_section_content(),
+        QualityAssurance::LargeMultiplesOfTen => large_multiples_of_ten::report_section_content(),
+        QualityAssurance::StorageVariableNamespace => {
+            constant_immutable_namespace::report_section_content()
+        }
+        QualityAssurance::UnusedFunctions => unused_functions::report_section_content(),
+        QualityAssurance::UnusedReturns => unused_returns::report_section_content(),
+        QualityAssurance::ConstructorVarInitialization => {
+            constructor_var_initialization::report_section_content()
+        }
     }
 }
