@@ -1,4 +1,4 @@
-# Vulnerabilities - (Total Vulnerabilities 1)
+# Vulnerabilities - (Total Vulnerabilities 4)
 
 The following sections detail the high, medium and low severity vulnerabilities found throughout the codebase.
 
@@ -51,13 +51,42 @@ require(success, "ERC20 transfer failed");
 
 
 
+### Ensure non zero data when initializing storage variables in the constructor.
+
+Ex.
+
+Incorrect
+```js
+contract A {
+    address owner;
+    constructor(address _owner) {
+        owner = _owner;
+    }
+}
+```
+
+Correct
+```js
+contract A {
+    address owner;
+    constructor(address _owner) {
+        require(_owner != address(0), "Owner cannot be the zero address");
+        owner = _owner;
+    }
+}
+```    
+### Lines
+- LiquidityPool.sol:116
+- LiquidityPoolProxy.sol:28
+- EvolvingProteus.sol:243
+
+
+
 
 # Gas Optimizations - (Total Optimizations 168)
 
 The following sections detail the gas optimizations found throughout the codebase. 
 Each optimization is documented with the setup, an explainer for the optimization, a gas report and line identifiers for each optimization across the codebase. For each section's gas report, the optimizer was turned on and set to 10000 runs. 
-You can replicate any tests/gas reports by heading to [0xKitsune/gas-lab](https://github.com/0xKitsune/gas-lab) and cloning the repo. Then, simply copy/paste the contract examples from any section and run `forge test --gas-report`. 
-You can also easily update the optimizer runs in the `foundry.toml`.
 
 <br>
 
@@ -183,7 +212,6 @@ contract Contract3 {
 - LiquidityPool.sol:457
 - LiquidityPool.sol:461
 - EvolvingProteus.sol:709
-- EvolvingProteus.sol:716
 - EvolvingProteus.sol:834
 
 
@@ -907,15 +935,6 @@ contract Contract3 {
 ```
 
 ### Lines
-- BalanceDelta.sol:72
-- BalanceDelta.sol:85
-- BalanceDelta.sol:135
-- BalanceDelta.sol:176
-- BalanceDelta.sol:214
-- BalanceDelta.sol:241
-- BalanceDelta.sol:274
-- BalanceDelta.sol:291
-- BalanceDelta.sol:305
 - Ocean.sol:679
 - Ocean.sol:813
 - Ocean.sol:835
@@ -937,74 +956,6 @@ contract Contract3 {
 - OceanERC1155.sol:628
 - OceanERC1155.sol:629
 - OceanERC1155.sol:630
-
-
-
-## Mark functions as payable (with discretion)
-You can mark public or external functions as payable to save gas. Functions that are not payable have additional logic to check if there was a value sent with a call, however, making a function payable eliminates this check. This optimization should be carefully considered due to potentially unwanted behavior when a function does not need to accept ether.
-
-```js
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-    }
-
-    function testGas() public {
-        c0.isNotPayable();
-        c1.isPayable();
-    }
-}
-
-contract Contract0 {
-    function isNotPayable() public view {
-        uint256 val = 0;
-        val++;
-    }
-}
-
-contract Contract1 {
-    function isPayable() public payable {
-        uint256 val = 0;
-        val++;
-    }
-}
-```
-
-### Gas Report
-```js
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 32081              ┆ 190             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ isNotPayable       ┆ 198             ┆ 198 ┆ 198    ┆ 198 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 29681              ┆ 178             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ isPayable          ┆ 174             ┆ 174 ┆ 174    ┆ 174 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-```
-
-
-
-### Lines
-- DeployEvolvingProteus.s.sol:12
-
 
 
 
@@ -1615,104 +1566,6 @@ contract Contract1 {
 - OceanERC1155.sol:312
 
 
-
-## Tightly pack storage variables
-When defining storage variables, make sure to declare them in ascending order, according to size. When multiple variables are able to fit into one 256 bit slot, this will save storage size and gas during runtime. For example, if you have a `bool`, `uint256` and a `bool`, instead of defining the variables in the previously mentioned order, defining the two boolean variables first will pack them both into one storage slot since they only take up one byte of storage.
-
-```js
-
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-    }
-
-    function testGas() public {
-        bool bool0 = true;
-        bool bool1 = false;
-        uint256 num0 = 200;
-        uint256 num1 = 100;
-        c0.accessNonTightlyPacked(bool0, bool1, num0, num1);
-        c1.accessTightlyPacked(bool0, bool1, num0, num1);
-    }
-}
-
-contract Contract0 {
-    uint256 num0 = 100;
-    bool bool0 = false;
-    uint256 num1 = 200;
-    bool bool1 = true;
-
-    function accessNonTightlyPacked(
-        bool _bool0,
-        bool _bool1,
-        uint256 _num0,
-        uint256 _num1
-    ) public {
-        bool0 = _bool0;
-        bool1 = _bool1;
-        num0 = _num0;
-        num1 = _num1;
-    }
-}
-
-contract Contract1 {
-    bool bool0 = false;
-    bool bool1 = true;
-    uint256 num0 = 100;
-    uint256 num1 = 200;
-
-    function accessTightlyPacked(
-        bool _bool0,
-        bool _bool1,
-        uint256 _num0,
-        uint256 _num1
-    ) public {
-        bool0 = _bool0;
-        bool1 = _bool1;
-        num0 = _num0;
-        num1 = _num1;
-    }
-}
-
-```
-
-### Gas Report
-```js
-╭───────────────────────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
-│ src/test/GasTest.t.sol:Contract0 contract ┆                 ┆       ┆        ┆       ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 122268                                    ┆ 334             ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ accessNonTightlyPacked                    ┆ 32774           ┆ 32774 ┆ 32774  ┆ 32774 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
-╭───────────────────────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
-│ src/test/GasTest.t.sol:Contract1 contract ┆                 ┆       ┆        ┆       ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 126247                                    ┆ 356             ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ accessTightlyPacked                       ┆ 15476           ┆ 15476 ┆ 15476  ┆ 15476 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
-
-```
-
-### Lines
-- EvolvingProteus.sol:49
-
-
-
-
 ## Consider marking constants as private
 
 Consider marking constant variables in storage as private to save gas (unless a constant variable should be easily accessible by another protocol or offchain logic).
@@ -1799,108 +1652,8 @@ contract Contract1 {
 
 
 
-## Cache Storage Variables in Memory
-
-### Lines
-- DeployEvolvingProteus.s.sol:12
-
-
-
-
- 
- 
-### Consider importing specific identifiers instead of the whole file
-    
-### Lines
-- DeployEvolvingProteus.s.sol:4
-- DeployEvolvingProteus.s.sol:5
-
-
- 
-### Large multiples of ten should be denoted in scientific notation.
-Ex:
-
-Bad
-```js
-uint256 x = 100000;
-```
-
-Good
-```js
-uint256 x = 1e5;
-```
-    
-### Lines
-- DeployEvolvingProteus.s.sol:15
-- DeployEvolvingProteus.s.sol:16
-- DeployEvolvingProteus.s.sol:17
-- DeployEvolvingProteus.s.sol:18
-
-
- 
-### Constructor is placed after other functions
-
-Constructor definition must be placed after Modifiers definitions and before any other function definitions in order to follow `Style Guide Rules`.
-
-Ex:
-
-Incorrect
-```js
-contract A {
-    function () public {}
-    constructor() {}
-}
-```
-
-Correct
-```js
-contract A {
-    constructor() {}
-    function () public {}
-}
-```
-    
-### Lines
-- LiquidityPool.sol:116
-- EvolvingProteus.sol:243
-
-
- 
-### Ensure non zero data when initializing storage variables in the constructor.
-
-Ex.
-
-Incorrect
-```js
-contract A {
-    address owner;
-    constructor(address _owner) {
-        owner = _owner;
-    }
-}
-```
-
-Correct
-```js
-contract A {
-    address owner;
-    constructor(address _owner) {
-        require(_owner != address(0), "Owner cannot be the zero address");
-        owner = _owner;
-    }
-}
-```    
-### Lines
-- LiquidityPool.sol:116
-- LiquidityPoolProxy.sol:28
-- EvolvingProteus.sol:243
-
-
- 
-### Remove unused return parameter identifier.
-    
-### Lines
-- EvolvingProteus.sol:681
+# QA (Total Findings: )
+The following section details all of the quality assurance findings.
 
 
  
@@ -1913,78 +1666,6 @@ contract A {
 - LiquidityPool.sol:32
 - LiquidityPool.sol:38
 - LiquidityPool.sol:42
-
-
- 
-### Addresses should not be hardcoded
-Consider assigning the address variables to immutable and initializing them in the constructor. 
-    
-### Lines
-- EvolvingProteus.sol:157
-- EvolvingProteus.sol:163
-
-
-
-## No use of underscore for internal and private function names | Don't use the underscore prefix for public and external function names
-
-Prefix `internal` and `private` function names with an underscore in order to follow `Style Guides Rules` (ref: https://github.com/protofire/solhint/blob/master/docs/rules/naming/private-vars-leading-underscore.md).
-In the other hand, public and external function names must not have an underscore prefix.
-
-```js
-// Bad
-contract Contract0 {
-   
-    function msgSender() private view returns (address) {
-        return msg.sender;
-    }
-
-    function msgData() internal view returns (bytes calldata) {
-        return msg.data;
-    }
-
-    function _currentTimestamp() public view returns(uint256) {
-        return block.timestamp;
-    }
-
-    function _currentBlockhash() external view returns(uint256) {
-        return block.blockhash;
-    }
-}
-
-// Good
-contract Contract1 {
-    
-    function _msgSender() private view returns (address) {
-        return msg.sender;
-    }
-
-    function _msgData() internal view returns (bytes calldata) {
-        return msg.data;
-    }
-
-    function currentTimestamp() public view returns(uint256) {
-        return block.timestamp;
-    }
-
-    function currentBlockhash() external view returns(uint256) {
-        return block.blockhash;
-    }
-}
-```
-    
-### Lines
-- BalanceDelta.sol:71
-- BalanceDelta.sol:84
-- BalanceDelta.sol:134
-- BalanceDelta.sol:176
-
-
- 
-### Unused internal functions should be removed. 
-    
-### Lines
-- EvolvingProteus.sol:739
-- EvolvingProteus.sol:770
 
 
  
