@@ -175,6 +175,21 @@ pub fn analyze_dir(
             .path();
 
         if file_path.is_dir() {
+            if file_path
+                .file_name()
+                .unwrap()
+                .to_str()
+                .unwrap()
+                .contains("test")
+                || file_path
+                    .file_name()
+                    .unwrap()
+                    .to_str()
+                    .unwrap()
+                    .contains("mock")
+            {
+                continue;
+            }
             optimization_locations.extend(analyze_dir(
                 file_path
                     .as_os_str()
