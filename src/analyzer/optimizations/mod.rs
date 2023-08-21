@@ -61,7 +61,7 @@ use self::{
     string_errors::string_error_optimization,
 };
 
-use super::utils::{self, LineNumber};
+use crate::utils::{self, LineNumber};
 
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 pub enum Optimization {

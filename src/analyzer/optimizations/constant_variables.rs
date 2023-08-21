@@ -5,7 +5,7 @@ use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::extractors::primitive::IncrementorExtractor;
 use crate::analyzer::extractors::{primitive::AssignmentExtractor, Extractor};
-use crate::analyzer::utils::get_32_byte_storage_variables;
+use crate::utils::get_32_byte_storage_variables;
 
 pub fn constant_variable_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();

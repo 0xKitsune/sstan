@@ -1,37 +1,94 @@
+pub mod constructor_order;
+pub mod private_vars_leading_underscore;
+
+use super::engine::{Outcome, Report};
+use std::collections::HashMap;
+use std::path::PathBuf;
+
+use solang_parser::pt::{Loc, SourceUnit};
 //TODO: we could have something here that creates the OptimizationOutcome enum
 
 //optimizations!(
 // (ConstructorOrder, "This is the description that will be used when into_report, maybe add an example or something")
 // )
 
-//TODO: have some trait that is implemented on each struct created like ConstructorOrder::find() -> Vec<OptimizationOutcome> or something
-//TODO: maybe have a enum like pub enum Outcome{ QualityAssurance(QualityAssuranceOutcome), Vulnerability(VulnerabilityOutcome), Optimization(OptimizationOutcome) } and find() returns Outcome
-
-//TODO: this would go in optimization
-// pub trait OptimizationPattern {
-//     fn find() -> Vec<OptimizationOutcome>;
-// }
-
+//TODO: this is what we would use for each individual pattern and then we just implement the find method instead of the function
 pub trait QAPattern {
-    fn find() -> Vec<QualityAssuranceOutcome>;
+    fn find(source: HashMap<PathBuf, &mut SourceUnit>) -> QualityAssuranceOutcome;
 }
 
-// pub struct QualityAssuranceModule {
-//     pub targets: Vec<QualityAssuranceTarget>,
-//     pub outcomes: Vec<QualityAssuranceOutcome>,
-// }
+#[macro_export]
+macro_rules! quality_assurance {
+    ($(($name:ident, $description:expr)),+ $(,)?) => {
 
-// pub type Outcome = HashMap<PathBuf, Vec<Loc>>;
 
-// pub enum QualityAssuranceOutcome {
-//     ConstructorOrderOutcome(Outcome),
-//     //     PrivateVarsLeadingUnderscore(PrivateVarsLeadingUnderscoreOutcome),
-//     //     PrivateFuncLeadingUnderscore(PrivateFuncLeadingUnderscoreOutcome),
-//     //     ImportIdentifiers(ImportIdentifiersOutcome),
-// }
+        $(pub struct $name;)+
 
-//TODO: still have to figure this out
-// pub trait IntoReport{
-//     fn into_report(self) -> String;
+        #[allow(non_snake_case)]
+        #[derive(Debug)]
+        pub enum QualityAssuranceTarget {
+            $($name,)+
+        }
 
-// }
+        #[derive(Debug)]
+        pub enum QualityAssuranceOutcome {
+            $($name(Outcome),)+
+        }
+
+
+        impl QualityAssuranceOutcome {
+            pub fn len(&self) -> usize {
+                match self {
+                    $(
+                        QualityAssuranceOutcome::$name(outcome) => outcome.iter().map(|(_, v)| v.len()).sum(),
+                    )+
+                }
+            }
+        }
+
+
+        impl Into<Report> for QualityAssuranceOutcome {
+            fn into(self) -> Report {
+                match self {
+                    $(
+                        QualityAssuranceOutcome::$name(outcome) => {
+                            let mut report = format!(
+                                r###"### {}\n{}"###,
+                                stringify!($name),
+                                $description
+                            );
+
+                            for (path, loc_snippets) in outcome.iter() {
+                                for (loc, snippet) in loc_snippets.iter() {
+                                    if let Loc::File(_, start, end) = loc{
+                                    report.push_str(&format!(
+                                        "{}:{}-{}\n{}\n",
+                                        path.display(),
+                                      start, //TODO: need to call line number function on this
+                                       end,
+                                        snippet
+                                    ));
+                                }else{
+                                    panic!("handle this TODO:");
+
+                                }
+                            }
+                            }
+
+                            report
+                        }
+                    )+
+                }
+            }
+        }
+    };
+}
+
+//TODO: add section name
+quality_assurance!(
+    (ConstructorOrder, "Description of the qa pattern goes here"),
+    (
+        PrivateVariablesLeadingUnderscore,
+        "Description of the qa pattern goes here"
+    ),
+);

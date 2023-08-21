@@ -4,7 +4,7 @@ use solang_parser::pt::{Loc, StructDefinition};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::extractors::{primitive::StructDefinitionExtractor, Extractor};
-use crate::analyzer::utils;
+use crate::utils;
 
 ///Identifiy opportunities to pack structs to save gas
 pub fn pack_struct_variables_optimization(

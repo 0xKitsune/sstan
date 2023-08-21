@@ -4,7 +4,7 @@ use solang_parser::pt::Loc;
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::extractors::{compound::StorageVariableExtractor, Extractor};
-use crate::analyzer::utils;
+use crate::utils;
 
 pub fn pack_storage_variables_optimization(
     source_unit: &mut SourceUnit,

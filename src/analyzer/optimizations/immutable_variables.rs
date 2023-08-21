@@ -8,7 +8,7 @@ use crate::analyzer::extractors::primitive::{
     AssignmentExtractor, FunctionExtractor, IncrementorExtractor,
 };
 use crate::analyzer::extractors::Extractor;
-use crate::analyzer::utils::get_32_byte_storage_variables;
+use crate::utils::get_32_byte_storage_variables;
 
 pub fn immutable_variables_optimization(
     source_unit: &mut SourceUnit,

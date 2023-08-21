@@ -1,10 +1,30 @@
-use crate::analyzer::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
+use std::{collections::HashMap, path::PathBuf};
+
+// use crate::analyzer::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
+use solang_parser::pt::Loc;
+
+use crate::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
+
+pub type Report = String;
+pub type Snippet = String;
+pub type Outcome = HashMap<PathBuf, Vec<(Loc, Snippet)>>;
+
+pub trait Push {
+    fn push(&mut self, path: PathBuf, loc: Loc, snippet: Snippet);
+}
+
+impl Push for Outcome {
+    fn push(&mut self, path: PathBuf, loc: Loc, snippet: Snippet) {
+        let entry = self.entry(path).or_insert(vec![]);
+        entry.push((loc, snippet));
+    }
+}
 
 #[derive(Default)]
 pub struct Engine {
     //TODO: pass in dir or file to analyze, or a default dir if none is passed in
-    pub optimizations: Option<OptimizationModule>,
-    pub vulnerabilities: Option<VulnerabilityModule>,
+    // pub optimizations: Option<OptimizationModule>,
+    // pub vulnerabilities: Option<VulnerabilityModule>,
     pub qa: Option<QualityAssuranceModule>,
     //TODO: where to output options, etc maybe just make EngineOpts
 }
@@ -17,48 +37,34 @@ impl Engine {
     }
 
     pub fn run(&self) {}
-    pub fn into_report(&self) {
-        //TODO: generate report for each module including test analysis and coverage
-    }
-}
-
-impl Outcome for Vec<T: Outcome> {
-    fn into_report(self) -> Report {
-        for outcome in self.into_iter() {
-            outcome.into_report(); //TODO: have to concat this
-        }
-    }
 }
 
 //TODO: also have trait for GPTReportSection or something
 
-pub trait EngineModule<T: Outcome> {
-    //TODO: define some traits for each component of the engine module,
-
-    fn run(&mut self) -> Vec<T> {} //TODO: make this some generic that implements outcome
-                                   //TODO: outcomes need to be .into() for the report format
-                                   //TODO: the report should have a widget for big moving parts
+//TODO: FIXME: we can have the appendix generated for specific outcomes, have a trait that can get implemented to generate appendix
+pub trait EngineModule<T: Into<Report>> {
+    fn run(&mut self) -> Vec<T>;
 }
 
 //TODO: impl EngineModule for all modules
-pub struct OptimizationModule {
-    pub targets: Vec<QualityAssuranceTarget>,
-    pub outcomes: Vec<OptimzationOutcome>,
-}
+// pub struct OptimizationModule {
+//     pub targets: Vec<QualityAssuranceTarget>,
+//     pub outcomes: Vec<OptimzationOutcome>,
+// }
 
-pub struct VulnerabilityModule {
-    pub targets: Vec<QualityAssuranceTarget>,
-    pub outcomes: Vec<VulnerabilityOutcome>,
-}
+// pub struct VulnerabilityModule {
+//     pub targets: Vec<QualityAssuranceTarget>,
+//     pub outcomes: Vec<VulnerabilityOutcome>,
+// }
 
 pub struct QualityAssuranceModule {
     pub targets: Vec<QualityAssuranceTarget>,
     pub outcomes: Vec<QualityAssuranceOutcome>,
 }
 
-pub struct TestAnalysisModule {
-    //TODO: right now we can just run forge coverage. generate outcomes and call into report
-}
+// pub struct TestAnalysisModule {
+//     //TODO: right now we can just run forge coverage. generate outcomes and call into report
+// }
 
 //TODO: each module will also implement Report and have an into_report() method.
 

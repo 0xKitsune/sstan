@@ -5,7 +5,7 @@ use solang_parser::{self, pt::SourceUnit};
 
 use crate::analyzer::extractors::primitive::AssignmentExtractor;
 use crate::analyzer::extractors::Extractor;
-use crate::analyzer::utils::get_32_byte_storage_variables;
+use crate::utils::get_32_byte_storage_variables;
 
 pub fn sstore_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     //Create a new hashset that stores the location of each optimization target identified

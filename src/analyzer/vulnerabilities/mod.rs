@@ -9,7 +9,7 @@ use std::{
     fs,
 };
 
-use super::utils::{self, LineNumber};
+use crate::utils::{self, LineNumber};
 
 use self::{
     divide_before_multiply::divide_before_multiply_vulnerability,
