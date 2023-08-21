@@ -1,5 +1,6 @@
 use std::collections::HashSet;
 
+use ethers::types::U256;
 use solang_parser::pt::{self, Loc, SourceUnit};
 
 use crate::analyzer::extractors::{primitive::NumberLiteralExtractor, Extractor};
@@ -10,9 +11,9 @@ pub fn large_multiples_of_ten(source_unit: &mut SourceUnit) -> eyre::Result<Hash
     //Get all variables that are larger than 1000000, and divisible by 10.
     for number_literal in number_literals.iter() {
         if let pt::Expression::NumberLiteral(loc, str_number, _, _) = number_literal {
-            //TODO: Use u256's here to prevent potential overflow. Or alternatively rug Integer.
-            let number = str_number.to_string().parse::<u128>()?;
-            if number % 10 == 0 && number > 1000000 {
+            //TODO: Use u256's here to prevent potential overflow. Or alternatively rug Integer. or change to ruint
+            let number = U256::from_dec_str(str_number)?;
+            if number % 10 == U256::zero() && number > U256::from(1000000) {
                 qa_locations.insert(*loc);
             }
         }

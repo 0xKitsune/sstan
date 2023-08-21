@@ -21,6 +21,7 @@ serde = {version= "1.0.175",  features = ["derive"]}
 colour = "0.7.0"
 thiserror = "1.0.44"
 eyre = "0.6.8"
+ethers = "2.0.8"
 
 
 [[bin]]
