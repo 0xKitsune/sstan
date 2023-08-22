@@ -23,7 +23,7 @@ pub trait QAPattern {
 
 #[macro_export]
 macro_rules! quality_assurance {
-    ($(($name:ident, $report_title:expr, $description:expr)),+ $(,)?) => {
+    ($(($name:ident, $report_title:expr, $description:expr, $issue_type:expr)),+ $(,)?) => {
 
 
         $(pub struct $name;)+
@@ -59,48 +59,40 @@ macro_rules! quality_assurance {
                     $(
                         QualityAssuranceOutcome::$name(outcome) => {
                             let mut report = format!(
-                                r###"### {}\n{}"###,
-                                stringify!($report_title),
+                                "### {}  \n {}
+                                \n
+                                 ",
+                                $report_title,
                                 $description
                             );
-
+                            if !outcome.is_empty() {
+                                report.push_str(&format!("\n <a name=\"{}\"></a>[{}] {}\n", $issue_type, $issue_type, stringify!($report_title)));
+                            }
+                            let length = outcome.iter().map(|(_, v)| v.len()).sum::<usize>();
+                            report.push_str(&format!("\n*Instances ({})*:\n", length.to_string()));
                             for (path, loc_snippets) in outcome.iter() {
+                                let file_name = path.file_name().expect("couldnt get file name")
+                                .to_str()
+                                .expect("no filename");
+                             //TODO: update this to propagate
+                             report.push_str(&format!(
+                                "\n File: {} \n ```solidity", file_name
+                            ));
                                 for (loc, snippet) in loc_snippets.iter() {
                                     if let Loc::File(_, start, end) = loc{
                                     let file_contents = std::fs::read_to_string(path).expect("couldnt read file"); //TODO: propagate this
                                     let start_line = utils::get_line_number(*start, &file_contents);
                                     let end_line = utils::get_line_number(*end, &file_contents);
-                                    let file_name = path.file_name()
-                                    .expect("couldnt get file name")
-                                    .to_str()
-                                    .expect("no filename"); //TODO: update this to propagate
-
-
-                                    if start_line == end_line{
-                                        report.push_str(&format!(
-                                            r##"{}:{}
-                                            {}"##,
-                                            file_name,
-                                            start_line,
-                                            snippet
-                                        ));
-                                    }else{
-                                        report.push_str(&format!(
-                                            r##"{}:{}-{}
-                                            {}"##,
-                                            path.display(),
-                                            file_name,
-                                            end_line,
-                                            snippet
-                                        ));
-                                    }
-
-
+                                    report.push_str(&format!(
+                                        "\n {}-{}: {}",
+                                        start_line, end_line, snippet
+                                    ));
                                 }else{
                                     panic!("handle this TODO:");
 
                                 }
                             }
+                            report.push_str("```\n");
                             }
 
                             report
@@ -117,16 +109,19 @@ quality_assurance!(
     (
         ConstructorOrder,
         "Constructor should be listed before any other function",
-        "Description of the qa pattern goes here"
+        "Description of the qa pattern goes here",
+        "N-1"
     ),
     (
         PrivateVariablesLeadingUnderscore,
         "Private variables should contain a leading underscore",
-        "Description of the qa pattern goes here"
+        "Description of the qa pattern goes here",
+        "N-2"
     ),
     (
         ConstructorVarInitialization,
         "Constructor should initialize all variables",
-        "Description of the qa pattern goes here"
+        "Description of the qa pattern goes here",
+        "N-3"
     )
 );

@@ -1,4 +1,5 @@
 use std::collections::{HashMap, HashSet};
+use std::fs;
 use std::path::PathBuf;
 
 use solang_parser::pt::{self, Loc};
@@ -70,21 +71,17 @@ fn test_private_vars_leading_underscore() -> eyre::Result<()> {
     "#;
 
     let mut source = HashMap::new();
+    let file_0 = tempfile::NamedTempFile::new()?;
+    fs::write(file_0.path(), file_contents)?;
     let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
-    source.insert(PathBuf::from("file"), &mut source_unit);
-    let buf: PathBuf = PathBuf::from("file");
-    let file_name = buf
-        .file_name()
-        .expect("couldnt get file name")
-        .to_str()
-        .expect("no filename");
+    source.insert(PathBuf::from(file_0.path()), &mut source_unit);
 
     let qa_locations = PrivateVariablesLeadingUnderscore::find(source)?;
     assert_eq!(qa_locations.len(), 3);
 
     let report: Report = qa_locations.into();
 
-    println!("{report:?}");
+    fs::write("test.md", report);
 
     Ok(())
 }
