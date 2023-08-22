@@ -53,8 +53,12 @@ macro_rules! optimization {
             match self {
                 $(
                     OptimizationOutcome::$name(_) => format!(
-                        "### {}\n{}\n",
+                        r##"### {}
+                        {}
+                
+                        {}"##,
                         self.gas_report_anchor(),
+                        $description,
                         $gas_report
                     ),
                 )+

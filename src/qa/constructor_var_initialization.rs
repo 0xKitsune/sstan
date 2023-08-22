@@ -1,5 +1,6 @@
 use std::{
     collections::{HashMap, HashSet},
+    fs,
     path::PathBuf,
 };
 
@@ -63,33 +64,11 @@ impl QAPattern for ConstructorVarInitialization {
 
 #[test]
 fn test_import_identifiers() -> eyre::Result<()> {
-    let file_contents_1 = r#"
-    contract Contract0 {
-        address public owner;
-        
-        constructor(address _owner) {
-            owner = _owner;
-        }
-    }
-    "#;
-
-    let file_contents_2 = r#"
-    contract Contract0 {
-        address public owner;
-        
-        constructor(address _owner) {
-            require(_owner != address(0), "Owner cannot be zero address");
-            owner = _owner;
-        }
-    }
-    "#;
-
-    let mut source_unit_1 = solang_parser::parse(file_contents_1, 0).unwrap().0;
-    let mut source_unit_2 = solang_parser::parse(file_contents_2, 0).unwrap().0;
+    let file_contents = fs::read_to_string(PathBuf::from("src/qa/temp.sol")).expect("couldnt read");
+    let mut source_unit = solang_parser::parse(&file_contents, 0).unwrap().0;
 
     let mut source: HashMap<PathBuf, &mut SourceUnit> = HashMap::new();
-    source.insert(PathBuf::from("file_0"), &mut source_unit_1);
-    source.insert(PathBuf::from("file_1"), &mut source_unit_2);
+    source.insert(PathBuf::from("src/qa/temp.sol"), &mut source_unit);
 
     let qa_locations = ConstructorVarInitialization::find(source)?;
 
