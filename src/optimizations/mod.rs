@@ -1,10 +1,9 @@
-use crate::engine::EngineError;
-
+pub mod address_balance;
 use super::engine::{Outcome, Report};
+use crate::engine::EngineError;
+use solang_parser::pt::{Loc, SourceUnit};
 use std::collections::HashMap;
 use std::path::PathBuf;
-
-use solang_parser::pt::{Loc, SourceUnit};
 
 pub trait OptimizationPattern {
     fn find(source: HashMap<PathBuf, &mut SourceUnit>) -> Result<OptimizationOutcome, EngineError>;
@@ -12,7 +11,7 @@ pub trait OptimizationPattern {
 
 #[macro_export]
 macro_rules! optimization {
-    ($(($name:ident, $gas_savings:expr, $report_title:expr, $description:expr, $gas_report:expr)),+ $(,)?) => {
+    ($(($name:ident, $gas_savings:expr, $report_title:expr, $description:expr, $gas_report_title:expr, $gas_report:expr)),+ $(,)?) => {
 
 
         $(pub struct $name;)+
@@ -48,14 +47,30 @@ macro_rules! optimization {
                 }
             }
 
-            pub fn gas_report(&self) -> &str {
-                match self {
-                    $(
-                        OptimizationOutcome::$name(_) => $gas_report,
-                    )+
-                }
+
+
+        pub fn gas_report(&self) -> String {
+            match self {
+                $(
+                    OptimizationOutcome::$name(_) => format!(
+                        "### {}\n{}\n",
+                        self.gas_report_anchor(),
+                        $gas_report
+                    ),
+                )+
             }
         }
+
+
+        pub fn gas_report_anchor(&self) -> &str {
+            match self {
+                $(
+                    OptimizationOutcome::$name(_) => $gas_report_title,
+                )+
+            }
+        }
+
+    }
 
 
 
@@ -107,12 +122,9 @@ optimization!((
     r##"
     You can use `selfbalance()` instead of `address(this).balance` when getting your contract's balance of ETH to save gas. Additionally, you can use `balance(address)` instead of `address.balance()` when getting an external contract's balance of ETH.
     "##,
+    "Address Balance Optimization - Gas Report",
     r##"
- 
 ```js
-### Address Balance Optimization - Gas Report
-
-    
 contract GasTest is DSTest {
     Contract0 c0;
     Contract1 c1;
