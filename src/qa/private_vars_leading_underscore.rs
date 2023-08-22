@@ -71,7 +71,13 @@ fn test_private_vars_leading_underscore() -> eyre::Result<()> {
 
     let mut source = HashMap::new();
     let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
-    source.insert(PathBuf::new(), &mut source_unit);
+    source.insert(PathBuf::from("file"), &mut source_unit);
+    let buf: PathBuf = PathBuf::from("file");
+    let file_name = buf
+        .file_name()
+        .expect("couldnt get file name")
+        .to_str()
+        .expect("no filename");
 
     let qa_locations = PrivateVariablesLeadingUnderscore::find(source)?;
     assert_eq!(qa_locations.len(), 3);
