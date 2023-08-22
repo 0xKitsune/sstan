@@ -1,5 +1,8 @@
 pub mod constructor_order;
+pub mod constructor_var_initialization;
 pub mod private_vars_leading_underscore;
+
+use crate::engine::EngineError;
 
 use super::engine::{Outcome, Report};
 use std::collections::HashMap;
@@ -14,12 +17,14 @@ use solang_parser::pt::{Loc, SourceUnit};
 
 //TODO: this is what we would use for each individual pattern and then we just implement the find method instead of the function
 pub trait QAPattern {
-    fn find(source: HashMap<PathBuf, &mut SourceUnit>) -> QualityAssuranceOutcome;
+    fn find(
+        source: HashMap<PathBuf, &mut SourceUnit>,
+    ) -> Result<QualityAssuranceOutcome, EngineError>;
 }
 
 #[macro_export]
 macro_rules! quality_assurance {
-    ($(($name:ident, $description:expr)),+ $(,)?) => {
+    ($(($name:ident, $report_title:expr, $description:expr)),+ $(,)?) => {
 
 
         $(pub struct $name;)+
@@ -47,6 +52,8 @@ macro_rules! quality_assurance {
         }
 
 
+
+            //TODO: simplify this so that it isnt implementing this for every single macro, just have | when you are matching
         impl Into<Report> for QualityAssuranceOutcome {
             fn into(self) -> Report {
                 match self {
@@ -54,7 +61,7 @@ macro_rules! quality_assurance {
                         QualityAssuranceOutcome::$name(outcome) => {
                             let mut report = format!(
                                 r###"### {}\n{}"###,
-                                stringify!($name),
+                                stringify!($report_title),
                                 $description
                             );
 
@@ -86,9 +93,19 @@ macro_rules! quality_assurance {
 
 //TODO: add section name
 quality_assurance!(
-    (ConstructorOrder, "Description of the qa pattern goes here"),
     (
-        PrivateVariablesLeadingUnderscore,
+        ConstructorOrder,
+        "Constructor should be listed before any other function",
         "Description of the qa pattern goes here"
     ),
+    (
+        PrivateVariablesLeadingUnderscore,
+        "Private variables should contain a leading underscore",
+        "Description of the qa pattern goes here"
+    ),
+    (
+        ConstructorVarInitialization,
+        "Constructor should initialize all variables",
+        "Description of the qa pattern goes here"
+    )
 );

@@ -127,7 +127,7 @@ macro_rules! default_extractor {
 #[macro_export]
 macro_rules! compound_extractor {
     ($extractor_name:ident, $target_type:ty) => {
-        pub struct $extractor_name {}
+        pub struct $extractor_name;
 
         impl Visitor for $extractor_name {
             type Error = ExtractionError;

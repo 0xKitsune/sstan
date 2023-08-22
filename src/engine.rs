@@ -2,22 +2,34 @@ use std::{collections::HashMap, path::PathBuf};
 
 // use crate::analyzer::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
 use solang_parser::pt::Loc;
+use thiserror::Error;
 
-use crate::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
+use crate::{
+    extractors::ExtractionError,
+    qa::{QualityAssuranceOutcome, QualityAssuranceTarget},
+};
 
 pub type Report = String;
 pub type Snippet = String;
 pub type Outcome = HashMap<PathBuf, Vec<(Loc, Snippet)>>;
 
-pub trait Push {
-    fn push(&mut self, path: PathBuf, loc: Loc, snippet: Snippet);
+//TODO: FIXME: maybe update this name
+pub trait Pushable {
+    fn push_or_insert(&mut self, path: PathBuf, loc: Loc, snippet: Snippet);
 }
 
-impl Push for Outcome {
-    fn push(&mut self, path: PathBuf, loc: Loc, snippet: Snippet) {
+impl Pushable for Outcome {
+    fn push_or_insert(&mut self, path: PathBuf, loc: Loc, snippet: Snippet) {
         let entry = self.entry(path).or_insert(vec![]);
         entry.push((loc, snippet));
     }
+}
+
+//TODO: this is just a placeholder, we will need to update this
+#[derive(Error, Debug)]
+pub enum EngineError {
+    #[error("Error while extracting source units")]
+    ExtractionError(#[from] ExtractionError),
 }
 
 #[derive(Default)]
@@ -37,6 +49,11 @@ impl Engine {
     }
 
     pub fn run(&self) {}
+}
+
+#[derive(Debug)]
+pub enum OptimizationOutcome {
+    CacheLoopVariable(Outcome),
 }
 
 //TODO: also have trait for GPTReportSection or something

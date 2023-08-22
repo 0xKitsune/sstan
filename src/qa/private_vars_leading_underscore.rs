@@ -4,13 +4,15 @@ use std::path::PathBuf;
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::engine::{Outcome, Push};
+use crate::engine::{EngineError, Outcome, Pushable, Report};
 use crate::utils::get_32_byte_storage_variables;
 
 use super::{PrivateVariablesLeadingUnderscore, QAPattern, QualityAssuranceOutcome};
 
 impl QAPattern for PrivateVariablesLeadingUnderscore {
-    fn find(source: HashMap<PathBuf, &mut SourceUnit>) -> QualityAssuranceOutcome {
+    fn find(
+        source: HashMap<PathBuf, &mut SourceUnit>,
+    ) -> Result<QualityAssuranceOutcome, EngineError> {
         let mut outcome = Outcome::new();
 
         for (path_buf, source_unit) in source {
@@ -23,7 +25,7 @@ impl QAPattern for PrivateVariablesLeadingUnderscore {
                             match v {
                                 pt::Visibility::Private(_) | pt::Visibility::Internal(_) => {
                                     if !variable_name.starts_with('_') {
-                                        outcome.push(
+                                        outcome.push_or_insert(
                                             path_buf.clone(),
                                             variable_def.loc,
                                             variable_def.clone().to_string(),
@@ -33,7 +35,7 @@ impl QAPattern for PrivateVariablesLeadingUnderscore {
                                 // Public variables
                                 _ => {
                                     if variable_name.starts_with('_') {
-                                        outcome.push(
+                                        outcome.push_or_insert(
                                             path_buf.clone(),
                                             variable_def.loc,
                                             variable_def.clone().to_string(),
@@ -47,12 +49,14 @@ impl QAPattern for PrivateVariablesLeadingUnderscore {
             }
         }
 
-        QualityAssuranceOutcome::PrivateVariablesLeadingUnderscore(outcome)
+        Ok(QualityAssuranceOutcome::PrivateVariablesLeadingUnderscore(
+            outcome,
+        ))
     }
 }
 
 #[test]
-fn test_private_vars_leading_underscore() {
+fn test_private_vars_leading_underscore() -> eyre::Result<()> {
     let file_contents = r#"
     
     contract Contract0 {
@@ -69,6 +73,12 @@ fn test_private_vars_leading_underscore() {
     let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
     source.insert(PathBuf::new(), &mut source_unit);
 
-    let qa_locations = PrivateVariablesLeadingUnderscore::find(source);
-    assert_eq!(qa_locations.len(), 3)
+    let qa_locations = PrivateVariablesLeadingUnderscore::find(source)?;
+    assert_eq!(qa_locations.len(), 3);
+
+    let report: Report = qa_locations.into();
+
+    println!("{report:?}");
+
+    Ok(())
 }

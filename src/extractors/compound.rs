@@ -14,7 +14,7 @@ compound_extractor!(StorageVariableExtractor, VariableDefinition);
 impl<V: Visitable> Extractor<V, VariableDefinition> for StorageVariableExtractor {
     fn extract(v: &mut V) -> Result<Vec<VariableDefinition>, ExtractionError> {
         let contracts = ContractDefinitionExtractor::extract(v)?;
-        let storage_variables = contracts
+        let storage_variables: Vec<VariableDefinition> = contracts
             .iter()
             .flat_map(|contract| {
                 contract.parts.iter().filter_map(|part| {
