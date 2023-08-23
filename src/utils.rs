@@ -1,8 +1,10 @@
+use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 use regex::Regex;
 use solang_parser::pt::{self, ContractPart, Loc, SourceUnit, SourceUnitPart};
-use std::{collections::HashMap, path::PathBuf};
-
-use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
+use std::collections::HashMap;
+use std::fs::{remove_file, File};
+use std::io::{Read, Write};
+use std::path::PathBuf;
 
 pub type LineNumber = i32;
 pub type Outcome = (PathBuf, Loc);
@@ -117,4 +119,40 @@ pub fn get_32_byte_storage_variables(
     }
 
     storage_variables
+}
+
+/// Macro to create a file with given name and content, used as a helper function during testing.
+#[macro_export]
+macro_rules! create_test_source {
+    ($contents:expr) => {{
+        use ::std::io::Write;
+        const FILE_NAME: &str = "test.sol";
+        let path = std::path::PathBuf::from(FILE_NAME);
+
+        // Create the file
+        let mut file = std::fs::File::create(&path).expect("Failed to create file");
+        file.write_all($contents.as_bytes())
+            .expect("Failed to write contents to file");
+
+        let mut source = std::collections::HashMap::new();
+        let source_unit = solang_parser::parse(&$contents, 0).unwrap().0;
+
+        // Leak the SourceUnit to make it 'static
+        let leaked_source_unit = Box::leak(Box::new(source_unit));
+        source.insert(path.clone(), leaked_source_unit);
+
+        source
+    }};
+}
+
+/// Macro to delete a file with a given name, used as a helper function during testing.
+#[macro_export]
+macro_rules! cleanup_test_source {
+    () => {{
+        use std::fs::remove_file;
+
+        const FILE_NAME: &str = "test.sol";
+        let path = std::path::PathBuf::from(FILE_NAME);
+        remove_file(&path).expect("Failed to delete file");
+    }};
 }

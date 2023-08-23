@@ -56,9 +56,17 @@ impl QAPattern for PrivateVariablesLeadingUnderscore {
     }
 }
 
-#[test]
-fn test_private_vars_leading_underscore() -> eyre::Result<()> {
-    let file_contents = r#"
+#[cfg(test)]
+mod tests {
+    use crate::{
+        cleanup_test_source, create_test_source,
+        engine::Report,
+        qa::{PrivateVariablesLeadingUnderscore, QAPattern},
+    };
+
+    #[test]
+    fn test_private_vars_leading_underscore() -> eyre::Result<()> {
+        let file_contents = r#"
     
     contract Contract0 {
         address public addr1;
@@ -69,19 +77,15 @@ fn test_private_vars_leading_underscore() -> eyre::Result<()> {
         address internal addr6;
     }
     "#;
+        let source = create_test_source!(file_contents);
 
-    let mut source = HashMap::new();
-    let file_0 = tempfile::NamedTempFile::new()?;
-    fs::write(file_0.path(), file_contents)?;
-    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
-    source.insert(PathBuf::from(file_0.path()), &mut source_unit);
+        let qa_locations = PrivateVariablesLeadingUnderscore::find(source)?;
+        assert_eq!(qa_locations.len(), 3);
 
-    let qa_locations = PrivateVariablesLeadingUnderscore::find(source)?;
-    assert_eq!(qa_locations.len(), 3);
+        let report: Report = qa_locations.into();
 
-    let report: Report = qa_locations.into();
+        cleanup_test_source!();
 
-    fs::write("test.md", report);
-
-    Ok(())
+        Ok(())
+    }
 }
