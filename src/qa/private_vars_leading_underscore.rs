@@ -1,11 +1,10 @@
-use std::collections::{HashMap, HashSet};
-use std::fs;
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, Loc};
+use solang_parser::pt::{self};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::engine::{EngineError, Outcome, Pushable, Report};
+use crate::engine::{EngineError, Outcome, Pushable};
 use crate::utils::get_32_byte_storage_variables;
 
 use super::{PrivateVariablesLeadingUnderscore, QAPattern, QualityAssuranceOutcome};
@@ -83,7 +82,7 @@ mod tests {
         assert_eq!(qa_locations.len(), 3);
 
         let report: Report = qa_locations.into();
-
+        println!("{}", report);
         cleanup_test_source!();
 
         Ok(())

@@ -1,10 +1,13 @@
-use std::{collections::{HashSet, HashMap}, path::PathBuf};
+use std::{collections::HashMap, path::PathBuf};
 
 use solang_parser::pt::{self, Loc, SourceUnit};
 
-use crate::{engine::{EngineError, Outcome, Pushable}, extractors::{primitive::PlainImportExtractor, Extractor}};
+use crate::{
+    engine::{EngineError, Outcome, Pushable},
+    extractors::{primitive::PlainImportExtractor, Extractor},
+};
 
-use super::{ QAPattern, QualityAssuranceOutcome, ImportIdentifiers};
+use super::{ImportIdentifiers, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for ImportIdentifiers {
     fn find(
         source: HashMap<PathBuf, &mut SourceUnit>,
@@ -29,7 +32,7 @@ mod tests {
     use crate::{
         cleanup_test_source, create_test_source,
         engine::Report,
-        qa::{PrivateVariablesLeadingUnderscore, QAPattern, ImportIdentifiers},
+        qa::{ImportIdentifiers, PrivateVariablesLeadingUnderscore, QAPattern},
     };
     #[test]
     fn test_import_identifiers() -> eyre::Result<()> {
@@ -59,8 +62,6 @@ mod tests {
         let qa_locations = ImportIdentifiers::find(source)?;
         assert_eq!(qa_locations.len(), 1);
 
-        let report:Report = qa_locations.into();
-        println!("{:#?}", report);
         Ok(())
     }
 }

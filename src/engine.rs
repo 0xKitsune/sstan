@@ -30,6 +30,10 @@ impl Pushable for Outcome {
 pub enum EngineError {
     #[error("Error while extracting source units")]
     ExtractionError(#[from] ExtractionError),
+    #[error("Error while running regex")]
+    RegexError(#[from] regex::Error),
+    #[error("Error while parsing int")]
+    ParseIntError(#[from] std::num::ParseIntError),
 }
 
 #[derive(Default)]

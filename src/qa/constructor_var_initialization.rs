@@ -1,12 +1,12 @@
 use std::{
     collections::{HashMap, HashSet},
-    fs,
     path::PathBuf,
 };
 
 use solang_parser::pt::{Loc, SourceUnit};
 
 use crate::{
+    create_test_source,
     engine::{EngineError, Outcome, Pushable},
     extractors::{
         compound::ConstructorExtractor,
@@ -14,7 +14,7 @@ use crate::{
             ContractDefinitionExtractor, EqualityExtractor, ParameterExtractor, VariableExtractor,
         },
         Extractor,
-    }, create_test_source,
+    },
 };
 
 use super::{ConstructorVarInitialization, QAPattern, QualityAssuranceOutcome};
@@ -81,10 +81,10 @@ fn test_constructor_var_initialization() -> eyre::Result<()> {
         }
     }
     "#;
- 
+
     let source = create_test_source!(file_contents_1);
     let qa_locations = ConstructorVarInitialization::find(source)?;
     assert_eq!(qa_locations.len(), 1);
-    
+
     Ok(())
 }

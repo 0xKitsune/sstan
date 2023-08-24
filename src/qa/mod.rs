@@ -1,7 +1,15 @@
+pub mod constant_immutable_namespace;
 pub mod constructor_order;
 pub mod constructor_var_initialization;
-pub mod private_vars_leading_underscore;
 pub mod import_identifiers;
+pub mod large_multiples_of_ten;
+pub mod private_vars_leading_underscore;
+// pub mod storage_variable_namespace;
+pub mod storage_variable_namespace;
+pub mod unused_functions;
+pub mod unused_returns;
+// pub mod unused_returns;
+pub mod interface_namespace;
 use super::engine::{Outcome, Report};
 use crate::engine::EngineError;
 use crate::utils;
@@ -129,5 +137,31 @@ quality_assurance!(
         "Consider importing specific identifiers instead of the whole file",
         "This will minimize compiled code size and help with readability",
         "N-4"
-    )
+    ),
+    (
+        InterfaceNamespace,
+        "Interface names should start with an I",
+        "Consider renaming for consistency",
+        "N-5"
+    ),
+    (
+        ConstantImmutableNamespace,
+        "Constants & Immutables should be named with screaming snake case",
+        "Consider renaming to follow convention",
+        "N-6"
+    ),
+    (
+        LargeMultiplesOfTen,
+        "Consider using scientific notation for large multiples of 10",
+        "For example 100000 can be written as 1e5",
+        "N-7"
+    ),
+    (UnusedFunctions, "Remove any unused functions", "", "N-8"),
+    (
+        StorageVariableNamespace,
+        "Storage variables should be named with camel case",
+        "Consider renaming to follow convention",
+        "N-9"
+    ),
+    (UnusedReturns, "Remove any unused returns", "", "N-10")
 );

@@ -1,11 +1,11 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::create_test_source;
-use crate::engine::{EngineError, Pushable, Report};
+use crate::engine::{EngineError, Pushable};
 use crate::extractors::compound::ContractPartFunctionExtractor;
 use crate::extractors::Extractor;
 use crate::qa::ConstructorOrder;
