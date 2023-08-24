@@ -41,8 +41,8 @@ mod test {
     use crate::engine::Report;
 
     use super::*;
-    use std::io::Write;
     use std::fs::File;
+    use std::io::Write;
     #[test]
     fn test_storage_variable_namespace() -> eyre::Result<()> {
         let file_contents_1 = r#"
@@ -63,7 +63,9 @@ mod test {
         let qa_locations = StorageVariableNamespace::find(source).unwrap();
         assert_eq!(qa_locations.len(), 2);
         let report: Report = qa_locations.into();
-        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        let mut f = File::options()
+            .append(true)
+            .open("src/qa/test_report/mock_report.md")?;
         writeln!(&mut f, "{}", report)?;
         Ok(())
     }

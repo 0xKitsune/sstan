@@ -71,7 +71,9 @@ mod test {
         assert_eq!(qa_locations.len(), 1);
 
         let report: Report = qa_locations.into();
-        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        let mut f = File::options()
+            .append(true)
+            .open("src/qa/test_report/mock_report.md")?;
         writeln!(&mut f, "{}", report)?;
         Ok(())
     }

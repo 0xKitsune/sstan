@@ -82,7 +82,7 @@ macro_rules! quality_assurance {
                                 let file_name = path.file_name().expect("couldnt get file name")
                                 .to_str()
                                 .expect("no filename");
-                             
+
                                 for (loc, snippet) in loc_snippets.iter() {
                                     if let Loc::File(_, start, end) = loc{
                                         let file_contents = std::fs::read_to_string(path).expect("couldnt read file"); //TODO: propagate this
@@ -92,7 +92,7 @@ macro_rules! quality_assurance {
                                         report.push_str(&format!(
                                             "\n File: {} {}-{}: \n ```solidity", file_name, start_line, end_line
                                         ));
-                                        
+
                                         report.push_str(&format!(
                                             "\n {} \n ```",
                                             snippet

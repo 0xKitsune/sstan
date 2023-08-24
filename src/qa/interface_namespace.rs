@@ -39,7 +39,7 @@ impl QAPattern for InterfaceNamespace {
 }
 #[cfg(test)]
 mod tests {
-    use std::fs::{File};
+    use std::fs::File;
     use std::io::Write;
 
     use super::*;

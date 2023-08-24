@@ -1,15 +1,15 @@
-use std::collections::HashMap;
-use std::fmt::Display;
-use std::path::PathBuf;
-use solang_parser::pt::{self, Loc};
-use foundry::prelude::*;
-use solang_parser::{self, pt::SourceUnit};
+use super::{Outcome, QAPattern, QualityAssuranceOutcome};
 use crate::create_test_source;
 use crate::engine::{EngineError, Pushable};
 use crate::extractors::compound::ContractPartFunctionExtractor;
 use crate::extractors::Extractor;
 use crate::qa::ConstructorOrder;
-use super::{Outcome, QAPattern, QualityAssuranceOutcome};
+use core::fmt;
+use solang_parser::pt::{self, Loc};
+use solang_parser::{self, pt::SourceUnit};
+use std::collections::HashMap;
+use std::fmt::Display;
+use std::path::PathBuf;
 
 impl QAPattern for ConstructorOrder {
     fn find(
@@ -96,9 +96,11 @@ mod tests {
         let qa_locations = ConstructorOrder::find(source)?;
         assert_eq!(qa_locations.len(), 1);
         let report: Report = qa_locations.into();
-        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        let mut f = File::options()
+            .append(true)
+            .open("src/qa/test_report/mock_report.md")?;
         writeln!(&mut f, "{}", report)?;
-        
+
         Ok(())
     }
 }

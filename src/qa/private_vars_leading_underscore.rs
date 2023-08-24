@@ -57,7 +57,7 @@ impl QAPattern for PrivateVariablesLeadingUnderscore {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::{self, File}};
+    use std::fs::{self, File};
     use std::io::Write;
 
     use crate::{
@@ -85,9 +85,11 @@ mod tests {
         assert_eq!(qa_locations.len(), 3);
 
         let report: Report = qa_locations.into();
-        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        let mut f = File::options()
+            .append(true)
+            .open("src/qa/test_report/mock_report.md")?;
         writeln!(&mut f, "{}", report)?;
-        
+
         Ok(())
     }
 }

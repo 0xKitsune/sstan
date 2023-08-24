@@ -3,7 +3,6 @@ use std::{
     path::PathBuf,
 };
 
-use solang_parser::pt::{Loc, SourceUnit};
 use crate::{
     create_test_source,
     engine::{EngineError, Outcome, Pushable},
@@ -15,6 +14,7 @@ use crate::{
         Extractor,
     },
 };
+use solang_parser::pt::{Loc, SourceUnit};
 
 use super::{ConstructorVarInitialization, QAPattern, QualityAssuranceOutcome};
 
@@ -89,12 +89,14 @@ mod tests {
 
         let source = create_test_source!(file_contents_1);
         let qa_locations = ConstructorVarInitialization::find(source)?;
-        
+
         assert_eq!(qa_locations.len(), 1);
         let report: Report = qa_locations.into();
-        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        let mut f = File::options()
+            .append(true)
+            .open("src/qa/test_report/mock_report.md")?;
         writeln!(&mut f, "{}", report)?;
-        
+
         Ok(())
     }
 }
