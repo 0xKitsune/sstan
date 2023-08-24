@@ -66,18 +66,28 @@ macro_rules! quality_assurance {
                 match self {
                     $(
                         QualityAssuranceOutcome::$name(outcome) => {
-                            let mut report = format!(
-                                "### {}  \n {}
-                                \n
-                                 ",
-                                $report_title,
-                                $description
-                            );
-                            if !outcome.is_empty() {
-                                report.push_str(&format!("\n <a name=\"{}\"></a>[{}] {}\n", $issue_type, $issue_type, stringify!($report_title)));
+                            if outcome.is_empty() {
+                                return Report::new();
                             }
                             let length = outcome.iter().map(|(_, v)| v.len()).sum::<usize>();
-                            report.push_str(&format!("\n*Instances ({})*:\n", length.to_string()));
+
+                            let mut report = format!(
+                                "
+<details open>
+                                <summary><a name={}>[{}]</a> {} Instances({})</summary>",
+                                $issue_type,
+                                $issue_type,
+                                 $report_title,
+                                length,
+                            );
+
+                            report.push_str(&format!(
+                                "
+                                <p>{}</p>
+                                ",
+                                $description
+                            ));
+
                             for (path, loc_snippets) in outcome.iter() {
                                 let file_name = path.file_name().expect("couldnt get file name")
                                 .to_str()
@@ -90,11 +100,11 @@ macro_rules! quality_assurance {
                                         let end_line = utils::get_line_number(*end, &file_contents);
 
                                         report.push_str(&format!(
-                                            "\n File: {} {}-{}: \n ```solidity", file_name, start_line, end_line
+                                            "File: {} {}-{}: <br> ```solidity <br>", file_name, start_line, end_line
                                         ));
 
                                         report.push_str(&format!(
-                                            "\n {} \n ```",
+                                            "{} <br>``` <br>",
                                             snippet
                                         ));
                                 }else{
@@ -102,16 +112,28 @@ macro_rules! quality_assurance {
 
                                 }
                             }
-                            report.push_str("\n\n");
+
+                            report.push_str("</details>");
+
                             }
 
                             report
                         }
+
+
+
                     )+
+
                 }
+
             }
         }
+
+
+
+
     };
+
 }
 
 //TODO: add section name

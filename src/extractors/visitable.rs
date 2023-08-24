@@ -271,3 +271,4 @@ impl_visitable!(IdentifierPath, visit_ident_path);
 impl_visitable!(YulTypedIdentifier, visit_yul_typed_ident);
 impl_visitable!(ContractDefinition, visit_contract);
 impl_visitable!(FunctionDefinition, visit_function);
+impl_visitable!(VariableDefinition, visit_var_definition);

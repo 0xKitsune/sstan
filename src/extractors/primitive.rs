@@ -336,3 +336,13 @@ impl Visitor for YulFunctionCallExtractor {
         Ok(())
     }
 }
+
+default_extractor!(VariableDefinitionExtractor, VariableDefinition);
+
+impl Visitor for VariableDefinitionExtractor {
+    type Error = ExtractionError;
+    fn extract_var_definition(&mut self, _var: &mut VariableDefinition) -> Result<(), Self::Error> {
+        self.targets.push(_var.clone());
+        Ok(())
+    }
+}

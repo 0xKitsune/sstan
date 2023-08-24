@@ -1,12 +1,9 @@
 use std::collections::HashMap;
-use std::fs::File;
-use std::io::Write;
 use std::path::PathBuf;
 
 use solang_parser::pt::{Loc, SourceUnit};
 
 use crate::create_test_source;
-use crate::engine::Report;
 use crate::qa::InterfaceNamespace;
 use crate::{
     engine::{EngineError, Outcome, Pushable},
@@ -26,8 +23,8 @@ impl QAPattern for InterfaceNamespace {
                     if !identifier.name.starts_with("I") {
                         outcome.push_or_insert(
                             path_buf.clone(),
-                            identifier.loc,
-                            identifier.to_string(),
+                            interface.loc,
+                            format!("{} {} {{}}", interface.ty, identifier),
                         );
                     }
                 }
@@ -39,10 +36,10 @@ impl QAPattern for InterfaceNamespace {
 }
 #[cfg(test)]
 mod tests {
+    use super::*;
+    use crate::engine::Report;
     use std::fs::File;
     use std::io::Write;
-
-    use super::*;
     #[test]
     fn test_interface_namespace() -> eyre::Result<()> {
         let file_contents_1 = r#"

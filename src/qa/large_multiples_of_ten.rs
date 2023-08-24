@@ -1,16 +1,18 @@
 use std::{
     collections::HashMap,
-    fs::{self, File},
     path::PathBuf,
 };
-
-use solang_parser::pt::{self, Loc, SourceUnit};
 
 use crate::{
     create_test_source,
     engine::{EngineError, Outcome, Pushable, Report},
-    extractors::{primitive::NumberLiteralExtractor, Extractor},
+    extractors::{
+        primitive::{NumberLiteralExtractor, VariableDefinitionExtractor, VariableExtractor},
+        Extractor,
+    },
 };
+use solang_parser::pt::{self, CodeLocation, Loc, SourceUnit, VariableDefinition};
+use std::io::{BufRead, BufReader, Error, Write};
 
 use super::{LargeMultiplesOfTen, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for LargeMultiplesOfTen {
@@ -20,18 +22,20 @@ impl QAPattern for LargeMultiplesOfTen {
         let mut outcome: HashMap<PathBuf, Vec<(Loc, String)>> = Outcome::new();
 
         for (path_buf, source_unit) in source {
-            let number_literals = NumberLiteralExtractor::extract(source_unit)?;
-            //Get all variables that are larger than 1000000, and divisible by 10.
-            for number_literal in number_literals.iter() {
-                if let pt::Expression::NumberLiteral(loc, str_number, _, _) = number_literal {
-                    //TODO: Use u256's here to prevent potential overflow. Or alternatively rug Integer.
-                    let number = str_number.to_string().parse::<u128>()?;
-                    if number % 10 == 0 && number > 1000000 {
-                        outcome.push_or_insert(
-                            path_buf.clone(),
-                            loc.clone(),
-                            number_literal.to_string(),
-                        );
+            let mut variable_defs = VariableDefinitionExtractor::extract(source_unit)?;
+            for mut variable in variable_defs.iter_mut() {
+                let mut number_literals = NumberLiteralExtractor::extract(&mut variable)?;
+                for number_literal in number_literals.iter_mut() {
+                    if let pt::Expression::NumberLiteral(_loc, number, _value, _ident) = number_literal
+                    {
+                        let number = number.parse::<u128>().unwrap();
+                        if number % 10 == 0 && number > 1000000 {
+                            outcome.push_or_insert(
+                                path_buf.clone(),
+                                variable.loc(),
+                                variable.to_string(),
+                            );
+                        }
                     }
                 }
             }
@@ -43,7 +47,7 @@ impl QAPattern for LargeMultiplesOfTen {
 #[cfg(test)]
 mod test {
     use super::*;
-    use std::io::Write;
+    use std::{io::Write, fs::File};
 
     #[test]
     fn test_large_multiples_of_ten() -> eyre::Result<()> {
