@@ -1,9 +1,7 @@
 use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 use regex::Regex;
-use solang_parser::pt::{self, ContractPart, Loc, SourceUnit, SourceUnitPart};
+use solang_parser::pt::{self, ContractPart, Loc};
 use std::collections::HashMap;
-use std::fs::{remove_file, File};
-use std::io::{Read, Write};
 use std::path::PathBuf;
 
 pub type LineNumber = i32;
