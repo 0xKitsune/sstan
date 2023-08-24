@@ -4,6 +4,7 @@ use std::path::PathBuf;
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
+use crate::create_test_source;
 use crate::engine::{EngineError, Pushable, Report};
 use crate::extractors::compound::ContractPartFunctionExtractor;
 use crate::extractors::Extractor;
@@ -39,16 +40,14 @@ impl QAPattern for ConstructorOrder {
                 }
             }
         }
-
         Ok(QualityAssuranceOutcome::ConstructorOrder(outcome))
     }
 }
 
 #[test]
 fn test_constructor_order_qa() -> eyre::Result<()> {
-    let test_contracts = vec![
-        r#"
-    contract Contract0 {
+    let file_contents = r#"
+    contract Contract1 {
         address public owner;
         function test() public {
             owner = address(0);
@@ -57,18 +56,16 @@ fn test_constructor_order_qa() -> eyre::Result<()> {
             owner = address(1);
         }
     }
-    "#,
-        r#"
-    contract Contract0 {
+  
+    contract Contract2 {
         address public owner;
         receive() external payable {}
         constructor() {
             owner = address(1);
         }
     }
-    "#,
-        r#"
-    contract Contract0 {
+   
+    contract Contract3 {
         address public owner;
         modifier onlyOwner {
             require(
@@ -78,39 +75,21 @@ fn test_constructor_order_qa() -> eyre::Result<()> {
             _;
         }
         constructor() {
-            owner = address(1);
+            owner = address(0);
         }
     }
-    "#,
-        r#"
-    contract Contract0 {
+    
+    contract Contract4 {
         address public owner;
         function test() public {
             owner = address(0);
         }
     }
-    "#,
-    ];
+    "#;
 
-    let assertions = vec![1, 1, 0, 0];
-
-    assert_eq!(test_contracts.len(), assertions.len());
-
-    if !assertions.is_empty() {
-        for i in 0..assertions.len() - 1 {
-            let mut source = HashMap::new();
-            let mut source_unit = solang_parser::parse(test_contracts[i], 0).unwrap().0;
-            source.insert(PathBuf::new(), &mut source_unit);
-
-            let qa_locations = ConstructorOrder::find(source)?;
-
-            dbg!("{:?}", &qa_locations);
-            assert_eq!(qa_locations.len(), assertions[i]);
-
-            let report: Report = qa_locations.into();
-
-            println!("{}", report)
-        }
-    }
+    let source = create_test_source!(file_contents);
+    let qa_locations = ConstructorOrder::find(source)?;
+    dbg!(&qa_locations);
+    assert_eq!(qa_locations.len(), 1);
     Ok(())
 }

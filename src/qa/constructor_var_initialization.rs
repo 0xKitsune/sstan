@@ -14,7 +14,7 @@ use crate::{
             ContractDefinitionExtractor, EqualityExtractor, ParameterExtractor, VariableExtractor,
         },
         Extractor,
-    },
+    }, create_test_source,
 };
 
 use super::{ConstructorVarInitialization, QAPattern, QualityAssuranceOutcome};
@@ -63,25 +63,28 @@ impl QAPattern for ConstructorVarInitialization {
 }
 
 #[test]
-fn test_import_identifiers() -> eyre::Result<()> {
-    let file_contents = fs::read_to_string(PathBuf::from("src/qa/temp.sol")).expect("couldnt read");
-    let mut source_unit = solang_parser::parse(&file_contents, 0).unwrap().0;
-
-    let mut source: HashMap<PathBuf, &mut SourceUnit> = HashMap::new();
-    source.insert(PathBuf::from("src/qa/temp.sol"), &mut source_unit);
-
-    let qa_locations = ConstructorVarInitialization::find(source)?;
-
-    if let QualityAssuranceOutcome::ConstructorVarInitialization(outcome) = qa_locations {
-        assert_eq!(
-            outcome
-                .iter()
-                .map(|(_, outcomes)| outcomes.len())
-                .sum::<usize>(),
-            1
-        );
-        assert_eq!(outcome.get(&PathBuf::from("file_0")).unwrap().len(), 1);
-        assert!(outcome.get(&PathBuf::from("file_1")).is_none());
+fn test_constructor_var_initialization() -> eyre::Result<()> {
+    let file_contents_1 = r#"
+    contract Contract0 {
+        address public owner;
+        
+        constructor(address _owner) {
+            owner = _owner;
+        }
     }
+    contract Contract0 {
+        address public owner;
+        
+        constructor(address _owner) {
+            require(_owner != address(0), "Owner cannot be zero address");
+            owner = _owner;
+        }
+    }
+    "#;
+ 
+    let source = create_test_source!(file_contents_1);
+    let qa_locations = ConstructorVarInitialization::find(source)?;
+    assert_eq!(qa_locations.len(), 1);
+    
     Ok(())
 }

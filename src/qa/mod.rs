@@ -1,7 +1,7 @@
 pub mod constructor_order;
 pub mod constructor_var_initialization;
 pub mod private_vars_leading_underscore;
-
+pub mod import_identifiers;
 use super::engine::{Outcome, Report};
 use crate::engine::EngineError;
 use crate::utils;
@@ -123,5 +123,11 @@ quality_assurance!(
         "Constructor should initialize all variables",
         "Description of the qa pattern goes here",
         "N-3"
+    ),
+    (
+        ImportIdentifiers,
+        "Consider importing specific identifiers instead of the whole file",
+        "This will minimize compiled code size and help with readability",
+        "N-4"
     )
 );
