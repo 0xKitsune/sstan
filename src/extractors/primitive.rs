@@ -111,6 +111,19 @@ impl Visitor for AssignmentExtractor {
     }
 }
 
+default_extractor!(NumberLiteralExtractor, Expression);
+
+impl Visitor for NumberLiteralExtractor {
+    type Error = ExtractionError;
+    fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
+        match expr {
+            Expression::NumberLiteral(_, _, _, _) => self.targets.push(expr.clone()),
+            _ => {}
+        }
+        Ok(())
+    }
+}
+
 default_extractor!(IncrementorExtractor, Expression);
 
 impl Visitor for IncrementorExtractor {
@@ -298,5 +311,28 @@ impl ParameterExtractor {
         }
 
         names
+    }
+}
+
+default_extractor!(EventExtractor, EventDefinition);
+
+impl Visitor for EventExtractor {
+    type Error = ExtractionError;
+    fn extract_event(&mut self, _event: &mut EventDefinition) -> Result<(), ExtractionError> {
+        self.targets.push(_event.clone());
+        Ok(())
+    }
+}
+
+default_extractor!(YulFunctionCallExtractor, YulFunctionCall);
+
+impl Visitor for YulFunctionCallExtractor {
+    type Error = ExtractionError;
+    fn extract_yul_function_call(
+        &mut self,
+        _stmt: &mut YulFunctionCall,
+    ) -> Result<(), Self::Error> {
+        self.targets.push(_stmt.clone());
+        Ok(())
     }
 }

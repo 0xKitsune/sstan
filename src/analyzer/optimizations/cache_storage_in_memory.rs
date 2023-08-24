@@ -3,7 +3,7 @@ use std::collections::{HashMap, HashSet};
 use solang_parser::pt::{Expression, Loc, SourceUnit};
 
 use crate::analyzer::extractors::{
-    compound::NonConstantImmutableStorageVariableExtractor,
+    compound::MutableStorageVariableExtractor,
     primitive::{ContractDefinitionExtractor, FunctionExtractor, VariableExtractor},
     Extractor,
 };
@@ -14,10 +14,14 @@ pub fn cache_storage_in_memory_optimization(
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
     let mut contracts = ContractDefinitionExtractor::extract(source_unit)?;
     for contract in contracts.iter_mut() {
-        let storage_variables = NonConstantImmutableStorageVariableExtractor::extract(contract)?;
+        let storage_variables = MutableStorageVariableExtractor::extract(contract)?;
         //Create a hashset of the names of the storage variables
-        let storage_variable_names =
-            NonConstantImmutableStorageVariableExtractor::extract_names(storage_variables);
+        let mut storage_variable_names = HashSet::new();
+        for storage_variable in storage_variables {
+            if let Some(identifier) = storage_variable.name {
+                storage_variable_names.insert(identifier.name);
+            }
+        }
         //Get all functions in the contract
         let mut functions = FunctionExtractor::extract(contract)?;
         //Iterate through the functions

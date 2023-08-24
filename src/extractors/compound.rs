@@ -1,7 +1,10 @@
 use std::{collections::HashSet, str::FromStr, vec};
 
 use super::{
-    primitive::{ContractDefinitionExtractor, FunctionExtractor, PragmaDirectiveExtractor},
+    primitive::{
+        ContractDefinitionExtractor, FunctionExtractor, PragmaDirectiveExtractor,
+        YulFunctionCallExtractor,
+    },
     visitable::Visitable,
     visitor::Visitor,
     ExtractionError, Extractor, SolidityVersion,
@@ -44,47 +47,83 @@ impl StorageVariableExtractor {
     }
 }
 
-compound_extractor!(
-    NonConstantImmutableStorageVariableExtractor,
-    VariableDefinition
-);
+compound_extractor!(ContractExtractor, ContractDefinition);
 
-impl NonConstantImmutableStorageVariableExtractor {
-    pub fn extract_names(storage_variables: Vec<VariableDefinition>) -> HashSet<String> {
-        let mut names = HashSet::new();
-        for variable in storage_variables {
-            if let Some(name) = variable.name {
-                names.insert(name.name);
-            }
-        }
+impl<V: Visitable> Extractor<V, ContractDefinition> for ContractExtractor {
+    fn extract(v: &mut V) -> Result<Vec<ContractDefinition>, ExtractionError> {
+        let contracts = ContractDefinitionExtractor::extract(v)?;
+        let filtered_contracts = contracts
+            .iter()
+            .filter_map(|contract| {
+                if matches!(contract.ty, ContractTy::Contract(_)) {
+                    Some(contract.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<ContractDefinition>>();
 
-        names
+        Ok(filtered_contracts)
     }
 }
-impl<V: Visitable> Extractor<V, VariableDefinition>
-    for NonConstantImmutableStorageVariableExtractor
-{
-    fn extract(v: &mut V) -> Result<Vec<VariableDefinition>, ExtractionError> {
-        let storage_variables = StorageVariableExtractor::extract(v)?;
-        let constant_storage_variables = ConstantStorageVariableExtractor::extract(v)?;
-        let immutable_storage_variables = ImmutableStorageVariableExtractor::extract(v)?;
 
-        let constant_storage_variable_names = Self::extract_names(constant_storage_variables);
-        let immutable_storage_variable_names = Self::extract_names(immutable_storage_variables);
+compound_extractor!(AbstractContractExtractor, ContractDefinition);
 
-        let mut non_constant_immutable_storage_vars: Vec<VariableDefinition> = vec![];
-
-        for variable in storage_variables {
-            if let Some(name) = variable.name.clone() {
-                if !constant_storage_variable_names.contains(&name.name)
-                    && !immutable_storage_variable_names.contains(&name.name)
-                {
-                    non_constant_immutable_storage_vars.push(variable);
+impl<V: Visitable> Extractor<V, ContractDefinition> for AbstractContractExtractor {
+    fn extract(v: &mut V) -> Result<Vec<ContractDefinition>, ExtractionError> {
+        let contracts = ContractDefinitionExtractor::extract(v)?;
+        let filtered_contracts = contracts
+            .iter()
+            .filter_map(|contract| {
+                if matches!(contract.ty, ContractTy::Abstract(_)) {
+                    Some(contract.clone())
+                } else {
+                    None
                 }
-            }
-        }
+            })
+            .collect::<Vec<ContractDefinition>>();
 
-        Ok(non_constant_immutable_storage_vars)
+        Ok(filtered_contracts)
+    }
+}
+
+compound_extractor!(InterfaceExtractor, ContractDefinition);
+
+impl<V: Visitable> Extractor<V, ContractDefinition> for InterfaceExtractor {
+    fn extract(v: &mut V) -> Result<Vec<ContractDefinition>, ExtractionError> {
+        let contracts = ContractDefinitionExtractor::extract(v)?;
+        let filtered_contracts = contracts
+            .iter()
+            .filter_map(|contract| {
+                if matches!(contract.ty, ContractTy::Interface(_)) {
+                    Some(contract.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<ContractDefinition>>();
+
+        Ok(filtered_contracts)
+    }
+}
+
+compound_extractor!(LibraryExtractor, ContractDefinition);
+
+impl<V: Visitable> Extractor<V, ContractDefinition> for LibraryExtractor {
+    fn extract(v: &mut V) -> Result<Vec<ContractDefinition>, ExtractionError> {
+        let contracts = ContractDefinitionExtractor::extract(v)?;
+        let filtered_contracts = contracts
+            .iter()
+            .filter_map(|contract| {
+                if matches!(contract.ty, ContractTy::Library(_)) {
+                    Some(contract.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<ContractDefinition>>();
+
+        Ok(filtered_contracts)
     }
 }
 
@@ -219,12 +258,12 @@ impl<V: Visitable> Extractor<V, VariableDefinition> for MutableStorageVariableEx
                     if let ContractPart::VariableDefinition(variable_definition) = part {
                         // Check if the variable is not constant or immutable
                         if variable_definition.attrs.iter().any(|attribute| {
-                            !(matches!(attribute, VariableAttribute::Constant(_))
+                            (matches!(attribute, VariableAttribute::Constant(_))
                                 || matches!(attribute, VariableAttribute::Immutable(_)))
                         }) {
-                            Some(*variable_definition.clone())
-                        } else {
                             None
+                        } else {
+                            Some(*variable_definition.clone())
                         }
                     } else {
                         None
@@ -254,5 +293,100 @@ impl<V: Visitable> Extractor<V, Option<SolidityVersion>> for SolidityVerisonExtr
         } else {
             Ok(vec![None])
         }
+    }
+}
+
+compound_extractor!(InternalFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for InternalFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let internal_functions = functions
+            .iter()
+            .flat_map(|function| {
+                function
+                    .attributes
+                    .iter()
+                    .filter_map(|attr: &FunctionAttribute| {
+                        if let FunctionAttribute::Visibility(Visibility::Internal(_)) = attr {
+                            Some(function.clone())
+                        } else {
+                            None
+                        }
+                    })
+            })
+            .collect::<Vec<FunctionDefinition>>();
+
+        Ok(internal_functions)
+    }
+}
+
+compound_extractor!(ExternalFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for ExternalFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let internal_functions = functions
+            .iter()
+            .flat_map(|function| {
+                function
+                    .attributes
+                    .iter()
+                    .filter_map(|attr: &FunctionAttribute| {
+                        if let FunctionAttribute::Visibility(Visibility::External(_)) = attr {
+                            Some(function.clone())
+                        } else {
+                            None
+                        }
+                    })
+            })
+            .collect::<Vec<FunctionDefinition>>();
+
+        Ok(internal_functions)
+    }
+}
+
+compound_extractor!(PrivateFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for PrivateFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let internal_functions = functions
+            .iter()
+            .flat_map(|function| {
+                function
+                    .attributes
+                    .iter()
+                    .filter_map(|attr: &FunctionAttribute| {
+                        if let FunctionAttribute::Visibility(Visibility::Private(_)) = attr {
+                            Some(function.clone())
+                        } else {
+                            None
+                        }
+                    })
+            })
+            .collect::<Vec<FunctionDefinition>>();
+
+        Ok(internal_functions)
+    }
+}
+
+compound_extractor!(YulShiftExtractor, YulFunctionCall);
+
+impl<V: Visitable> Extractor<V, YulFunctionCall> for YulShiftExtractor {
+    fn extract(v: &mut V) -> Result<Vec<YulFunctionCall>, ExtractionError> {
+        let functions = YulFunctionCallExtractor::extract(v)?;
+        let shift_functions = functions
+            .iter()
+            .filter_map(|function| {
+                if function.id.name == "shl" || function.id.name == "shr" {
+                    Some(function.clone())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<YulFunctionCall>>();
+
+        Ok(shift_functions)
     }
 }
