@@ -83,7 +83,7 @@ macro_rules! quality_assurance {
 
                             report.push_str(&format!(
                                 "
-                                <p>{}</p>
+<p>{}</p>                       
                                 ",
                                 $description
                             ));
@@ -99,21 +99,27 @@ macro_rules! quality_assurance {
                                         let start_line = utils::get_line_number(*start, &file_contents);
                                         let end_line = utils::get_line_number(*end, &file_contents);
 
-                                        report.push_str(&format!(
-                                            "File: {} {}-{}: <br> ```solidity <br>", file_name, start_line, end_line
+                                        report.push_str(&format!("
+<h4>
+                                                    File: {} {}-{}: 
+<h4>
+                                            ", file_name, start_line, end_line
                                         ));
 
-                                        report.push_str(&format!(
-                                            "{} <br>``` <br>",
-                                            snippet
-                                        ));
+                                        report.push_str(&format!("
+```solidity
+    {}
+``` 
+                                                ", snippet));
                                 }else{
                                     panic!("handle this TODO:");
 
                                 }
                             }
 
-                            report.push_str("</details>");
+                            report.push_str("
+</details>
+                            ");
 
                             }
 
