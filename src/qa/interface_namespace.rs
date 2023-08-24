@@ -1,9 +1,12 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
+use std::fs::File;
+use std::io::Write;
 use std::path::PathBuf;
 
 use solang_parser::pt::{Loc, SourceUnit};
 
 use crate::create_test_source;
+use crate::engine::Report;
 use crate::qa::InterfaceNamespace;
 use crate::{
     engine::{EngineError, Outcome, Pushable},
@@ -34,18 +37,29 @@ impl QAPattern for InterfaceNamespace {
         Ok(QualityAssuranceOutcome::InterfaceNamespace(outcome))
     }
 }
+#[cfg(test)]
+mod tests {
+    use std::fs::{File};
+    use std::io::Write;
 
-#[test]
-fn test_interface_namespace() -> eyre::Result<()> {
-    let file_contents_1 = r#"
+    use super::*;
+    #[test]
+    fn test_interface_namespace() -> eyre::Result<()> {
+        let file_contents_1 = r#"
     interface IContract {}
 
     interface Contract0 {
         function foo() external returns (uint256 x);
     }
     "#;
-    let source = create_test_source!(file_contents_1);
-    let qa_locations_1 = InterfaceNamespace::find(source)?;
-    assert_eq!(qa_locations_1.len(), 1);
-    Ok(())
+        let source = create_test_source!(file_contents_1);
+        let qa_locations = InterfaceNamespace::find(source)?;
+        assert_eq!(qa_locations.len(), 1);
+        let report: Report = qa_locations.into();
+        let mut f = File::options()
+            .append(true)
+            .open("src/qa/test_report/mock_report.md")?;
+        writeln!(&mut f, "{}", report)?;
+        Ok(())
+    }
 }

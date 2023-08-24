@@ -1,15 +1,14 @@
 use std::collections::HashMap;
+use std::fmt::Display;
 use std::path::PathBuf;
-
 use solang_parser::pt::{self, Loc};
+use foundry::prelude::*;
 use solang_parser::{self, pt::SourceUnit};
-
 use crate::create_test_source;
 use crate::engine::{EngineError, Pushable};
 use crate::extractors::compound::ContractPartFunctionExtractor;
 use crate::extractors::Extractor;
 use crate::qa::ConstructorOrder;
-
 use super::{Outcome, QAPattern, QualityAssuranceOutcome};
 
 impl QAPattern for ConstructorOrder {
@@ -43,10 +42,16 @@ impl QAPattern for ConstructorOrder {
         Ok(QualityAssuranceOutcome::ConstructorOrder(outcome))
     }
 }
+#[cfg(test)]
+mod tests {
+    use std::{fs::File, io::Write};
 
-#[test]
-fn test_constructor_order_qa() -> eyre::Result<()> {
-    let file_contents = r#"
+    use crate::{create_test_source, engine::Report};
+
+    use super::*;
+    #[test]
+    fn test_constructor_order_qa() -> eyre::Result<()> {
+        let file_contents = r#"
     contract Contract1 {
         address public owner;
         function test() public {
@@ -87,9 +92,13 @@ fn test_constructor_order_qa() -> eyre::Result<()> {
     }
     "#;
 
-    let source = create_test_source!(file_contents);
-    let qa_locations = ConstructorOrder::find(source)?;
-    dbg!(&qa_locations);
-    assert_eq!(qa_locations.len(), 1);
-    Ok(())
+        let source = create_test_source!(file_contents);
+        let qa_locations = ConstructorOrder::find(source)?;
+        assert_eq!(qa_locations.len(), 1);
+        let report: Report = qa_locations.into();
+        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        writeln!(&mut f, "{}", report)?;
+        
+        Ok(())
+    }
 }

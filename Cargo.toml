@@ -23,7 +23,10 @@ thiserror = "1.0.44"
 eyre = "0.6.8"
 tempfile = "3.8.0"
 
+[workspace]
+members = ["crates/foundry"]
 
 [[bin]]
 name = "sstan"
 path = "bin/sstan.rs"
+

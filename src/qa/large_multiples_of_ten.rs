@@ -1,10 +1,14 @@
-use std::{collections::HashMap, path::PathBuf};
+use std::{
+    collections::HashMap,
+    fs::{self, File},
+    path::PathBuf,
+};
 
 use solang_parser::pt::{self, Loc, SourceUnit};
 
 use crate::{
     create_test_source,
-    engine::{EngineError, Outcome, Pushable},
+    engine::{EngineError, Outcome, Pushable, Report},
     extractors::{primitive::NumberLiteralExtractor, Extractor},
 };
 
@@ -36,10 +40,14 @@ impl QAPattern for LargeMultiplesOfTen {
         Ok(QualityAssuranceOutcome::LargeMultiplesOfTen(outcome))
     }
 }
+#[cfg(test)]
+mod test {
+    use super::*;
+    use std::io::Write;
 
-#[test]
-fn test_large_multiples_of_ten() -> eyre::Result<()> {
-    let file_contents_1 = r#"
+    #[test]
+    fn test_large_multiples_of_ten() -> eyre::Result<()> {
+        let file_contents_1 = r#"
     contract Contract0 {
         address public owner;
         uint x = 1e7;
@@ -58,8 +66,13 @@ fn test_large_multiples_of_ten() -> eyre::Result<()> {
     }
     "#;
 
-    let source = create_test_source!(file_contents_1);
-    let qa_locations = LargeMultiplesOfTen::find(source)?;
-    assert_eq!(qa_locations.len(), 1);
-    Ok(())
+        let source = create_test_source!(file_contents_1);
+        let qa_locations = LargeMultiplesOfTen::find(source)?;
+        assert_eq!(qa_locations.len(), 1);
+
+        let report: Report = qa_locations.into();
+        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        writeln!(&mut f, "{}", report)?;
+        Ok(())
+    }
 }

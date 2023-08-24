@@ -36,10 +36,16 @@ impl QAPattern for StorageVariableNamespace {
         Ok(QualityAssuranceOutcome::StorageVariableNamespace(outcome))
     }
 }
+#[cfg(test)]
+mod test {
+    use crate::engine::Report;
 
-#[test]
-fn test_storage_variable_namespace() {
-    let file_contents_1 = r#"
+    use super::*;
+    use std::io::Write;
+    use std::fs::File;
+    #[test]
+    fn test_storage_variable_namespace() -> eyre::Result<()> {
+        let file_contents_1 = r#"
     contract Contract {
 
         address IS_NOT_FINE;
@@ -53,7 +59,12 @@ fn test_storage_variable_namespace() {
     }
     "#;
 
-    let source = create_test_source!(file_contents_1);
-    let qa_locations_1 = StorageVariableNamespace::find(source).unwrap();
-    assert_eq!(qa_locations_1.len(), 2);
+        let source = create_test_source!(file_contents_1);
+        let qa_locations = StorageVariableNamespace::find(source).unwrap();
+        assert_eq!(qa_locations.len(), 2);
+        let report: Report = qa_locations.into();
+        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        writeln!(&mut f, "{}", report)?;
+        Ok(())
+    }
 }

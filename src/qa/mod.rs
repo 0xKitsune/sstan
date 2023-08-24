@@ -82,25 +82,27 @@ macro_rules! quality_assurance {
                                 let file_name = path.file_name().expect("couldnt get file name")
                                 .to_str()
                                 .expect("no filename");
-                             //TODO: update this to propagate
-                             report.push_str(&format!(
-                                "\n File: {} \n ```solidity", file_name
-                            ));
+                             
                                 for (loc, snippet) in loc_snippets.iter() {
                                     if let Loc::File(_, start, end) = loc{
-                                    let file_contents = std::fs::read_to_string(path).expect("couldnt read file"); //TODO: propagate this
-                                    let start_line = utils::get_line_number(*start, &file_contents);
-                                    let end_line = utils::get_line_number(*end, &file_contents);
-                                    report.push_str(&format!(
-                                        "\n {}-{}: {}",
-                                        start_line, end_line, snippet
-                                    ));
+                                        let file_contents = std::fs::read_to_string(path).expect("couldnt read file"); //TODO: propagate this
+                                        let start_line = utils::get_line_number(*start, &file_contents);
+                                        let end_line = utils::get_line_number(*end, &file_contents);
+
+                                        report.push_str(&format!(
+                                            "\n File: {} {}-{}: \n ```solidity", file_name, start_line, end_line
+                                        ));
+                                        
+                                        report.push_str(&format!(
+                                            "\n {} \n ```",
+                                            snippet
+                                        ));
                                 }else{
                                     panic!("handle this TODO:");
 
                                 }
                             }
-                            report.push_str("```\n");
+                            report.push_str("\n\n");
                             }
 
                             report

@@ -4,7 +4,6 @@ use std::{
 };
 
 use solang_parser::pt::{Loc, SourceUnit};
-
 use crate::{
     create_test_source,
     engine::{EngineError, Outcome, Pushable},
@@ -61,10 +60,16 @@ impl QAPattern for ConstructorVarInitialization {
         ))
     }
 }
+#[cfg(test)]
+mod tests {
+    use std::{fs::File, io::Write};
 
-#[test]
-fn test_constructor_var_initialization() -> eyre::Result<()> {
-    let file_contents_1 = r#"
+    use crate::engine::Report;
+
+    use super::*;
+    #[test]
+    fn test_constructor_var_initialization() -> eyre::Result<()> {
+        let file_contents_1 = r#"
     contract Contract0 {
         address public owner;
         
@@ -82,9 +87,14 @@ fn test_constructor_var_initialization() -> eyre::Result<()> {
     }
     "#;
 
-    let source = create_test_source!(file_contents_1);
-    let qa_locations = ConstructorVarInitialization::find(source)?;
-    assert_eq!(qa_locations.len(), 1);
-
-    Ok(())
+        let source = create_test_source!(file_contents_1);
+        let qa_locations = ConstructorVarInitialization::find(source)?;
+        
+        assert_eq!(qa_locations.len(), 1);
+        let report: Report = qa_locations.into();
+        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        writeln!(&mut f, "{}", report)?;
+        
+        Ok(())
+    }
 }

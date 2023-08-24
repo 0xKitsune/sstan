@@ -29,11 +29,11 @@ impl QAPattern for ImportIdentifiers {
 
 #[cfg(test)]
 mod tests {
-    use crate::{
-        cleanup_test_source, create_test_source,
-        engine::Report,
-        qa::{ImportIdentifiers, PrivateVariablesLeadingUnderscore, QAPattern},
-    };
+    use std::{fs::File, io::Write};
+
+    use crate::{engine::Report, create_test_source};
+
+    use super::*;
     #[test]
     fn test_import_identifiers() -> eyre::Result<()> {
         let file_contents = r#"
@@ -61,7 +61,10 @@ mod tests {
         let source = create_test_source!(file_contents);
         let qa_locations = ImportIdentifiers::find(source)?;
         assert_eq!(qa_locations.len(), 1);
-
+        let report: Report = qa_locations.into();
+        let mut f = File::options().append(true).open("src/qa/test_report/mock_report.md")?;
+        writeln!(&mut f, "{}", report)?;
+        
         Ok(())
     }
 }
