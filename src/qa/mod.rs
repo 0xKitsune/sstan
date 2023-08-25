@@ -71,7 +71,7 @@ macro_rules! quality_assurance {
                             }
                             let length = outcome.iter().map(|(_, v)| v.len()).sum::<usize>();
 
-                            let mut report = format!("\n <details open> \n <summary> \n <a name={}>[{}]</a> <Strong>{}</Strong> Instances({}) \n </summary>",
+                            let mut report = format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> Instances({}) \n </summary>",
                                 $issue_type,
                                 $issue_type,
                                  $report_title,
@@ -93,7 +93,7 @@ macro_rules! quality_assurance {
                                         let start_line = utils::get_line_number(*start, &file_contents);
                                         let end_line = utils::get_line_number(*end, &file_contents);
 
-                                        report.push_str(&format!("\n File: {} {}-{} \n", file_name, start_line, end_line
+                                        report.push_str(&format!("\n <span style=\"color: green;\">File: </span> {} {}-{} \n ", file_name, start_line, end_line
                                         ));
 
                                         report.push_str(&format!("\n ```solidity \n {} \n ```", snippet));
@@ -132,50 +132,50 @@ quality_assurance!(
         ConstructorOrder,
         "Constructor should be listed before any other function",
         "Description of the qa pattern goes here",
-        "N"
+        "N-1"
     ),
     (
         PrivateVariablesLeadingUnderscore,
         "Private variables should contain a leading underscore",
         "Description of the qa pattern goes here",
-        "N"
+        "N-2"
     ),
     (
         ConstructorVarInitialization,
         "Constructor should initialize all variables",
         "Description of the qa pattern goes here",
-        "N"
+        "N-3"
     ),
     (
         ImportIdentifiers,
         "Consider importing specific identifiers instead of the whole file",
         "This will minimize compiled code size and help with readability",
-        "N"
+        "N-4"
     ),
     (
         InterfaceNamespace,
         "Interface names should start with an I",
         "Consider renaming for consistency",
-        "N"
+        "N-5"
     ),
     (
         ConstantImmutableNamespace,
         "Constants & Immutables should be named with screaming snake case",
         "Consider renaming to follow convention",
-        "N"
+        "N-6"
     ),
     (
         LargeMultiplesOfTen,
         "Consider using scientific notation for large multiples of 10",
         "For example 100000 can be written as 1e5",
-        "N"
+        "N-7"
     ),
     (UnusedFunctions, "Remove any unused functions", "", "N-8"),
     (
         StorageVariableNamespace,
         "Storage variables should be named with camel case",
         "Consider renaming to follow convention",
-        "N"
+        "N-9"
     ),
     (UnusedReturns, "Remove any unused returns", "", "N-10")
 );
