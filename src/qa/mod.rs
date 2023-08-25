@@ -71,10 +71,7 @@ macro_rules! quality_assurance {
                             }
                             let length = outcome.iter().map(|(_, v)| v.len()).sum::<usize>();
 
-                            let mut report = format!(
-                                "
-<details open>
-                                <summary><a name={}>[{}]</a> {} Instances({})</summary>",
+                            let mut report = format!("\n <details open> \n <summary> \n <a name={}>[{}]</a> <Strong>{}</Strong> Instances({}) \n </summary>",
                                 $issue_type,
                                 $issue_type,
                                  $report_title,
@@ -82,10 +79,7 @@ macro_rules! quality_assurance {
                             );
 
                             report.push_str(&format!(
-                                "
-<p>{}</p>                       
-                                ",
-                                $description
+                                " \n {} \n", $description
                             ));
 
                             for (path, loc_snippets) in outcome.iter() {
@@ -99,18 +93,10 @@ macro_rules! quality_assurance {
                                         let start_line = utils::get_line_number(*start, &file_contents);
                                         let end_line = utils::get_line_number(*end, &file_contents);
 
-                                        report.push_str(&format!("
-<h4>
-                                                    File: {} {}-{}: 
-<h4>
-                                            ", file_name, start_line, end_line
+                                        report.push_str(&format!("\n File: {} {}-{} \n", file_name, start_line, end_line
                                         ));
 
-                                        report.push_str(&format!("
-```solidity
-    {}
-``` 
-                                                ", snippet));
+                                        report.push_str(&format!("\n ```solidity \n {} \n ```", snippet));
                                 }else{
                                     panic!("handle this TODO:");
 
