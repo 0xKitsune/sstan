@@ -103,9 +103,7 @@ macro_rules! quality_assurance {
                                 }
                             }
 
-                            report.push_str("
-</details>
-                            ");
+                            report.push_str(" \n </details>");
 
                             }
 
@@ -134,50 +132,50 @@ quality_assurance!(
         ConstructorOrder,
         "Constructor should be listed before any other function",
         "Description of the qa pattern goes here",
-        "N-1"
+        "N"
     ),
     (
         PrivateVariablesLeadingUnderscore,
         "Private variables should contain a leading underscore",
         "Description of the qa pattern goes here",
-        "N-2"
+        "N"
     ),
     (
         ConstructorVarInitialization,
         "Constructor should initialize all variables",
         "Description of the qa pattern goes here",
-        "N-3"
+        "N"
     ),
     (
         ImportIdentifiers,
         "Consider importing specific identifiers instead of the whole file",
         "This will minimize compiled code size and help with readability",
-        "N-4"
+        "N"
     ),
     (
         InterfaceNamespace,
         "Interface names should start with an I",
         "Consider renaming for consistency",
-        "N-5"
+        "N"
     ),
     (
         ConstantImmutableNamespace,
         "Constants & Immutables should be named with screaming snake case",
         "Consider renaming to follow convention",
-        "N-6"
+        "N"
     ),
     (
         LargeMultiplesOfTen,
         "Consider using scientific notation for large multiples of 10",
         "For example 100000 can be written as 1e5",
-        "N-7"
+        "N"
     ),
     (UnusedFunctions, "Remove any unused functions", "", "N-8"),
     (
         StorageVariableNamespace,
         "Storage variables should be named with camel case",
         "Consider renaming to follow convention",
-        "N-9"
+        "N"
     ),
     (UnusedReturns, "Remove any unused returns", "", "N-10")
 );
