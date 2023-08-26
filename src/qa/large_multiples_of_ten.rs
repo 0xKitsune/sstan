@@ -1,7 +1,4 @@
-use std::{
-    collections::HashMap,
-    path::PathBuf,
-};
+use std::{collections::HashMap, path::PathBuf};
 
 use crate::{
     create_test_source,
@@ -26,7 +23,8 @@ impl QAPattern for LargeMultiplesOfTen {
             for mut variable in variable_defs.iter_mut() {
                 let mut number_literals = NumberLiteralExtractor::extract(&mut variable)?;
                 for number_literal in number_literals.iter_mut() {
-                    if let pt::Expression::NumberLiteral(_loc, number, _value, _ident) = number_literal
+                    if let pt::Expression::NumberLiteral(_loc, number, _value, _ident) =
+                        number_literal
                     {
                         let number = number.parse::<u128>().unwrap();
                         if number % 10 == 0 && number > 1000000 {
@@ -47,7 +45,7 @@ impl QAPattern for LargeMultiplesOfTen {
 #[cfg(test)]
 mod test {
     use super::*;
-    use std::{io::Write, fs::File};
+    use std::{fs::File, io::Write};
 
     #[test]
     fn test_large_multiples_of_ten() -> eyre::Result<()> {

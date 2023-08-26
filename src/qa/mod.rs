@@ -12,6 +12,7 @@ pub mod unused_returns;
 pub mod interface_namespace;
 use super::engine::{Outcome, Report};
 use crate::engine::EngineError;
+use crate::report::types::{Classification, OutcomeReport, Rank, ReportSectionFragment};
 use crate::utils;
 use solang_parser::pt::{Loc, SourceUnit};
 use std::collections::HashMap;
@@ -60,28 +61,23 @@ macro_rules! quality_assurance {
 
 
 
-            //TODO: simplify this so that it isnt implementing this for every single macro, just have | when you are matching
-        impl Into<Report> for QualityAssuranceOutcome {
-            fn into(self) -> Report {
+        impl Into<Option<ReportSectionFragment>> for QualityAssuranceOutcome {
+            fn into(self) -> Option<ReportSectionFragment> {
                 match self {
                     $(
                         QualityAssuranceOutcome::$name(outcome) => {
                             if outcome.is_empty() {
-                                return Report::new();
+                                return None;
                             }
                             let length = outcome.iter().map(|(_, v)| v.len()).sum::<usize>();
-
-                            let mut report = format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> Instances({}) \n </summary>",
-                                $issue_type,
-                                $issue_type,
-                                 $report_title,
-                                length,
+                            let mut outcomes = Vec::new();
+                            let mut report_fragment = ReportSectionFragment::new(
+                                $report_title.to_string(),
+                                Classification::QA(Rank::NonCritical($issue_type.to_string())),
+                                $description.to_string(),
+                                length as u32,
                             );
-
-                            report.push_str(&format!(
-                                " \n {} \n", $description
-                            ));
-
+                            let mut outcome_reports = Vec::new();
                             for (path, loc_snippets) in outcome.iter() {
                                 let file_name = path.file_name().expect("couldnt get file name")
                                 .to_str()
@@ -92,22 +88,23 @@ macro_rules! quality_assurance {
                                         let file_contents = std::fs::read_to_string(path).expect("couldnt read file"); //TODO: propagate this
                                         let start_line = utils::get_line_number(*start, &file_contents);
                                         let end_line = utils::get_line_number(*end, &file_contents);
-
-                                        report.push_str(&format!("\n <span style=\"color: green;\">File: </span> {} {}-{} \n ", file_name, start_line, end_line
+                                        outcome_reports.push(OutcomeReport::new(
+                                            file_name.to_string(),
+                                            (start_line, end_line),
+                                            snippet.to_string(),
                                         ));
 
-                                        report.push_str(&format!("\n ```solidity \n {} \n ```", snippet));
                                 }else{
                                     panic!("handle this TODO:");
 
                                 }
                             }
 
-                            report.push_str(" \n </details>");
 
                             }
+                            report_fragment.outcomes = outcome_reports;
+                            Some(report_fragment)
 
-                            report
                         }
 
 
