@@ -12,7 +12,7 @@ pub mod unused_returns;
 pub mod interface_namespace;
 use super::engine::{Outcome, Report};
 use crate::engine::EngineError;
-use crate::report::types::{Classification, OutcomeReport, Rank, ReportSectionFragment};
+use crate::report::{Classification, OutcomeReport, ReportSectionFragment};
 use crate::utils;
 use solang_parser::pt::{Loc, SourceUnit};
 use std::collections::HashMap;
@@ -32,7 +32,7 @@ pub trait QAPattern {
 
 #[macro_export]
 macro_rules! quality_assurance {
-    ($(($name:ident, $report_title:expr, $description:expr, $issue_type:expr)),+ $(,)?) => {
+    ($(($name:ident, $report_title:expr, $description:expr)),+ $(,)?) => {
 
 
         $(pub struct $name;)+
@@ -57,7 +57,12 @@ macro_rules! quality_assurance {
                     )+
                 }
             }
+
+            pub fn classification(&self) -> Classification {
+                todo!()
+            }
         }
+
 
 
 
@@ -70,22 +75,23 @@ macro_rules! quality_assurance {
                                 return None;
                             }
                             let length = outcome.iter().map(|(_, v)| v.len()).sum::<usize>();
-                            let mut outcomes = Vec::new();
+
+
                             let mut report_fragment = ReportSectionFragment::new(
                                 $report_title.to_string(),
-                                Classification::QA(Rank::NonCritical($issue_type.to_string())),
+                                None,
                                 $description.to_string(),
                                 length as u32,
                             );
-                            let mut outcome_reports = Vec::new();
+                            let mut outcome_reports = vec![];
                             for (path, loc_snippets) in outcome.iter() {
-                                let file_name = path.file_name().expect("couldnt get file name")
+                                let file_name = path.file_name().expect("couldnt get file name")  //TODO: make this a little more descriptive or propagate
                                 .to_str()
-                                .expect("no filename");
+                                .expect("no filename"); //TODO: make this a little more descriptive or propagate
 
                                 for (loc, snippet) in loc_snippets.iter() {
                                     if let Loc::File(_, start, end) = loc{
-                                        let file_contents = std::fs::read_to_string(path).expect("couldnt read file"); //TODO: propagate this
+                                        let file_contents = std::fs::read_to_string(path).expect("couldnt read file"); //TODO: propagate this or maybe just make more descriptive
                                         let start_line = utils::get_line_number(*start, &file_contents);
                                         let end_line = utils::get_line_number(*end, &file_contents);
                                         outcome_reports.push(OutcomeReport::new(
@@ -119,6 +125,12 @@ macro_rules! quality_assurance {
 
 
 
+        //TODO: into tablefragment
+
+
+
+
+
     };
 
 }
@@ -128,51 +140,43 @@ quality_assurance!(
     (
         ConstructorOrder,
         "Constructor should be listed before any other function",
-        "Description of the qa pattern goes here",
-        "N-1"
+        "Description of the qa pattern goes here"
     ),
     (
         PrivateVariablesLeadingUnderscore,
         "Private variables should contain a leading underscore",
-        "Description of the qa pattern goes here",
-        "N-2"
+        "Description of the qa pattern goes here"
     ),
     (
         ConstructorVarInitialization,
         "Constructor should initialize all variables",
-        "Description of the qa pattern goes here",
-        "N-3"
+        "Description of the qa pattern goes here"
     ),
     (
         ImportIdentifiers,
         "Consider importing specific identifiers instead of the whole file",
-        "This will minimize compiled code size and help with readability",
-        "N-4"
+        "This will minimize compiled code size and help with readability"
     ),
     (
         InterfaceNamespace,
         "Interface names should start with an I",
-        "Consider renaming for consistency",
-        "N-5"
+        "Consider renaming for consistency"
     ),
     (
         ConstantImmutableNamespace,
         "Constants & Immutables should be named with screaming snake case",
-        "Consider renaming to follow convention",
-        "N-6"
+        "Consider renaming to follow convention"
     ),
     (
         LargeMultiplesOfTen,
         "Consider using scientific notation for large multiples of 10",
-        "For example 100000 can be written as 1e5",
-        "N-7"
+        "For example 100000 can be written as 1e5"
     ),
-    (UnusedFunctions, "Remove any unused functions", "", "N-8"),
+    (UnusedFunctions, "Remove any unused functions", ""),
     (
         StorageVariableNamespace,
         "Storage variables should be named with camel case",
-        "Consider renaming to follow convention",
-        "N-9"
+        "Consider renaming to follow convention"
     ),
-    (UnusedReturns, "Remove any unused returns", "", "N-10")
+    (UnusedReturns, "Remove any unused returns", "")
 );

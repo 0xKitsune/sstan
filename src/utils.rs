@@ -31,7 +31,7 @@ pub fn get_type_size(expression: pt::Expression) -> u16 {
 }
 
 //get line number of start of character range
-pub fn get_line_number(char_number: usize, file_contents: &str) -> i32 {
+pub fn get_line_number(char_number: usize, file_contents: &str) -> usize {
     let re = Regex::new(r"\n").unwrap();
     let mut i = 1;
     for capture in re.captures_iter(file_contents) {
