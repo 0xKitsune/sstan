@@ -39,6 +39,7 @@ impl QAPattern for StorageVariableNamespace {
 #[cfg(test)]
 mod test {
     use crate::engine::Report;
+    use crate::utils::MockSource;
 
     use super::*;
     use std::fs::File;
@@ -59,8 +60,8 @@ mod test {
     }
     "#;
 
-        let source = create_test_source!(file_contents_1);
-        let qa_locations = StorageVariableNamespace::find(source).unwrap();
+        let mock_source = MockSource::new().add_source(file_contents_1);
+        let qa_locations = StorageVariableNamespace::find(mock_source.source).unwrap();
         assert_eq!(qa_locations.len(), 2);
         let report: Report = qa_locations.into();
         let mut f = File::options()

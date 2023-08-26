@@ -119,6 +119,38 @@ pub fn get_32_byte_storage_variables(
     storage_variables
 }
 
+pub struct MockSource {
+    pub source: HashMap<PathBuf, pt::SourceUnit>,
+    pub counter: usize,
+}
+
+impl MockSource {
+    pub fn new() -> Self {
+        Self {
+            source: HashMap::new(),
+            counter: 0,
+        }
+    }
+
+    pub fn add_source(mut self, contents: &str) -> Self {
+        let path = PathBuf::from(format!("test{}.sol", self.counter));
+        let source_unit = solang_parser::parse(contents, self.counter).unwrap().0;
+        self.counter += 1;
+
+        self.source.insert(path, source_unit);
+        self
+    }
+}
+
+impl Drop for MockSource {
+    fn drop(&mut self) {
+        for file in self.source.keys() {
+            std::fs::remove_file(file).expect("Failed to delete file");
+        }
+    }
+}
+
+//TODO: create a scruct
 /// Macro to create a file with given name and content, used as a helper function during testing.
 #[macro_export]
 macro_rules! create_test_source {
