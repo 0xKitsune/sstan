@@ -21,6 +21,7 @@ colour = "0.7.0"
 thiserror = "1.0.44"
 eyre = "0.6.8"
 tempfile = "3.8.0"
+ctor = "0.2.4"
 
 [[bin]]
 name = "sstan"
