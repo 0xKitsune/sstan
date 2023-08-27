@@ -2,6 +2,7 @@ use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 use regex::Regex;
 use solang_parser::pt::{self, ContractPart, Loc};
 use std::collections::HashMap;
+use std::io::Write;
 use std::path::PathBuf;
 
 pub type LineNumber = i32;
@@ -118,9 +119,9 @@ pub fn get_32_byte_storage_variables(
 
     storage_variables
 }
-
+#[derive(Debug)]
 pub struct MockSource {
-    pub source: HashMap<PathBuf, pt::SourceUnit>,
+    pub source: HashMap<PathBuf, &'static mut pt::SourceUnit>,
     pub counter: usize,
 }
 
@@ -133,13 +134,18 @@ impl MockSource {
     }
 
     pub fn add_source(mut self, contents: &str) -> Self {
-        let path = PathBuf::from(format!("test{}.sol", self.counter));
+        let file_name: &str = &format!("test{}.sol", self.counter);
+        let path = PathBuf::from(file_name);
+        let mut file = std::fs::File::create(&path).expect("Failed to create file");
+        file.write_all(contents.as_bytes())
+            .expect("Failed to write contents to file");
         let source_unit = solang_parser::parse(contents, self.counter).unwrap().0;
         self.counter += 1;
-
-        self.source.insert(path, source_unit);
+        let leaked_source_unit = Box::leak(Box::new(source_unit));
+        self.source.insert(path, leaked_source_unit);
         self
     }
+
 }
 
 impl Drop for MockSource {
@@ -149,7 +155,6 @@ impl Drop for MockSource {
         }
     }
 }
-
 //TODO: create a scruct
 /// Macro to create a file with given name and content, used as a helper function during testing.
 #[macro_export]

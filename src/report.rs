@@ -175,3 +175,50 @@ impl Into<Report> for Engine {
         todo!()
     }
 }
+
+//Report Fragment Formatting
+impl From<ReportSectionFragment> for String {
+    fn from(value: ReportSectionFragment) -> String {
+        let mut fragment: String = String::new();
+        if let Some(identifier) = value.identifier {
+            let identifier: String = format!(
+                "[{}-{}]",
+                identifier.classification.identifier(),
+                identifier.nonce
+            );
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> Instances({}) \n </summary>",identifier,identifier,value.title,value.instances));
+        } else {
+            fragment.push_str(&format!(
+                "\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",
+                value.title, value.instances,
+            ));
+        }
+
+        fragment.push_str(&format!(" \n {} \n", value.description));
+
+        fragment.push_str(
+            &value
+                .outcomes
+                .iter()
+                .map(|outcome| String::from(outcome))
+                .collect::<Vec<String>>()
+                .join("\n"),
+        );
+
+        fragment.push_str(" \n </details>");
+
+        fragment
+    }
+}
+
+impl From<&OutcomeReport> for String {
+    fn from(outcome_report: &OutcomeReport) -> String {
+        format!(
+            "\n <span style=\"color: green;\">File: </span> {} {}-{} \n ```solidity \n {} \n ```",
+            outcome_report.file_name,
+            outcome_report.line_numbers.0,
+            outcome_report.line_numbers.1,
+            outcome_report.snippet
+        )
+    }
+}

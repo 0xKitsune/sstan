@@ -44,12 +44,14 @@ impl QAPattern for LargeMultiplesOfTen {
 }
 #[cfg(test)]
 mod test {
+    use crate::{report::ReportSectionFragment, utils::MockSource};
+
     use super::*;
     use std::{fs::File, io::Write};
 
     #[test]
     fn test_large_multiples_of_ten() -> eyre::Result<()> {
-        let file_contents_1 = r#"
+        let file_contents = r#"
     contract Contract0 {
         address public owner;
         uint x = 1e7;
@@ -68,15 +70,19 @@ mod test {
     }
     "#;
 
-        let source = create_test_source!(file_contents_1);
-        let qa_locations = LargeMultiplesOfTen::find(source)?;
+    let mut mock_source = MockSource::new().add_source(file_contents);
+    let source = std::mem::take(&mut mock_source.source);
+
+    let qa_locations = LargeMultiplesOfTen::find(source)?;
         assert_eq!(qa_locations.len(), 1);
 
-        let report: Report = qa_locations.into();
-        let mut f = File::options()
-            .append(true)
-            .open("src/qa/test_report/mock_report.md")?;
-        writeln!(&mut f, "{}", report)?;
+        let report: Option<ReportSectionFragment> = qa_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("src/qa/test_report/mock_report.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

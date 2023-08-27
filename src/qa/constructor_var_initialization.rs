@@ -64,12 +64,12 @@ impl QAPattern for ConstructorVarInitialization {
 mod tests {
     use std::{fs::File, io::Write};
 
-    use crate::engine::Report;
+    use crate::{engine::Report, report::ReportSectionFragment, utils::MockSource};
 
     use super::*;
     #[test]
     fn test_constructor_var_initialization() -> eyre::Result<()> {
-        let file_contents_1 = r#"
+        let file_contents = r#"
     contract Contract0 {
         address public owner;
         
@@ -87,16 +87,18 @@ mod tests {
     }
     "#;
 
-        let source = create_test_source!(file_contents_1);
+    let mut mock_source = MockSource::new().add_source(file_contents);
+    let source = std::mem::take(&mut mock_source.source);
         let qa_locations = ConstructorVarInitialization::find(source)?;
 
         assert_eq!(qa_locations.len(), 1);
-        let report: Report = qa_locations.into();
-        let mut f = File::options()
-            .append(true)
-            .open("src/qa/test_report/mock_report.md")?;
-        writeln!(&mut f, "{}", report)?;
-
+        let report: Option<ReportSectionFragment> = qa_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("src/qa/test_report/mock_report.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

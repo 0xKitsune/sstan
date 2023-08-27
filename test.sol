@@ -1,20 +1,15 @@
 
     contract Contract0 {
+        address public owner;
         
-        function isUnused() internal {
-
+        function foo() public returns (uint256 x) {
+            uint256 y = 0;
+            return y;
         }
-
-        function isUsed() internal {
-            
-        }
-
-        function useIsUsed() public {
-            isUsed();
-        }
-        
     }
-    er;
+  
+    contract Contract0 {
+        address public owner;
         
         function foo() public returns (uint256 x) {
             x = 0;

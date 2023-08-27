@@ -60,6 +60,8 @@ mod tests {
     use std::fs::{self, File};
     use std::io::Write;
 
+    use crate::report::ReportSectionFragment;
+    use crate::utils::MockSource;
     use crate::{
         cleanup_test_source, create_test_source,
         engine::Report,
@@ -79,16 +81,18 @@ mod tests {
         address internal addr6;
     }
     "#;
-        let source = create_test_source!(file_contents);
-
+        let mut mock_source = MockSource::new().add_source(file_contents);
+        let source = std::mem::take(&mut mock_source.source);
         let qa_locations = PrivateVariablesLeadingUnderscore::find(source)?;
         assert_eq!(qa_locations.len(), 3);
 
-        let report: Report = qa_locations.into();
-        let mut f = File::options()
-            .append(true)
-            .open("src/qa/test_report/mock_report.md")?;
-        writeln!(&mut f, "{}", report)?;
+        let report: Option<ReportSectionFragment> = qa_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("src/qa/test_report/mock_report.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
 
         Ok(())
     }

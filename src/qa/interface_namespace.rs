@@ -38,25 +38,31 @@ impl QAPattern for InterfaceNamespace {
 mod tests {
     use super::*;
     use crate::engine::Report;
+    use crate::report::ReportSectionFragment;
+    use crate::utils::MockSource;
     use std::fs::File;
     use std::io::Write;
     #[test]
     fn test_interface_namespace() -> eyre::Result<()> {
-        let file_contents_1 = r#"
+        let file_contents = r#"
     interface IContract {}
 
     interface Contract0 {
         function foo() external returns (uint256 x);
     }
     "#;
-        let source = create_test_source!(file_contents_1);
+        let mut mock_source = MockSource::new().add_source(file_contents);
+        let source = std::mem::take(&mut mock_source.source);
         let qa_locations = InterfaceNamespace::find(source)?;
         assert_eq!(qa_locations.len(), 1);
-        let report: Report = qa_locations.into();
-        let mut f = File::options()
-            .append(true)
-            .open("src/qa/test_report/mock_report.md")?;
-        writeln!(&mut f, "{}", report)?;
+
+        let report: Option<ReportSectionFragment> = qa_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("src/qa/test_report/mock_report.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

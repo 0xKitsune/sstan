@@ -9,6 +9,8 @@ use crate::{
     extractors::{compound::MutableStorageVariableExtractor, Extractor},
 };
 
+use crate::report::{Classification, OutcomeReport, ReportSectionFragment};
+
 use super::{QAPattern, QualityAssuranceOutcome, StorageVariableNamespace};
 impl QAPattern for StorageVariableNamespace {
     fn find(
@@ -39,6 +41,7 @@ impl QAPattern for StorageVariableNamespace {
 #[cfg(test)]
 mod test {
     use crate::engine::Report;
+    use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
 
     use super::*;
@@ -60,14 +63,17 @@ mod test {
     }
     "#;
 
-        let mock_source = MockSource::new().add_source(file_contents_1);
-        let qa_locations = StorageVariableNamespace::find(mock_source.source).unwrap();
+        let mut mock_source = MockSource::new().add_source(file_contents_1);
+        let source = std::mem::take(&mut mock_source.source);
+        let qa_locations = StorageVariableNamespace::find(source).unwrap();
         assert_eq!(qa_locations.len(), 2);
-        let report: Report = qa_locations.into();
-        let mut f = File::options()
-            .append(true)
-            .open("src/qa/test_report/mock_report.md")?;
-        writeln!(&mut f, "{}", report)?;
+        let report: Option<ReportSectionFragment> = qa_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("src/qa/test_report/mock_report.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

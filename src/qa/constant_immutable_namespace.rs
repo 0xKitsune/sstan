@@ -39,13 +39,15 @@ impl QAPattern for ConstantImmutableNamespace {
 #[cfg(test)]
 mod test {
     use crate::engine::Report;
+    use crate::report::ReportSectionFragment;
+    use crate::utils::MockSource;
 
     use super::*;
     use std::fs::File;
     use std::io::Write;
     #[test]
     fn test_constant_immutable_namespace() -> eyre::Result<()> {
-        let file_contents_1 = r#"
+        let file_contents = r#"
     contract Contract {
 
         address immutable IS_FINE;
@@ -60,15 +62,17 @@ mod test {
     }
     "#;
 
-        let source = create_test_source!(file_contents_1);
+        let mut mock_source = MockSource::new().add_source(file_contents);
+        let source = std::mem::take(&mut mock_source.source);
         let qa_locations = ConstantImmutableNamespace::find(source)?;
         assert_eq!(qa_locations.len(), 2);
-        let report: Report = qa_locations.into();
-        let mut f = File::options()
-            .append(true)
-            .open("src/qa/test_report/mock_report.md")?;
-        writeln!(&mut f, "{}", report)?;
-
+        let report: Option<ReportSectionFragment> = qa_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("src/qa/test_report/mock_report.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }
