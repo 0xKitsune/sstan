@@ -2,9 +2,9 @@ pub mod optimizations;
 pub mod qa;
 pub mod vulnerabilities;
 pub mod ctor;
-use std::{default, path::PathBuf};
+use std::{path::PathBuf};
 
-use crate::engine::{Engine, Outcome};
+use crate::engine::{Engine};
 
 pub struct ReportOutput {
     pub file_name: PathBuf,
@@ -86,7 +86,7 @@ impl ReportSectionFragment {
     ) -> Self {
         Self {
             title,
-            identifier: identifier,
+            identifier,
             description,
             instances,
             outcomes: vec![],
@@ -200,7 +200,7 @@ impl From<ReportSectionFragment> for String {
             &value
                 .outcomes
                 .iter()
-                .map(|outcome| String::from(outcome))
+                .map(String::from)
                 .collect::<Vec<String>>()
                 .join("\n"),
         );

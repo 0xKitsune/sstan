@@ -1,8 +1,8 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap};
 use std::path::PathBuf;
 
 use solang_parser::helpers::CodeLocation;
-use solang_parser::pt::{self, Loc};
+use solang_parser::pt::{self};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
@@ -23,7 +23,7 @@ impl OptimizationPattern for AddressBalance {
             for node in member_access_nodes {
                 //We can use unwrap because Target::MemberAccess is an expression
 
-                if let pt::Expression::MemberAccess(loc, box_expression, identifier) = node.clone()
+                if let pt::Expression::MemberAccess(_loc, box_expression, identifier) = node.clone()
                 {
                     if let pt::Expression::FunctionCall(_, box_expression, _) = *box_expression {
                         if let pt::Expression::Type(_, pt::Type::Address) = *box_expression {

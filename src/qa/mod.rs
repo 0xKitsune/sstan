@@ -10,7 +10,7 @@ pub mod unused_functions;
 pub mod unused_returns;
 // pub mod unused_returns;
 pub mod interface_namespace;
-use super::engine::{Outcome, Report};
+use super::engine::{Outcome};
 use crate::engine::EngineError;
 use crate::report::{Classification, OutcomeReport, ReportSectionFragment};
 use crate::utils;

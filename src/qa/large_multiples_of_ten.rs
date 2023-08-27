@@ -1,15 +1,14 @@
 use std::{collections::HashMap, path::PathBuf};
 
 use crate::{
-    create_test_source,
-    engine::{EngineError, Outcome, Pushable, Report},
+    engine::{EngineError, Outcome, Pushable},
     extractors::{
-        primitive::{NumberLiteralExtractor, VariableDefinitionExtractor, VariableExtractor},
+        primitive::{NumberLiteralExtractor, VariableDefinitionExtractor},
         Extractor,
     },
 };
-use solang_parser::pt::{self, CodeLocation, Loc, SourceUnit, VariableDefinition};
-use std::io::{BufRead, BufReader, Error, Write};
+use solang_parser::pt::{self, CodeLocation, Loc, SourceUnit};
+
 
 use super::{LargeMultiplesOfTen, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for LargeMultiplesOfTen {

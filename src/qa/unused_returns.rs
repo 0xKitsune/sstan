@@ -6,7 +6,6 @@ use std::{
 use solang_parser::pt::{Loc, SourceUnit};
 
 use crate::{
-    create_test_source,
     engine::{EngineError, Outcome, Pushable},
     extractors::{
         compound::ContractExtractor,
@@ -61,10 +60,19 @@ impl QAPattern for UnusedReturns {
         Ok(QualityAssuranceOutcome::UnusedReturns(outcome))
     }
 }
+#[cfg(test)]
+mod test {
 
-#[test]
-fn test_import_identifiers() {
-    let file_contents_1 = r#"
+    use std::fs::File;
+    use std::io::Write;
+
+    use crate::engine;
+    use crate::report::ReportSectionFragment;
+    use crate::utils::MockSource;
+    use crate::{qa::QAPattern, qa::UnusedReturns};
+    #[test]
+    fn test_import_identifiers() -> eyre::Result<()>{
+        let file_contents_1 = r#"
     contract Contract0 {
         address public owner;
         
@@ -83,8 +91,20 @@ fn test_import_identifiers() {
     }
     "#;
 
-    let source = create_test_source!(file_contents_1);
-    let qa_locations = UnusedReturns::find(source).unwrap();
+        let mut mock_source = MockSource::new().add_source(file_contents_1);
+        let source = std::mem::take(&mut mock_source.source);
+        let qa_locations = UnusedReturns::find(source).unwrap();
 
-    assert_eq!(qa_locations.len(), 1);
+        assert_eq!(qa_locations.len(), 1);
+        let report: Option<ReportSectionFragment> = qa_locations.into();
+
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("src/report/mock_report.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
+
+        Ok(())
+    }
 }

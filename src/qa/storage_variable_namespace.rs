@@ -4,12 +4,11 @@ use solang_parser::pt::{Loc, SourceUnit};
 use std::{collections::HashMap, path::PathBuf};
 
 use crate::{
-    create_test_source,
     engine::{EngineError, Outcome, Pushable},
     extractors::{compound::MutableStorageVariableExtractor, Extractor},
 };
 
-use crate::report::{Classification, OutcomeReport, ReportSectionFragment};
+
 
 use super::{QAPattern, QualityAssuranceOutcome, StorageVariableNamespace};
 impl QAPattern for StorageVariableNamespace {

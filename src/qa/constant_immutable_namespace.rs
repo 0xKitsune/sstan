@@ -5,7 +5,7 @@ use regex::Regex;
 use solang_parser::pt::Loc;
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::create_test_source;
+
 use crate::engine::{EngineError, Pushable};
 use crate::extractors::compound::{
     ConstantStorageVariableExtractor, ImmutableStorageVariableExtractor,

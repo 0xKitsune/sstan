@@ -1,14 +1,14 @@
 use super::{Outcome, QAPattern, QualityAssuranceOutcome};
-use crate::create_test_source;
+
 use crate::engine::{EngineError, Pushable};
 use crate::extractors::compound::ContractPartFunctionExtractor;
 use crate::extractors::Extractor;
 use crate::qa::ConstructorOrder;
-use core::fmt;
+
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 use std::collections::HashMap;
-use std::fmt::Display;
+
 use std::path::PathBuf;
 
 impl QAPattern for ConstructorOrder {

@@ -3,7 +3,7 @@ use std::path::PathBuf;
 
 use solang_parser::pt::{Loc, SourceUnit};
 
-use crate::create_test_source;
+
 use crate::qa::InterfaceNamespace;
 use crate::{
     engine::{EngineError, Outcome, Pushable},
@@ -20,7 +20,7 @@ impl QAPattern for InterfaceNamespace {
             let interfaces = InterfaceExtractor::extract(source_unit)?;
             for interface in interfaces.iter() {
                 if let Some(identifier) = &interface.name {
-                    if !identifier.name.starts_with("I") {
+                    if !identifier.name.starts_with('I') {
                         outcome.push_or_insert(
                             path_buf.clone(),
                             interface.loc,

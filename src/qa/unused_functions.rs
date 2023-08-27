@@ -1,18 +1,20 @@
 use std::{
     collections::{HashMap, HashSet},
+    fs::File,
     path::PathBuf,
 };
 
 use solang_parser::pt::{Expression, Loc, SourceUnit};
 
 use crate::{
-    create_test_source,
     engine::{EngineError, Outcome, Pushable},
     extractors::{
         compound::InternalFunctionExtractor,
         primitive::{ContractDefinitionExtractor, FunctionCallExtractor},
         Extractor,
     },
+    report::ReportSectionFragment,
+    utils::MockSource,
 };
 
 use super::{QAPattern, QualityAssuranceOutcome, UnusedFunctions};
@@ -60,10 +62,19 @@ impl QAPattern for UnusedFunctions {
         Ok(QualityAssuranceOutcome::UnusedFunctions(outcome))
     }
 }
+#[cfg(test)]
+mod test {
+    use std::fs::File;
+    use std::io::Write;
 
-#[test]
-fn test_unused_functions() {
-    let file_contents_1 = r#"
+    use crate::engine;
+    use crate::report::ReportSectionFragment;
+    use crate::utils::MockSource;
+    use crate::{qa::UnusedFunctions};
+    use crate::qa::QAPattern;
+    #[test]
+    fn test_unused_functions() -> eyre::Result<()>{
+        let file_contents_1 = r#"
     contract Contract0 {
         
         function isUnused() internal {
@@ -81,7 +92,19 @@ fn test_unused_functions() {
     }
     "#;
 
-    let source = create_test_source!(file_contents_1);
-    let qa_locations_1 = UnusedFunctions::find(source).unwrap();
-    assert_eq!(qa_locations_1.len(), 1);
+        let mut mock_source = MockSource::new().add_source(file_contents_1);
+        let source = std::mem::take(&mut mock_source.source);
+        let qa_locations = UnusedFunctions::find(source)?;
+        assert_eq!(qa_locations.len(), 1);
+        let report: Option<ReportSectionFragment> = qa_locations.into();
+
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("src/report/mock_report.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
+
+        Ok(())
+    }
 }

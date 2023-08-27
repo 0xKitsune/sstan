@@ -4,7 +4,6 @@ use std::{
 };
 
 use crate::{
-    create_test_source,
     engine::{EngineError, Outcome, Pushable},
     extractors::{
         compound::ConstructorExtractor,
