@@ -66,12 +66,11 @@ mod test {
     use std::fs::File;
     use std::io::Write;
 
-    
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
     use crate::{qa::QAPattern, qa::UnusedReturns};
     #[test]
-    fn test_import_identifiers() -> eyre::Result<()>{
+    fn test_import_identifiers() -> eyre::Result<()> {
         let file_contents_1 = r#"
     contract Contract0 {
         address public owner;

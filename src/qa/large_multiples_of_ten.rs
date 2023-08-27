@@ -9,7 +9,6 @@ use crate::{
 };
 use solang_parser::pt::{self, CodeLocation, Loc, SourceUnit};
 
-
 use super::{LargeMultiplesOfTen, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for LargeMultiplesOfTen {
     fn find(
@@ -69,10 +68,10 @@ mod test {
     }
     "#;
 
-    let mut mock_source = MockSource::new().add_source(file_contents);
-    let source = std::mem::take(&mut mock_source.source);
+        let mut mock_source = MockSource::new().add_source(file_contents);
+        let source = std::mem::take(&mut mock_source.source);
 
-    let qa_locations = LargeMultiplesOfTen::find(source)?;
+        let qa_locations = LargeMultiplesOfTen::find(source)?;
         assert_eq!(qa_locations.len(), 1);
 
         let report: Option<ReportSectionFragment> = qa_locations.into();

@@ -8,8 +8,6 @@ use crate::{
     extractors::{compound::MutableStorageVariableExtractor, Extractor},
 };
 
-
-
 use super::{QAPattern, QualityAssuranceOutcome, StorageVariableNamespace};
 impl QAPattern for StorageVariableNamespace {
     fn find(
@@ -39,7 +37,7 @@ impl QAPattern for StorageVariableNamespace {
 }
 #[cfg(test)]
 mod test {
-    
+
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
 

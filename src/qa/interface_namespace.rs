@@ -3,7 +3,6 @@ use std::path::PathBuf;
 
 use solang_parser::pt::{Loc, SourceUnit};
 
-
 use crate::qa::InterfaceNamespace;
 use crate::{
     engine::{EngineError, Outcome, Pushable},
@@ -37,7 +36,7 @@ impl QAPattern for InterfaceNamespace {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
     use std::fs::File;

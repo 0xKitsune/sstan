@@ -86,8 +86,8 @@ mod tests {
     }
     "#;
 
-    let mut mock_source = MockSource::new().add_source(file_contents);
-    let source = std::mem::take(&mut mock_source.source);
+        let mut mock_source = MockSource::new().add_source(file_contents);
+        let source = std::mem::take(&mut mock_source.source);
         let qa_locations = ConstructorVarInitialization::find(source)?;
 
         assert_eq!(qa_locations.len(), 1);

@@ -46,9 +46,7 @@ impl QAPattern for ConstructorOrder {
 mod tests {
     use std::{fs::File, io::Write};
 
-    use crate::{
-        report::ReportSectionFragment, utils::MockSource,
-    };
+    use crate::{report::ReportSectionFragment, utils::MockSource};
 
     use super::*;
     #[test]

@@ -1,17 +1,6 @@
 
  <details open> 
  <summary> 
- <Strong>Consider importing specific identifiers instead of the whole file</Strong> Instances(1) 
- </summary> 
- This will minimize compiled code size and help with readability 
-
- <span style="color: green;">File: </span> test0.sol 3-3 
- ```solidity 
- import "filename.sol"; 
- ``` 
- </details>
- <details open> 
- <summary> 
  <Strong>Interface names should start with an I</Strong> Instances(1) 
  </summary> 
  Consider renaming for consistency 
@@ -32,6 +21,18 @@
  uint256 x = 10000000; 
  ``` 
  </details>
+ <details open> 
+ <summary> 
+ <Strong>Consider importing specific identifiers instead of the whole file</Strong> Instances(1) 
+ </summary> 
+ This will minimize compiled code size and help with readability 
+
+ <span style="color: green;">File: </span> test0.sol 3-3 
+ ```solidity 
+ import "filename.sol"; 
+ ``` 
+ </details>
+
 
 
  <details open> 
@@ -46,36 +47,13 @@
  ``` 
  </details>
 
-
- <details open> 
- <summary> 
- <Strong>Private variables should contain a leading underscore</Strong> Instances(3) 
- </summary> 
- Description of the qa pattern goes here 
-
- <span style="color: green;">File: </span> test0.sol 9-9 
- ```solidity 
- address internal addr6; 
- ```
-
- <span style="color: green;">File: </span> test0.sol 0-0 
- ```solidity 
- address private addr4; 
- ```
-
- <span style="color: green;">File: </span> test0.sol 0-0 
- ```solidity 
- address public _addr2; 
- ``` 
- </details>
-
  <details open> 
  <summary> 
  <Strong>Constructor should be listed before any other function</Strong> Instances(1) 
  </summary> 
  Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> test0.sol 0-0 
+ <span style="color: green;">File: </span> test0.sol 7-7 
  ```solidity 
  constructor() {owner = address(1)} 
  ``` 
@@ -83,18 +61,23 @@
 
  <details open> 
  <summary> 
- <Strong>Constants & Immutables should be named with screaming snake case</Strong> Instances(2) 
+ <Strong>Private variables should contain a leading underscore</Strong> Instances(3) 
  </summary> 
- Consider renaming to follow convention 
+ Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> test0.sol 0-0 
+ <span style="color: green;">File: </span> test0.sol 5-5 
  ```solidity 
- address constant is_bad = address(1); 
+ address public _addr2; 
  ```
 
- <span style="color: green;">File: </span> test0.sol 0-0 
+ <span style="color: green;">File: </span> test0.sol 9-9 
  ```solidity 
- address immutable Is_Bad; 
+ address internal addr6; 
+ ```
+
+ <span style="color: green;">File: </span> test0.sol 7-7 
+ ```solidity 
+ address private addr4; 
  ``` 
  </details>
 
@@ -107,6 +90,23 @@
  <span style="color: green;">File: </span> test0.sol 3-5 
  ```solidity 
  function isUnused() internal {} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <Strong>Constants & Immutables should be named with screaming snake case</Strong> Instances(2) 
+ </summary> 
+ Consider renaming to follow convention 
+
+ <span style="color: green;">File: </span> test0.sol 5-5 
+ ```solidity 
+ address constant is_bad = address(1); 
+ ```
+
+ <span style="color: green;">File: </span> test0.sol 5-6 
+ ```solidity 
+ address immutable Is_Bad; 
  ``` 
  </details>
 

@@ -5,7 +5,6 @@ use regex::Regex;
 use solang_parser::pt::Loc;
 use solang_parser::{self, pt::SourceUnit};
 
-
 use crate::engine::{EngineError, Pushable};
 use crate::extractors::compound::{
     ConstantStorageVariableExtractor, ImmutableStorageVariableExtractor,
@@ -38,7 +37,7 @@ impl QAPattern for ConstantImmutableNamespace {
 }
 #[cfg(test)]
 mod test {
-    
+
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
 

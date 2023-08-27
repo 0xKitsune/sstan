@@ -57,14 +57,12 @@ impl QAPattern for PrivateVariablesLeadingUnderscore {
 
 #[cfg(test)]
 mod tests {
-    use std::fs::{File};
+    use std::fs::File;
     use std::io::Write;
 
+    use crate::qa::{PrivateVariablesLeadingUnderscore, QAPattern};
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
-    use crate::{
-        qa::{PrivateVariablesLeadingUnderscore, QAPattern},
-    };
 
     #[test]
     fn test_private_vars_leading_underscore() -> eyre::Result<()> {

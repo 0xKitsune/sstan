@@ -31,7 +31,7 @@ impl QAPattern for ImportIdentifiers {
 mod tests {
     use std::{fs::File, io::Write};
 
-    use crate::{utils::MockSource, report::ReportSectionFragment};
+    use crate::{report::ReportSectionFragment, utils::MockSource};
 
     use super::*;
     #[test]
@@ -58,8 +58,8 @@ mod tests {
     }
     "#;
 
-    let mut mock_source = MockSource::new().add_source(file_contents);
-    let source = std::mem::take(&mut mock_source.source);
+        let mut mock_source = MockSource::new().add_source(file_contents);
+        let source = std::mem::take(&mut mock_source.source);
         let qa_locations = ImportIdentifiers::find(source)?;
         assert_eq!(qa_locations.len(), 1);
         let report: Option<ReportSectionFragment> = qa_locations.into();

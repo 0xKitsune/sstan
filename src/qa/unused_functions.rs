@@ -64,13 +64,12 @@ mod test {
     use std::fs::File;
     use std::io::Write;
 
-    
+    use crate::qa::QAPattern;
+    use crate::qa::UnusedFunctions;
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
-    use crate::{qa::UnusedFunctions};
-    use crate::qa::QAPattern;
     #[test]
-    fn test_unused_functions() -> eyre::Result<()>{
+    fn test_unused_functions() -> eyre::Result<()> {
         let file_contents_1 = r#"
     contract Contract0 {
         
