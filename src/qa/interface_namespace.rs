@@ -37,7 +37,7 @@ impl QAPattern for InterfaceNamespace {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::engine::Report;
+    
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
     use std::fs::File;

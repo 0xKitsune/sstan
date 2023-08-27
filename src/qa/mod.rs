@@ -58,6 +58,10 @@ macro_rules! quality_assurance {
                 }
             }
 
+            pub fn is_empty(&self) -> bool {
+                self.len() == 0
+            }
+
             pub fn classification(&self) -> Classification {
                 todo!()
             }
@@ -66,9 +70,9 @@ macro_rules! quality_assurance {
 
 
 
-        impl Into<Option<ReportSectionFragment>> for QualityAssuranceOutcome {
-            fn into(self) -> Option<ReportSectionFragment> {
-                match self {
+        impl From<QualityAssuranceOutcome> for Option<ReportSectionFragment> {
+            fn from(value: QualityAssuranceOutcome) -> Self {
+                match value {
                     $(
                         QualityAssuranceOutcome::$name(outcome) => {
                             if outcome.is_empty() {

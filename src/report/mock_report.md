@@ -5,7 +5,7 @@
  </summary> 
  This will minimize compiled code size and help with readability 
 
- <span style="color: green;">File: </span> test0.sol 2-2 
+ <span style="color: green;">File: </span> test0.sol 3-3 
  ```solidity 
  import "filename.sol"; 
  ``` 
@@ -16,7 +16,7 @@
  </summary> 
  Consider renaming for consistency 
 
- <span style="color: green;">File: </span> test0.sol 3-5 
+ <span style="color: green;">File: </span> test0.sol 4-6 
  ```solidity 
  interface Contract0 {} 
  ``` 
@@ -27,7 +27,7 @@
  </summary> 
  For example 100000 can be written as 1e5 
 
- <span style="color: green;">File: </span> test0.sol 9-10 
+ <span style="color: green;">File: </span> test0.sol 0-0 
  ```solidity 
  uint256 x = 10000000; 
  ``` 
@@ -41,7 +41,7 @@
  </summary> 
  Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> test0.sol 5-5 
+ <span style="color: green;">File: </span> test0.sol 5-6 
  ```solidity 
  constructor(address _owner) {owner = _owner} 
  ``` 
@@ -53,19 +53,19 @@
  </summary> 
  Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> test0.sol 5-5 
+ <span style="color: green;">File: </span> test0.sol 7-7 
+ ```solidity 
+ address private addr4; 
+ ```
+
+ <span style="color: green;">File: </span> test0.sol 0-0 
  ```solidity 
  address public _addr2; 
  ```
 
- <span style="color: green;">File: </span> test0.sol 9-9 
+ <span style="color: green;">File: </span> test0.sol 0-0 
  ```solidity 
  address internal addr6; 
- ```
-
- <span style="color: green;">File: </span> test0.sol 6-6 
- ```solidity 
- address private addr4; 
  ``` 
  </details>
 
@@ -87,14 +87,38 @@
  </summary> 
  Consider renaming to follow convention 
 
- <span style="color: green;">File: </span> test0.sol 5-6 
+ <span style="color: green;">File: </span> test0.sol 0-0 
  ```solidity 
  address constant is_bad = address(1); 
  ```
 
- <span style="color: green;">File: </span> test0.sol 7-8 
+ <span style="color: green;">File: </span> test0.sol 0-0 
  ```solidity 
  address immutable Is_Bad; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <Strong>Remove any unused functions</Strong> Instances(1) 
+ </summary> 
+  
+
+ <span style="color: green;">File: </span> test0.sol 3-5 
+ ```solidity 
+ function isUnused() internal {} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <Strong>Remove any unused returns</Strong> Instances(1) 
+ </summary> 
+  
+
+ <span style="color: green;">File: </span> test0.sol 5-5 
+ ```solidity 
+ function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
  ``` 
  </details>
 
@@ -104,12 +128,12 @@
  </summary> 
  Consider renaming to follow convention 
 
- <span style="color: green;">File: </span> test0.sol 4-4 
+ <span style="color: green;">File: </span> test0.sol 3-3 
  ```solidity 
  address IS_NOT_FINE; 
  ```
 
- <span style="color: green;">File: </span> test0.sol 7-7 
+ <span style="color: green;">File: </span> test0.sol 5-6 
  ```solidity 
  address ALSO_IS_BAD; 
  ``` 

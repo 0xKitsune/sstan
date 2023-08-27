@@ -1,6 +1,5 @@
 use std::{
     collections::{HashMap, HashSet},
-    fs::File,
     path::PathBuf,
 };
 
@@ -13,8 +12,6 @@ use crate::{
         primitive::{ContractDefinitionExtractor, FunctionCallExtractor},
         Extractor,
     },
-    report::ReportSectionFragment,
-    utils::MockSource,
 };
 
 use super::{QAPattern, QualityAssuranceOutcome, UnusedFunctions};
@@ -67,7 +64,7 @@ mod test {
     use std::fs::File;
     use std::io::Write;
 
-    use crate::engine;
+    
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
     use crate::{qa::UnusedFunctions};

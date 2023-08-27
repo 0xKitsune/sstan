@@ -38,7 +38,7 @@ impl QAPattern for ConstantImmutableNamespace {
 }
 #[cfg(test)]
 mod test {
-    use crate::engine::Report;
+    
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
 

@@ -63,7 +63,7 @@ impl QAPattern for ConstructorVarInitialization {
 mod tests {
     use std::{fs::File, io::Write};
 
-    use crate::{engine::Report, report::ReportSectionFragment, utils::MockSource};
+    use crate::{report::ReportSectionFragment, utils::MockSource};
 
     use super::*;
     #[test]

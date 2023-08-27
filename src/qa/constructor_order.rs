@@ -47,7 +47,7 @@ mod tests {
     use std::{fs::File, io::Write};
 
     use crate::{
-        create_test_source, engine::Report, report::ReportSectionFragment, utils::MockSource,
+        report::ReportSectionFragment, utils::MockSource,
     };
 
     use super::*;

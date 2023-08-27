@@ -31,7 +31,7 @@ impl QAPattern for ImportIdentifiers {
 mod tests {
     use std::{fs::File, io::Write};
 
-    use crate::{create_test_source, engine::Report, utils::MockSource, report::ReportSectionFragment};
+    use crate::{utils::MockSource, report::ReportSectionFragment};
 
     use super::*;
     #[test]

@@ -57,14 +57,12 @@ impl QAPattern for PrivateVariablesLeadingUnderscore {
 
 #[cfg(test)]
 mod tests {
-    use std::fs::{self, File};
+    use std::fs::{File};
     use std::io::Write;
 
     use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
     use crate::{
-        cleanup_test_source, create_test_source,
-        engine::Report,
         qa::{PrivateVariablesLeadingUnderscore, QAPattern},
     };
 

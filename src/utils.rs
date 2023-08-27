@@ -124,6 +124,11 @@ pub struct MockSource {
     pub source: HashMap<PathBuf, &'static mut pt::SourceUnit>,
     pub counter: usize,
 }
+impl Default for MockSource {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 impl MockSource {
     pub fn new() -> Self {
@@ -132,7 +137,8 @@ impl MockSource {
             counter: 0,
         }
     }
-
+}
+impl MockSource {
     pub fn add_source(mut self, contents: &str) -> Self {
         let file_name: &str = &format!("test{}.sol", self.counter);
         let path = PathBuf::from(file_name);
@@ -145,7 +151,6 @@ impl MockSource {
         self.source.insert(path, leaked_source_unit);
         self
     }
-
 }
 
 impl Drop for MockSource {

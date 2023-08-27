@@ -1,10 +1,10 @@
+pub mod ctor;
 pub mod optimizations;
 pub mod qa;
 pub mod vulnerabilities;
-pub mod ctor;
-use std::{path::PathBuf};
+use std::path::PathBuf;
 
-use crate::engine::{Engine};
+use crate::engine::Engine;
 
 pub struct ReportOutput {
     pub file_name: PathBuf,
@@ -143,8 +143,8 @@ pub struct ReportSummary {
     pub charts: Vec<String>,
 }
 
-impl Into<ReportOutput> for Report {
-    fn into(self) -> ReportOutput {
+impl From<Report> for ReportOutput {
+    fn from(value: Report) -> Self {
         todo!()
     }
 }
@@ -159,8 +159,8 @@ impl Into<ReportOutput> for Report {
 
 //TODO: after analysis and turning each module into report section, we need to populate nonces across all of the findings, then we can create the table of contents
 
-impl Into<Report> for Engine {
-    fn into(self) -> Report {
+impl From<Engine> for Report {
+    fn from(value: Engine) -> Self {
         //TODO: note that we will need to follow something like this order:
         // run the module
         // call into reportSection
