@@ -139,18 +139,9 @@ impl<'a> MockSource<'a> {
     }
 }
 impl<'a> MockSource<'a> {
-    pub fn add_source(self, contents: &str) -> Self {
-        let file_name: &str = &format!("test_source.sol");
-        let path = PathBuf::from(format!("src/qa/{}", file_name));
-        let file = File::options()
-            .append(true)
-            .open(&path.clone())
-            .expect("Failed to create file")
-            .write_all(contents.as_bytes())
-            .expect("Failed to write contents to file");
-
+    pub fn add_source(self, file_name: &str, contents: &str) -> Self {
         let source_unit = solang_parser::parse(contents, self.counter).unwrap().0;
-        self.source.insert(path, source_unit);
+        self.source.insert(PathBuf::from(file_name), source_unit);
         self
     }
 }
