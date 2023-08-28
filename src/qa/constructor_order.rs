@@ -1,4 +1,4 @@
-use super::{Outcome, QAPattern, QualityAssuranceOutcome, ConstructorOrder};
+use super::{ConstructorOrder, Outcome, QAPattern, QualityAssuranceOutcome};
 
 use crate::engine::{EngineError, Pushable};
 use crate::extractors::compound::ContractPartFunctionExtractor;
@@ -12,7 +12,7 @@ use std::path::PathBuf;
 
 impl QAPattern for ConstructorOrder {
     fn find(
-        source: HashMap<PathBuf, &mut SourceUnit>,
+        source: &mut HashMap<PathBuf, SourceUnit>,
     ) -> Result<QualityAssuranceOutcome, EngineError> {
         let mut outcome: HashMap<PathBuf, Vec<(Loc, String)>> = Outcome::new();
 
@@ -26,7 +26,11 @@ impl QAPattern for ConstructorOrder {
                 match node.ty {
                     pt::FunctionTy::Constructor => {
                         if fn_counter > 0 {
-                            outcome.push_or_insert(path_buf, node.loc, node.to_string());
+                            outcome.push_or_insert(
+                                path_buf.to_path_buf(),
+                                node.loc,
+                                node.to_string(),
+                            );
                             break;
                         }
                     }
@@ -92,8 +96,7 @@ mod tests {
     "#;
 
         let mut mock_source = MockSource::new().add_source(file_contents);
-        let source = std::mem::take(&mut mock_source.source);
-        let qa_locations = ConstructorOrder::find(source)?;
+        let qa_locations = ConstructorOrder::find(mock_source.source)?;
         assert_eq!(qa_locations.len(), 1);
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {

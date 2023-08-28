@@ -11,7 +11,7 @@ use super::{PrivateVariablesLeadingUnderscore, QAPattern, QualityAssuranceOutcom
 
 impl QAPattern for PrivateVariablesLeadingUnderscore {
     fn find(
-        source: HashMap<PathBuf, &mut SourceUnit>,
+        source: &mut HashMap<PathBuf, SourceUnit>,
     ) -> Result<QualityAssuranceOutcome, EngineError> {
         let mut outcome = Outcome::new();
 
@@ -78,8 +78,7 @@ mod tests {
     }
     "#;
         let mut mock_source = MockSource::new().add_source(file_contents);
-        let source = std::mem::take(&mut mock_source.source);
-        let qa_locations = PrivateVariablesLeadingUnderscore::find(source)?;
+        let qa_locations = PrivateVariablesLeadingUnderscore::find(mock_source.source)?;
         assert_eq!(qa_locations.len(), 3);
 
         let report: Option<ReportSectionFragment> = qa_locations.into();

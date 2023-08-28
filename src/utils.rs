@@ -122,44 +122,47 @@ pub fn get_32_byte_storage_variables(
     storage_variables
 }
 #[derive(Debug)]
-pub struct MockSource {
-    pub source: HashMap<PathBuf, &'static mut pt::SourceUnit>,
+pub struct MockSource<'a> {
+    pub source: &'a mut HashMap<PathBuf, pt::SourceUnit>,
     pub counter: usize,
 }
-impl Default for MockSource {
+
+impl<'a> Default for MockSource<'a> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl MockSource {
+impl<'a> MockSource<'a> {
     pub fn new() -> Self {
-        Self {
-            source: HashMap::new(),
-            counter: 0,
-        }
+        MockSource::default()
     }
 }
-impl MockSource {
-    pub fn add_source(mut self, contents: &str) -> Self {
+impl<'a> MockSource<'a> {
+    pub fn add_source(self, contents: &str) -> Self {
         let file_name: &str = &format!("test_source.sol");
         let path = PathBuf::from(format!("src/qa/{}", file_name));
-        let mut file = File::options().append(true).open(&path.clone()).expect("Failed to create file").write_all(contents.as_bytes()).expect("Failed to write contents to file");
-   
+        let file = File::options()
+            .append(true)
+            .open(&path.clone())
+            .expect("Failed to create file")
+            .write_all(contents.as_bytes())
+            .expect("Failed to write contents to file");
+
         let source_unit = solang_parser::parse(contents, self.counter).unwrap().0;
-        let leaked_source_unit = Box::leak(Box::new(source_unit));
-        self.source.insert(path, leaked_source_unit);
+        self.source.insert(path, source_unit);
         self
     }
 }
 
-impl Drop for MockSource {
+impl<'a> Drop for MockSource<'a> {
     fn drop(&mut self) {
-        // for file in self.source.keys() {
-        //     std::fs::remove_file(file).expect("Failed to delete file");
-        // }
+        for file in self.source.keys() {
+            std::fs::remove_file(file).expect("Failed to delete file");
+        }
     }
 }
+
 //TODO: create a scruct
 /// Macro to create a file with given name and content, used as a helper function during testing.
 #[macro_export]

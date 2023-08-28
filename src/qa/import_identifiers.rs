@@ -10,7 +10,7 @@ use crate::{
 use super::{ImportIdentifiers, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for ImportIdentifiers {
     fn find(
-        source: HashMap<PathBuf, &mut SourceUnit>,
+        source: &mut HashMap<PathBuf, SourceUnit>,
     ) -> Result<QualityAssuranceOutcome, EngineError> {
         let mut outcome: HashMap<PathBuf, Vec<(Loc, String)>> = Outcome::new();
 
@@ -59,8 +59,8 @@ mod tests {
     "#;
 
         let mut mock_source = MockSource::new().add_source(file_contents);
-        let source = std::mem::take(&mut mock_source.source);
-        let qa_locations = ImportIdentifiers::find(source)?;
+        let qa_locations = ImportIdentifiers::find(mock_source.source)?;
+
         assert_eq!(qa_locations.len(), 1);
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {

@@ -1,6 +1,6 @@
-use std::{collections::HashMap, path::PathBuf};
+use std::{collections::HashMap, hash::Hash, path::PathBuf};
 // use crate::analyzer::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
-use solang_parser::pt::Loc;
+use solang_parser::pt::{Loc, SourceUnit};
 use thiserror::Error;
 
 use crate::{
@@ -62,8 +62,8 @@ pub enum OptimizationOutcome {
 //TODO: also have trait for GPTReportSection or something
 
 //TODO: FIXME: we can have the appendix generated for specific outcomes, have a trait that can get implemented to generate appendix
-pub trait EngineModule<T: Into<Report>> {
-    fn run(&mut self) -> Vec<T>;
+pub trait EngineModule<T> {
+    fn run(&mut self, source: &mut HashMap<PathBuf, SourceUnit>) -> Vec<T>;
 }
 
 //TODO: impl EngineModule for all modules
@@ -81,6 +81,16 @@ pub struct QualityAssuranceModule {
     pub targets: Vec<QualityAssuranceTarget>,
     pub outcomes: Vec<QualityAssuranceOutcome>,
 }
+
+// impl EngineModule<QualityAssuranceOutcome> for QualityAssuranceModule {
+//     fn run(&mut self, source: HashMap<PathBuf, &mut SourceUnit>) -> Vec<QualityAssuranceOutcome> {
+//         for target in self.targets.iter() {
+//             let x = target.find(source);
+//         }
+
+//         todo!()
+//     }
+// }
 
 // pub struct TestAnalysisModule {
 //     //TODO: right now we can just run forge coverage. generate outcomes and call into report

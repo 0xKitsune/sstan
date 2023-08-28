@@ -26,7 +26,7 @@ use std::path::PathBuf;
 //TODO: this is what we would use for each individual pattern and then we just implement the find method instead of the function
 pub trait QAPattern {
     fn find(
-        source: HashMap<PathBuf, &mut SourceUnit>,
+        source: &mut HashMap<PathBuf, SourceUnit>,
     ) -> Result<QualityAssuranceOutcome, EngineError>;
 }
 
@@ -43,6 +43,21 @@ macro_rules! quality_assurance {
             $($name,)+
         }
 
+
+        impl QualityAssuranceTarget{
+            pub fn find(
+                &self,
+                source: &mut HashMap<PathBuf, SourceUnit>,
+            ) -> Result<QualityAssuranceOutcome, EngineError> {
+                match self {
+                    $(
+                        QualityAssuranceTarget::$name => $name::find(source),
+                    )+
+                }
+
+            }
+
+        }
 
 
         #[derive(Debug)]

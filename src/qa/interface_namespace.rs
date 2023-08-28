@@ -12,7 +12,7 @@ use crate::{
 use super::{QAPattern, QualityAssuranceOutcome};
 impl QAPattern for InterfaceNamespace {
     fn find(
-        source: HashMap<PathBuf, &mut SourceUnit>,
+        source: &mut HashMap<PathBuf, SourceUnit>,
     ) -> Result<QualityAssuranceOutcome, EngineError> {
         let mut outcome: HashMap<PathBuf, Vec<(Loc, String)>> = Outcome::new();
         for (path_buf, source_unit) in source {
@@ -51,8 +51,7 @@ mod tests {
     }
     "#;
         let mut mock_source = MockSource::new().add_source(file_contents);
-        let source = std::mem::take(&mut mock_source.source);
-        let qa_locations = InterfaceNamespace::find(source)?;
+        let qa_locations = InterfaceNamespace::find(mock_source.source)?;
         assert_eq!(qa_locations.len(), 1);
 
         let report: Option<ReportSectionFragment> = qa_locations.into();
