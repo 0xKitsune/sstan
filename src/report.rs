@@ -2,14 +2,15 @@ pub mod ctor;
 pub mod optimizations;
 pub mod qa;
 pub mod vulnerabilities;
-use std::path::PathBuf;
+use std::{ops::Deref, path::PathBuf};
 
-use crate::engine::Engine;
-
+use crate::engine::{Engine, QualityAssuranceModule};
+#[derive(Default, Clone)]
 pub struct ReportOutput {
     pub file_name: PathBuf,
     pub file_contents: String,
 }
+#[derive(Default,Clone)]
 
 pub struct Report {
     pub preamble: ReportPreamble,
@@ -20,7 +21,7 @@ pub struct Report {
     pub optimization_report: ReportSection,
     pub qa_report: ReportSection,
 }
-
+#[derive(Default,Clone)]
 pub struct ReportPreamble {
     pub title: String,
     pub logo: String,
@@ -29,24 +30,36 @@ pub struct ReportPreamble {
     pub version: String,
     pub authors: Vec<String>,
 }
+#[derive(Default,Clone)]
 
 //Table of Contents
 pub struct TableOfContents {
     pub table_sections: Vec<TableSection>,
 }
+#[derive(Default,Clone)]
 
 pub struct TableSection {
     pub title: String,
     pub subsections: Vec<TableFragment>,
 }
-
+#[derive(Default, Clone)]
 pub struct TableFragment {
-    pub identifier: Identifier, //TODO: this would be something that would define the item like [G-0], [G-1], etc
+    pub identifier: Option<Identifier>, //TODO: this would be something that would define the item like [G-0], [G-1], etc
     pub title: String,
     pub instances: usize,
 }
 
-#[derive(Default)]
+impl TableFragment {
+    pub fn new(title: String, identifier: Option<Identifier>, instances: usize) -> Self {
+        Self {
+            title,
+            identifier,
+            instances,
+        }
+    }
+}
+
+#[derive(Default, Copy, Clone)]
 pub struct Identifier {
     pub classification: Classification,
     pub nonce: usize,
@@ -61,17 +74,17 @@ impl Identifier {
     }
 }
 
-#[derive(Default)]
+#[derive(Default,Clone)]
 pub struct ReportSection {
     pub title: String,
     pub description: String,
     pub outcomes: Vec<ReportSectionFragment>,
 }
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct ReportSectionFragment {
     pub identifier: Option<Identifier>, //TODO: this would be something that would define the item like [G-0], [G-1], etc
-    pub instances: u32,
+    pub instances: usize,
     pub title: String,
     pub description: String,
     pub outcomes: Vec<OutcomeReport>,
@@ -82,7 +95,7 @@ impl ReportSectionFragment {
         title: String,
         identifier: Option<Identifier>,
         description: String,
-        instances: u32,
+        instances: usize,
     ) -> Self {
         Self {
             title,
@@ -94,7 +107,8 @@ impl ReportSectionFragment {
     }
 }
 
-#[derive(Default)]
+#[derive(Default, Copy, Clone)]
+
 // This is used as classifications for both vulns and gas opts
 pub enum Classification {
     #[default]
@@ -121,7 +135,8 @@ impl Classification {
     }
 }
 
-#[derive(Default)]
+#[derive(Default,  Clone)]
+
 pub struct OutcomeReport {
     pub file_name: String,
     pub line_numbers: (usize, usize), //if the same line number then we just compile report as one number
@@ -139,6 +154,7 @@ impl OutcomeReport {
     }
 }
 
+#[derive(Default,  Clone)]
 pub struct ReportSummary {
     pub charts: Vec<String>,
 }
@@ -146,6 +162,59 @@ pub struct ReportSummary {
 impl From<Report> for ReportOutput {
     fn from(value: Report) -> Self {
         todo!()
+    }
+}
+
+impl From<QualityAssuranceModule> for ReportSection {
+    fn from(value: QualityAssuranceModule) -> Self {
+        ReportSection {
+            title: format!("Quality Assurance"),
+            description: format!(""),
+            outcomes: value
+                .outcomes
+                .into_iter()
+                .map(|outcome| Option::<ReportSectionFragment>::from(outcome))
+                .enumerate()
+                .map(|(nonce, outcome)| ReportSectionFragment {
+                    identifier: Some(Identifier::new(Classification::NonCritical, nonce)),
+                    ..outcome.unwrap()
+                })
+                .collect::<Vec<ReportSectionFragment>>(),
+        }
+    }
+}
+
+impl From<ReportSection> for String {
+    fn from(value: ReportSection) -> Self {
+        let mut fragment: String = String::new();
+        fragment.push_str(&format!("\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",value.title,value.outcomes.len()));
+        fragment.push_str(&format!(" \n {} \n", value.description));
+
+        fragment.push_str(
+            &value
+                .outcomes
+                .iter()
+                .map(|outcome| String::from(outcome))
+                .collect::<Vec<String>>()
+                .join("\n"),
+        );
+
+        fragment.push_str(" \n </details>");
+
+        fragment
+    }
+}
+
+impl From<ReportSection> for TableSection {
+    fn from(value: ReportSection) -> Self {
+        TableSection {
+            title: value.title,
+            subsections: value
+                .outcomes
+                .into_iter()
+                .map(|outcome| TableFragment::from(&outcome))
+                .collect::<Vec<TableFragment>>(),
+        }
     }
 }
 
@@ -204,6 +273,75 @@ impl From<ReportSectionFragment> for String {
                 .collect::<Vec<String>>()
                 .join("\n"),
         );
+
+        fragment.push_str(" \n </details>");
+
+        fragment
+    }
+}
+
+//Report Fragment Formatting
+impl From<&ReportSectionFragment> for String {
+    fn from(value: &ReportSectionFragment) -> String {
+        let mut fragment: String = String::new();
+        if let Some(identifier) = value.identifier {
+            let identifier: String = format!(
+                "[{}-{}]",
+                identifier.classification.identifier(),
+                identifier.nonce
+            );
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> Instances({}) \n </summary>",identifier,identifier,value.title,value.instances));
+        } else {
+            fragment.push_str(&format!(
+                "\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",
+                value.title, value.instances,
+            ));
+        }
+
+        fragment.push_str(&format!(" \n {} \n", value.description));
+
+        fragment.push_str(
+            &value
+                .outcomes
+                .iter()
+                .map(String::from)
+                .collect::<Vec<String>>()
+                .join("\n"),
+        );
+
+        fragment.push_str(" \n </details>");
+
+        fragment
+    }
+}
+
+impl From<&ReportSectionFragment> for TableFragment {
+    fn from(value: &ReportSectionFragment) -> TableFragment {
+        if let Some(ident) = &value.identifier {
+            TableFragment::new(value.title.to_string(), Some(Identifier { classification: ident.classification, nonce: ident.nonce }), value.instances)
+        } else {
+            TableFragment::new(value.title.to_string(), None, value.instances)
+        }
+     
+    }
+}
+
+impl From<TableFragment> for String {
+    fn from(value: TableFragment) -> String {
+        let mut fragment: String = String::new();
+        if let Some(identifier) = value.identifier {
+            let identifier: String = format!(
+                "[{}-{}]",
+                identifier.classification.identifier(),
+                identifier.nonce
+            );
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> Instances({}) \n </summary>",identifier,identifier,value.title,value.instances));
+        } else {
+            fragment.push_str(&format!(
+                "\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",
+                value.title, value.instances,
+            ));
+        }
 
         fragment.push_str(" \n </details>");
 

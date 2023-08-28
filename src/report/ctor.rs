@@ -5,6 +5,6 @@ fn init() {
     std::fs::File::options()
         .truncate(true)
         .write(true)
-        .open("src/report/mock_report.md")
+        .open("src/report/mocks/qa_report_sections.md")
         .unwrap();
 }

@@ -1,51 +1,51 @@
 
  <details open> 
  <summary> 
- <Strong>Interface names should start with an I</Strong> Instances(1) 
- </summary> 
- Consider renaming for consistency 
-
- <span style="color: green;">File: </span> test0.sol 4-6 
- ```solidity 
- interface Contract0 {} 
- ``` 
- </details>
- <details open> 
- <summary> 
  <Strong>Consider using scientific notation for large multiples of 10</Strong> Instances(1) 
  </summary> 
  For example 100000 can be written as 1e5 
 
- <span style="color: green;">File: </span> test0.sol 0-0 
+ <span style="color: green;">File: </span> test_source.sol 8-8 
  ```solidity 
  uint256 x = 10000000; 
  ``` 
  </details>
  <details open> 
  <summary> 
- <Strong>Consider importing specific identifiers instead of the whole file</Strong> Instances(1) 
+ <Strong>Interface names should start with an I</Strong> Instances(1) 
  </summary> 
- This will minimize compiled code size and help with readability 
+ Consider renaming for consistency 
 
- <span style="color: green;">File: </span> test0.sol 3-3 
+ <span style="color: green;">File: </span> test_source.sol 4-6 
  ```solidity 
- import "filename.sol"; 
+ interface Contract0 {} 
  ``` 
  </details>
-
-
-
  <details open> 
  <summary> 
  <Strong>Constructor should initialize all variables</Strong> Instances(1) 
  </summary> 
  Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> test0.sol 5-6 
+ <span style="color: green;">File: </span> test_source.sol 5-5 
  ```solidity 
  constructor(address _owner) {owner = _owner} 
  ``` 
  </details>
+
+
+ <details open> 
+ <summary> 
+ <Strong>Consider importing specific identifiers instead of the whole file</Strong> Instances(1) 
+ </summary> 
+ This will minimize compiled code size and help with readability 
+
+ <span style="color: green;">File: </span> test_source.sol 2-4 
+ ```solidity 
+ import "filename.sol"; 
+ ``` 
+ </details>
+
 
  <details open> 
  <summary> 
@@ -53,33 +53,33 @@
  </summary> 
  Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> test0.sol 7-7 
+ <span style="color: green;">File: </span> test_source.sol 6-7 
  ```solidity 
  constructor() {owner = address(1)} 
  ``` 
  </details>
-
  <details open> 
  <summary> 
  <Strong>Private variables should contain a leading underscore</Strong> Instances(3) 
  </summary> 
  Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> test0.sol 5-5 
- ```solidity 
- address public _addr2; 
- ```
-
- <span style="color: green;">File: </span> test0.sol 9-9 
+ <span style="color: green;">File: </span> test_source.sol 8-8 
  ```solidity 
  address internal addr6; 
  ```
 
- <span style="color: green;">File: </span> test0.sol 7-7 
+ <span style="color: green;">File: </span> test_source.sol 5-5 
+ ```solidity 
+ address public _addr2; 
+ ```
+
+ <span style="color: green;">File: </span> test_source.sol 6-7 
  ```solidity 
  address private addr4; 
  ``` 
  </details>
+
 
  <details open> 
  <summary> 
@@ -87,26 +87,9 @@
  </summary> 
   
 
- <span style="color: green;">File: </span> test0.sol 3-5 
+ <span style="color: green;">File: </span> test_source.sol 4-5 
  ```solidity 
  function isUnused() internal {} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <Strong>Constants & Immutables should be named with screaming snake case</Strong> Instances(2) 
- </summary> 
- Consider renaming to follow convention 
-
- <span style="color: green;">File: </span> test0.sol 5-5 
- ```solidity 
- address constant is_bad = address(1); 
- ```
-
- <span style="color: green;">File: </span> test0.sol 5-6 
- ```solidity 
- address immutable Is_Bad; 
  ``` 
  </details>
 
@@ -116,9 +99,26 @@
  </summary> 
   
 
- <span style="color: green;">File: </span> test0.sol 5-5 
+ <span style="color: green;">File: </span> test_source.sol 5-6 
  ```solidity 
  function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <Strong>Constants & Immutables should be named with screaming snake case</Strong> Instances(2) 
+ </summary> 
+ Consider renaming to follow convention 
+
+ <span style="color: green;">File: </span> test_source.sol 5-5 
+ ```solidity 
+ address constant is_bad = address(1); 
+ ```
+
+ <span style="color: green;">File: </span> test_source.sol 6-6 
+ ```solidity 
+ address immutable Is_Bad; 
  ``` 
  </details>
 
@@ -128,12 +128,12 @@
  </summary> 
  Consider renaming to follow convention 
 
- <span style="color: green;">File: </span> test0.sol 3-3 
+ <span style="color: green;">File: </span> test_source.sol 4-4 
  ```solidity 
  address IS_NOT_FINE; 
  ```
 
- <span style="color: green;">File: </span> test0.sol 5-6 
+ <span style="color: green;">File: </span> test_source.sol 6-6 
  ```solidity 
  address ALSO_IS_BAD; 
  ``` 

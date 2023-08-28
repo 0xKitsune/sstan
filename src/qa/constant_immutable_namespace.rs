@@ -38,7 +38,7 @@ impl QAPattern for ConstantImmutableNamespace {
 #[cfg(test)]
 mod test {
 
-    use crate::report::ReportSectionFragment;
+    use crate::report::{ReportSectionFragment, TableFragment};
     use crate::utils::MockSource;
 
     use super::*;
@@ -67,11 +67,17 @@ mod test {
         assert_eq!(qa_locations.len(), 2);
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {
+            let table = TableFragment::from(&report.clone().into());
             let mut f = File::options()
                 .append(true)
-                .open("src/report/mock_report.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
+                .open("src/report/mocks/qa_table_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(table))?;
+            let mut f = File::options()
+                .append(true)
+                .open("src/report/mocks/qa_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report.clone()))?;
         }
+
         Ok(())
     }
 }

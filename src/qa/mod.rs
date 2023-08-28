@@ -43,6 +43,8 @@ macro_rules! quality_assurance {
             $($name,)+
         }
 
+
+
         #[derive(Debug)]
         pub enum QualityAssuranceOutcome {
             $($name(Outcome),)+
@@ -85,7 +87,7 @@ macro_rules! quality_assurance {
                                 $report_title.to_string(),
                                 None,
                                 $description.to_string(),
-                                length as u32,
+                                length,
                             );
                             let mut outcome_reports = vec![];
                             for (path, loc_snippets) in outcome.iter() {

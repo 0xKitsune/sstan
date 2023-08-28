@@ -1,9 +1,8 @@
-use super::{Outcome, QAPattern, QualityAssuranceOutcome};
+use super::{Outcome, QAPattern, QualityAssuranceOutcome, ConstructorOrder};
 
 use crate::engine::{EngineError, Pushable};
 use crate::extractors::compound::ContractPartFunctionExtractor;
 use crate::extractors::Extractor;
-use crate::qa::ConstructorOrder;
 
 use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
@@ -100,7 +99,7 @@ mod tests {
         if let Some(report) = report {
             let mut f = File::options()
                 .append(true)
-                .open("src/report/mock_report.md")?;
+                .open("src/report/mocks/qa_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report))?;
         }
 

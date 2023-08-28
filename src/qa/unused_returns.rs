@@ -66,7 +66,7 @@ mod test {
     use std::fs::File;
     use std::io::Write;
 
-    use crate::report::ReportSectionFragment;
+    use crate::report::{ReportSectionFragment, TableFragment};
     use crate::utils::MockSource;
     use crate::{qa::QAPattern, qa::UnusedReturns};
     #[test]
@@ -95,14 +95,19 @@ mod test {
         let qa_locations = UnusedReturns::find(source).unwrap();
 
         assert_eq!(qa_locations.len(), 1);
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("src/report/mock_report.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
+        {
+            let report: Option<ReportSectionFragment> = qa_locations.into();
+            if let Some(report) = report {
+                let mut f = File::options()
+                    .append(true)
+                    .open("src/report/mocks/qa_report_sections.md")?;
+                writeln!(&mut f, "{}", &String::from(report))?;
+            }
         }
+
+       
+
+        
 
         Ok(())
     }

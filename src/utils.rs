@@ -2,6 +2,8 @@ use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 use regex::Regex;
 use solang_parser::pt::{self, ContractPart, Loc};
 use std::collections::HashMap;
+use std::fmt::format;
+use std::fs::File;
 use std::io::Write;
 use std::path::PathBuf;
 
@@ -140,13 +142,11 @@ impl MockSource {
 }
 impl MockSource {
     pub fn add_source(mut self, contents: &str) -> Self {
-        let file_name: &str = &format!("test{}.sol", self.counter);
-        let path = PathBuf::from(file_name);
-        let mut file = std::fs::File::create(&path).expect("Failed to create file");
-        file.write_all(contents.as_bytes())
-            .expect("Failed to write contents to file");
+        let file_name: &str = &format!("test_source.sol");
+        let path = PathBuf::from(format!("src/qa/{}", file_name));
+        let mut file = File::options().append(true).open(&path.clone()).expect("Failed to create file").write_all(contents.as_bytes()).expect("Failed to write contents to file");
+   
         let source_unit = solang_parser::parse(contents, self.counter).unwrap().0;
-        self.counter += 1;
         let leaked_source_unit = Box::leak(Box::new(source_unit));
         self.source.insert(path, leaked_source_unit);
         self
@@ -155,9 +155,9 @@ impl MockSource {
 
 impl Drop for MockSource {
     fn drop(&mut self) {
-        for file in self.source.keys() {
-            std::fs::remove_file(file).expect("Failed to delete file");
-        }
+        // for file in self.source.keys() {
+        //     std::fs::remove_file(file).expect("Failed to delete file");
+        // }
     }
 }
 //TODO: create a scruct
