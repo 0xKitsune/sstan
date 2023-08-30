@@ -10,7 +10,7 @@ pub struct ReportOutput {
     pub file_name: PathBuf,
     pub file_contents: String,
 }
-#[derive(Default,Clone)]
+#[derive(Default, Clone)]
 
 pub struct Report {
     pub preamble: ReportPreamble,
@@ -21,7 +21,7 @@ pub struct Report {
     pub optimization_report: ReportSection,
     pub qa_report: ReportSection,
 }
-#[derive(Default,Clone)]
+#[derive(Default, Clone)]
 pub struct ReportPreamble {
     pub title: String,
     pub logo: String,
@@ -30,13 +30,13 @@ pub struct ReportPreamble {
     pub version: String,
     pub authors: Vec<String>,
 }
-#[derive(Default,Clone)]
+#[derive(Default, Clone)]
 
 //Table of Contents
 pub struct TableOfContents {
     pub table_sections: Vec<TableSection>,
 }
-#[derive(Default,Clone)]
+#[derive(Default, Clone)]
 
 pub struct TableSection {
     pub title: String,
@@ -74,7 +74,7 @@ impl Identifier {
     }
 }
 
-#[derive(Default,Clone)]
+#[derive(Default, Clone)]
 pub struct ReportSection {
     pub title: String,
     pub description: String,
@@ -135,7 +135,7 @@ impl Classification {
     }
 }
 
-#[derive(Default,  Clone)]
+#[derive(Default, Clone)]
 
 pub struct OutcomeReport {
     pub file_name: String,
@@ -154,7 +154,7 @@ impl OutcomeReport {
     }
 }
 
-#[derive(Default,  Clone)]
+#[derive(Default, Clone)]
 pub struct ReportSummary {
     pub charts: Vec<String>,
 }
@@ -187,7 +187,11 @@ impl From<QualityAssuranceModule> for ReportSection {
 impl From<ReportSection> for String {
     fn from(value: ReportSection) -> Self {
         let mut fragment: String = String::new();
-        fragment.push_str(&format!("\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",value.title,value.outcomes.len()));
+        fragment.push_str(&format!(
+            "\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",
+            value.title,
+            value.outcomes.len()
+        ));
         fragment.push_str(&format!(" \n {} \n", value.description));
 
         fragment.push_str(
@@ -318,11 +322,17 @@ impl From<&ReportSectionFragment> for String {
 impl From<&ReportSectionFragment> for TableFragment {
     fn from(value: &ReportSectionFragment) -> TableFragment {
         if let Some(ident) = &value.identifier {
-            TableFragment::new(value.title.to_string(), Some(Identifier { classification: ident.classification, nonce: ident.nonce }), value.instances)
+            TableFragment::new(
+                value.title.to_string(),
+                Some(Identifier {
+                    classification: ident.classification,
+                    nonce: ident.nonce,
+                }),
+                value.instances,
+            )
         } else {
             TableFragment::new(value.title.to_string(), None, value.instances)
         }
-     
     }
 }
 

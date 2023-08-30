@@ -90,18 +90,17 @@ mod test {
     }
     "#;
 
-        let mut mock_source = MockSource::new().add_source(file_contents_1);
+        let mock_source = MockSource::new().add_source("unused_returns.sol", file_contents_1);
         let qa_locations = UnusedReturns::find(mock_source.source).unwrap();
 
         assert_eq!(qa_locations.len(), 1);
-        {
-            let report: Option<ReportSectionFragment> = qa_locations.into();
-            if let Some(report) = report {
-                let mut f = File::options()
-                    .append(true)
-                    .open("src/report/mocks/qa_report_sections.md")?;
-                writeln!(&mut f, "{}", &String::from(report))?;
-            }
+
+        let report: Option<ReportSectionFragment> = qa_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("src/report/mocks/qa_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
         }
 
         Ok(())
