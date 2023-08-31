@@ -5,6 +5,8 @@ use std::collections::HashMap;
 
 
 
+use std::fs::File;
+use std::io::Write;
 use std::path::PathBuf;
 
 pub type LineNumber = i32;
@@ -141,6 +143,10 @@ impl<'a> MockSource<'a> {
 impl<'a> MockSource<'a> {
     pub fn add_source(self, file_name: &str, contents: &str) -> Self {
         let source_unit = solang_parser::parse(contents, self.counter).unwrap().0;
+        File::create(file_name)
+            .unwrap()
+            .write_all(contents.as_bytes())
+            .unwrap();
         self.source.insert(PathBuf::from(file_name), source_unit);
         self
     }
