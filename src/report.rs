@@ -2,7 +2,7 @@ pub mod ctor;
 pub mod optimizations;
 pub mod qa;
 pub mod vulnerabilities;
-use std::{ops::Deref, path::PathBuf};
+use std::{path::PathBuf};
 
 use crate::engine::{Engine, QualityAssuranceModule};
 #[derive(Default, Clone)]
@@ -160,7 +160,7 @@ pub struct ReportSummary {
 }
 
 impl From<Report> for ReportOutput {
-    fn from(value: Report) -> Self {
+    fn from(_value: Report) -> Self {
         todo!()
     }
 }
@@ -168,12 +168,12 @@ impl From<Report> for ReportOutput {
 impl From<QualityAssuranceModule> for ReportSection {
     fn from(value: QualityAssuranceModule) -> Self {
         ReportSection {
-            title: format!("Quality Assurance"),
-            description: format!(""),
+            title: "Quality Assurance".to_string(),
+            description: String::new(),
             outcomes: value
                 .outcomes
                 .into_iter()
-                .map(|outcome| Option::<ReportSectionFragment>::from(outcome))
+                .map(Option::<ReportSectionFragment>::from)
                 .enumerate()
                 .map(|(nonce, outcome)| ReportSectionFragment {
                     identifier: Some(Identifier::new(Classification::NonCritical, nonce)),
@@ -198,7 +198,7 @@ impl From<ReportSection> for String {
             &value
                 .outcomes
                 .iter()
-                .map(|outcome| String::from(outcome))
+                .map(String::from)
                 .collect::<Vec<String>>()
                 .join("\n"),
         );
@@ -233,7 +233,7 @@ impl From<ReportSection> for TableSection {
 //TODO: after analysis and turning each module into report section, we need to populate nonces across all of the findings, then we can create the table of contents
 
 impl From<Engine> for Report {
-    fn from(value: Engine) -> Self {
+    fn from(_value: Engine) -> Self {
         //TODO: note that we will need to follow something like this order:
         // run the module
         // call into reportSection

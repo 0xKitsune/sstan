@@ -1,4 +1,4 @@
-use std::{collections::HashMap, hash::Hash, path::PathBuf};
+use std::{collections::HashMap, path::PathBuf};
 // use crate::analyzer::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
 use solang_parser::pt::{Loc, SourceUnit};
 use thiserror::Error;

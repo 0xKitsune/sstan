@@ -2,9 +2,9 @@ use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 use regex::Regex;
 use solang_parser::pt::{self, ContractPart, Loc};
 use std::collections::HashMap;
-use std::fmt::format;
-use std::fs::File;
-use std::io::Write;
+
+
+
 use std::path::PathBuf;
 
 pub type LineNumber = i32;

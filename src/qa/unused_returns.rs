@@ -66,7 +66,7 @@ mod test {
     use std::fs::File;
     use std::io::Write;
 
-    use crate::report::{ReportSectionFragment, TableFragment};
+    use crate::report::{ReportSectionFragment};
     use crate::utils::MockSource;
     use crate::{qa::QAPattern, qa::UnusedReturns};
     #[test]

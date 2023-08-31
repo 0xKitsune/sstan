@@ -68,7 +68,7 @@ mod test {
     }
     "#;
 
-        let mut mock_source =
+        let mock_source =
             MockSource::new().add_source("large_multiples_of_ten.sol", file_contents);
         let qa_locations = LargeMultiplesOfTen::find(mock_source.source)?;
         assert_eq!(qa_locations.len(), 1);

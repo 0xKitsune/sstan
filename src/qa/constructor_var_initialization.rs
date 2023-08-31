@@ -86,7 +86,7 @@ mod tests {
     }
     "#;
 
-        let mut mock_source =
+        let mock_source =
             MockSource::new().add_source("constructor_var_initialization.sol", file_contents);
         let qa_locations = ConstructorVarInitialization::find(mock_source.source)?;
 

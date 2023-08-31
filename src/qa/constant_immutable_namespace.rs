@@ -61,12 +61,12 @@ mod test {
     }
     "#;
 
-        let mut mock_source = MockSource::new().add_source("constant_immutable.sol", file_contents);
+        let mock_source = MockSource::new().add_source("constant_immutable.sol", file_contents);
         let qa_locations = ConstantImmutableNamespace::find(mock_source.source)?;
         assert_eq!(qa_locations.len(), 2);
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {
-            let table = TableFragment::from(&report.clone().into());
+            let table = TableFragment::from(&report.clone());
             let mut f = File::options()
                 .append(true)
                 .open("src/report/mocks/qa_table_sections.md")?;
