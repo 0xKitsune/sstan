@@ -60,9 +60,9 @@ mod test {
     }
     "#;
 
-        let mock_source =
+        let mut mock_source =
             MockSource::new().add_source("storage_var_namespace.sol", file_contents_1);
-        let qa_locations = StorageVariableNamespace::find(mock_source.source)?;
+        let qa_locations = StorageVariableNamespace::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 2);
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {

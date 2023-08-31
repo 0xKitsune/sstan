@@ -66,11 +66,11 @@ mod test {
     use std::fs::File;
     use std::io::Write;
 
-    use crate::report::{ReportSectionFragment};
+    use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
     use crate::{qa::QAPattern, qa::UnusedReturns};
     #[test]
-    fn test_import_identifiers() -> eyre::Result<()> {
+    fn test_unused_returns() -> eyre::Result<()> {
         let file_contents_1 = r#"
     contract Contract0 {
         address public owner;
@@ -90,8 +90,8 @@ mod test {
     }
     "#;
 
-        let mock_source = MockSource::new().add_source("unused_returns.sol", file_contents_1);
-        let qa_locations = UnusedReturns::find(mock_source.source).unwrap();
+        let mut mock_source = MockSource::new().add_source("unused_returns.sol", file_contents_1);
+        let qa_locations = UnusedReturns::find(&mut mock_source.source).unwrap();
 
         assert_eq!(qa_locations.len(), 1);
 

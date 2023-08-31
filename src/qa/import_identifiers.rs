@@ -58,8 +58,8 @@ mod tests {
     }
     "#;
 
-        let mock_source = MockSource::new().add_source("import_identifiers.sol", file_contents);
-        let qa_locations = ImportIdentifiers::find(mock_source.source)?;
+        let mut mock_source = MockSource::new().add_source("import_identifiers.sol", file_contents);
+        let qa_locations = ImportIdentifiers::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 1);
         let report: Option<ReportSectionFragment> = qa_locations.into();

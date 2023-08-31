@@ -77,8 +77,8 @@ mod tests {
         address internal addr6;
     }
     "#;
-        let mock_source = MockSource::new().add_source("private_vars.sol", file_contents);
-        let qa_locations = PrivateVariablesLeadingUnderscore::find(mock_source.source)?;
+        let mut mock_source = MockSource::new().add_source("private_vars.sol", file_contents);
+        let qa_locations = PrivateVariablesLeadingUnderscore::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 3);
 
         let report: Option<ReportSectionFragment> = qa_locations.into();

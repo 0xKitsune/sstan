@@ -48,7 +48,7 @@ pub fn constructor_var_initialization(source_unit: &mut SourceUnit) -> eyre::Res
 }
 
 #[test]
-fn test_import_identifiers() {
+fn test_constructor_var_initialization() {
     let file_contents_1 = r#"
     contract Contract0 {
         address public owner;

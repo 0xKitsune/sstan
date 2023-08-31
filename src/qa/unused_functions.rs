@@ -88,8 +88,8 @@ mod test {
     }
     "#;
 
-        let mock_source = MockSource::new().add_source("unused_functions.sol", file_contents_1);
-        let qa_locations = UnusedFunctions::find(mock_source.source)?;
+        let mut mock_source = MockSource::new().add_source("unused_functions.sol", file_contents_1);
+        let qa_locations = UnusedFunctions::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 1);
         let report: Option<ReportSectionFragment> = qa_locations.into();
 

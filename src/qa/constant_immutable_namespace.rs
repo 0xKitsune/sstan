@@ -57,12 +57,12 @@ mod test {
             IS_FINE = _isFine;
             Is_Bad = _isBad;
         }
-        
+    
     }
     "#;
 
-        let mock_source = MockSource::new().add_source("constant_immutable.sol", file_contents);
-        let qa_locations = ConstantImmutableNamespace::find(mock_source.source)?;
+        let mut mock_source = MockSource::new().add_source("constant_immutable.sol", file_contents);
+        let qa_locations = ConstantImmutableNamespace::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 2);
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {

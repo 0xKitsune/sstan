@@ -3,8 +3,6 @@ use regex::Regex;
 use solang_parser::pt::{self, ContractPart, Loc};
 use std::collections::HashMap;
 
-
-
 use std::fs::File;
 use std::io::Write;
 use std::path::PathBuf;
@@ -123,25 +121,20 @@ pub fn get_32_byte_storage_variables(
 
     storage_variables
 }
-#[derive(Debug)]
-pub struct MockSource<'a> {
-    pub source: &'a mut HashMap<PathBuf, pt::SourceUnit>,
+#[derive(Debug, Default)]
+pub struct MockSource {
+    pub source: HashMap<PathBuf, pt::SourceUnit>,
     pub counter: usize,
 }
 
-impl<'a> Default for MockSource<'a> {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
-impl<'a> MockSource<'a> {
+impl MockSource {
     pub fn new() -> Self {
         MockSource::default()
     }
 }
-impl<'a> MockSource<'a> {
-    pub fn add_source(self, file_name: &str, contents: &str) -> Self {
+
+impl MockSource {
+    pub fn add_source(mut self, file_name: &str, contents: &str) -> Self {
         let source_unit = solang_parser::parse(contents, self.counter).unwrap().0;
         File::create(file_name)
             .unwrap()
@@ -152,7 +145,7 @@ impl<'a> MockSource<'a> {
     }
 }
 
-impl<'a> Drop for MockSource<'a> {
+impl Drop for MockSource {
     fn drop(&mut self) {
         for file in self.source.keys() {
             std::fs::remove_file(file).expect("Failed to delete file");
