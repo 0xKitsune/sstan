@@ -13,6 +13,17 @@
 
  <details open> 
  <summary> 
+ <Strong>Remove any unused returns</Strong> Instances(1) 
+ </summary> 
+  
+
+ <span style="color: green;">File: </span> unused_returns.sol 5-5 
+ ```solidity 
+ function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
+ ``` 
+ </details>
+ <details open> 
+ <summary> 
  <Strong>Constructor should initialize all variables</Strong> Instances(1) 
  </summary> 
  Description of the qa pattern goes here 
@@ -23,6 +34,29 @@
  ``` 
  </details>
 
+
+ <details open> 
+ <summary> 
+ <Strong>Constructor should be listed before any other function</Strong> Instances(1) 
+ </summary> 
+ Description of the qa pattern goes here 
+
+ <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
+ ```solidity 
+ constructor() {owner = address(1)} 
+ ``` 
+ </details>
+ <details open> 
+ <summary> 
+ <Strong>Interface names should start with an I</Strong> Instances(1) 
+ </summary> 
+ Consider renaming for consistency 
+
+ <span style="color: green;">File: </span> interface_namespace.sol 4-0 
+ ```solidity 
+ interface Contract0 {} 
+ ``` 
+ </details>
  <details open> 
  <summary> 
  <Strong>Consider using scientific notation for large multiples of 10</Strong> Instances(1) 
@@ -35,15 +69,17 @@
  ``` 
  </details>
 
+
+
  <details open> 
  <summary> 
- <Strong>Constructor should be listed before any other function</Strong> Instances(1) 
+ <Strong>Remove any unused functions</Strong> Instances(1) 
  </summary> 
- Description of the qa pattern goes here 
+  
 
- <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
+ <span style="color: green;">File: </span> unused_functions.sol 4-4 
  ```solidity 
- constructor() {owner = address(1)} 
+ function isUnused() internal {} 
  ``` 
  </details>
 
@@ -71,25 +107,18 @@
 
  <details open> 
  <summary> 
- <Strong>Interface names should start with an I</Strong> Instances(1) 
+ <Strong>Storage variables should be named with camel case</Strong> Instances(2) 
  </summary> 
- Consider renaming for consistency 
+ Consider renaming to follow convention 
 
- <span style="color: green;">File: </span> interface_namespace.sol 4-0 
+ <span style="color: green;">File: </span> storage_var_namespace.sol 4-4 
  ```solidity 
- interface Contract0 {} 
- ``` 
- </details>
+ address IS_NOT_FINE; 
+ ```
 
- <details open> 
- <summary> 
- <Strong>Remove any unused returns</Strong> Instances(1) 
- </summary> 
-  
-
- <span style="color: green;">File: </span> unused_returns.sol 5-5 
+ <span style="color: green;">File: </span> storage_var_namespace.sol 7-7 
  ```solidity 
- function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
+ address ALSO_IS_BAD; 
  ``` 
  </details>
 
@@ -107,34 +136,5 @@
  <span style="color: green;">File: </span> constant_immutable.sol 6-6 
  ```solidity 
  address immutable Is_Bad; 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <Strong>Remove any unused functions</Strong> Instances(1) 
- </summary> 
-  
-
- <span style="color: green;">File: </span> unused_functions.sol 4-4 
- ```solidity 
- function isUnused() internal {} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <Strong>Storage variables should be named with camel case</Strong> Instances(2) 
- </summary> 
- Consider renaming to follow convention 
-
- <span style="color: green;">File: </span> storage_var_namespace.sol 4-4 
- ```solidity 
- address IS_NOT_FINE; 
- ```
-
- <span style="color: green;">File: </span> storage_var_namespace.sol 7-7 
- ```solidity 
- address ALSO_IS_BAD; 
  ``` 
  </details>

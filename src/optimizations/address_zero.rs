@@ -1,39 +1,51 @@
-use std::collections::HashSet;
+use std::{collections::{HashSet, HashMap}, path::PathBuf};
 
 use solang_parser::pt::{self, Loc, SourceUnit};
+use crate::{extractors::{primitive::EqualityExtractor, Extractor}, utils::MockSource, engine::{Outcome, Pushable, EngineError}};
 
-use crate::analyzer::extractors::{primitive::EqualityExtractor, Extractor};
+use super::{OptimizationPattern, AddressZero, OptimizationOutcome};
 
 pub const ZERO: &str = "0";
 
-pub fn address_zero_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
-    let mut optimization_locations: HashSet<Loc> = HashSet::new();
+impl OptimizationPattern for AddressZero {
+    fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
+        let mut outcome = Outcome::new();
+        for (path_buf, source_unit) in source {
+            let equality_nodes = EqualityExtractor::extract(source_unit)?;
 
-    let equality_nodes = EqualityExtractor::extract(source_unit)?;
+            for node in equality_nodes {
+                //We can use unwrap because Target::Equal and Target::NotEqual are expressions
 
-    for node in equality_nodes {
-        //We can use unwrap because Target::Equal and Target::NotEqual are expressions
-
-        match node {
-            pt::Expression::NotEqual(loc, box_expression, box_expression_1) => {
-                if check_for_address_zero(*box_expression)
-                    || check_for_address_zero(*box_expression_1)
-                {
-                    optimization_locations.insert(loc);
+                match node.clone() {
+                    pt::Expression::NotEqual(loc, box_expression, box_expression_1) => {
+                        if check_for_address_zero(*box_expression)
+                            || check_for_address_zero(*box_expression_1)
+                        {
+                            outcome.push_or_insert(
+                                path_buf.clone(),
+                                loc,
+                                node.to_string(),
+                            );
+                        }
+                    }
+                    pt::Expression::Equal(loc, box_expression, box_expression_1) => {
+                        if check_for_address_zero(*box_expression)
+                            || check_for_address_zero(*box_expression_1)
+                        {
+                            outcome.push_or_insert(
+                                path_buf.clone(),
+                                loc,
+                                node.to_string(),
+                            )
+                        }
+                    }
+                    _ => {}
                 }
             }
-            pt::Expression::Equal(loc, box_expression, box_expression_1) => {
-                if check_for_address_zero(*box_expression)
-                    || check_for_address_zero(*box_expression_1)
-                {
-                    optimization_locations.insert(loc);
-                }
-            }
-            _ => {}
         }
-    }
 
-    Ok(optimization_locations)
+        Ok(OptimizationOutcome::AddressZero(outcome))
+    }
 }
 
 fn check_for_address_zero(box_expression: pt::Expression) -> bool {
@@ -82,10 +94,7 @@ fn test_address_zero_optimization() {
      }
     "#;
 
-    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
-
-    let optimization_locations =
-        address_zero_optimization(&mut source_unit).expect("TODO: propagate this instead");
-
-    assert_eq!(optimization_locations.len(), 4)
+    let mut mock_source = MockSource::new().add_source("address_zero.sol", file_contents);
+    let qa_locations = AddressZero::find(&mut mock_source.source).unwrap();   
+    assert_eq!(qa_locations.len(), 4)
 }

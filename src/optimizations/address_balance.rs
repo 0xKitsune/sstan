@@ -9,6 +9,7 @@ use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::MemberAccessExtractor;
 use crate::extractors::Extractor;
 use crate::report::ReportSectionFragment;
+use crate::utils::MockSource;
 
 use super::{AddressBalance, OptimizationOutcome, OptimizationPattern};
 
@@ -16,7 +17,7 @@ pub const BALANCE: &str = "balance";
 
 //Use selfbalance() instead of address(this).balance()
 impl OptimizationPattern for AddressBalance {
-    fn find(source: HashMap<PathBuf, &mut SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
+    fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
         let mut outcome = Outcome::new();
         for (path_buf, source_unit) in source {
             let member_access_nodes = MemberAccessExtractor::extract(source_unit)?;
@@ -63,12 +64,9 @@ contract Contract0 {
 }
 
     "#;
-    let mut source = HashMap::new();
+    let mut source = MockSource::new().add_source("address_balance.sol", file_contents);
 
-    let mut source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
-    source.insert(PathBuf::new(), &mut source_unit);
-
-    let optimization_locations = AddressBalance::find(source)?;
+    let optimization_locations = AddressBalance::find(&mut source.source)?;
     assert_eq!(optimization_locations.len(), 2);
 
     Ok(())
