@@ -1,9 +1,12 @@
-use std::{collections::{HashSet, HashMap}, path::PathBuf};
+use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{self, Loc, SourceUnit};
-use crate::{extractors::{primitive::EqualityExtractor, Extractor}, utils::MockSource, engine::{Outcome, Pushable, EngineError}};
+use crate::{
+    engine::{EngineError, Outcome, Pushable},
+    extractors::{primitive::EqualityExtractor, Extractor},
+};
+use solang_parser::pt::{self, SourceUnit};
 
-use super::{OptimizationPattern, AddressZero, OptimizationOutcome};
+use super::{AddressZero, OptimizationOutcome, OptimizationPattern};
 
 pub const ZERO: &str = "0";
 
@@ -21,22 +24,14 @@ impl OptimizationPattern for AddressZero {
                         if check_for_address_zero(*box_expression)
                             || check_for_address_zero(*box_expression_1)
                         {
-                            outcome.push_or_insert(
-                                path_buf.clone(),
-                                loc,
-                                node.to_string(),
-                            );
+                            outcome.push_or_insert(path_buf.clone(), loc, node.to_string());
                         }
                     }
                     pt::Expression::Equal(loc, box_expression, box_expression_1) => {
                         if check_for_address_zero(*box_expression)
                             || check_for_address_zero(*box_expression_1)
                         {
-                            outcome.push_or_insert(
-                                path_buf.clone(),
-                                loc,
-                                node.to_string(),
-                            )
+                            outcome.push_or_insert(path_buf.clone(), loc, node.to_string())
                         }
                     }
                     _ => {}
@@ -95,6 +90,6 @@ fn test_address_zero_optimization() {
     "#;
 
     let mut mock_source = MockSource::new().add_source("address_zero.sol", file_contents);
-    let qa_locations = AddressZero::find(&mut mock_source.source).unwrap();   
+    let qa_locations = AddressZero::find(&mut mock_source.source).unwrap();
     assert_eq!(qa_locations.len(), 4)
 }
