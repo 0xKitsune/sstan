@@ -8,6 +8,7 @@ use solang_parser::{self, pt::SourceUnit};
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::MemberAccessExtractor;
 use crate::extractors::Extractor;
+use crate::utils::MockSource;
 
 use super::{AddressBalance, OptimizationOutcome, OptimizationPattern};
 

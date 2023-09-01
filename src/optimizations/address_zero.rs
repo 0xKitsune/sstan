@@ -2,9 +2,9 @@ use std::{collections::HashMap, path::PathBuf};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{primitive::EqualityExtractor, Extractor},
+    extractors::{primitive::EqualityExtractor, Extractor}, utils::MockSource,
 };
-use solang_parser::pt::{self, SourceUnit};
+use solang_parser::{pt::{self, SourceUnit}, helpers::CodeLocation};
 
 use super::{AddressZero, OptimizationOutcome, OptimizationPattern};
 
@@ -20,18 +20,18 @@ impl OptimizationPattern for AddressZero {
                 //We can use unwrap because Target::Equal and Target::NotEqual are expressions
 
                 match node.clone() {
-                    pt::Expression::NotEqual(loc, box_expression, box_expression_1) => {
+                    pt::Expression::NotEqual(_loc, box_expression, box_expression_1) => {
                         if check_for_address_zero(*box_expression)
                             || check_for_address_zero(*box_expression_1)
                         {
-                            outcome.push_or_insert(path_buf.clone(), loc, node.to_string());
+                            outcome.push_or_insert(path_buf.clone(), node.loc(), node.to_string());
                         }
                     }
-                    pt::Expression::Equal(loc, box_expression, box_expression_1) => {
+                    pt::Expression::Equal(_loc, box_expression, box_expression_1) => {
                         if check_for_address_zero(*box_expression)
                             || check_for_address_zero(*box_expression_1)
                         {
-                            outcome.push_or_insert(path_buf.clone(), loc, node.to_string())
+                            outcome.push_or_insert(path_buf.clone(), node.loc(), node.to_string())
                         }
                     }
                     _ => {}
