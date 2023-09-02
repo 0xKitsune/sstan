@@ -10,7 +10,6 @@ use crate::extractors::primitive::MemberAccessExtractor;
 use crate::extractors::Extractor;
 use crate::utils::MockSource;
 
-
 use super::{AddressBalance, OptimizationOutcome, OptimizationPattern};
 
 pub const BALANCE: &str = "balance";

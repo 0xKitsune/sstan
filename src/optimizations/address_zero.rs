@@ -2,7 +2,8 @@ use std::{collections::HashMap, path::PathBuf};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{primitive::EqualityExtractor, Extractor}, utils::MockSource,
+    extractors::{primitive::EqualityExtractor, Extractor},
+    utils::MockSource,
 };
 use solang_parser::{
     helpers::CodeLocation,

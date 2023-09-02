@@ -4,7 +4,7 @@ use std::path::PathBuf;
 use solang_parser::pt::{self, CodeLocation, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::engine::{Outcome, Pushable, EngineError};
+use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::{primitive::EqualityExtractor, Extractor};
 use crate::utils::MockSource;
 
@@ -62,10 +62,13 @@ fn check_for_bool_equals_bool(
     bool_equals_bool
 }
 mod test {
-    use crate::{utils::MockSource, optimizations::{BoolEqualsBool, OptimizationPattern}};
+    use crate::{
+        optimizations::{BoolEqualsBool, OptimizationPattern},
+        utils::MockSource,
+    };
 
     #[test]
-    fn test_analyze_for_if_bool_equals_bool_optimization() -> eyre::Result<()>{
+    fn test_analyze_for_if_bool_equals_bool_optimization() -> eyre::Result<()> {
         let file_contents = r#"
     
 

@@ -1,15 +1,14 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 use solang_parser::helpers::CodeLocation;
-use solang_parser::pt::{Expression};
+use solang_parser::pt::Expression;
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::AssignmentExtractor;
 use crate::extractors::Extractor;
 use crate::utils::MockSource;
-
 
 use super::{AssignUpdateArrayValue, OptimizationOutcome, OptimizationPattern};
 
@@ -199,8 +198,9 @@ fn test_assign_update_array_optimization() {
     }
  
     "#;
-    
-    let mut mock_source = MockSource::new().add_source("assign_update_array_value.sol", file_contents);
+
+    let mut mock_source =
+        MockSource::new().add_source("assign_update_array_value.sol", file_contents);
 
     let optimization_locations = AssignUpdateArrayValue::find(&mut mock_source.source);
     assert_eq!(optimization_locations.unwrap().len(), 1);

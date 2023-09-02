@@ -3,7 +3,7 @@ pub mod address_zero;
 pub mod assign_update_array_value;
 pub mod bool_equals_bool;
 pub mod cache_array_length;
-
+pub mod cache_storage_in_memory;
 use super::engine::{Outcome, Report};
 use crate::engine::EngineError;
 use solang_parser::pt::{Loc, SourceUnit};
@@ -664,5 +664,14 @@ contract Contract3 {
 ```
     
 "##
+    ),
+
+    (
+        CacheStorageInMemory,
+        0,
+        "Cache Storage Variables in Memory",
+        "", //TODO:
+        "Cache Array Length - Gas Report",
+        "" //TODO:
     )
 );
