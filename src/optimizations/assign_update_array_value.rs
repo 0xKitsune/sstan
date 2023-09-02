@@ -8,7 +8,6 @@ use solang_parser::{self, pt::SourceUnit};
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::AssignmentExtractor;
 use crate::extractors::Extractor;
-use crate::utils::MockSource;
 
 use super::{AssignUpdateArrayValue, OptimizationOutcome, OptimizationPattern};
 
@@ -179,10 +178,15 @@ impl OptimizationPattern for AssignUpdateArrayValue {
         Ok(OptimizationOutcome::AssignUpdateArrayValue(outcome))
     }
 }
+mod test {
+    use crate::{
+        optimizations::{AssignUpdateArrayValue, OptimizationPattern},
+        utils::MockSource,
+    };
 
-#[test]
-fn test_assign_update_array_optimization() {
-    let file_contents = r#"
+    #[test]
+    fn test_assign_update_array_optimization() {
+        let file_contents = r#"
     
     pragma solidity >= 0.8.0;
     contract Contract {
@@ -199,9 +203,10 @@ fn test_assign_update_array_optimization() {
  
     "#;
 
-    let mut mock_source =
-        MockSource::new().add_source("assign_update_array_value.sol", file_contents);
+        let mut mock_source =
+            MockSource::new().add_source("assign_update_array_value.sol", file_contents);
 
-    let optimization_locations = AssignUpdateArrayValue::find(&mut mock_source.source);
-    assert_eq!(optimization_locations.unwrap().len(), 1);
+        let optimization_locations = AssignUpdateArrayValue::find(&mut mock_source.source);
+        assert_eq!(optimization_locations.unwrap().len(), 1);
+    }
 }

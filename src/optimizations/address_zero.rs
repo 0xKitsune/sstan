@@ -3,7 +3,6 @@ use std::{collections::HashMap, path::PathBuf};
 use crate::{
     engine::{EngineError, Outcome, Pushable},
     extractors::{primitive::EqualityExtractor, Extractor},
-    utils::MockSource,
 };
 use solang_parser::{
     helpers::CodeLocation,
@@ -67,10 +66,15 @@ fn check_for_address_zero(box_expression: pt::Expression) -> bool {
     //return true or false for address_zero
     address_zero
 }
+mod test {
+    use crate::{
+        optimizations::{AddressZero, OptimizationPattern},
+        utils::MockSource,
+    };
 
-#[test]
-fn test_address_zero_optimization() {
-    let file_contents = r#"
+    #[test]
+    fn test_address_zero_optimization() {
+        let file_contents = r#"
     
     contract Contract0 {
 
@@ -93,7 +97,8 @@ fn test_address_zero_optimization() {
      }
     "#;
 
-    let mut mock_source = MockSource::new().add_source("address_zero.sol", file_contents);
-    let qa_locations = AddressZero::find(&mut mock_source.source).unwrap();
-    assert_eq!(qa_locations.len(), 4)
+        let mut mock_source = MockSource::new().add_source("address_zero.sol", file_contents);
+        let qa_locations = AddressZero::find(&mut mock_source.source).unwrap();
+        assert_eq!(qa_locations.len(), 4)
+    }
 }

@@ -8,7 +8,6 @@ use solang_parser::{self, pt::SourceUnit};
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::MemberAccessExtractor;
 use crate::extractors::Extractor;
-use crate::utils::MockSource;
 
 use super::{AddressBalance, OptimizationOutcome, OptimizationPattern};
 
@@ -45,10 +44,15 @@ impl OptimizationPattern for AddressBalance {
         Ok(OptimizationOutcome::AddressBalance(outcome))
     }
 }
+mod test {
+    use crate::{
+        optimizations::{AddressBalance, OptimizationPattern},
+        utils::MockSource,
+    };
 
-#[test]
-fn test_address_balance_optimization() -> eyre::Result<()> {
-    let file_contents = r#"
+    #[test]
+    fn test_address_balance_optimization() -> eyre::Result<()> {
+        let file_contents = r#"
     
 contract Contract0 {
     function addressInternalBalance(){
@@ -63,10 +67,11 @@ contract Contract0 {
 }
 
     "#;
-    let mut source = MockSource::new().add_source("address_balance.sol", file_contents);
+        let mut source = MockSource::new().add_source("address_balance.sol", file_contents);
 
-    let optimization_locations = AddressBalance::find(&mut source.source)?;
-    assert_eq!(optimization_locations.len(), 2);
+        let optimization_locations = AddressBalance::find(&mut source.source)?;
+        assert_eq!(optimization_locations.len(), 2);
 
-    Ok(())
+        Ok(())
+    }
 }

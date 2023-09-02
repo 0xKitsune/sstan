@@ -1,10 +1,10 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, CodeLocation, Loc};
+use solang_parser::pt::{self, CodeLocation};
 use solang_parser::{self, pt::SourceUnit};
 
-use super::{CacheStorageInMemory, ConstantVariable, OptimizationOutcome, OptimizationPattern};
+use super::{ConstantVariable, OptimizationOutcome, OptimizationPattern};
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::IncrementorExtractor;
 use crate::extractors::{primitive::AssignmentExtractor, Extractor};
@@ -175,8 +175,11 @@ impl OptimizationPattern for ConstantVariable {
     }
 }
 mod test {
-    use super::OptimizationPattern;
-    use crate::{optimizations::ConstantVariable, utils::MockSource};
+    use crate::{
+        optimizations::{ConstantVariable, OptimizationPattern},
+        utils::MockSource,
+    };
+
     #[test]
     fn test_constant_variable_optimization() -> eyre::Result<()> {
         let file_contents = r#"

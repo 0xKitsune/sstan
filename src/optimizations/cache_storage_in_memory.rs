@@ -3,7 +3,7 @@ use std::{
     path::PathBuf,
 };
 
-use solang_parser::pt::{CodeLocation, Expression, Loc, SourceUnit};
+use solang_parser::pt::{CodeLocation, Expression, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
@@ -64,6 +64,7 @@ impl OptimizationPattern for CacheStorageInMemory {
     }
 }
 mod test {
+
     use crate::{
         optimizations::{CacheStorageInMemory, OptimizationPattern},
         utils::MockSource,

@@ -1,12 +1,11 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, CodeLocation, Loc};
+use solang_parser::pt::{self, CodeLocation};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::{primitive::EqualityExtractor, Extractor};
-use crate::utils::MockSource;
 
 use super::{BoolEqualsBool, OptimizationOutcome, OptimizationPattern};
 
@@ -62,6 +61,7 @@ fn check_for_bool_equals_bool(
     bool_equals_bool
 }
 mod test {
+
     use crate::{
         optimizations::{BoolEqualsBool, OptimizationPattern},
         utils::MockSource,

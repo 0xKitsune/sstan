@@ -1,9 +1,6 @@
-use std::{
-    collections::{HashMap, HashSet},
-    path::PathBuf,
-};
+use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{self, CodeLocation, Loc, SourceUnit};
+use solang_parser::pt::{self, CodeLocation, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},

@@ -1,7 +1,7 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, CodeLocation, Loc};
+use solang_parser::pt::{self, CodeLocation};
 use solang_parser::{self, pt::SourceUnit};
 
 use super::{EngineError, OptimizationOutcome, Outcome};
@@ -50,6 +50,7 @@ impl OptimizationPattern for CacheArrayLength {
     }
 }
 mod test {
+
     use crate::{
         optimizations::{CacheArrayLength, OptimizationPattern},
         utils::MockSource,
