@@ -10,30 +10,6 @@
  import "filename.sol"; 
  ``` 
  </details>
- <details open> 
- <summary> 
- <Strong>Constructor should initialize all variables</Strong> Instances(1) 
- </summary> 
- Description of the qa pattern goes here 
-
- <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
- ```solidity 
- constructor(address _owner) {owner = _owner} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <Strong>Consider using scientific notation for large multiples of 10</Strong> Instances(1) 
- </summary> 
- For example 100000 can be written as 1e5 
-
- <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
- ```solidity 
- uint256 x = 10000000; 
- ``` 
- </details>
-
 
  <details open> 
  <summary> 
@@ -49,23 +25,13 @@
 
  <details open> 
  <summary> 
- <Strong>Private variables should contain a leading underscore</Strong> Instances(3) 
+ <Strong>Consider using scientific notation for large multiples of 10</Strong> Instances(1) 
  </summary> 
- Description of the qa pattern goes here 
+ For example 100000 can be written as 1e5 
 
- <span style="color: green;">File: </span> private_vars.sol 7-7 
+ <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
  ```solidity 
- address private addr4; 
- ```
-
- <span style="color: green;">File: </span> private_vars.sol 5-5 
- ```solidity 
- address public _addr2; 
- ```
-
- <span style="color: green;">File: </span> private_vars.sol 9-9 
- ```solidity 
- address internal addr6; 
+ uint256 x = 10000000; 
  ``` 
  </details>
 
@@ -82,6 +48,19 @@
  </details>
  <details open> 
  <summary> 
+ <Strong>Constructor should initialize all variables</Strong> Instances(1) 
+ </summary> 
+ Description of the qa pattern goes here 
+
+ <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
+ ```solidity 
+ constructor(address _owner) {owner = _owner} 
+ ``` 
+ </details>
+
+
+ <details open> 
+ <summary> 
  <Strong>Interface names should start with an I</Strong> Instances(1) 
  </summary> 
  Consider renaming for consistency 
@@ -92,6 +71,27 @@
  ``` 
  </details>
 
+ <details open> 
+ <summary> 
+ <Strong>Private variables should contain a leading underscore</Strong> Instances(3) 
+ </summary> 
+ Description of the qa pattern goes here 
+
+ <span style="color: green;">File: </span> private_vars.sol 9-9 
+ ```solidity 
+ address internal addr6; 
+ ```
+
+ <span style="color: green;">File: </span> private_vars.sol 7-7 
+ ```solidity 
+ address private addr4; 
+ ```
+
+ <span style="color: green;">File: </span> private_vars.sol 5-5 
+ ```solidity 
+ address public _addr2; 
+ ``` 
+ </details>
 
  <details open> 
  <summary> 
