@@ -135,7 +135,7 @@ optimization!(
     You can use `selfbalance()` instead of `address(this).balance` when getting your contract's balance of ETH to save gas. Additionally, you can use `balance(address)` instead of `address.balance()` when getting an external contract's balance of ETH.
     "##,
         "Address Balance Optimization - Gas Report",
-        r##"
+        "
 ```js
 contract GasTest is DSTest {
     Contract0 c0;
@@ -240,7 +240,7 @@ contract Contract3 {
 ╰─────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 
 ```
-"##
+"
     ),
     (
         AddressZero,
@@ -248,7 +248,7 @@ contract Contract3 {
         "Use assembly to check for address(0)",
         "",
         "Address Zero Optimization - Gas Report",
-        r##"
+        "
     ```js
 
 
@@ -269,7 +269,7 @@ contract Contract3 {
     
     contract Contract0 {
         function ownerNotZero(address _addr) public pure {
-            require(_addr != address(0), "zero address)");
+            require(_addr != address(0), \"zero address)\");
         }
     }
     
@@ -277,7 +277,7 @@ contract Contract3 {
         function assemblyOwnerNotZero(address _addr) public pure {
             assembly {
                 if iszero(_addr) {
-                    mstore(0x00, "zero address")
+                    mstore(0x00, \"zero address\")
                     revert(0x00, 0x20)
                 }
             }
@@ -313,8 +313,7 @@ contract Contract3 {
     │ assemblyOwnerNotZero ┆ 252             ┆ 252 ┆ 252    ┆ 252 ┆ 1       │
     ╰──────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
     ```
-    
-"##
+"
     ),
     (
         AssignUpdateArrayValue,
@@ -448,7 +447,7 @@ contract Contract3 {
         "`Instead of `if (x == bool)`, use `if(x)` or when applicable, use assembly with `iszero(iszero(x))`.",
         "It is redundant to check `if(x == true)` or any form of boolean comparison. You can slightly reduce gas consumption by using `if (x)` instead. When applicable, you can also use assembly to save more gas by using `iszeroiszero(x)` instead of `if (x)` and `iszero(x)` for `if (!x)`",
         "Bool Equals Bool - Gas Report",
-        r##"
+        "
         ```js
 
 contract GasTest is DSTest {
@@ -535,7 +534,7 @@ contract Contract2 {
 
 ```
     
-"##
+"
     ),
 
     (
@@ -544,7 +543,7 @@ contract Contract2 {
         "Cache array length during for loop definition.",
         "A typical for loop definition may look like: `for (uint256 i; i < arr.length; i++){}`. Instead of using `array.length`, cache the array length before the loop, and use the cached value to safe gas. This will avoid an `MLOAD` every loop for arrays stored in memory and an `SLOAD` for arrays stored in storage. This can have significant gas savings for arrays with a large length, especially if the array is stored in storage.",
         "Cache Array Length - Gas Report",
-        r##"
+        "
         ```js
 
 contract GasTest is DSTest {
@@ -665,7 +664,7 @@ contract Contract3 {
 
 ```
     
-"##
+"
     ),
 
     (
