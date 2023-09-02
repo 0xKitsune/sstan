@@ -31,7 +31,7 @@ impl OptimizationPattern for CacheArrayLength {
 
                     for node in member_access_nodes {
                         //Can unwrap because Target::MemberAccess will always be an expression
-                        if let pt::Expression::MemberAccess(loc, _, identifier) = node.clone() {
+                        if let pt::Expression::MemberAccess(_loc, _, identifier) = node.clone() {
                             if identifier.name == LENGTH {
                                 outcome.push_or_insert(
                                     path_buf.clone(),

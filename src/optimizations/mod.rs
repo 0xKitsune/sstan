@@ -5,6 +5,7 @@ pub mod bool_equals_bool;
 pub mod cache_array_length;
 pub mod cache_storage_in_memory;
 pub mod constant_variable;
+pub mod event_indexing;
 use super::engine::{Outcome, Report};
 use crate::engine::EngineError;
 use solang_parser::pt::{Loc, SourceUnit};
@@ -776,5 +777,13 @@ contract Contract2 {
 ```
 
         " //TODO:
+    ),
+    (
+        EventIndexing,
+        0, //TODO:
+        "Event is not properly indexed.",
+        "When possible, always include a minimum of 3 indexed event topics to save gas",
+        "Event Indexing - Gas Report",
+        "" //TODO:
     )
 );

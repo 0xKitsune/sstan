@@ -10,6 +10,7 @@
  constructor(address _owner) {owner = _owner} 
  ``` 
  </details>
+
  <details open> 
  <summary> 
  <Strong>Constructor should be listed before any other function</Strong> Instances(1) 
@@ -21,6 +22,18 @@
  constructor() {owner = address(1)} 
  ``` 
  </details>
+ <details open> 
+ <summary> 
+ <Strong>Consider importing specific identifiers instead of the whole file</Strong> Instances(1) 
+ </summary> 
+ This will minimize compiled code size and help with readability 
+
+ <span style="color: green;">File: </span> import_identifiers.sol 2-2 
+ ```solidity 
+ import "filename.sol"; 
+ ``` 
+ </details>
+
 
  <details open> 
  <summary> 
@@ -33,7 +46,6 @@
  interface Contract0 {} 
  ``` 
  </details>
-
 
  <details open> 
  <summary> 
@@ -49,40 +61,6 @@
 
  <details open> 
  <summary> 
- <Strong>Private variables should contain a leading underscore</Strong> Instances(3) 
- </summary> 
- Description of the qa pattern goes here 
-
- <span style="color: green;">File: </span> private_vars.sol 5-5 
- ```solidity 
- address public _addr2; 
- ```
-
- <span style="color: green;">File: </span> private_vars.sol 7-7 
- ```solidity 
- address private addr4; 
- ```
-
- <span style="color: green;">File: </span> private_vars.sol 9-9 
- ```solidity 
- address internal addr6; 
- ``` 
- </details>
- <details open> 
- <summary> 
- <Strong>Remove any unused returns</Strong> Instances(1) 
- </summary> 
-  
-
- <span style="color: green;">File: </span> unused_returns.sol 5-5 
- ```solidity 
- function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
- ``` 
- </details>
-
-
- <details open> 
- <summary> 
  <Strong>Remove any unused functions</Strong> Instances(1) 
  </summary> 
   
@@ -95,13 +73,35 @@
 
  <details open> 
  <summary> 
- <Strong>Consider importing specific identifiers instead of the whole file</Strong> Instances(1) 
+ <Strong>Private variables should contain a leading underscore</Strong> Instances(3) 
  </summary> 
- This will minimize compiled code size and help with readability 
+ Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> import_identifiers.sol 2-2 
+ <span style="color: green;">File: </span> private_vars.sol 7-7 
  ```solidity 
- import "filename.sol"; 
+ address private addr4; 
+ ```
+
+ <span style="color: green;">File: </span> private_vars.sol 9-9 
+ ```solidity 
+ address internal addr6; 
+ ```
+
+ <span style="color: green;">File: </span> private_vars.sol 5-5 
+ ```solidity 
+ address public _addr2; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <Strong>Remove any unused returns</Strong> Instances(1) 
+ </summary> 
+  
+
+ <span style="color: green;">File: </span> unused_returns.sol 5-5 
+ ```solidity 
+ function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
  ``` 
  </details>
 

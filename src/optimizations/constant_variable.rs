@@ -14,8 +14,6 @@ impl OptimizationPattern for ConstantVariable {
     fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
         let mut outcome = Outcome::new();
         for (path_buf, source_unit) in source {
-            let mut optimization_locations: HashSet<Loc> = HashSet::new();
-
             let mut storage_variables = get_32_byte_storage_variables(source_unit, true, false);
 
             let assignment_nodes = AssignmentExtractor::extract(source_unit)?;
