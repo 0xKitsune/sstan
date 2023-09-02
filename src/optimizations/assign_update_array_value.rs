@@ -1,14 +1,15 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap};
 use std::path::PathBuf;
 
 use solang_parser::helpers::CodeLocation;
-use solang_parser::pt::{Expression, Loc};
+use solang_parser::pt::{Expression};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::AssignmentExtractor;
 use crate::extractors::Extractor;
 use crate::utils::MockSource;
+
 
 use super::{AssignUpdateArrayValue, OptimizationOutcome, OptimizationPattern};
 
