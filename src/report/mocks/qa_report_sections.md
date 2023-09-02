@@ -1,16 +1,15 @@
 
  <details open> 
  <summary> 
- <Strong>Interface names should start with an I</Strong> Instances(1) 
+ <Strong>Consider importing specific identifiers instead of the whole file</Strong> Instances(1) 
  </summary> 
- Consider renaming for consistency 
+ This will minimize compiled code size and help with readability 
 
- <span style="color: green;">File: </span> interface_namespace.sol 4-0 
+ <span style="color: green;">File: </span> import_identifiers.sol 2-2 
  ```solidity 
- interface Contract0 {} 
+ import "filename.sol"; 
  ``` 
  </details>
-
  <details open> 
  <summary> 
  <Strong>Constructor should initialize all variables</Strong> Instances(1) 
@@ -22,6 +21,19 @@
  constructor(address _owner) {owner = _owner} 
  ``` 
  </details>
+
+ <details open> 
+ <summary> 
+ <Strong>Consider using scientific notation for large multiples of 10</Strong> Instances(1) 
+ </summary> 
+ For example 100000 can be written as 1e5 
+
+ <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
+ ```solidity 
+ uint256 x = 10000000; 
+ ``` 
+ </details>
+
 
  <details open> 
  <summary> 
@@ -37,15 +49,26 @@
 
  <details open> 
  <summary> 
- <Strong>Consider importing specific identifiers instead of the whole file</Strong> Instances(1) 
+ <Strong>Private variables should contain a leading underscore</Strong> Instances(3) 
  </summary> 
- This will minimize compiled code size and help with readability 
+ Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> import_identifiers.sol 2-2 
+ <span style="color: green;">File: </span> private_vars.sol 7-7 
  ```solidity 
- import "filename.sol"; 
+ address private addr4; 
+ ```
+
+ <span style="color: green;">File: </span> private_vars.sol 5-5 
+ ```solidity 
+ address public _addr2; 
+ ```
+
+ <span style="color: green;">File: </span> private_vars.sol 9-9 
+ ```solidity 
+ address internal addr6; 
  ``` 
  </details>
+
  <details open> 
  <summary> 
  <Strong>Remove any unused functions</Strong> Instances(1) 
@@ -57,44 +80,28 @@
  function isUnused() internal {} 
  ``` 
  </details>
-
  <details open> 
  <summary> 
- <Strong>Constants & Immutables should be named with screaming snake case</Strong> Instances(2) 
+ <Strong>Interface names should start with an I</Strong> Instances(1) 
  </summary> 
- Consider renaming to follow convention 
+ Consider renaming for consistency 
 
- <span style="color: green;">File: </span> constant_immutable.sol 5-5 
+ <span style="color: green;">File: </span> interface_namespace.sol 4-0 
  ```solidity 
- address constant is_bad = address(1); 
- ```
-
- <span style="color: green;">File: </span> constant_immutable.sol 6-6 
- ```solidity 
- address immutable Is_Bad; 
+ interface Contract0 {} 
  ``` 
  </details>
 
 
  <details open> 
  <summary> 
- <Strong>Private variables should contain a leading underscore</Strong> Instances(3) 
+ <Strong>Remove any unused returns</Strong> Instances(1) 
  </summary> 
- Description of the qa pattern goes here 
+  
 
- <span style="color: green;">File: </span> private_vars.sol 5-5 
+ <span style="color: green;">File: </span> unused_returns.sol 5-5 
  ```solidity 
- address public _addr2; 
- ```
-
- <span style="color: green;">File: </span> private_vars.sol 7-7 
- ```solidity 
- address private addr4; 
- ```
-
- <span style="color: green;">File: </span> private_vars.sol 9-9 
- ```solidity 
- address internal addr6; 
+ function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
  ``` 
  </details>
 
@@ -117,24 +124,17 @@
 
  <details open> 
  <summary> 
- <Strong>Consider using scientific notation for large multiples of 10</Strong> Instances(1) 
+ <Strong>Constants & Immutables should be named with screaming snake case</Strong> Instances(2) 
  </summary> 
- For example 100000 can be written as 1e5 
+ Consider renaming to follow convention 
 
- <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
+ <span style="color: green;">File: </span> constant_immutable.sol 5-5 
  ```solidity 
- uint256 x = 10000000; 
- ``` 
- </details>
+ address constant is_bad = address(1); 
+ ```
 
- <details open> 
- <summary> 
- <Strong>Remove any unused returns</Strong> Instances(1) 
- </summary> 
-  
-
- <span style="color: green;">File: </span> unused_returns.sol 5-5 
+ <span style="color: green;">File: </span> constant_immutable.sol 6-6 
  ```solidity 
- function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
+ address immutable Is_Bad; 
  ``` 
  </details>
