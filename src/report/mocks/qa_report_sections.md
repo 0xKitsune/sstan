@@ -1,13 +1,13 @@
 
  <details open> 
  <summary> 
- <Strong>Constructor should be listed before any other function</Strong> Instances(1) 
+ <Strong>Remove any unused functions</Strong> Instances(1) 
  </summary> 
- Description of the qa pattern goes here 
+  
 
- <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
+ <span style="color: green;">File: </span> unused_functions.sol 4-4 
  ```solidity 
- constructor() {owner = address(1)} 
+ function isUnused() internal {} 
  ``` 
  </details>
 
@@ -20,6 +20,53 @@
  <span style="color: green;">File: </span> interface_namespace.sol 4-0 
  ```solidity 
  interface Contract0 {} 
+ ``` 
+ </details>
+ <details open> 
+ <summary> 
+ <Strong>Consider using scientific notation for large multiples of 10</Strong> Instances(1) 
+ </summary> 
+ For example 100000 can be written as 1e5 
+
+ <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
+ ```solidity 
+ uint256 x = 10000000; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <Strong>Constructor should be listed before any other function</Strong> Instances(1) 
+ </summary> 
+ Description of the qa pattern goes here 
+
+ <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
+ ```solidity 
+ constructor() {owner = address(1)} 
+ ``` 
+ </details>
+ <details open> 
+ <summary> 
+ <Strong>Remove any unused returns</Strong> Instances(1) 
+ </summary> 
+  
+
+ <span style="color: green;">File: </span> unused_returns.sol 5-5 
+ ```solidity 
+ function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
+ ``` 
+ </details>
+
+
+ <details open> 
+ <summary> 
+ <Strong>Constructor should initialize all variables</Strong> Instances(1) 
+ </summary> 
+ Description of the qa pattern goes here 
+
+ <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
+ ```solidity 
+ constructor(address _owner) {owner = _owner} 
  ``` 
  </details>
 
@@ -35,17 +82,6 @@
  ``` 
  </details>
 
- <details open> 
- <summary> 
- <Strong>Remove any unused functions</Strong> Instances(1) 
- </summary> 
-  
-
- <span style="color: green;">File: </span> unused_functions.sol 4-4 
- ```solidity 
- function isUnused() internal {} 
- ``` 
- </details>
 
  <details open> 
  <summary> 
@@ -58,38 +94,14 @@
  address internal addr6; 
  ```
 
- <span style="color: green;">File: </span> private_vars.sol 5-5 
- ```solidity 
- address public _addr2; 
- ```
-
  <span style="color: green;">File: </span> private_vars.sol 7-7 
  ```solidity 
  address private addr4; 
- ``` 
- </details>
+ ```
 
- <details open> 
- <summary> 
- <Strong>Consider using scientific notation for large multiples of 10</Strong> Instances(1) 
- </summary> 
- For example 100000 can be written as 1e5 
-
- <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
+ <span style="color: green;">File: </span> private_vars.sol 5-5 
  ```solidity 
- uint256 x = 10000000; 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <Strong>Constructor should initialize all variables</Strong> Instances(1) 
- </summary> 
- Description of the qa pattern goes here 
-
- <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
- ```solidity 
- constructor(address _owner) {owner = _owner} 
+ address public _addr2; 
  ``` 
  </details>
 
@@ -124,17 +136,5 @@
  <span style="color: green;">File: </span> storage_var_namespace.sol 7-7 
  ```solidity 
  address ALSO_IS_BAD; 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <Strong>Remove any unused returns</Strong> Instances(1) 
- </summary> 
-  
-
- <span style="color: green;">File: </span> unused_returns.sol 5-5 
- ```solidity 
- function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
  ``` 
  </details>
