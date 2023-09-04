@@ -1,7 +1,7 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, CodeLocation, Loc};
+use solang_parser::pt::{self, CodeLocation};
 use solang_parser::{self, pt::SourceUnit};
 
 use super::{MemoryToCalldata, OptimizationOutcome, OptimizationPattern};
@@ -92,8 +92,10 @@ fn get_function_definition_memory_args(
 }
 
 mod test {
-    use crate::{utils::MockSource, optimizations::{MemoryToCalldata, OptimizationPattern}};
-
+    use crate::{
+        optimizations::{MemoryToCalldata, OptimizationPattern},
+        utils::MockSource,
+    };
 
     #[test]
     fn test_memory_to_calldata_optimization() -> eyre::Result<()> {

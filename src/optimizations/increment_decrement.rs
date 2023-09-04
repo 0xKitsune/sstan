@@ -93,7 +93,10 @@ pub fn extract_pre_increment_pre_decrement(node: &mut pt::Statement) -> HashSet<
     locations
 }
 mod test {
-    use crate::{utils::MockSource, optimizations::{IncrementDecrement, OptimizationPattern}};
+    use crate::{
+        optimizations::{IncrementDecrement, OptimizationPattern},
+        utils::MockSource,
+    };
 
     #[test]
     fn test_increment_optimization() -> eyre::Result<()> {

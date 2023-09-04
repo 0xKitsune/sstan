@@ -1,14 +1,13 @@
 use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, CodeLocation, ContractPart, Loc, VariableDefinition};
+use solang_parser::pt::{self, CodeLocation, VariableDefinition};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::compound::{ConstructorExtractor, MutableStorageVariableExtractor};
 use crate::extractors::primitive::{AssignmentExtractor, FunctionExtractor, IncrementorExtractor};
 use crate::extractors::Extractor;
-use crate::utils::get_32_byte_storage_variables;
 
 use super::{ImmutableVariable, OptimizationOutcome, OptimizationPattern};
 
