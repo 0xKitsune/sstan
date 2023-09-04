@@ -1,8 +1,8 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap};
 use std::path::PathBuf;
 
 use super::{MultipleRequire, OptimizationOutcome, OptimizationPattern};
-use solang_parser::pt::{CodeLocation, Expression, Loc};
+use solang_parser::pt::{CodeLocation, Expression};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
