@@ -31,7 +31,7 @@ impl VulnerabilityPattern for DivideBeforeMultiply {
 
             //For each target node that was extracted, check for the vulnerability patterns
             for node in target_nodes {
-                match node {
+                match node.clone() {
                     pt::Expression::Multiply(loc, box_expression, _) => {
                         let mut curr_expression = *box_expression;
                         loop {
