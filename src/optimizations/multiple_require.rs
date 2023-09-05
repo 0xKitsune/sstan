@@ -1,4 +1,4 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 use super::{MultipleRequire, OptimizationOutcome, OptimizationPattern};

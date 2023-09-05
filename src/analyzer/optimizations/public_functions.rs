@@ -7,7 +7,7 @@ use crate::analyzer::extractors::{
     primitive::{ContractDefinitionExtractor, FunctionCallExtractor},
     Extractor,
 };
-
+//TODO: Make this a QA since there is supposedly no gas saved. 
 pub fn public_function_optimization(source_unit: &mut SourceUnit) -> eyre::Result<HashSet<Loc>> {
     let mut optimization_locations: HashSet<Loc> = HashSet::new();
     let mut contracts = ContractDefinitionExtractor::extract(source_unit)?;
