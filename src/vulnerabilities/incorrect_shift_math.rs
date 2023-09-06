@@ -15,7 +15,7 @@ use crate::report::ReportSectionFragment;
 use crate::utils::MockSource;
 use std::io::Write;
 
-use super::{DivideBeforeMultiply, IncorrectShiftMath, VulnerabilityOutcome, VulnerabilityPattern};
+use super::{IncorrectShiftMath, VulnerabilityOutcome, VulnerabilityPattern};
 
 impl VulnerabilityPattern for IncorrectShiftMath {
     fn find(
@@ -80,7 +80,7 @@ fn test_incorrect_shift_math() -> eyre::Result<()> {
     }
     "#;
     let mut mock_source = MockSource::new().add_source("incorrect_shift_math.sol", file_contents);
-    let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
+    let vuln_locations = IncorrectShiftMath::find(&mut mock_source.source)?;
     assert_eq!(vuln_locations.len(), 2);
 
     let report: Option<ReportSectionFragment> = vuln_locations.into();

@@ -248,7 +248,7 @@ fn test_unprotected_self_destruct() -> eyre::Result<()> {
 
     let mut mock_source =
         MockSource::new().add_source("unprotected_self_destruct.sol", file_contents);
-    let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
+    let vuln_locations = UnprotectedSelfDestruct::find(&mut mock_source.source)?;
     assert_eq!(vuln_locations.len(), 2);
 
     let report: Option<ReportSectionFragment> = vuln_locations.into();

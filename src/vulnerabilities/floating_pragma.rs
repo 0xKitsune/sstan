@@ -15,7 +15,7 @@ use crate::report::ReportSectionFragment;
 use crate::utils::MockSource;
 use std::io::Write;
 
-use super::{DivideBeforeMultiply, FloatingPragma, VulnerabilityOutcome, VulnerabilityPattern};
+use super::{FloatingPragma, VulnerabilityOutcome, VulnerabilityPattern};
 
 impl VulnerabilityPattern for FloatingPragma {
     fn find(
@@ -60,7 +60,7 @@ fn test_floating_pragma_vulnerability() -> eyre::Result<()> {
     "#;
 
     let mut mock_source = MockSource::new().add_source("floating_pragma.sol", file_contents);
-    let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
+    let vuln_locations = FloatingPragma::find(&mut mock_source.source)?;
     assert_eq!(vuln_locations.len(), 1);
 
     let report: Option<ReportSectionFragment> = vuln_locations.into();

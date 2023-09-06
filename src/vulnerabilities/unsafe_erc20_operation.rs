@@ -79,7 +79,7 @@ fn test_unsafe_erc20_operation() -> eyre::Result<()> {
     }
     "#;
     let mut mock_source = MockSource::new().add_source("unsafe_erc20_operation.sol", file_contents);
-    let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
+    let vuln_locations = UnsafeErc20Operation::find(&mut mock_source.source)?;
     assert_eq!(vuln_locations.len(), 3);
 
     let report: Option<ReportSectionFragment> = vuln_locations.into();
