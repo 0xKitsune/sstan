@@ -165,28 +165,28 @@ vulnerability!(
         "description goes here",
         Classification::VulnerabilityMedium
     ),
-    (
-        FloatingPragma,
-        "title goes here",
-        "description goes here",
-        Classification::VulnerabilityLow
-    ),
-    (
-        UninitializedStorage,
-        "title goes here",
-        "description goes here",
-        Classification::VulnerabilityHigh
-    ),
-    (
-        UnprotectedSelfDestruct,
-        "title goes here",
-        "description goes here",
-        Classification::VulnerabilityLow
-    ),
-    (
-        UnsafeErc20Operation,
-        "title goes here",
-        "description goes here",
-        Classification::VulnerabilityLow
-    )
+    // (
+    //     FloatingPragma,
+    //     "title goes here",
+    //     "description goes here",
+    //     Classification::VulnerabilityLow
+    // ),
+    // (
+    //     UninitializedStorage,
+    //     "title goes here",
+    //     "description goes here",
+    //     Classification::VulnerabilityHigh
+    // ),
+    // (
+    //     UnprotectedSelfDestruct,
+    //     "title goes here",
+    //     "description goes here",
+    //     Classification::VulnerabilityLow
+    // ),
+    // (
+    //     UnsafeErc20Operation,
+    //     "title goes here",
+    //     "description goes here",
+    //     Classification::VulnerabilityLow
+    // )
 );

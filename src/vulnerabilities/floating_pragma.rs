@@ -31,7 +31,11 @@ impl VulnerabilityPattern for FloatingPragma {
                 //We can use unwrap because Target::PragmaDirective is a source unit part
                 if let pt::SourceUnitPart::PragmaDirective(loc, _, Some(pragma)) = node {
                     if pragma.string.contains('^') {
-                        vulnerability_locations.insert(path_buf.clone(), (loc, node.to_string()));
+                        vulnerability_locations.push_or_insert(
+                            path_buf.clone(),
+                            loc,
+                            node.to_string(),
+                        );
                     }
                 }
             }
