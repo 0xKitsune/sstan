@@ -32,8 +32,9 @@ impl OptimizationPattern for StringError {
                                 //if the identifier name is "require"
                                 if identifier.name == *"require" {
                                     //If the require statement contains strings
-                                    if let Some(pt::Expression::StringLiteral(_vec_string_literal)) =
-                                        func_call_expressions.last()
+                                    if let Some(pt::Expression::StringLiteral(
+                                        _vec_string_literal,
+                                    )) = func_call_expressions.last()
                                     {
                                         outcome.push_or_insert(
                                             path_buf.clone(),
@@ -54,7 +55,10 @@ impl OptimizationPattern for StringError {
 }
 
 mod test {
-    use crate::{utils::MockSource, optimizations::{StringError,OptimizationPattern}};
+    use crate::{
+        optimizations::{OptimizationPattern, StringError},
+        utils::MockSource,
+    };
 
     #[test]
     fn test_string_error_optimization() -> eyre::Result<()> {

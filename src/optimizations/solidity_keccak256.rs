@@ -1,4 +1,4 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 use solang_parser::pt::{self, CodeLocation};
@@ -34,7 +34,10 @@ impl OptimizationPattern for SolidityKeccak256 {
     }
 }
 mod test {
-    use crate::{utils::MockSource, optimizations::{SolidityKeccak256, OptimizationPattern}};
+    use crate::{
+        optimizations::{OptimizationPattern, SolidityKeccak256},
+        utils::MockSource,
+    };
 
     #[test]
     fn test_template_optimization() -> eyre::Result<()> {
