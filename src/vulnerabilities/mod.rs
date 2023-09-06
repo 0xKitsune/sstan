@@ -1,7 +1,7 @@
 pub mod divide_before_multiply;
 pub mod floating_pragma;
 pub mod incorrect_shift_math;
-pub mod uninitialized_storage;
+pub mod uninitialized_storage_variable;
 pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
 
@@ -160,33 +160,33 @@ vulnerability!(
         Classification::VulnerabilityMedium
     ),
     (
-        IncorrectShiftMath,
+        IncorrectShiftMath, // TODO: we should change this to be more descriptive since its only in assembly blocks, something like IncorrectShiftOperation
         "title goes here",
         "description goes here",
         Classification::VulnerabilityMedium
     ),
-    // (
-    //     FloatingPragma,
-    //     "title goes here",
-    //     "description goes here",
-    //     Classification::VulnerabilityLow
-    // ),
-    // (
-    //     UninitializedStorage,
-    //     "title goes here",
-    //     "description goes here",
-    //     Classification::VulnerabilityHigh
-    // ),
-    // (
-    //     UnprotectedSelfDestruct,
-    //     "title goes here",
-    //     "description goes here",
-    //     Classification::VulnerabilityLow
-    // ),
-    // (
-    //     UnsafeErc20Operation,
-    //     "title goes here",
-    //     "description goes here",
-    //     Classification::VulnerabilityLow
-    // )
+    (
+        FloatingPragma,
+        "title goes here",
+        "description goes here",
+        Classification::VulnerabilityLow
+    ),
+    (
+        UninitializedStorageVariable,
+        "title goes here",
+        "description goes here",
+        Classification::VulnerabilityHigh
+    ),
+    (
+        UnprotectedSelfDestruct,
+        "title goes here",
+        "description goes here",
+        Classification::VulnerabilityHigh
+    ),
+    (
+        UnsafeErc20Operation,
+        "title goes here",
+        "description goes here",
+        Classification::VulnerabilityLow
+    )
 );

@@ -156,15 +156,15 @@ fn test_divide_before_multiply_vulnerability() -> eyre::Result<()> {
     }
     "#;
 
-    let mut mock_source = MockSource::new().add_source("divde_before_multiply.sol", file_contents);
-    let qa_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
-    assert_eq!(qa_locations.len(), 22);
+    let mut mock_source = MockSource::new().add_source("divide_before_multiply.sol", file_contents);
+    let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
+    assert_eq!(vuln_locations.len(), 22);
 
-    let report: Option<ReportSectionFragment> = qa_locations.into();
+    let report: Option<ReportSectionFragment> = vuln_locations.into();
     if let Some(report) = report {
         let mut f = File::options()
             .append(true)
-            .open("src/report/mocks/qa_report_sections.md")?;
+            .open("src/report/mocks/vulnerability_report_sections.md")?;
         writeln!(&mut f, "{}", &String::from(report))?;
     }
 

@@ -6,6 +6,7 @@ use solang_parser::pt::{self, Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
+use crate::extractors::compound::YulShiftExtractor;
 use crate::extractors::{
     primitive::{AssignmentExtractor, UrnaryOpteratorExtractor},
     Extractor,
@@ -14,10 +15,7 @@ use crate::report::ReportSectionFragment;
 use crate::utils::MockSource;
 use std::io::Write;
 
-use super::{
-    DivideBeforeMultiply, FloatingPragma, IncorrectShiftMath, VulnerabilityOutcome,
-    VulnerabilityPattern,
-};
+use super::{DivideBeforeMultiply, IncorrectShiftMath, VulnerabilityOutcome, VulnerabilityPattern};
 
 impl VulnerabilityPattern for IncorrectShiftMath {
     fn find(
@@ -53,7 +51,6 @@ impl VulnerabilityPattern for IncorrectShiftMath {
                     }
                 }
             }
-            Ok(vulnerability_locations)
         }
 
         Ok(VulnerabilityOutcome::DivideBeforeMultiply(
@@ -63,7 +60,7 @@ impl VulnerabilityPattern for IncorrectShiftMath {
 }
 
 #[test]
-fn test_floating_pragma_vulnerability() -> eyre::Result<()> {
+fn test_incorrect_shift_math() -> eyre::Result<()> {
     let file_contents = r#"
     
     contract Contract0 {
@@ -83,14 +80,14 @@ fn test_floating_pragma_vulnerability() -> eyre::Result<()> {
     }
     "#;
     let mut mock_source = MockSource::new().add_source("incorrect_shift_math.sol", file_contents);
-    let qa_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
-    assert_eq!(qa_locations.len(), 2);
+    let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
+    assert_eq!(vuln_locations.len(), 2);
 
-    let report: Option<ReportSectionFragment> = qa_locations.into();
+    let report: Option<ReportSectionFragment> = vuln_locations.into();
     if let Some(report) = report {
         let mut f = File::options()
             .append(true)
-            .open("src/report/mocks/qa_report_sections.md")?;
+            .open("src/report/mocks/vulnerability_report_sections.md")?;
         writeln!(&mut f, "{}", &String::from(report))?;
     }
 

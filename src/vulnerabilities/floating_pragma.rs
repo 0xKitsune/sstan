@@ -6,6 +6,7 @@ use solang_parser::pt::{self, Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
+use crate::extractors::primitive::PragmaDirectiveExtractor;
 use crate::extractors::{
     primitive::{AssignmentExtractor, UrnaryOpteratorExtractor},
     Extractor,
@@ -29,11 +30,11 @@ impl VulnerabilityPattern for FloatingPragma {
             //For each target node that was extracted, check for the vulnerability patterns
             for node in target_nodes {
                 //We can use unwrap because Target::PragmaDirective is a source unit part
-                if let pt::SourceUnitPart::PragmaDirective(loc, _, Some(pragma)) = node {
+                if let pt::SourceUnitPart::PragmaDirective(loc, _, Some(pragma)) = &node {
                     if pragma.string.contains('^') {
                         vulnerability_locations.push_or_insert(
                             path_buf.clone(),
-                            loc,
+                            *loc,
                             node.to_string(),
                         );
                     }
@@ -59,14 +60,14 @@ fn test_floating_pragma_vulnerability() -> eyre::Result<()> {
     "#;
 
     let mut mock_source = MockSource::new().add_source("floating_pragma.sol", file_contents);
-    let qa_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
-    assert_eq!(qa_locations.len(), 1);
+    let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
+    assert_eq!(vuln_locations.len(), 1);
 
-    let report: Option<ReportSectionFragment> = qa_locations.into();
+    let report: Option<ReportSectionFragment> = vuln_locations.into();
     if let Some(report) = report {
         let mut f = File::options()
             .append(true)
-            .open("src/report/mocks/qa_report_sections.md")?;
+            .open("src/report/mocks/vulnerability_report_sections.md")?;
         writeln!(&mut f, "{}", &String::from(report))?;
     }
 
