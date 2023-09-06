@@ -60,7 +60,7 @@ impl VulnerabilityPattern for UnsafeErc20Operation {
 }
 
 #[test]
-fn test_uninitialized_storage_variable() -> eyre::Result<()> {
+fn test_unsafe_erc20_operation() -> eyre::Result<()> {
     let file_contents = r#"
     
     contract Contract0 {

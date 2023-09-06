@@ -93,7 +93,8 @@ fn test_uninitialized_storage_variable() -> eyre::Result<()> {
         
     }
     "#;
-    let mut mock_source = MockSource::new().add_source("incorrect_shift_math.sol", file_contents);
+    let mut mock_source =
+        MockSource::new().add_source("uninitialized_storage_variable.sol", file_contents);
     let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
     assert_eq!(vuln_locations.len(), 2);
 
