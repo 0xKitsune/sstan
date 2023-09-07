@@ -28,7 +28,6 @@ impl QAPattern for ContractNamePascalCase {
         for (path_buf, source_unit) in source {
             let contracts = ContractDefinitionExtractor::extract(source_unit)?;
             for contract in contracts {
-                // use the is_camel_case function in utils.rs
                 if let Some(name) = &contract.name {
                     if !is_pascal_case(&name.name) {
                         outcome.push_or_insert(
@@ -44,8 +43,6 @@ impl QAPattern for ContractNamePascalCase {
         Ok(QualityAssuranceOutcome::ImportIdentifiers(outcome))
     }
 }
-
-// Write a function that returns a bool determining if a string is in camelcase or not using regex
 
 #[cfg(test)]
 mod tests {

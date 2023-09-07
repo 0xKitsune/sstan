@@ -25,7 +25,6 @@ impl QAPattern for EventNamePascalCase {
         for (path_buf, source_unit) in source {
             let event_definitions = EventExtractor::extract(source_unit)?;
             for event in event_definitions {
-                // use the is_camel_case function in utils.rs
                 if let Some(name) = &event.name {
                     if !is_pascal_case(&name.name) {
                         outcome.push_or_insert(path_buf.clone(), event.loc, event.to_string());
@@ -37,8 +36,6 @@ impl QAPattern for EventNamePascalCase {
         Ok(QualityAssuranceOutcome::ImportIdentifiers(outcome))
     }
 }
-
-// Write a function that returns a bool determining if a string is in camelcase or not using regex
 
 #[cfg(test)]
 mod tests {

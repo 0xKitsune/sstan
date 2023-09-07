@@ -1,10 +1,10 @@
-pub mod constant_immutable_namespace;
 pub mod constructor_order;
 pub mod constructor_var_initialization;
 pub mod import_identifiers;
 pub mod large_multiples_of_ten;
 pub mod private_vars_leading_underscore;
 // pub mod storage_variable_namespace;
+pub mod constant_immutable_name_screaming_snake_case;
 pub mod contract_name_pascal_case;
 pub mod event_name_pascalcase;
 pub mod function_name_camel_case;
@@ -188,11 +188,6 @@ quality_assurance!(
         "Consider renaming for consistency"
     ),
     (
-        ConstantImmutableNamespace,
-        "Constants & Immutables should be named with screaming snake case",
-        "Consider renaming to follow convention"
-    ),
-    (
         LargeMultiplesOfTen,
         "Consider using scientific notation for large multiples of 10",
         "For example 100000 can be written as 1e5"
@@ -222,6 +217,11 @@ quality_assurance!(
         FunctionNameCamelCase,
         "Function names should be in camelCase",
         "Ensure that function definitions are declared using camelCase"
+    ),
+    (
+        ConstantImmutableNameScreamingSnakeCase,
+        "Constant and immutable variable names should be in SCREAMING_SNAKE_CASE",
+        "Ensure that Constant and immutable variable names are declared using SCREAMING_SNAKE_CASE"
     ),
     (
         EventNamePascalCase,

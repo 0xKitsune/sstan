@@ -27,7 +27,6 @@ impl QAPattern for FunctionNameCamelCase {
         for (path_buf, source_unit) in source {
             let function_definition = FunctionExtractor::extract(source_unit)?;
             for function in function_definition {
-                // use the is_camel_case function in utils.rs
                 if let Some(name) = &function.name {
                     if !is_camel_case(&name.name) {
                         outcome.push_or_insert(
@@ -43,8 +42,6 @@ impl QAPattern for FunctionNameCamelCase {
         Ok(QualityAssuranceOutcome::ImportIdentifiers(outcome))
     }
 }
-
-// Write a function that returns a bool determining if a string is in camelcase or not using regex
 
 #[cfg(test)]
 mod tests {
