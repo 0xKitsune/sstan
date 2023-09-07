@@ -64,8 +64,9 @@ mod test {
 
     use crate::{
         optimizations::{BoolEqualsBool, OptimizationPattern},
-        utils::MockSource,
+        utils::MockSource, report::ReportSectionFragment,
     };
+    use std::{fs::File, io::Write};
 
     #[test]
     fn test_analyze_for_if_bool_equals_bool_optimization() -> eyre::Result<()> {
@@ -131,6 +132,12 @@ mod test {
         let optimization_locations = BoolEqualsBool::find(&mut source.source)?;
 
         assert_eq!(optimization_locations.len(), 8);
+
+        let report: Option<ReportSectionFragment> = optimization_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options().append(true).open("optimization_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

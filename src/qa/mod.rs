@@ -143,15 +143,6 @@ macro_rules! quality_assurance {
             }
         }
 
-
-
-
-        //TODO: into tablefragment, propagate an eror if identifier nonce is not populated?
-
-
-
-
-
     };
 
 }

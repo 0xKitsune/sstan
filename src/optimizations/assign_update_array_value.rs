@@ -181,11 +181,12 @@ impl OptimizationPattern for AssignUpdateArrayValue {
 mod test {
     use crate::{
         optimizations::{AssignUpdateArrayValue, OptimizationPattern},
-        utils::MockSource,
+        utils::MockSource, report::ReportSectionFragment,
     };
+    use std::{fs::File, io::Write};
 
     #[test]
-    fn test_assign_update_array_optimization() {
+    fn test_assign_update_array_optimization() -> eyre::Result<()> {
         let file_contents = r#"
     
     pragma solidity >= 0.8.0;
@@ -206,7 +207,13 @@ mod test {
         let mut mock_source =
             MockSource::new().add_source("assign_update_array_value.sol", file_contents);
 
-        let optimization_locations = AssignUpdateArrayValue::find(&mut mock_source.source);
-        assert_eq!(optimization_locations.unwrap().len(), 1);
+        let optimization_locations = AssignUpdateArrayValue::find(&mut mock_source.source)?;
+        assert_eq!(optimization_locations.len(), 1);
+        let report: Option<ReportSectionFragment> = optimization_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options().append(true).open("optimization_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
+        Ok(())
     }
 }

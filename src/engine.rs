@@ -5,7 +5,7 @@ use thiserror::Error;
 
 use crate::{
     extractors::ExtractionError,
-    qa::{QualityAssuranceOutcome, QualityAssuranceTarget},
+    qa::{QualityAssuranceOutcome, QualityAssuranceTarget}, optimizations::{OptimizationTarget, OptimizationOutcome}, vulnerabilities::{VulnerabilityTarget, VulnerabilityOutcome},
 };
 
 pub type Report = String;
@@ -54,11 +54,6 @@ impl Engine {
     pub fn run(&self) {}
 }
 
-#[derive(Debug)]
-pub enum OptimizationOutcome {
-    CacheLoopVariable(Outcome),
-}
-
 //TODO: also have trait for GPTReportSection or something
 
 //TODO: FIXME: we can have the appendix generated for specific outcomes, have a trait that can get implemented to generate appendix
@@ -67,15 +62,15 @@ pub trait EngineModule<T> {
 }
 
 //TODO: impl EngineModule for all modules
-// pub struct OptimizationModule {
-//     pub targets: Vec<QualityAssuranceTarget>,
-//     pub outcomes: Vec<OptimzationOutcome>,
-// }
+pub struct OptimizationModule {
+    pub targets: Vec<OptimizationTarget>,
+    pub outcomes: Vec<OptimizationOutcome>,
+}
 
-// pub struct VulnerabilityModule {
-//     pub targets: Vec<QualityAssuranceTarget>,
-//     pub outcomes: Vec<VulnerabilityOutcome>,
-// }
+pub struct VulnerabilityModule {
+    pub targets: Vec<VulnerabilityTarget>,
+    pub outcomes: Vec<VulnerabilityOutcome>,
+}
 
 pub struct QualityAssuranceModule {
     pub targets: Vec<QualityAssuranceTarget>,

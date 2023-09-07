@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use crate::engine::{Engine, QualityAssuranceModule};
+use crate::engine::{Engine, QualityAssuranceModule, OptimizationModule, VulnerabilityModule};
 #[derive(Default, Clone)]
 pub struct ReportOutput {
     pub file_name: PathBuf,
@@ -170,15 +170,57 @@ impl From<QualityAssuranceModule> for ReportSection {
                 .outcomes
                 .into_iter()
                 .map(Option::<ReportSectionFragment>::from)
+                .filter_map(|fragment| if fragment.is_some() { fragment } else { None })
                 .enumerate()
-                .map(|(nonce, outcome)| ReportSectionFragment {
-                    identifier: Some(Identifier::new(Classification::NonCritical, nonce)),
-                    ..outcome.unwrap()
+                .map(|(nonce, fragment)| ReportSectionFragment {
+                    identifier: Some(Identifier::new(value.outcomes[nonce].classification(), nonce)),
+                    ..fragment
                 })
                 .collect::<Vec<ReportSectionFragment>>(),
         }
     }
 }
+
+impl From<OptimizationModule> for ReportSection {
+    fn from(value: OptimizationModule) -> Self {
+        ReportSection {
+            title: "Quality Assurance".to_string(),
+            description: String::new(),
+            outcomes: value
+                .outcomes
+                .into_iter()
+                .map(Option::<ReportSectionFragment>::from)
+                .filter_map(|fragment| if fragment.is_some() { fragment } else { None })
+                .enumerate()
+                .map(|(nonce, fragment)| ReportSectionFragment {
+                    identifier: Some(Identifier::new(value.outcomes[nonce].classification(), nonce)),
+                    ..fragment
+                })
+                .collect::<Vec<ReportSectionFragment>>(),
+        }
+    }
+}
+
+impl From<VulnerabilityModule> for ReportSection {
+    fn from(value: VulnerabilityModule) -> Self {
+        ReportSection {
+            title: "Quality Assurance".to_string(),
+            description: String::new(),
+            outcomes: value
+                .outcomes
+                .into_iter()
+                .map(Option::<ReportSectionFragment>::from)
+                .filter_map(|fragment| if fragment.is_some() { fragment } else { None })
+                .enumerate()
+                .map(|(nonce, fragment)| ReportSectionFragment {
+                    identifier: Some(Identifier::new(value.outcomes[nonce].classification(), nonce)),
+                    ..fragment
+                })
+                .collect::<Vec<ReportSectionFragment>>(),
+        }
+    }
+}
+
 
 impl From<ReportSection> for String {
     fn from(value: ReportSection) -> Self {
