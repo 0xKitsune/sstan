@@ -6,6 +6,7 @@ pub mod large_multiples_of_ten;
 pub mod private_vars_leading_underscore;
 // pub mod storage_variable_namespace;
 pub mod one_contract_per_file;
+pub mod remove_console;
 pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
@@ -199,6 +200,11 @@ quality_assurance!(
         OneContractPerFile,
         "Only define one contract per file",
         "It is best practice to only define one contract per file."
+    ),
+    (
+        RemoveConsole,
+        "Remove console.log statements",
+        "Console.log statements should be removed from production code"
     ),
     (
         StorageVariableNamespace,
