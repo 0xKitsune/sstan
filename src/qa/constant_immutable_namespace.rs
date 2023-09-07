@@ -68,7 +68,7 @@ mod test {
         if let Some(report) = report {
             let table = TableFragment::from(&report.clone());
             let mut f = File::options().append(true).open("qa_table_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(table))?;
+            writeln!(&mut f, "{}", String::from(&table))?;
             let mut f = File::options().append(true).open("qa_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report.clone()))?;
         }

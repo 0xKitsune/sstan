@@ -1,6 +1,18 @@
 
  <details open> 
  <summary> 
+ <Strong>Constructor should be listed before any other function</Strong> - Instances: 1 
+ </summary> 
+ Description of the qa pattern goes here 
+
+ <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
+ ```solidity 
+ constructor() {owner = address(1)} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
  <Strong>Constants & Immutables should be named with screaming snake case</Strong> - Instances: 2 
  </summary> 
  Consider renaming to follow convention 
@@ -18,25 +30,13 @@
 
  <details open> 
  <summary> 
- <Strong>Constructor should be listed before any other function</Strong> - Instances: 1 
+ <Strong>Constructor should initialize all variables</Strong> - Instances: 1 
  </summary> 
  Description of the qa pattern goes here 
 
- <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
+ <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
  ```solidity 
- constructor() {owner = address(1)} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <Strong>Consider importing specific identifiers instead of the whole file</Strong> - Instances: 1 
- </summary> 
- This will minimize compiled code size and help with readability 
-
- <span style="color: green;">File: </span> import_identifiers.sol 2-2 
- ```solidity 
- import "filename.sol"; 
+ constructor(address _owner) {owner = _owner} 
  ``` 
  </details>
 
@@ -51,18 +51,18 @@
  interface Contract0 {} 
  ``` 
  </details>
-
  <details open> 
  <summary> 
- <Strong>Constructor should initialize all variables</Strong> - Instances: 1 
+ <Strong>Consider importing specific identifiers instead of the whole file</Strong> - Instances: 1 
  </summary> 
- Description of the qa pattern goes here 
+ This will minimize compiled code size and help with readability 
 
- <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
+ <span style="color: green;">File: </span> import_identifiers.sol 2-2 
  ```solidity 
- constructor(address _owner) {owner = _owner} 
+ import "filename.sol"; 
  ``` 
  </details>
+
 
  <details open> 
  <summary> 
@@ -75,6 +75,28 @@
  uint256 x = 10000000; 
  ``` 
  </details>
+ <details open> 
+ <summary> 
+ <Strong>Private variables should contain a leading underscore</Strong> - Instances: 3 
+ </summary> 
+ Description of the qa pattern goes here 
+
+ <span style="color: green;">File: </span> private_vars.sol 5-5 
+ ```solidity 
+ address public _addr2; 
+ ```
+
+ <span style="color: green;">File: </span> private_vars.sol 9-9 
+ ```solidity 
+ address internal addr6; 
+ ```
+
+ <span style="color: green;">File: </span> private_vars.sol 7-7 
+ ```solidity 
+ address private addr4; 
+ ``` 
+ </details>
+
 
  <details open> 
  <summary> 
@@ -90,40 +112,6 @@
 
  <details open> 
  <summary> 
- <Strong>Private variables should contain a leading underscore</Strong> - Instances: 3 
- </summary> 
- Description of the qa pattern goes here 
-
- <span style="color: green;">File: </span> private_vars.sol 7-7 
- ```solidity 
- address private addr4; 
- ```
-
- <span style="color: green;">File: </span> private_vars.sol 5-5 
- ```solidity 
- address public _addr2; 
- ```
-
- <span style="color: green;">File: </span> private_vars.sol 9-9 
- ```solidity 
- address internal addr6; 
- ``` 
- </details>
- <details open> 
- <summary> 
- <Strong>Remove any unused returns</Strong> - Instances: 1 
- </summary> 
-  
-
- <span style="color: green;">File: </span> unused_returns.sol 5-5 
- ```solidity 
- function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
- ``` 
- </details>
-
-
- <details open> 
- <summary> 
  <Strong>Storage variables should be named with camel case</Strong> - Instances: 2 
  </summary> 
  Consider renaming to follow convention 
@@ -136,5 +124,17 @@
  <span style="color: green;">File: </span> storage_var_namespace.sol 7-7 
  ```solidity 
  address ALSO_IS_BAD; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <Strong>Remove any unused returns</Strong> - Instances: 1 
+ </summary> 
+  
+
+ <span style="color: green;">File: </span> unused_returns.sol 5-5 
+ ```solidity 
+ function foo() public returns (uint256 x) {uint256 y = 0; return y;} 
  ``` 
  </details>

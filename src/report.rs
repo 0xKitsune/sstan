@@ -17,6 +17,21 @@ pub struct Report {
     pub optimization_report: ReportSection,
     pub qa_report: ReportSection,
 }
+
+impl From<Report> for String {
+    fn from(report: Report) -> Self {
+        format!(
+            "{}\n{}\n{}\n{}\n{}\n{}\n{}\n",
+            String::from(report.preamble),
+            report.description,
+            String::from(report.summary),
+            String::from(report.table_of_contents),
+            String::from(report.vulnerability_report),
+            String::from(report.optimization_report),
+            String::from(report.qa_report),
+        )
+    }
+}
 #[derive(Default, Clone)]
 pub struct ReportPreamble {
     pub title: String,
@@ -26,17 +41,56 @@ pub struct ReportPreamble {
     pub version: String,
     pub authors: Vec<String>,
 }
+
+impl From<ReportPreamble> for String {
+    fn from(preamble: ReportPreamble) -> Self {
+        format!(
+            "# {} \n\n![logo]({})\n\n{}\n\n{}\n\n{}\n\n{}\n\n",
+            preamble.title,
+            preamble.logo,
+            preamble.description,
+            preamble.date,
+            preamble.version,
+            preamble.authors.join(", "),
+        )
+    }
+}
 #[derive(Default, Clone)]
 
 //Table of Contents
 pub struct TableOfContents {
     pub table_sections: Vec<TableSection>,
 }
+
+impl From<TableOfContents> for String {
+    fn from(toc: TableOfContents) -> Self {
+        toc.table_sections
+            .iter()
+            .map(|section| String::from(section))
+            .collect::<Vec<String>>()
+            .join("\n")
+    }
+}
 #[derive(Default, Clone)]
 
 pub struct TableSection {
     pub title: String,
     pub subsections: Vec<TableFragment>,
+}
+
+impl From<&TableSection> for String {
+    fn from(section: &TableSection) -> Self {
+        format!(
+            "# {}\n\n{}\n\n",
+            section.title,
+            section
+                .subsections
+                .iter()
+                .map(|subsection| String::from(subsection))
+                .collect::<Vec<String>>()
+                .join("\n\n")
+        )
+    }
 }
 #[derive(Default, Clone)]
 pub struct TableFragment {
@@ -153,6 +207,12 @@ impl OutcomeReport {
 #[derive(Default, Clone)]
 pub struct ReportSummary {
     pub charts: Vec<String>,
+}
+
+impl From<ReportSummary> for String {
+    fn from(summary: ReportSummary) -> Self {
+        format!("# Summary\n\n{}\n\n", summary.charts.join("\n\n"))
+    }
 }
 
 impl From<Report> for ReportOutput {
@@ -275,23 +335,6 @@ impl From<ReportSection> for TableSection {
 
 //TODO: after analysis and turning each module into report section, we need to populate nonces across all of the findings, then we can create the table of contents
 
-impl From<Engine> for Report {
-    fn from(_value: Engine) -> Self {
-        //TODO: note that we will need to follow something like this order:
-        // run the module
-        // call into reportSection
-        // populate nonces
-
-        // do this for all modules ^^
-
-        // call into table section for each module
-
-        //Create the table of contents
-
-        todo!()
-    }
-}
-
 //Report Fragment Formatting
 impl From<ReportSectionFragment> for String {
     fn from(value: ReportSectionFragment) -> String {
@@ -379,8 +422,8 @@ impl From<&ReportSectionFragment> for TableFragment {
     }
 }
 
-impl From<TableFragment> for String {
-    fn from(value: TableFragment) -> String {
+impl From<&TableFragment> for String {
+    fn from(value: &TableFragment) -> String {
         let mut fragment: String = String::new();
         if let Some(identifier) = value.identifier {
             let identifier: String = format!(
