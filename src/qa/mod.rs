@@ -5,14 +5,13 @@ pub mod import_identifiers;
 pub mod large_multiples_of_ten;
 pub mod private_vars_leading_underscore;
 // pub mod storage_variable_namespace;
+pub mod event_name_pascalcase;
+pub mod interface_namespace;
 pub mod one_contract_per_file;
 pub mod remove_console;
 pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
-// pub mod unused_returns;
-pub mod event_name_pascalcase;
-pub mod interface_namespace;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::{Classification, OutcomeReport, ReportSectionFragment};
@@ -221,5 +220,6 @@ quality_assurance!(
         EventNamePascalCase,
         "Event names should be PascalCase",
         "Ensure that event definitions are declared using PascalCase"
-    )
+    ),
+    (UnusedReturns, "Remove any unused returns", "") //TODO: update this
 );
