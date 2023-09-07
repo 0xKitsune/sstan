@@ -15,6 +15,11 @@ fn init() {
     std::fs::File::options()
         .truncate(true)
         .write(true)
+        .open("optimization_report_sections.md")
+        .unwrap();
+    std::fs::File::options()
+        .truncate(true)
+        .write(true)
         .open("qa_table_sections.md")
         .unwrap();
 }
