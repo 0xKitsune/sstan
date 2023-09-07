@@ -5,6 +5,7 @@ pub mod import_identifiers;
 pub mod large_multiples_of_ten;
 pub mod private_vars_leading_underscore;
 // pub mod storage_variable_namespace;
+pub mod one_contract_per_file;
 pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
@@ -194,6 +195,11 @@ quality_assurance!(
         "For example 100000 can be written as 1e5"
     ),
     (UnusedFunctions, "Remove any unused functions", ""), //TODO: update this
+    (
+        OneContractPerFile,
+        "Only define one contract per file",
+        "It is best practice to only define one contract per file."
+    ),
     (
         StorageVariableNamespace,
         "Storage variables should be named with camel case",
