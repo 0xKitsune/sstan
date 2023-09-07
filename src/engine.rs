@@ -5,7 +5,9 @@ use thiserror::Error;
 
 use crate::{
     extractors::ExtractionError,
-    qa::{QualityAssuranceOutcome, QualityAssuranceTarget}, optimizations::{OptimizationTarget, OptimizationOutcome}, vulnerabilities::{VulnerabilityTarget, VulnerabilityOutcome},
+    optimizations::{OptimizationOutcome, OptimizationTarget},
+    qa::{QualityAssuranceOutcome, QualityAssuranceTarget},
+    vulnerabilities::{VulnerabilityOutcome, VulnerabilityTarget},
 };
 
 pub type Report = String;

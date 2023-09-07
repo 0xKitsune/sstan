@@ -38,8 +38,11 @@ impl OptimizationPattern for PrivateConstant {
     }
 }
 mod test {
+    use std::{fs::File, io::Write};
+
     use crate::{
         optimizations::{OptimizationPattern, PrivateConstant},
+        report::ReportSectionFragment,
         utils::MockSource,
     };
 
@@ -68,6 +71,14 @@ contract Contract0 {
         let mut source = MockSource::new().add_source("private_constant.sol", file_contents);
         let optimization_locations = PrivateConstant::find(&mut source.source)?;
         assert_eq!(optimization_locations.len(), 2);
+
+        let report: Option<ReportSectionFragment> = optimization_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("optimization_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

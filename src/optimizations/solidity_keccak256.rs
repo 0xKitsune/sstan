@@ -34,8 +34,11 @@ impl OptimizationPattern for SolidityKeccak256 {
     }
 }
 mod test {
+    use std::{fs::File, io::Write};
+
     use crate::{
         optimizations::{OptimizationPattern, SolidityKeccak256},
+        report::ReportSectionFragment,
         utils::MockSource,
     };
 
@@ -71,6 +74,14 @@ contract Contract0 {
         let optimization_locations = SolidityKeccak256::find(&mut source.source)?;
 
         assert_eq!(optimization_locations.len(), 2);
+
+        let report: Option<ReportSectionFragment> = optimization_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("optimization_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

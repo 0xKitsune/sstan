@@ -49,7 +49,8 @@ mod test {
 
     use crate::{
         optimizations::{AddressBalance, OptimizationPattern},
-        utils::MockSource, report::ReportSectionFragment,
+        report::ReportSectionFragment,
+        utils::MockSource,
     };
 
     #[test]
@@ -75,7 +76,9 @@ contract Contract0 {
         assert_eq!(optimization_locations.len(), 2);
         let report: Option<ReportSectionFragment> = optimization_locations.into();
         if let Some(report) = report {
-            let mut f = File::options().append(true).open("optimization_report_sections.md")?;
+            let mut f = File::options()
+                .append(true)
+                .open("optimization_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report))?;
         }
         Ok(())

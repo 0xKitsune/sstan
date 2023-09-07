@@ -92,8 +92,11 @@ fn get_function_definition_memory_args(
 }
 
 mod test {
+    use std::{fs::File, io::Write};
+
     use crate::{
         optimizations::{MemoryToCalldata, OptimizationPattern},
+        report::ReportSectionFragment,
         utils::MockSource,
     };
 
@@ -166,7 +169,13 @@ contract Contract1 {
         let mut source = MockSource::new().add_source("memory_to_calldata.sol", file_contents);
         let optimization_locations = MemoryToCalldata::find(&mut source.source)?;
         assert_eq!(optimization_locations.len(), 2);
-
+        let report: Option<ReportSectionFragment> = optimization_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("optimization_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

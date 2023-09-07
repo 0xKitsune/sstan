@@ -42,8 +42,11 @@ fn struct_can_be_packed(struct_definition: StructDefinition) -> bool {
     utils::storage_slots_used(unordered_variable_sizes) > utils::storage_slots_used(variable_sizes)
 }
 mod test {
+    use std::{fs::File, io::Write};
+
     use crate::{
         optimizations::{OptimizationPattern, PackStructVariables},
+        report::ReportSectionFragment,
         utils::MockSource,
     };
 
@@ -118,7 +121,13 @@ contract OrderRouter {
         let optimization_locations = PackStructVariables::find(&mut source.source)?;
 
         assert_eq!(optimization_locations.len(), 4);
-
+        let report: Option<ReportSectionFragment> = optimization_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("optimization_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

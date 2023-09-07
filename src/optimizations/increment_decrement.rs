@@ -93,8 +93,11 @@ pub fn extract_pre_increment_pre_decrement(node: &mut pt::Statement) -> HashSet<
     locations
 }
 mod test {
+    use std::{fs::File, io::Write};
+
     use crate::{
         optimizations::{IncrementDecrement, OptimizationPattern},
+        report::ReportSectionFragment,
         utils::MockSource,
     };
 
@@ -131,8 +134,14 @@ mod test {
 
         let mut source = MockSource::new().add_source("increment_decrement.sol", file_contents);
         let optimization_locations = IncrementDecrement::find(&mut source.source)?;
-
         assert_eq!(optimization_locations.len(), 3);
+        let report: Option<ReportSectionFragment> = optimization_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("optimization_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }

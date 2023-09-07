@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use crate::engine::{Engine, QualityAssuranceModule, OptimizationModule, VulnerabilityModule};
+use crate::engine::{Engine, OptimizationModule, QualityAssuranceModule, VulnerabilityModule};
 #[derive(Default, Clone)]
 pub struct ReportOutput {
     pub file_name: PathBuf,
@@ -164,18 +164,20 @@ impl From<Report> for ReportOutput {
 impl From<QualityAssuranceModule> for ReportSection {
     fn from(value: QualityAssuranceModule) -> Self {
         ReportSection {
-            title: "Quality Assurance".to_string(),
+            title: "Vulnerabilities".to_string(),
             description: String::new(),
             outcomes: value
                 .outcomes
                 .into_iter()
-                .map(Option::<ReportSectionFragment>::from)
-                .filter_map(|fragment| if fragment.is_some() { fragment } else { None })
+                .map(|f| (f.classification(), Option::<ReportSectionFragment>::from(f)))
+                .filter(|(_, fragment)| fragment.is_some())
                 .enumerate()
-                .map(|(nonce, fragment)| ReportSectionFragment {
-                    identifier: Some(Identifier::new(value.outcomes[nonce].classification(), nonce)),
-                    ..fragment
-                })
+                .map(
+                    |(nonce, (classification, fragment))| ReportSectionFragment {
+                        identifier: Some(Identifier::new(classification, nonce)),
+                        ..fragment.unwrap()
+                    },
+                )
                 .collect::<Vec<ReportSectionFragment>>(),
         }
     }
@@ -184,18 +186,20 @@ impl From<QualityAssuranceModule> for ReportSection {
 impl From<OptimizationModule> for ReportSection {
     fn from(value: OptimizationModule) -> Self {
         ReportSection {
-            title: "Quality Assurance".to_string(),
+            title: "Optimizations".to_string(),
             description: String::new(),
             outcomes: value
                 .outcomes
                 .into_iter()
-                .map(Option::<ReportSectionFragment>::from)
-                .filter_map(|fragment| if fragment.is_some() { fragment } else { None })
+                .map(|f| (f.classification(), Option::<ReportSectionFragment>::from(f)))
+                .filter(|(_, fragment)| fragment.is_some())
                 .enumerate()
-                .map(|(nonce, fragment)| ReportSectionFragment {
-                    identifier: Some(Identifier::new(value.outcomes[nonce].classification(), nonce)),
-                    ..fragment
-                })
+                .map(
+                    |(nonce, (classification, fragment))| ReportSectionFragment {
+                        identifier: Some(Identifier::new(classification, nonce)),
+                        ..fragment.unwrap()
+                    },
+                )
                 .collect::<Vec<ReportSectionFragment>>(),
         }
     }
@@ -209,18 +213,19 @@ impl From<VulnerabilityModule> for ReportSection {
             outcomes: value
                 .outcomes
                 .into_iter()
-                .map(Option::<ReportSectionFragment>::from)
-                .filter_map(|fragment| if fragment.is_some() { fragment } else { None })
+                .map(|f| (f.classification(), Option::<ReportSectionFragment>::from(f)))
+                .filter(|(_, fragment)| fragment.is_some())
                 .enumerate()
-                .map(|(nonce, fragment)| ReportSectionFragment {
-                    identifier: Some(Identifier::new(value.outcomes[nonce].classification(), nonce)),
-                    ..fragment
-                })
+                .map(
+                    |(nonce, (classification, fragment))| ReportSectionFragment {
+                        identifier: Some(Identifier::new(classification, nonce)),
+                        ..fragment.unwrap()
+                    },
+                )
                 .collect::<Vec<ReportSectionFragment>>(),
         }
     }
 }
-
 
 impl From<ReportSection> for String {
     fn from(value: ReportSection) -> Self {
@@ -297,10 +302,10 @@ impl From<ReportSectionFragment> for String {
                 identifier.classification.identifier(),
                 identifier.nonce
             );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> Instances({}) \n </summary>",identifier,identifier,value.title,value.instances));
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> - Instances: {} \n </summary>",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",
+                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
                 value.title, value.instances,
             ));
         }
@@ -332,10 +337,10 @@ impl From<&ReportSectionFragment> for String {
                 identifier.classification.identifier(),
                 identifier.nonce
             );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> Instances({}) \n </summary>",identifier,identifier,value.title,value.instances));
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> - Instances: {} \n </summary>",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",
+                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
                 value.title, value.instances,
             ));
         }

@@ -71,7 +71,8 @@ mod test {
 
     use crate::{
         optimizations::{AddressZero, OptimizationPattern},
-        utils::MockSource, report::ReportSectionFragment,
+        report::ReportSectionFragment,
+        utils::MockSource,
     };
 
     #[test]
@@ -104,7 +105,9 @@ mod test {
         assert_eq!(qa_locations.len(), 4);
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {
-            let mut f = File::options().append(true).open("optimization_report_sections.md")?;
+            let mut f = File::options()
+                .append(true)
+                .open("optimization_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report))?;
         }
 

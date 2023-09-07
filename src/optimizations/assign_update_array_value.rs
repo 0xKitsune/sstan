@@ -181,7 +181,8 @@ impl OptimizationPattern for AssignUpdateArrayValue {
 mod test {
     use crate::{
         optimizations::{AssignUpdateArrayValue, OptimizationPattern},
-        utils::MockSource, report::ReportSectionFragment,
+        report::ReportSectionFragment,
+        utils::MockSource,
     };
     use std::{fs::File, io::Write};
 
@@ -211,7 +212,9 @@ mod test {
         assert_eq!(optimization_locations.len(), 1);
         let report: Option<ReportSectionFragment> = optimization_locations.into();
         if let Some(report) = report {
-            let mut f = File::options().append(true).open("optimization_report_sections.md")?;
+            let mut f = File::options()
+                .append(true)
+                .open("optimization_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report))?;
         }
         Ok(())

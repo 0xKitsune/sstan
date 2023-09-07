@@ -1,4 +1,6 @@
 use std::collections::{HashMap, HashSet};
+use std::fs::File;
+use std::io::Write;
 use std::path::PathBuf;
 
 use super::{OptimizationOutcome, OptimizationPattern, PayableFunctions};
@@ -8,6 +10,7 @@ use solang_parser::{self, pt::SourceUnit};
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::FunctionExtractor;
 use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
+use crate::report::ReportSectionFragment;
 use crate::utils::MockSource;
 
 impl OptimizationPattern for PayableFunctions {
@@ -80,5 +83,13 @@ fn test_payable_function_optimization() -> eyre::Result<()> {
     let mut source = MockSource::new().add_source("payable_functions.sol", file_contents);
     let optimization_locations = PayableFunctions::find(&mut source.source)?;
     assert_eq!(optimization_locations.len(), 2);
+
+    let report: Option<ReportSectionFragment> = optimization_locations.into();
+    if let Some(report) = report {
+        let mut f = File::options()
+            .append(true)
+            .open("optimization_report_sections.md")?;
+        writeln!(&mut f, "{}", &String::from(report))?;
+    }
     Ok(())
 }

@@ -50,8 +50,11 @@ impl OptimizationPattern for ReadStorageInForLoop {
     }
 }
 mod test {
+    use std::{fs::File, io::Write};
+
     use crate::{
         optimizations::{OptimizationPattern, ReadStorageInForLoop},
+        report::ReportSectionFragment,
         utils::MockSource,
     };
 
@@ -85,7 +88,13 @@ mod test {
         let optimization_locations = ReadStorageInForLoop::find(&mut source.source)?;
 
         assert_eq!(optimization_locations.len(), 2);
-
+        let report: Option<ReportSectionFragment> = optimization_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("optimization_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
         Ok(())
     }
 }
