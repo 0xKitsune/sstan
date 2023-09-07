@@ -5,16 +5,16 @@ fn init() {
     std::fs::File::options()
         .truncate(true)
         .write(true)
-        .open("src/report/mocks/qa_report_sections.md")
+        .open("qa_report_sections.md")
         .unwrap();
     std::fs::File::options()
         .truncate(true)
         .write(true)
-        .open("src/report/mocks/vulnerability_report_sections.md")
+        .open("vulnerability_report_sections.md")
         .unwrap();
     std::fs::File::options()
         .truncate(true)
         .write(true)
-        .open("src/report/mocks/qa_table_sections.md")
+        .open("qa_table_sections.md")
         .unwrap();
 }
