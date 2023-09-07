@@ -1,7 +1,3 @@
-pub mod ctor;
-pub mod optimizations;
-pub mod qa;
-pub mod vulnerabilities;
 use std::path::PathBuf;
 
 use crate::engine::{Engine, QualityAssuranceModule};
