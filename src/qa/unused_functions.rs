@@ -94,9 +94,7 @@ mod test {
         let report: Option<ReportSectionFragment> = qa_locations.into();
 
         if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("qa_report_sections.md")?;
+            let mut f = File::options().append(true).open("qa_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report))?;
         }
 

@@ -23,13 +23,15 @@ pub mod solidity_keccak256;
 pub mod solidity_math;
 pub mod sstore;
 pub mod string_error;
-use super::engine::{Outcome, Report};
+use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Classification;
+use crate::report::OutcomeReport;
+use crate::report::ReportSectionFragment;
+use crate::utils;
 use solang_parser::pt::{Loc, SourceUnit};
 use std::collections::HashMap;
 use std::path::PathBuf;
-
 pub trait OptimizationPattern {
     fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError>;
 }
@@ -72,35 +74,6 @@ macro_rules! optimization {
                 }
             }
 
-
-
-        pub fn gas_report(&self) -> String {
-            match self {
-                $(
-                    OptimizationOutcome::$name(_) => format!(
-                        r##"### {}
-                        {}
-                
-                        {}"##,
-                        self.gas_report_anchor(),
-                        $description,
-                        $gas_report
-                    ),
-                )+
-            }
-        }
-
-
-        pub fn gas_report_anchor(&self) -> &str {
-            match self {
-                $(
-                    OptimizationOutcome::$name(_) => $gas_report_title,
-                )+
-            }
-        }
-
-
-
         pub fn classification(&self) -> Classification {
             match self {
                 $(
@@ -112,44 +85,62 @@ macro_rules! optimization {
 
     }
 
-
-
         //TODO: simplify this so that it isnt implementing this for every single macro, just have | when you are matching
-        impl Into<Report> for OptimizationOutcome {
-            fn into(self) -> Report {
-                match self {
+        impl From<OptimizationOutcome> for Option<ReportSectionFragment> {
+            fn from(value: OptimizationOutcome) -> Self {
+                match value {
                     $(
                         OptimizationOutcome::$name(outcome) => {
-                            let mut report = format!(
-                                r###"### {}\n{}"###,
-                                stringify!($report_title),
-                                $description
-                            );
+                            if outcome.is_empty() {
+                                return None;
+                            }
 
+                            let description = format!("\n <details> \n <summary> \n {} \n Gas Savings: ~{}  </summary> \n <Strong> {} </Strong> \n {} \n </details> \n", $description, $gas_savings, $gas_report_title, $gas_report);
+
+                            let mut report_fragment = ReportSectionFragment::new(
+                                $report_title.to_string(),
+                                None,
+                                description,
+                                outcome.len(),
+                            );
+                            let mut outcome_reports = vec![];
                             for (path, loc_snippets) in outcome.iter() {
+                                let file_name = path.file_name().expect("couldnt get file name")  //TODO: make this a little more descriptive or propagate
+                                .to_str()
+                                .expect("no filename"); //TODO: make this a little more descriptive or propagate
+
                                 for (loc, snippet) in loc_snippets.iter() {
                                     if let Loc::File(_, start, end) = loc{
-                                    report.push_str(&format!(
-                                        "{}:{}-{}\n{}\n",
-                                        path.display(),
-                                      start, //TODO: need to call line number function on this
-                                       end,
-                                        snippet
-                                    ));
+                                        let file_contents = std::fs::read_to_string(path).expect("couldnt read file"); //TODO: propagate this or maybe just make more descriptive
+                                        let start_line = utils::get_line_number(*start, &file_contents);
+                                        let end_line = utils::get_line_number(*end, &file_contents);
+                                        outcome_reports.push(OutcomeReport::new(
+                                            file_name.to_string(),
+                                            (start_line, end_line),
+                                            snippet.to_string(),
+                                        ));
+
                                 }else{
                                     panic!("handle this TODO:");
 
                                 }
                             }
-                            }
 
-                            report
+
+                            }
+                            report_fragment.outcomes = outcome_reports;
+                            Some(report_fragment)
+
                         }
+
+
+
                     )+
+
                 }
+
             }
         }
-
 
     };
 }
@@ -1718,7 +1709,6 @@ contract Contract1 {
             ╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
             ```
             ",
-            
             Classification::OptimizationLow
         ),
         (
