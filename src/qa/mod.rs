@@ -80,7 +80,7 @@ macro_rules! quality_assurance {
             }
 
             pub fn classification(&self) -> Classification {
-                todo!()
+                Classification::NonCritical
             }
         }
 
@@ -193,11 +193,11 @@ quality_assurance!(
         "Consider using scientific notation for large multiples of 10",
         "For example 100000 can be written as 1e5"
     ),
-    (UnusedFunctions, "Remove any unused functions", ""),
+    (UnusedFunctions, "Remove any unused functions", ""), //TODO: update this
     (
         StorageVariableNamespace,
         "Storage variables should be named with camel case",
         "Consider renaming to follow convention"
     ),
-    (UnusedReturns, "Remove any unused returns", "")
+    (UnusedReturns, "Remove any unused returns", "") //TODO: update this
 );

@@ -25,6 +25,7 @@ pub mod sstore;
 pub mod string_error;
 use super::engine::{Outcome, Report};
 use crate::engine::EngineError;
+use crate::report::Classification;
 use solang_parser::pt::{Loc, SourceUnit};
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -35,7 +36,7 @@ pub trait OptimizationPattern {
 
 #[macro_export]
 macro_rules! optimization {
-    ($(($name:ident, $gas_savings:expr, $report_title:expr, $description:expr, $gas_report_title:expr, $gas_report:expr)),+ $(,)?) => {
+    ($(($name:ident, $gas_savings:expr, $report_title:expr, $description:expr, $gas_report_title:expr, $gas_report:expr, $classification:expr)),+ $(,)?) => {
 
 
         $(pub struct $name;)+
@@ -98,6 +99,17 @@ macro_rules! optimization {
             }
         }
 
+
+
+        pub fn classification(&self) -> Classification {
+            match self {
+                $(
+                    OptimizationOutcome::$name(_) => $classification,
+                )+
+            }
+
+        }
+
     }
 
 
@@ -142,6 +154,7 @@ macro_rules! optimization {
     };
 }
 
+//TODO: update to calc dynamic gas savings
 // Gas saved is an approximation based on the maximum gas that can be saved from the optimization
 optimization!(
     (
@@ -257,8 +270,8 @@ contract Contract3 {
 ╰─────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 
 ```
-"
-    ),
+", 
+Classification::OptimizationLow),
     (
         AddressZero,
         6,
@@ -330,7 +343,7 @@ contract Contract3 {
     │ assemblyOwnerNotZero ┆ 252             ┆ 252 ┆ 252    ┆ 252 ┆ 1       │
     ╰──────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
     ```
-"
+",Classification::OptimizationLow
     ),
     (
         AssignUpdateArrayValue,
@@ -456,7 +469,7 @@ contract Contract3 {
         
         ```
     
-"##
+"##,Classification::OptimizationMedium
     ),
     (
         BoolEqualsBool,
@@ -552,7 +565,7 @@ contract Contract2 {
 ```
     
 "
-    ),
+,Classification::OptimizationLow ),
 
     (
         CacheArrayLength,
@@ -682,7 +695,7 @@ contract Contract3 {
 ```
     
 "
-    ),
+,Classification::OptimizationLow   ),
 
     (
         CacheStorageInMemory,
@@ -690,7 +703,8 @@ contract Contract3 {
         "Cache Storage Variables in Memory",
         "", //TODO:
         "Cache Array Length - Gas Report",
-        "" //TODO:
+        "", //TODO:
+        Classification::OptimizationMedium
     ),
     (
         ConstantVariable,
@@ -792,7 +806,7 @@ contract Contract2 {
 ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 ```
 
-        " 
+        " ,Classification::OptimizationHigh
     ),
     (
         EventIndexing,
@@ -800,11 +814,12 @@ contract Contract2 {
         "Event is not properly indexed.",
         "When possible, always include a minimum of 3 indexed event topics to save gas",
         "Event Indexing - Gas Report",
-        "" //TODO:
+        "", //TODO:
+        Classification::OptimizationLow
     ),
     (
         ImmutableVariable,
-        0, //TODO:
+        2103,
         "Mark storage variables as `immutable` if they never change after contract initialization.",
         "State variables can be declared as constant or immutable. In both cases, the variables cannot be modified after the contract has been constructed. For constant variables, the value has to be fixed at compile-time, while for immutable, it can still be assigned at construction time. \n The compiler does not reserve a storage slot for these variables, and every occurrence is inlined by the respective value. \n Compared to regular state variables, the gas costs of constant and immutable variables are much lower. For a constant variable, the expression assigned to it is copied to all the places where it is accessed and also re-evaluated each time. This allows for local optimizations. Immutable variables are evaluated once at construction time and their value is copied to all the places in the code where they are accessed. For these values, 32 bytes are reserved, even if they would fit in fewer bytes. Due to this, constant values can sometimes be cheaper than immutable values. \n",
         "Immutable Variable - Gas Report",
@@ -902,11 +917,11 @@ contract Contract2 {
 ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 ```
 
-        "
+        ",Classification::OptimizationHigh
     ),
     (
         IncrementDecrement,
-        660,
+        342, //TODO: revisit this with dynamic calculations
         " `unchecked{++i}` instead of `i++` (or use assembly when applicable)",
         "Use `++i` instead of `i++`. This is especially useful in for loops but this optimization can be used anywhere in your code. You can also use `unchecked{++i;}` for even more gas savings but this will not check to see if `i` overflows. For extra safety if you are worried about this, you can add a require statement after the loop checking if `i` is equal to the final incremented value. For best gas savings, use inline assembly, however this limits the functionality you can achieve. For example you cant use Solidity syntax to internally call your own contract within an assembly block and external calls must be done with the `call()` or `delegatecall()` instruction. However when applicable, inline assembly will save much more gas.",
         "Increment Decrement - Gas Report",
@@ -1073,11 +1088,12 @@ contract Contract2 {
         │ inlineAssemblyLoop ┆ 709             ┆ 709 ┆ 709    ┆ 709 ┆ 1       │
         ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
         
-        ```"
+        ```",
+        Classification::OptimizationMedium
     ),
     (
         MemoryToCalldata,
-        2617,
+        1716,
         "Use `calldata` instead of `memory` for function arguments that do not get mutated.",
         "Mark data types as `calldata` instead of `memory` where possible. This makes it so that the data is not automatically loaded into memory. If the data passed into the function does not need to be changed (like updating values in an array), it can be passed in as `calldata`. The one exception to this is if the argument must later be passed into another function that takes an argument that specifies `memory` storage.",
         "Memory to Calldata - Gas Report",
@@ -1194,7 +1210,8 @@ contract Contract3 {
 ╰───────────────────────────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
 
 ```
-        "
+        ",
+        Classification::OptimizationMedium
     ),
     (
         MultipleRequire,
@@ -1262,7 +1279,8 @@ contract Contract1 {
 ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 
 ```
-        "
+        ",
+        Classification::OptimizationLow
     ),
     (
         OptimalComparison,
@@ -1271,7 +1289,7 @@ contract Contract1 {
         "When comparing integers, it is cheaper to use strict `>` & `<` operators over `>=` & `<=` operators, even if you must increment or decrement one of the operands. \n Note: before using this technique, it's important to consider whether incrementing/decrementing one of the operators could result in an over/underflow.
         \n This optimization is applicable when the optimizer is turned off.",
         "Optimal Comparison - Gas Report",
-        "  
+        "
 ```js
 contract GasTest is DSTest {
     Contract0 c0;
@@ -1369,7 +1387,8 @@ contract Contract3 {
 ╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 ```
 
-        "
+        ",
+        Classification::OptimizationLow
     ),
     (
         PackStorageVariables,
@@ -1466,10 +1485,12 @@ contract Contract1 {
 ╰───────────────────────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
 
 ```
-        "),
+        ",
+        Classification::OptimizationHigh
+    ),
         (
             PackStructVariables,
-            22140,
+            0, //TODO: revisit this gas saving value
             "Pack Structs",
             "When creating structs, make sure that the variables are listed in ascending order by data type. The compiler will pack the variables that can fit into one 32 byte slot. If the variables are not listed in ascending order, the compiler may not pack the data into one slot, causing additional `sload` and `sstore` instructions when reading/storing the struct into the contract's storage.",
             "Pack Structs - Gas Report",
@@ -1556,8 +1577,9 @@ contract Contract1 {
 
 ```
 
-            "
-        ),
+            ",
+            Classification::OptimizationHigh
+),
         (
             PayableFunctions,
             24,
@@ -1623,7 +1645,8 @@ contract Contract1 {
 ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 ```
 
-            "
+            ",
+            Classification::OptimizationLow
         ),
         (
             PrivateConstant,
@@ -1694,7 +1717,9 @@ contract Contract1 {
             │ addPrivateConstant                        ┆ 768             ┆ 768 ┆ 768    ┆ 768 ┆ 1       │
             ╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
             ```
-            "
+            ",
+            
+            Classification::OptimizationLow
         ),
         (
             ReadStorageInForLoop,
@@ -1702,7 +1727,8 @@ contract Contract1 {
             "Avoid Reading From Storage in a for loop",
             "", //TODO: //FIXME:
             "", //TODO: //FIXME:
-            "" //TODO: //FIXME:
+            "", //TODO: //FIXME:
+            Classification::OptimizationHigh
         ),
         (
             SafeMathPost080,
@@ -1794,7 +1820,8 @@ contract Contract1 {
             ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
             │ assemblyAdd        ┆ 263             ┆ 263 ┆ 263    ┆ 263 ┆ 1       │
             ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-            ```"
+            ```",
+            Classification::OptimizationMedium
         ),
         (
             SafeMathPre080,
@@ -2020,7 +2047,8 @@ contract Contract7 {
 ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 
 ```
-            "
+            ",
+            Classification::OptimizationLow
         ),
     (
         ShiftMath,
@@ -2138,7 +2166,8 @@ contract Contract3 {
 
 ```
 
-        "
+        ",
+        Classification::OptimizationLow
     ),
     (
         ShortRevertString,
@@ -2205,7 +2234,8 @@ contract Contract1 {
 ```
 
 
-        "
+        ",
+        Classification::OptimizationLow
     ),
     (
         SolidityKeccak256,
@@ -2277,7 +2307,8 @@ contract Contract1 {
 │ assemblyHash       ┆ 231             ┆ 231 ┆ 231    ┆ 231 ┆ 1       │
 ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 ```
-        "
+        ",
+        Classification::OptimizationMedium
     ),
     (
         SolidityMath,
@@ -2503,7 +2534,8 @@ contract Contract7 {
 ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 
 ```
-        "
+        ",
+        Classification::OptimizationLow
     ),
     (
         Sstore,
@@ -2574,7 +2606,8 @@ contract Contract1 {
 │ assemblyUpdateOwner┆ 5236            ┆ 5236 ┆ 5236   ┆ 5236 ┆ 1       │
 ╰────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
 ```
-        "
+        ",
+        Classification::OptimizationLow
     ),
     (
         StringError,
@@ -2646,6 +2679,7 @@ contract Contract1 {
 │ customErrorMessage ┆ 161             ┆ 161 ┆ 161    ┆ 161 ┆ 1       │
 ╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 ```
-        "
+        ",
+        Classification::OptimizationMedium
     )
 );
