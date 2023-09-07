@@ -7,6 +7,7 @@ pub mod private_vars_leading_underscore;
 // pub mod storage_variable_namespace;
 pub mod contract_name_pascal_case;
 pub mod event_name_pascalcase;
+pub mod function_name_camel_case;
 pub mod interface_namespace;
 pub mod one_contract_per_file;
 pub mod remove_console;
@@ -214,12 +215,17 @@ quality_assurance!(
     ),
     (
         ContractNamePascalCase,
-        "Contract names should be PascalCase",
+        "Contract names should be in PascalCase",
         "Ensure that contract definitions are declared using PascalCase"
     ),
     (
+        FunctionNameCamelCase,
+        "Function names should be in camelCase",
+        "Ensure that function definitions are declared using camelCase"
+    ),
+    (
         EventNamePascalCase,
-        "Event names should be PascalCase",
+        "Event names should be in PascalCase",
         "Ensure that event definitions are declared using PascalCase"
     ),
     (UnusedReturns, "Remove any unused returns", "") //TODO: update this
