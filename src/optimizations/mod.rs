@@ -49,6 +49,21 @@ macro_rules! optimization {
             $($name,)+
         }
 
+        impl OptimizationTarget{
+            pub fn find(
+                &self,
+                source: &mut HashMap<PathBuf, SourceUnit>,
+            ) -> Result<OptimizationOutcome, EngineError> {
+                match self {
+                    $(
+                        OptimizationTarget::$name => $name::find(source),
+                    )+
+                }
+
+            }
+
+        }
+
         #[derive(Debug)]
         pub enum OptimizationOutcome {
             $($name(Outcome),)+

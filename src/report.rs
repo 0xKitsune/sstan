@@ -388,10 +388,10 @@ impl From<TableFragment> for String {
                 identifier.classification.identifier(),
                 identifier.nonce
             );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> Instances({}) \n </summary>",identifier,identifier,value.title,value.instances));
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> - Instances: {} \n </summary>",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",
+                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
                 value.title, value.instances,
             ));
         }
