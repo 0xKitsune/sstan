@@ -69,11 +69,11 @@ mod test {
             let table = TableFragment::from(&report.clone());
             let mut f = File::options()
                 .append(true)
-                .open("src/report/mocks/qa_table_sections.md")?;
+                .open("qa_table_sections.md")?;
             writeln!(&mut f, "{}", &String::from(table))?;
             let mut f = File::options()
                 .append(true)
-                .open("src/report/mocks/qa_report_sections.md")?;
+                .open("qa_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report.clone()))?;
         }
 

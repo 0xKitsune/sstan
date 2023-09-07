@@ -87,7 +87,7 @@ fn test_incorrect_shift_math() -> eyre::Result<()> {
     if let Some(report) = report {
         let mut f = File::options()
             .append(true)
-            .open("src/report/mocks/vulnerability_report_sections.md")?;
+            .open("vulnerability_report_sections.md")?;
         writeln!(&mut f, "{}", &String::from(report))?;
     }
 
