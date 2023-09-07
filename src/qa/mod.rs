@@ -11,6 +11,7 @@ pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
 // pub mod unused_returns;
+pub mod event_name_pascalcase;
 pub mod interface_namespace;
 use super::engine::Outcome;
 use crate::engine::EngineError;
@@ -211,5 +212,14 @@ quality_assurance!(
         "Storage variables should be named with camel case",
         "Consider renaming to follow convention"
     ),
-    (UnusedReturns, "Remove any unused returns", "") //TODO: update this
+    (
+        StorageVariableNamespace,
+        "Storage variables should be named with camel case",
+        "Consider renaming to follow convention"
+    ),
+    (
+        EventNamePascalCase,
+        "Event names should be PascalCase",
+        "Ensure that event definitions are declared using PascalCase"
+    )
 );
