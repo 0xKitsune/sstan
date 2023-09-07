@@ -54,11 +54,6 @@ impl Engine {
     pub fn run(&self) {}
 }
 
-#[derive(Debug)]
-pub enum OptimizationOutcome {
-    CacheLoopVariable(Outcome),
-}
-
 //TODO: also have trait for GPTReportSection or something
 
 //TODO: FIXME: we can have the appendix generated for specific outcomes, have a trait that can get implemented to generate appendix
