@@ -6,29 +6,36 @@ use crate::{
     engine::{EngineError, Outcome, Pushable},
     extractors::{
         compound::ContractExtractor,
-        primitive::{EventExtractor, FunctionCallExtractor, PlainImportExtractor},
+        primitive::{
+            ContractDefinitionExtractor, EventExtractor, FunctionCallExtractor,
+            PlainImportExtractor,
+        },
         Extractor,
     },
     utils::{is_camel_case, is_pascal_case},
 };
 
 use super::{
-    EventNamePascalCase, ImportIdentifiers, OneContractPerFile, QAPattern, QualityAssuranceOutcome,
-    RemoveConsole,
+    ContractNamePascalCase, EventNamePascalCase, ImportIdentifiers, OneContractPerFile, QAPattern,
+    QualityAssuranceOutcome, RemoveConsole,
 };
-impl QAPattern for EventNamePascalCase {
+impl QAPattern for ContractNamePascalCase {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
     ) -> Result<QualityAssuranceOutcome, EngineError> {
         let mut outcome: HashMap<PathBuf, Vec<(Loc, String)>> = Outcome::new();
 
         for (path_buf, source_unit) in source {
-            let event_definitions = EventExtractor::extract(source_unit)?;
-            for event in event_definitions {
+            let contracts = ContractDefinitionExtractor::extract(source_unit)?;
+            for contract in contracts {
                 // use the is_camel_case function in utils.rs
-                if let Some(name) = &event.name {
+                if let Some(name) = &contract.name {
                     if !is_pascal_case(&name.name) {
-                        outcome.push_or_insert(path_buf.clone(), event.loc, event.to_string());
+                        outcome.push_or_insert(
+                            path_buf.clone(),
+                            contract.loc,
+                            contract.to_string(),
+                        );
                     }
                 }
             }
@@ -51,21 +58,16 @@ mod tests {
     fn test_import_identifiers() -> eyre::Result<()> {
         let file_contents = r#"
     import "filename.sol";
-    contract Contract0 {
-       event Event1();
-       event event2();
-       event eventThree();
-       event EventFour_x();
-
-    }
-
+    contract contract0 {}
+    contract Contract1 {}
+    contract Contract_2{}
     "#;
 
         let mut mock_source =
-            MockSource::new().add_source("event_name_pascal_case.sol", file_contents);
+            MockSource::new().add_source("contract_name_pascal_case.sol", file_contents);
         let qa_locations = ImportIdentifiers::find(&mut mock_source.source)?;
 
-        assert_eq!(qa_locations.len(), 3);
+        assert_eq!(qa_locations.len(), 2);
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {
             let mut f = File::options().append(true).open("qa_report_sections.md")?;

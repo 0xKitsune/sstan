@@ -5,6 +5,7 @@ pub mod import_identifiers;
 pub mod large_multiples_of_ten;
 pub mod private_vars_leading_underscore;
 // pub mod storage_variable_namespace;
+pub mod contract_name_pascal_case;
 pub mod event_name_pascalcase;
 pub mod interface_namespace;
 pub mod one_contract_per_file;
@@ -212,9 +213,9 @@ quality_assurance!(
         "Consider renaming to follow convention"
     ),
     (
-        StorageVariableNamespace,
-        "Storage variables should be named with camel case",
-        "Consider renaming to follow convention"
+        ContractNamePascalCase,
+        "Contract names should be PascalCase",
+        "Ensure that contract definitions are declared using PascalCase"
     ),
     (
         EventNamePascalCase,
