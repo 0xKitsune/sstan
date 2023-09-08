@@ -50,6 +50,13 @@ macro_rules! quality_assurance {
                     )+
                 }
             }
+
+
+            pub fn all_targets() -> Vec<QualityAssuranceTarget> {
+                vec![
+                    $(QualityAssuranceTarget::$name,)+
+                ]
+            }
         }
 
 

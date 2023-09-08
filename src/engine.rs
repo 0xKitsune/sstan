@@ -1,4 +1,4 @@
-use std::{collections::HashMap, path::PathBuf, vec};
+use std::{collections::HashMap, fs, path::PathBuf, vec};
 // use crate::analyzer::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
 use solang_parser::pt::{Loc, SourceUnit};
 use thiserror::Error;
@@ -7,6 +7,7 @@ use crate::{
     extractors::ExtractionError,
     optimizations::{OptimizationOutcome, OptimizationTarget},
     qa::{QualityAssuranceOutcome, QualityAssuranceTarget},
+    utils,
     vulnerabilities::{VulnerabilityOutcome, VulnerabilityTarget},
 };
 
@@ -39,21 +40,45 @@ pub enum EngineError {
 
 #[derive(Default)]
 pub struct Engine {
-    //TODO: pass in dir or file to analyze, or a default dir if none is passed in
+    pub source: HashMap<PathBuf, SourceUnit>,
     pub optimizations: Option<OptimizationModule>,
     pub vulnerabilities: Option<VulnerabilityModule>,
     pub qa: Option<QualityAssuranceModule>,
-    //TODO: where to output options, etc maybe just make EngineOpts
 }
 
-//TODO: FIXME: revisit in the am, but the goal is to just be able to do engine.run().into_report() and have it generate a report for each module recursively
-
 impl Engine {
-    pub fn new() -> Self {
-        Engine::default()
+    pub fn new(
+        path: &str,
+        vulnerabilities: Vec<VulnerabilityTarget>,
+        optimizations: Vec<OptimizationTarget>,
+        qa: Vec<QualityAssuranceTarget>,
+    ) -> Self {
+        //write logic to parse all source unitis from the path and extract
+        let source = utils::extract_source(path);
+        Engine {
+            source,
+            optimizations: Some(OptimizationModule {
+                targets: optimizations,
+                outcomes: vec![],
+            }),
+            vulnerabilities: Some(VulnerabilityModule {
+                targets: vulnerabilities,
+                outcomes: vec![],
+            }),
+            qa: Some(QualityAssuranceModule {
+                targets: qa,
+                outcomes: vec![],
+            }),
+        }
     }
 
-    pub fn run(&self) {}
+    pub fn run(mut self) {
+        // if let Some(optimizations) = &self.optimizations {
+        //     let optimization_outcomes = optimizations
+        //         .run(&mut self.source)
+        //         .expect("TODO: propagate this");
+        // }
+    }
 }
 
 //TODO: also have trait for GPTReportSection or something

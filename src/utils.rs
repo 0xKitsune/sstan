@@ -1,14 +1,35 @@
 use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 use regex::Regex;
-use solang_parser::pt::{self, ContractPart, Loc};
+use solang_parser::pt::{self, ContractPart, Loc, SourceUnit};
 use std::collections::HashMap;
 
-use std::fs::File;
+use std::fs::{self, File};
 use std::io::Write;
 use std::path::PathBuf;
 
 pub type LineNumber = i32;
 pub type Outcome = (PathBuf, Loc);
+
+//TODO: propagate these errors, dont unwrap
+pub fn extract_source(path: &str) -> HashMap<PathBuf, SourceUnit> {
+    let mut source = HashMap::new();
+
+    let mut counter = 0;
+    for entry in fs::read_dir(path).unwrap() {
+        let entry = entry.unwrap();
+        let path = entry.path();
+        if path.is_dir() {
+            extract_source(path.to_str().unwrap());
+        } else {
+            let source_unit = solang_parser::parse(path.to_str().unwrap(), counter)
+                .unwrap()
+                .0;
+            source.insert(path, source_unit);
+            counter += 1;
+        }
+    }
+    source
+}
 
 //TODO: outcome should be updated to be code blocks, etc
 
