@@ -338,7 +338,7 @@ impl From<ReportSectionFragment> for String {
             fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <font size=\"5\"> {} - Instances: {} </font> \n </summary>",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <font size=\"5\"> {} - Instances: {} </font>\n </summary>",
+                "\n <details open> \n <summary> \n <h1> {} - Instances: {} </h1>\n </summary>",
                 value.title, value.instances,
             ));
         }

@@ -1,7 +1,33 @@
 
  <details open> 
  <summary> 
- <font size="5"> Constants & Immutables should be named with screaming snake case - Instances: 2 </font>
+ <h1> Constructor should be listed before any other function - Instances: 1 </h1>
+ </summary> 
+ &nbsp; Description of the qa pattern goes here 
+
+ &nbsp;
+ <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
+ ```solidity 
+ constructor() {owner = address(1)} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h1> Constructor should initialize all variables - Instances: 1 </h1>
+ </summary> 
+ &nbsp; Description of the qa pattern goes here 
+
+ &nbsp;
+ <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
+ ```solidity 
+ constructor(address _owner) {owner = _owner} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h1> Constants & Immutables should be named with screaming snake case - Instances: 2 </h1>
  </summary> 
  &nbsp; Consider renaming to follow convention 
 
@@ -19,46 +45,7 @@
 
  <details open> 
  <summary> 
- <font size="5"> Constructor should be listed before any other function - Instances: 1 </font>
- </summary> 
- &nbsp; Description of the qa pattern goes here 
-
- &nbsp;
- <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
- ```solidity 
- constructor() {owner = address(1)} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <font size="5"> Constructor should initialize all variables - Instances: 1 </font>
- </summary> 
- &nbsp; Description of the qa pattern goes here 
-
- &nbsp;
- <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
- ```solidity 
- constructor(address _owner) {owner = _owner} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <font size="5"> Consider importing specific identifiers instead of the whole file - Instances: 1 </font>
- </summary> 
- &nbsp; This will minimize compiled code size and help with readability 
-
- &nbsp;
- <span style="color: green;">File: </span> import_identifiers.sol 2-2 
- ```solidity 
- import "filename.sol"; 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <font size="5"> Interface names should start with an I - Instances: 1 </font>
+ <h1> Interface names should start with an I - Instances: 1 </h1>
  </summary> 
  &nbsp; Consider renaming for consistency 
 
@@ -71,7 +58,20 @@
 
  <details open> 
  <summary> 
- <font size="5"> Consider using scientific notation for large multiples of 10 - Instances: 1 </font>
+ <h1> Consider importing specific identifiers instead of the whole file - Instances: 1 </h1>
+ </summary> 
+ &nbsp; This will minimize compiled code size and help with readability 
+
+ &nbsp;
+ <span style="color: green;">File: </span> import_identifiers.sol 2-2 
+ ```solidity 
+ import "filename.sol"; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h1> Consider using scientific notation for large multiples of 10 - Instances: 1 </h1>
  </summary> 
  &nbsp; For example 100000 can be written as 1e5 
 
@@ -84,28 +84,10 @@
 
  <details open> 
  <summary> 
- <font size="5"> Remove any unused functions - Instances: 1 </font>
- </summary> 
- &nbsp;  
-
- &nbsp;
- <span style="color: green;">File: </span> unused_functions.sol 4-4 
- ```solidity 
- function isUnused() internal {} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <font size="5"> Private variables should contain a leading underscore - Instances: 3 </font>
+ <h1> Private variables should contain a leading underscore - Instances: 3 </h1>
  </summary> 
  &nbsp; Description of the qa pattern goes here 
 
- &nbsp;
- <span style="color: green;">File: </span> private_vars.sol 9-9 
- ```solidity 
- address internal addr6; 
- ```
  &nbsp;
  <span style="color: green;">File: </span> private_vars.sol 5-5 
  ```solidity 
@@ -115,12 +97,17 @@
  <span style="color: green;">File: </span> private_vars.sol 7-7 
  ```solidity 
  address private addr4; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> private_vars.sol 9-9 
+ ```solidity 
+ address internal addr6; 
  ``` 
  </details>
 
  <details open> 
  <summary> 
- <font size="5"> Remove any unused returns - Instances: 1 </font>
+ <h1> Remove any unused returns - Instances: 1 </h1>
  </summary> 
  &nbsp;  
 
@@ -133,7 +120,20 @@
 
  <details open> 
  <summary> 
- <font size="5"> Storage variables should be named with camel case - Instances: 2 </font>
+ <h1> Remove any unused functions - Instances: 1 </h1>
+ </summary> 
+ &nbsp;  
+
+ &nbsp;
+ <span style="color: green;">File: </span> unused_functions.sol 4-4 
+ ```solidity 
+ function isUnused() internal {} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h1> Storage variables should be named with camel case - Instances: 2 </h1>
  </summary> 
  &nbsp; Consider renaming to follow convention 
 
