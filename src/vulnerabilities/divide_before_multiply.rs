@@ -164,7 +164,7 @@ fn test_divide_before_multiply_vulnerability() -> eyre::Result<()> {
     if let Some(report) = report {
         let mut f = File::options()
             .append(true)
-            .open("vulnerability_report_sections.md")?;
+            .open("mocks/vulnerability_report_sections.md")?;
         writeln!(&mut f, "{}", &String::from(report))?;
     }
 

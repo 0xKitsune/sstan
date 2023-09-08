@@ -117,7 +117,7 @@ macro_rules! optimization {
                                 return None;
                             }
 
-                            let description = format!("\n &nbsp; {} \n &nbsp; <details> \n <summary> \n {} Savings: ~{} \n  </summary> \n {} \n </details> \n", $description, $gas_report_title, $gas_savings, $gas_report);
+                            let description = format!("\n &nbsp; {} \n &nbsp; <details> &nbsp; \n <summary> \n &nbsp; &nbsp; {} Savings: ~{} \n  </summary> \n {} \n </details> \n", $description, $gas_report_title, $gas_savings, $gas_report);
 
                             let mut report_fragment = ReportSectionFragment::new(
                                 $report_title.to_string(),
