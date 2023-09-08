@@ -19,10 +19,6 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 //TODO: we could have something here that creates the OptimizationOutcome enum
 
-//optimizations!(
-// (ConstructorOrder, "This is the description that will be used when into_report, maybe add an example or something")
-// )
-
 //TODO: this is what we would use for each individual pattern and then we just implement the find method instead of the function
 pub trait QAPattern {
     fn find(
@@ -43,8 +39,7 @@ macro_rules! quality_assurance {
             $($name,)+
         }
 
-
-        impl QualityAssuranceTarget{
+        impl QualityAssuranceTarget {
             pub fn find(
                 &self,
                 source: &mut HashMap<PathBuf, SourceUnit>,
@@ -54,9 +49,7 @@ macro_rules! quality_assurance {
                         QualityAssuranceTarget::$name => $name::find(source),
                     )+
                 }
-
             }
-
         }
 
 
@@ -133,8 +126,6 @@ macro_rules! quality_assurance {
                             Some(report_fragment)
 
                         }
-
-
 
                     )+
 
