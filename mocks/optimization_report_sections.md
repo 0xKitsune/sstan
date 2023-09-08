@@ -1,7 +1,9 @@
 
  <details open> 
  <summary> 
- <h1> Cache Storage Variables in Memory - Instances: 1 </h1>
+ <h1> 
+ Cache Storage Variables in Memory - Instances: 1 
+ </h1>
  </summary> 
  &nbsp; 
  &nbsp;  
@@ -26,7 +28,7 @@
  </details>
  <details open> 
  <summary> 
- <h1> `array[index] += amount` is cheaper than `array[index] = array[index] + amount` (or related variants) - Instances: 1 </h1>
+ <h4> array[index] += amount is cheaper than array[index] = array[index] + amount (or related variants) - Instances: 1 </h4>
  </summary> 
  &nbsp; 
  &nbsp; When updating a value in an array with arithmetic, using `array[index] += amount` is cheaper than `array[index] = array[index] + amount`. This is because you avoid an additonal `mload` when the array is stored in memory, and an `sload` when the array is stored in storage. This can be applied for any arithmetic operation including `+=`, `-=`,`/=`,`*=`,`^=`,`&=`, `%=`, `<<=`,`>>=`, and `>>>=`. This optimization can be particularly significant if the pattern occurs during a loop. 
@@ -324,7 +326,7 @@ contract Contract3 {
 
  <details open> 
  <summary> 
- <h1> Mark storage variables as `constant` if they never change. - Instances: 1 </h1>
+ <h2> Mark storage variables as `constant` if they never change. - Instances: 1 </h2>
  </summary> 
  &nbsp; 
  &nbsp; State variables can be declared as constant or immutable. In both cases, the variables cannot be modified after the contract has been constructed. For constant variables, the value has to be fixed at compile-time, while for immutable, it can still be assigned at construction time. 
