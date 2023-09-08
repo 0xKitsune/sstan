@@ -101,7 +101,7 @@ mod tests {
         assert_eq!(qa_locations.len(), 1);
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {
-            let mut f = File::options().append(true).open("qa_report_sections.md")?;
+            let mut f = File::options().append(true).open("mocks/qa_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report))?;
         }
 

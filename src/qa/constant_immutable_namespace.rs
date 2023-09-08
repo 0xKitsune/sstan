@@ -67,9 +67,9 @@ mod test {
         let report: Option<ReportSectionFragment> = qa_locations.into();
         if let Some(report) = report {
             let table = TableFragment::from(&report.clone());
-            let mut f = File::options().append(true).open("qa_table_sections.md")?;
+            let mut f = File::options().append(true).open("mocks/qa_table_sections.md")?;
             writeln!(&mut f, "{}", String::from(&table))?;
-            let mut f = File::options().append(true).open("qa_report_sections.md")?;
+            let mut f = File::options().append(true).open("mocks/qa_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report.clone()))?;
         }
 

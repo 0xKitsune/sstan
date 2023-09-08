@@ -138,7 +138,7 @@ mod test {
         if let Some(report) = report {
             let mut f = File::options()
                 .append(true)
-                .open("optimization_report_sections.md")?;
+                .open("mocks/optimization_report_sections.md")?;
             writeln!(&mut f, "{}", &String::from(report))?;
         }
         Ok(())

@@ -325,16 +325,6 @@ impl From<ReportSection> for TableSection {
     }
 }
 
-//TODO: into report section for QA engine module, etc
-
-//TODO: into table section for QA engine module
-
-//TODO: need to define charts and data visualizations
-
-//TODO: need into string for each report section
-
-//TODO: after analysis and turning each module into report section, we need to populate nonces across all of the findings, then we can create the table of contents
-
 //Report Fragment Formatting
 impl From<ReportSectionFragment> for String {
     fn from(value: ReportSectionFragment) -> String {
@@ -348,20 +338,20 @@ impl From<ReportSectionFragment> for String {
             fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> - Instances: {} \n </summary>",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
+                "\n <details open> \n <summary> \n  <font size=\"5\"> {} - Instances: {} </font>\n </summary>",
                 value.title, value.instances,
             ));
         }
 
-        fragment.push_str(&format!(" \n {} \n", value.description));
-
+        fragment.push_str(&format!(" \n &nbsp; {} \n", value.description));
+        fragment.push_str("&nbsp; ");
         fragment.push_str(
             &value
                 .outcomes
                 .iter()
                 .map(String::from)
                 .collect::<Vec<String>>()
-                .join("\n"),
+                .join("\n &nbsp;"),
         );
 
         fragment.push_str(" \n </details>");
