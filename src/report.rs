@@ -45,7 +45,7 @@ pub struct ReportPreamble {
 impl From<ReportPreamble> for String {
     fn from(preamble: ReportPreamble) -> Self {
         format!(
-            "# {} \n\n![logo]({})\n\n{}\n\n{}\n\n{}\n\n{}\n\n",
+            "# {} \n\n ({})\n\n{}\n\n{}\n\n{}\n\n{}\n\n",
             preamble.title,
             preamble.logo,
             preamble.description,

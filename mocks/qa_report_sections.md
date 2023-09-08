@@ -1,18 +1,6 @@
 
  <details open> 
  <summary> 
-  <font size="5"> Constructor should be listed before any other function - Instances: 1 </font>
- </summary> 
- &nbsp; Description of the qa pattern goes here 
-&nbsp; 
- <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
- ```solidity 
- constructor() {owner = address(1)} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
   <font size="5"> Constants & Immutables should be named with screaming snake case - Instances: 2 </font>
  </summary> 
  &nbsp; Consider renaming to follow convention 
@@ -30,17 +18,6 @@
 
  <details open> 
  <summary> 
-  <font size="5"> Consider importing specific identifiers instead of the whole file - Instances: 1 </font>
- </summary> 
- &nbsp; This will minimize compiled code size and help with readability 
-&nbsp; 
- <span style="color: green;">File: </span> import_identifiers.sol 2-2 
- ```solidity 
- import "filename.sol"; 
- ``` 
- </details>
- <details open> 
- <summary> 
   <font size="5"> Constructor should initialize all variables - Instances: 1 </font>
  </summary> 
  &nbsp; Description of the qa pattern goes here 
@@ -51,16 +28,15 @@
  ``` 
  </details>
 
-
  <details open> 
  <summary> 
-  <font size="5"> Consider using scientific notation for large multiples of 10 - Instances: 1 </font>
+  <font size="5"> Constructor should be listed before any other function - Instances: 1 </font>
  </summary> 
- &nbsp; For example 100000 can be written as 1e5 
+ &nbsp; Description of the qa pattern goes here 
 &nbsp; 
- <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
+ <span style="color: green;">File: </span> constructor_order_qa.sol 7-7 
  ```solidity 
- uint256 x = 10000000; 
+ constructor() {owner = address(1)} 
  ``` 
  </details>
 
@@ -78,23 +54,13 @@
 
  <details open> 
  <summary> 
-  <font size="5"> Private variables should contain a leading underscore - Instances: 3 </font>
+  <font size="5"> Consider importing specific identifiers instead of the whole file - Instances: 1 </font>
  </summary> 
- &nbsp; Description of the qa pattern goes here 
+ &nbsp; This will minimize compiled code size and help with readability 
 &nbsp; 
- <span style="color: green;">File: </span> private_vars.sol 5-5 
+ <span style="color: green;">File: </span> import_identifiers.sol 2-2 
  ```solidity 
- address public _addr2; 
- ```
- &nbsp;
- <span style="color: green;">File: </span> private_vars.sol 9-9 
- ```solidity 
- address internal addr6; 
- ```
- &nbsp;
- <span style="color: green;">File: </span> private_vars.sol 7-7 
- ```solidity 
- address private addr4; 
+ import "filename.sol"; 
  ``` 
  </details>
 
@@ -112,6 +78,40 @@
  <span style="color: green;">File: </span> storage_var_namespace.sol 7-7 
  ```solidity 
  address ALSO_IS_BAD; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+  <font size="5"> Consider using scientific notation for large multiples of 10 - Instances: 1 </font>
+ </summary> 
+ &nbsp; For example 100000 can be written as 1e5 
+&nbsp; 
+ <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
+ ```solidity 
+ uint256 x = 10000000; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+  <font size="5"> Private variables should contain a leading underscore - Instances: 3 </font>
+ </summary> 
+ &nbsp; Description of the qa pattern goes here 
+&nbsp; 
+ <span style="color: green;">File: </span> private_vars.sol 7-7 
+ ```solidity 
+ address private addr4; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> private_vars.sol 5-5 
+ ```solidity 
+ address public _addr2; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> private_vars.sol 9-9 
+ ```solidity 
+ address internal addr6; 
  ``` 
  </details>
 

@@ -71,6 +71,7 @@ macro_rules! optimization {
 
 
         impl OptimizationOutcome {
+
             pub fn len(&self) -> usize {
                 match self {
                     $(
@@ -78,7 +79,6 @@ macro_rules! optimization {
                     )+
                 }
             }
-
 
             pub fn gas_saved(&self) -> usize {
                 match self {
@@ -89,16 +89,15 @@ macro_rules! optimization {
                 }
             }
 
-        pub fn classification(&self) -> Classification {
-            match self {
-                $(
-                    OptimizationOutcome::$name(_) => $classification,
-                )+
+            pub fn classification(&self) -> Classification {
+                match self {
+                    $(
+                        OptimizationOutcome::$name(_) => $classification,
+                    )+
+                }
+
             }
-
         }
-
-    }
 
         //TODO: simplify this so that it isnt implementing this for every single macro, just have | when you are matching
         impl From<OptimizationOutcome> for Option<ReportSectionFragment> {
@@ -135,21 +134,14 @@ macro_rules! optimization {
                                             snippet.to_string(),
                                         ));
 
-                                }else{
-                                    panic!("handle this TODO:");
-
+                                    }else{
+                                        panic!("handle this TODO:");
+                                    }
                                 }
-                            }
-
-
                             }
                             report_fragment.outcomes = outcome_reports;
                             Some(report_fragment)
-
                         }
-
-
-
                     )+
 
                 }
