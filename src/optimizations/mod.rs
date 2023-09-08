@@ -62,6 +62,14 @@ macro_rules! optimization {
 
             }
 
+
+            pub fn all_targets() -> Vec<OptimizationTarget> {
+                vec![
+                    $(OptimizationTarget::$name,)+
+                ]
+            }
+
+
         }
 
         #[derive(Debug)]

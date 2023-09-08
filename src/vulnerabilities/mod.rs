@@ -45,6 +45,13 @@ macro_rules! vulnerability {
 
             }
 
+
+            pub fn all_targets() -> Vec<VulnerabilityTarget> {
+                vec![
+                    $(VulnerabilityTarget::$name,)+
+                ]
+            }
+
         }
 
 
