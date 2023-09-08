@@ -1,7 +1,19 @@
 
  <details open> 
  <summary> 
-  <font size="5"> Constants & Immutables should be named with screaming snake case - Instances: 2 </font>
+ <font size="5"> Constructor should initialize all variables - Instances: 1 </font>
+ </summary> 
+ &nbsp; Description of the qa pattern goes here 
+&nbsp; 
+ <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
+ ```solidity 
+ constructor(address _owner) {owner = _owner} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <font size="5"> Constants & Immutables should be named with screaming snake case - Instances: 2 </font>
  </summary> 
  &nbsp; Consider renaming to follow convention 
 &nbsp; 
@@ -18,19 +30,7 @@
 
  <details open> 
  <summary> 
-  <font size="5"> Constructor should initialize all variables - Instances: 1 </font>
- </summary> 
- &nbsp; Description of the qa pattern goes here 
-&nbsp; 
- <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
- ```solidity 
- constructor(address _owner) {owner = _owner} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
-  <font size="5"> Constructor should be listed before any other function - Instances: 1 </font>
+ <font size="5"> Constructor should be listed before any other function - Instances: 1 </font>
  </summary> 
  &nbsp; Description of the qa pattern goes here 
 &nbsp; 
@@ -42,19 +42,7 @@
 
  <details open> 
  <summary> 
-  <font size="5"> Interface names should start with an I - Instances: 1 </font>
- </summary> 
- &nbsp; Consider renaming for consistency 
-&nbsp; 
- <span style="color: green;">File: </span> interface_namespace.sol 4-0 
- ```solidity 
- interface Contract0 {} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
-  <font size="5"> Consider importing specific identifiers instead of the whole file - Instances: 1 </font>
+ <font size="5"> Consider importing specific identifiers instead of the whole file - Instances: 1 </font>
  </summary> 
  &nbsp; This will minimize compiled code size and help with readability 
 &nbsp; 
@@ -66,7 +54,65 @@
 
  <details open> 
  <summary> 
-  <font size="5"> Storage variables should be named with camel case - Instances: 2 </font>
+ <font size="5"> Interface names should start with an I - Instances: 1 </font>
+ </summary> 
+ &nbsp; Consider renaming for consistency 
+&nbsp; 
+ <span style="color: green;">File: </span> interface_namespace.sol 4-0 
+ ```solidity 
+ interface Contract0 {} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <font size="5"> Consider using scientific notation for large multiples of 10 - Instances: 1 </font>
+ </summary> 
+ &nbsp; For example 100000 can be written as 1e5 
+&nbsp; 
+ <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
+ ```solidity 
+ uint256 x = 10000000; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <font size="5"> Remove any unused functions - Instances: 1 </font>
+ </summary> 
+ &nbsp;  
+&nbsp; 
+ <span style="color: green;">File: </span> unused_functions.sol 4-4 
+ ```solidity 
+ function isUnused() internal {} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <font size="5"> Private variables should contain a leading underscore - Instances: 3 </font>
+ </summary> 
+ &nbsp; Description of the qa pattern goes here 
+&nbsp; 
+ <span style="color: green;">File: </span> private_vars.sol 5-5 
+ ```solidity 
+ address public _addr2; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> private_vars.sol 7-7 
+ ```solidity 
+ address private addr4; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> private_vars.sol 9-9 
+ ```solidity 
+ address internal addr6; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <font size="5"> Storage variables should be named with camel case - Instances: 2 </font>
  </summary> 
  &nbsp; Consider renaming to follow convention 
 &nbsp; 
@@ -83,53 +129,7 @@
 
  <details open> 
  <summary> 
-  <font size="5"> Consider using scientific notation for large multiples of 10 - Instances: 1 </font>
- </summary> 
- &nbsp; For example 100000 can be written as 1e5 
-&nbsp; 
- <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
- ```solidity 
- uint256 x = 10000000; 
- ``` 
- </details>
-
- <details open> 
- <summary> 
-  <font size="5"> Private variables should contain a leading underscore - Instances: 3 </font>
- </summary> 
- &nbsp; Description of the qa pattern goes here 
-&nbsp; 
- <span style="color: green;">File: </span> private_vars.sol 7-7 
- ```solidity 
- address private addr4; 
- ```
- &nbsp;
- <span style="color: green;">File: </span> private_vars.sol 5-5 
- ```solidity 
- address public _addr2; 
- ```
- &nbsp;
- <span style="color: green;">File: </span> private_vars.sol 9-9 
- ```solidity 
- address internal addr6; 
- ``` 
- </details>
-
- <details open> 
- <summary> 
-  <font size="5"> Remove any unused functions - Instances: 1 </font>
- </summary> 
- &nbsp;  
-&nbsp; 
- <span style="color: green;">File: </span> unused_functions.sol 4-4 
- ```solidity 
- function isUnused() internal {} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
-  <font size="5"> Remove any unused returns - Instances: 1 </font>
+ <font size="5"> Remove any unused returns - Instances: 1 </font>
  </summary> 
  &nbsp;  
 &nbsp; 
