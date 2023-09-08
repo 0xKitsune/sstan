@@ -335,7 +335,7 @@ impl From<ReportSectionFragment> for String {
                 identifier.classification.identifier(),
                 identifier.nonce
             );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> - Instances: {} \n </summary>",identifier,identifier,value.title,value.instances));
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <font size=\"5\"> {} - Instances: {} </font> \n </summary>",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
                 "\n <details open> \n <summary> \n <font size=\"5\"> {} - Instances: {} </font>\n </summary>",
@@ -344,7 +344,7 @@ impl From<ReportSectionFragment> for String {
         }
 
         fragment.push_str(&format!(" \n &nbsp; {} \n", value.description));
-        fragment.push_str("&nbsp; ");
+        fragment.push_str("\n &nbsp;");
         fragment.push_str(
             &value
                 .outcomes
