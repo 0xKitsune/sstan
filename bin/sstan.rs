@@ -20,7 +20,7 @@ extern crate colour;
 fn main() -> eyre::Result<()> {
     let opts = Opts::new();
 
-    let engine = Engine::new(opts.vulnerabilities, opts.optimizations, opts.qa);
+    let engine = Engine::new("./", opts.vulnerabilities, opts.optimizations, opts.qa);
 
     engine.run();
 

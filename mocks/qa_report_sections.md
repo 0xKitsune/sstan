@@ -1,7 +1,7 @@
 
  <details open> 
  <summary> 
- <h2> Constants & Immutables should be named with screaming snake case - Instances: 2 </h2>
+ <h3> Constants & Immutables should be named with screaming snake case - Instances: 2 </h3>
  </summary> 
  &nbsp; Consider renaming to follow convention 
 
@@ -19,20 +19,7 @@
 
  <details open> 
  <summary> 
- <h2> Consider using scientific notation for large multiples of 10 - Instances: 1 </h2>
- </summary> 
- &nbsp; For example 100000 can be written as 1e5 
-
- &nbsp;
- <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
- ```solidity 
- uint256 x = 10000000; 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <h2> Constructor should be listed before any other function - Instances: 1 </h2>
+ <h3> Constructor should be listed before any other function - Instances: 1 </h3>
  </summary> 
  &nbsp; Description of the qa pattern goes here 
 
@@ -45,33 +32,7 @@
 
  <details open> 
  <summary> 
- <h2> Constructor should initialize all variables - Instances: 1 </h2>
- </summary> 
- &nbsp; Description of the qa pattern goes here 
-
- &nbsp;
- <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
- ```solidity 
- constructor(address _owner) {owner = _owner} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <h2> Interface names should start with an I - Instances: 1 </h2>
- </summary> 
- &nbsp; Consider renaming for consistency 
-
- &nbsp;
- <span style="color: green;">File: </span> interface_namespace.sol 4-0 
- ```solidity 
- interface Contract0 {} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <h2> Consider importing specific identifiers instead of the whole file - Instances: 1 </h2>
+ <h3> Consider importing specific identifiers instead of the whole file - Instances: 1 </h3>
  </summary> 
  &nbsp; This will minimize compiled code size and help with readability 
 
@@ -84,7 +45,56 @@
 
  <details open> 
  <summary> 
- <h2> Remove any unused functions - Instances: 1 </h2>
+ <h3> Constructor should initialize all variables - Instances: 1 </h3>
+ </summary> 
+ &nbsp; Description of the qa pattern goes here 
+
+ &nbsp;
+ <span style="color: green;">File: </span> constructor_var_initialization.sol 5-5 
+ ```solidity 
+ constructor(address _owner) {owner = _owner} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Interface names should start with an I - Instances: 1 </h3>
+ </summary> 
+ &nbsp; Consider renaming for consistency 
+
+ &nbsp;
+ <span style="color: green;">File: </span> interface_namespace.sol 4-0 
+ ```solidity 
+ interface Contract0 {} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Private variables should contain a leading underscore - Instances: 3 </h3>
+ </summary> 
+ &nbsp; Description of the qa pattern goes here 
+
+ &nbsp;
+ <span style="color: green;">File: </span> private_vars.sol 7-7 
+ ```solidity 
+ address private addr4; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> private_vars.sol 9-9 
+ ```solidity 
+ address internal addr6; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> private_vars.sol 5-5 
+ ```solidity 
+ address public _addr2; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Remove any unused functions - Instances: 1 </h3>
  </summary> 
  &nbsp;  
 
@@ -97,7 +107,7 @@
 
  <details open> 
  <summary> 
- <h2> Storage variables should be named with camel case - Instances: 2 </h2>
+ <h3> Storage variables should be named with camel case - Instances: 2 </h3>
  </summary> 
  &nbsp; Consider renaming to follow convention 
 
@@ -115,30 +125,20 @@
 
  <details open> 
  <summary> 
- <h2> Private variables should contain a leading underscore - Instances: 3 </h2>
+ <h3> Consider using scientific notation for large multiples of 10 - Instances: 1 </h3>
  </summary> 
- &nbsp; Description of the qa pattern goes here 
+ &nbsp; For example 100000 can be written as 1e5 
 
  &nbsp;
- <span style="color: green;">File: </span> private_vars.sol 5-5 
+ <span style="color: green;">File: </span> large_multiples_of_ten.sol 12-12 
  ```solidity 
- address public _addr2; 
- ```
- &nbsp;
- <span style="color: green;">File: </span> private_vars.sol 7-7 
- ```solidity 
- address private addr4; 
- ```
- &nbsp;
- <span style="color: green;">File: </span> private_vars.sol 9-9 
- ```solidity 
- address internal addr6; 
+ uint256 x = 10000000; 
  ``` 
  </details>
 
  <details open> 
  <summary> 
- <h2> Remove any unused returns - Instances: 1 </h2>
+ <h3> Remove any unused returns - Instances: 1 </h3>
  </summary> 
  &nbsp;  
 
