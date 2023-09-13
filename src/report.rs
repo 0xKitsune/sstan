@@ -325,11 +325,12 @@ impl From<ReportSection> for String {
     fn from(value: ReportSection) -> Self {
         let mut fragment: String = String::new();
         fragment.push_str(&format!(
-            "\n <details open> \n <summary> \n <Strong>{}</Strong> Instances({}) \n </summary>",
+            "\n <details open> \n <summary> \n <h3>{} - Instances: {} </h3> \n </summary>",
             value.title,
             value.outcomes.len()
         ));
-        fragment.push_str(&format!(" \n {} \n", value.description));
+        fragment.push_str(&format!(" \n {} 
+\n", value.description));
 
         fragment.push_str(
             &value
@@ -349,7 +350,7 @@ impl From<ReportSection> for String {
 impl From<&ReportSection> for TableSection {
     fn from(value: &ReportSection) -> Self {
         TableSection {
-            title: value.title.clone(),
+            title: format!("<h3>{}</h3>",value.title.clone()),
             subsections: value
                 .outcomes.clone()
                 .into_iter()
@@ -369,10 +370,10 @@ impl From<ReportSectionFragment> for String {
                 identifier.classification.identifier(),
                 identifier.nonce
             );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,value.title,value.instances));
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h4> {} - Instances: {} </h4> \n </summary>",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <h3> {} - Instances: {} </h3>\n </summary>",
+                "\n <details open> \n <summary> \n <h4> {} - Instances: {} </h4>\n </summary>",
                 value.title, value.instances,
             ));
         }
@@ -412,7 +413,7 @@ impl From<&ReportSectionFragment> for String {
             ));
         }
 
-        fragment.push_str(&format!(" \n    > {} \n", value.description));
+        fragment.push_str(&format!("\n {} \n", value.description));
 
         fragment.push_str(
             &value

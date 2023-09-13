@@ -42,7 +42,7 @@ impl VulnerabilityPattern for FloatingPragma {
             }
         }
 
-        Ok(VulnerabilityOutcome::DivideBeforeMultiply(
+        Ok(VulnerabilityOutcome::FloatingPragma(
             vulnerability_locations,
         ))
     }

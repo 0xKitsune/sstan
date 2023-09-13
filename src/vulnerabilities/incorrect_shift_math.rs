@@ -53,7 +53,7 @@ impl VulnerabilityPattern for IncorrectShiftMath {
             }
         }
 
-        Ok(VulnerabilityOutcome::DivideBeforeMultiply(
+        Ok(VulnerabilityOutcome::IncorrectShiftMath(
             vulnerability_locations,
         ))
     }

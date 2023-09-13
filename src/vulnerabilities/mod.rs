@@ -155,155 +155,175 @@ vulnerability!(
     (
         DivideBeforeMultiply,
         "Division before multiplication",
-        r##"
-        Consider ordering multiplication before division to avoid loss of precision because integer division might truncate. Loss of precision in Solidity can lead to vulnerabilities because it can result in unexpected behavior in smart contracts. This can be particularly problematic in financial applications, where even small errors in calculations can have significant consequences. For example, if a contract uses integer division to calculate a result and the division operation truncates the fractional part of the result, it could lead to incorrect pricing or loss of funds due to miscalculated balances.
+        "
+> Consider ordering multiplication before division to avoid loss of precision because integer division might truncate. Loss of precision in Solidity can lead to vulnerabilities because it can result in unexpected behavior in smart contracts. This can be particularly problematic in financial applications, where even small errors in calculations can have significant consequences. For example, if a contract uses integer division to calculate a result and the division operation truncates the fractional part of the result, it could lead to incorrect pricing or loss of funds due to miscalculated balances.
 
-        #### Unsafe Division
-        ```js
-        n = 5 / 2 * 4; // n = 8 because 5 / 2 == 2 since division truncates.
-        ```
-        #### Safe Division
-        ```js
-        n = 5 * 4 / 2; // n = 10
-        ```
-        "##,
+#### Unsafe Division
+
+```js
+    n = 5 / 2 * 4; // n = 8 because 5 / 2 == 2 since division truncates.
+```
+
+#### Safe Division
+```js
+    n = 5 * 4 / 2; // n = 10
+```
+        ",
         Classification::VulnerabilityMedium
     ),
     (
         IncorrectShiftMath, // TODO: we should change this to be more descriptive since its only in assembly blocks, something like IncorrectShiftOperation
         "Incorrect order of operations when using `shl` or `shr` in an assembly block",
-        r##"
-        Incorrect assembly shift math
-        Ex. x << 5.
-        #### Incorrect
-        ```js
-        assembly {
-            shl(x, 5)
-        }
-        ```
-        #### Correct
-        ```js
-        assembly {
-            shl(5,x)
-        }
-        ```
-"##,
+        "
+> Incorrect assembly shift math
+#### Ex. x << 5.
+#### Incorrect
+        
+```js
+    assembly {
+        shl(x, 5)
+    }
+```
+       
+#### Correct
+        
+```js
+    assembly {
+        shl(5,x)
+    }
+```
+        
+",
         Classification::VulnerabilityMedium
     ),
     (
         FloatingPragma,
         "Use a locked pragma version instead of a floating pragma version",
-        r##"
-Floating pragma is a vulnerability in smart contract code that can cause unexpected behavior by allowing the compiler to use a specified range of versions. This can lead to issues such as using an older compiler version with known vulnerabilities, using a newer compiler version with undiscovered vulnerabilities, inconsistency across files using different versions, or unpredictable behavior because the compiler can use any version within the specified range. It is recommended to use a locked pragma version in order to avoid these potential vulnerabilities.
+        "
+> Floating pragma is a vulnerability in smart contract code that can cause unexpected behavior by allowing the compiler to use a specified range of versions. This can lead to issues such as using an older compiler version with known vulnerabilities, using a newer compiler version with undiscovered vulnerabilities, inconsistency across files using different versions, or unpredictable behavior because the compiler can use any version within the specified range. It is recommended to use a locked pragma version in order to avoid these potential vulnerabilities.
 
-In some cases it may be acceptable to use a floating pragma, such as when a contract is intended for consumption by other developers and needs to be compatible with a range of compiler versions.
+> In some cases it may be acceptable to use a floating pragma, such as when a contract is intended for consumption by other developers and needs to be compatible with a range of compiler versions.
 
 #### Bad
+
 ```js
-pragma solidity ^0.8.0;
-```
-#### Good
-```js
-pragma solidity 0.8.15;
+    pragma solidity ^0.8.0;
 ```
 
-"##,
+#### Good
+
+```js
+    pragma solidity 0.8.15;
+```
+
+",
         Classification::VulnerabilityLow
     ),
     (
         UninitializedStorageVariable,
         "Uninitialized storage variables",
         //TODO: update this description it is only a place holder
-        "A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value.",
+        "
+> A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value.",
         Classification::VulnerabilityHigh
     ),
     (
         UnprotectedSelfDestruct,
         "Unprotected selfdestruct",
-        r##"
-        Unprotected call to a function executing `selfdestruct` or `suicide`.
+        "
+> Unprotected call to a function executing `selfdestruct` or `suicide`.
         
-        #### Exploit scenario
-        ```js
-        contract Suicidal {
-          function kill() public {
-              selfdestruct(msg.sender);
-          }
-        }
-        ```
-        Anyone can call kill() and destroy the contract.
+#### Exploit scenario
+
+```js
+contract Suicidal {
+    function kill() public {
+        selfdestruct(msg.sender);
+    }
+}
+```
+
+Anyone can call kill() and destroy the contract.
         
-        #### Recommendations
-        Protect access to all affected functions. Consider one of the following solutions:
-        1. Restrict the visibility of the function to `internal` or `private`. 
-        2. If the function must be public, either:
-          2.1. Add a modifier to allow only shortlisted EOAs to call this function (such as `onlyOwner`).
-          2.2. Add a check on the `msg.sender` directly inside the affected function.
-        
-        ```js
-          // restrict visibility to internal or private
-          function kill() internal {
-            selfdestruct(msg.sender);
-          }
-        
-          // add a modifier to allow only shortlisted EOAs to call this function
-          function kill() public onlyOwner {
-            selfdestruct(msg.sender);
-          }
-        
-          // add a check on the msg.sender directly inside the affected function
-          function kill() public {
-            require(msg.sender == owner);
-            selfdestruct(msg.sender);
-          }
-        ```
-        "##,
+> Recommendations
+ > Protect access to all affected functions. Consider one of the following solutions:
+ > 1. Restrict the visibility of the function to `internal` or `private`. 
+ > 2. If the function must be public, either:
+  >  2.1. Add a modifier to allow only shortlisted EOAs to call this function (such as `onlyOwner`).
+  >  2.2. Add a check on the `msg.sender` directly inside the affected function.
+
+```js
+// restrict visibility to internal or private
+function kill() internal {
+    selfdestruct(msg.sender);
+}
+
+// add a modifier to allow only shortlisted EOAs to call this function
+function kill() public onlyOwner {
+    selfdestruct(msg.sender);
+}
+
+// add a check on the msg.sender directly inside the affected function
+function kill() public {
+    require(msg.sender == owner);
+    selfdestruct(msg.sender);
+}
+```
+        ",
         Classification::VulnerabilityHigh
     ),
     (
         UnsafeErc20Operation,
         "Unsafe ERC20 Operation",
-        r##"
-        ERC20 operations can be unsafe due to different implementations and vulnerabilities in the standard. To account for this, either use OpenZeppelin's SafeERC20 library or wrap each operation in a require statement.
-        Additionally, ERC20's approve functions have a known race-condition vulnerability. To account for this, use OpenZeppelin's SafeERC20 library's `safeIncrease` or `safeDecrease` Allowance functions.
+        "
+> ERC20 operations can be unsafe due to different implementations and vulnerabilities in the standard. To account for this, either use OpenZeppelin's SafeERC20 library or wrap each operation in a require statement.
+> Additionally, ERC20's approve functions have a known race-condition vulnerability. To account for this, use OpenZeppelin's SafeERC20 library's `safeIncrease` or `safeDecrease` Allowance functions.
         
-        #### Unsafe Transfer
-        ```js
-        IERC20(token).transfer(msg.sender, amount);
-        ```
-        #### OpenZeppelin SafeTransfer
-        ```js
-        import {SafeERC20} from "openzeppelin/token/utils/SafeERC20.sol";
-        //--snip--
+#### Unsafe Transfer
+
+```js
+IERC20(token).transfer(msg.sender, amount);
+```
+
+#### OpenZeppelin SafeTransfer
+
+```js
+import {SafeERC20} from \"openzeppelin/token/utils/SafeERC20.sol\";
+//--snip--
+
+IERC20(token).safeTransfer(msg.sender, address(this), amount);
+```
         
-        IERC20(token).safeTransfer(msg.sender, address(this), amount);
-        ```
+#### Safe Transfer with require statement.
+
+```js
+bool success = IERC20(token).transfer(msg.sender, amount);
+require(success, \"ERC20 transfer failed\");
+```
         
-        #### Safe Transfer with require statement.
-        ```js
-        bool success = IERC20(token).transfer(msg.sender, amount);
-        require(success, "ERC20 transfer failed");
-        ```
+#### Unsafe TransferFrom
+
+```js
+IERC20(token).transferFrom(msg.sender, address(this), amount);
+```
+
+#### OpenZeppelin SafeTransferFrom
+
+```js
+import {SafeERC20} from \"openzeppelin/token/utils/SafeERC20.sol\";
+//--snip--
+
+IERC20(token).safeTransferFrom(msg.sender, address(this), amount);
+```
         
-        #### Unsafe TransferFrom
-        ```js
-        IERC20(token).transferFrom(msg.sender, address(this), amount);
-        ```
-        #### OpenZeppelin SafeTransferFrom
-        ```js
-        import {SafeERC20} from "openzeppelin/token/utils/SafeERC20.sol";
-        //--snip--
+#### Safe TransferFrom with require statement.
+
+```js
+bool success = IERC20(token).transferFrom(msg.sender, address(this), amount);
+require(success, \"ERC20 transfer failed\");
+```
         
-        IERC20(token).safeTransferFrom(msg.sender, address(this), amount);
-        ```
-        
-        #### Safe TransferFrom with require statement.
-        ```js
-        bool success = IERC20(token).transferFrom(msg.sender, address(this), amount);
-        require(success, "ERC20 transfer failed");
-        ```
-        
-        "##,
+        ",
         Classification::VulnerabilityLow
     )
 );

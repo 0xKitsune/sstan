@@ -88,7 +88,7 @@ impl VulnerabilityPattern for UnprotectedSelfDestruct {
             }
         }
 
-        Ok(VulnerabilityOutcome::DivideBeforeMultiply(
+        Ok(VulnerabilityOutcome::UnprotectedSelfDestruct(
             vulnerability_locations,
         ))
     }

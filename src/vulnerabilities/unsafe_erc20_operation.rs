@@ -53,7 +53,7 @@ impl VulnerabilityPattern for UnsafeErc20Operation {
             }
         }
 
-        Ok(VulnerabilityOutcome::DivideBeforeMultiply(
+        Ok(VulnerabilityOutcome::UnsafeErc20Operation(
             vulnerability_locations,
         ))
     }

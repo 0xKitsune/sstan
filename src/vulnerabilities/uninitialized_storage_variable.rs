@@ -72,7 +72,7 @@ impl VulnerabilityPattern for UninitializedStorageVariable {
             }
         }
 
-        Ok(VulnerabilityOutcome::DivideBeforeMultiply(
+        Ok(VulnerabilityOutcome::UninitializedStorageVariable(
             vulnerability_locations,
         ))
     }
