@@ -1,12 +1,14 @@
-use std::path::PathBuf;
+use std::{path::PathBuf, ops::Deref};
 
-use crate::engine::{Engine, OptimizationModule, QualityAssuranceModule, VulnerabilityModule};
+use toml::value::Date;
+
+use crate::{engine::{Engine, OptimizationModule, QualityAssuranceModule, VulnerabilityModule}, qa::QualityAssuranceOutcome, optimizations::OptimizationOutcome, vulnerabilities::VulnerabilityOutcome};
 #[derive(Default, Clone)]
 pub struct ReportOutput {
     pub file_name: PathBuf,
     pub file_contents: String,
 }
-#[derive(Default, Clone)]
+#[derive(Clone)]
 
 pub struct Report {
     pub preamble: ReportPreamble,
@@ -16,6 +18,20 @@ pub struct Report {
     pub vulnerability_report: ReportSection,
     pub optimization_report: ReportSection,
     pub qa_report: ReportSection,
+}
+
+impl Default for Report {
+    fn default() -> Self {
+        Self {
+            preamble: ReportPreamble::default(),
+            description: String::default(),
+            summary: ReportSummary::default(),
+            table_of_contents: TableOfContents::default(),
+            vulnerability_report: ReportSection::default(),
+            optimization_report: ReportSection::default(),
+            qa_report: ReportSection::default(),
+        }
+    }
 }
 
 impl From<Report> for String {
@@ -32,7 +48,7 @@ impl From<Report> for String {
         )
     }
 }
-#[derive(Default, Clone)]
+#[derive(Clone)]
 pub struct ReportPreamble {
     pub title: String,
     pub logo: String,
@@ -40,6 +56,19 @@ pub struct ReportPreamble {
     pub date: String,
     pub version: String,
     pub authors: Vec<String>,
+}
+
+impl Default for ReportPreamble {
+    fn default() -> Self {
+        Self {
+            title: format!("Sstan Report"),
+            logo: String::default(),
+            description: format!("TODO: add description"),
+            date: format!("TODO: add date"),
+            version: format!("0.1.0"),
+            authors: vec!["0x00face".to_string(), "0xOsiris".to_string()],
+        }
+    }
 }
 
 impl From<ReportPreamble> for String {
@@ -60,6 +89,14 @@ impl From<ReportPreamble> for String {
 //Table of Contents
 pub struct TableOfContents {
     pub table_sections: Vec<TableSection>,
+}
+
+impl TableOfContents {
+    pub fn new(table_sections: Vec<TableSection>) -> Self {
+        Self {
+            table_sections,
+        }
+    }
 }
 
 impl From<TableOfContents> for String {
@@ -221,13 +258,12 @@ impl From<Report> for ReportOutput {
     }
 }
 
-impl From<QualityAssuranceModule> for ReportSection {
-    fn from(value: QualityAssuranceModule) -> Self {
+impl From<Vec<QualityAssuranceOutcome>> for ReportSection {
+    fn from(value: Vec<QualityAssuranceOutcome>) -> Self {
         ReportSection {
             title: "Vulnerabilities".to_string(),
             description: String::new(),
             outcomes: value
-                .outcomes
                 .into_iter()
                 .map(|f| (f.classification(), Option::<ReportSectionFragment>::from(f)))
                 .filter(|(_, fragment)| fragment.is_some())
@@ -243,13 +279,12 @@ impl From<QualityAssuranceModule> for ReportSection {
     }
 }
 
-impl From<OptimizationModule> for ReportSection {
-    fn from(value: OptimizationModule) -> Self {
+impl From<Vec<OptimizationOutcome>> for ReportSection {
+    fn from(value: Vec<OptimizationOutcome>) -> Self {
         ReportSection {
             title: "Optimizations".to_string(),
             description: String::new(),
             outcomes: value
-                .outcomes
                 .into_iter()
                 .map(|f| (f.classification(), Option::<ReportSectionFragment>::from(f)))
                 .filter(|(_, fragment)| fragment.is_some())
@@ -265,13 +300,12 @@ impl From<OptimizationModule> for ReportSection {
     }
 }
 
-impl From<VulnerabilityModule> for ReportSection {
-    fn from(value: VulnerabilityModule) -> Self {
+impl From<Vec<VulnerabilityOutcome>> for ReportSection {
+    fn from(value: Vec<VulnerabilityOutcome>) -> Self {
         ReportSection {
-            title: "Quality Assurance".to_string(),
+            title: "Vulnerability Outcomes".to_string(),
             description: String::new(),
             outcomes: value
-                .outcomes
                 .into_iter()
                 .map(|f| (f.classification(), Option::<ReportSectionFragment>::from(f)))
                 .filter(|(_, fragment)| fragment.is_some())
@@ -312,12 +346,12 @@ impl From<ReportSection> for String {
     }
 }
 
-impl From<ReportSection> for TableSection {
-    fn from(value: ReportSection) -> Self {
+impl From<&ReportSection> for TableSection {
+    fn from(value: &ReportSection) -> Self {
         TableSection {
-            title: value.title,
+            title: value.title.clone(),
             subsections: value
-                .outcomes
+                .outcomes.clone()
                 .into_iter()
                 .map(|outcome| TableFragment::from(&outcome))
                 .collect::<Vec<TableFragment>>(),

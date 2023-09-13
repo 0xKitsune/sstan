@@ -11,24 +11,32 @@ pub type LineNumber = i32;
 pub type Outcome = (PathBuf, Loc);
 
 //TODO: propagate these errors, dont unwrap
-pub fn extract_source(path: &str) -> HashMap<PathBuf, SourceUnit> {
-    let mut source = HashMap::new();
-
+pub fn extract_source(path: &str, source: &mut HashMap<PathBuf, SourceUnit>) -> eyre::Result<()> {
     let mut counter = 0;
-    for entry in fs::read_dir(path).unwrap() {
-        let entry = entry.unwrap();
+    for entry in fs::read_dir(path)? {
+        let entry = entry?;
         let path = entry.path();
         if path.is_dir() {
-            extract_source(path.to_str().unwrap());
+            extract_source(path.to_str().unwrap(), source)?;
         } else {
-            let source_unit = solang_parser::parse(path.to_str().unwrap(), counter)
-                .unwrap()
-                .0;
-            source.insert(path, source_unit);
-            counter += 1;
+            let file_name = path
+                .file_name()
+                .expect("Could not unwrap file name to OsStr")
+                .to_str()
+                .expect("Could not convert file name from OsStr to &str")
+                .to_string();
+
+            if file_name.ends_with(".sol") && !file_name.to_lowercase().contains(".t.sol") {
+                let file_contents = fs::read_to_string(&path).expect("Unable to read file");
+                let source_unit = solang_parser::parse(&file_contents, counter)
+                    .unwrap()
+                    .0;
+                source.insert(path, source_unit);
+                counter += 1;
+            }
         }
     }
-    source
+    Ok(())
 }
 
 //TODO: outcome should be updated to be code blocks, etc

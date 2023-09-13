@@ -3,14 +3,15 @@
 // use sstan::report;
 // use std::{fs, process};
 
-use std::{fs, process};
+use std::{fs, process, io::Write, path::PathBuf, collections::HashMap};
 
 use clap::Parser;
+use solang_parser::pt::SourceUnit;
 use sstan::{
     engine::Engine,
     optimizations::{self, OptimizationTarget},
     qa::{self, QualityAssuranceTarget},
-    vulnerabilities::VulnerabilityTarget,
+    vulnerabilities::VulnerabilityTarget, report::Report,
 };
 
 pub const DEFAULT_PATH: &str = "./src";
@@ -20,19 +21,20 @@ extern crate colour;
 fn main() -> eyre::Result<()> {
     let opts = Opts::new();
 
-    let engine = Engine::new("./", opts.vulnerabilities, opts.optimizations, opts.qa);
+    let mut engine = Engine::new(
+        &opts.path,
+        opts.vulnerabilities,
+        opts.optimizations,
+        opts.qa,
+    );
+    //Populate the modules
+    engine.run()?;
+    //Generate the report struct
+    let report = Report::from(engine);
+    //Generate the report string & write to the output path.
+    std::fs::File::create("sstan.md")?.write_all(String::from(report).as_bytes())?;
 
-    engine.run();
-
-    //     let vulnerabilities = vulnerabilities::analyze_dir(&opts.path, opts.vulnerabilities)?;
-    //     let optimizations = optimizations::analyze_dir(&opts.path, opts.optimizations)?;
-    //     let qa = qa::analyze_dir(&opts.path, opts.qa)?;
-
-    //     generate_report(vulnerabilities, optimizations, qa);
-    //     Ok(())
-    // }
-
-    todo!()
+    Ok(())
 }
 
 #[derive(Parser, Debug)]
@@ -48,7 +50,12 @@ pub struct Args {
         help = "Path to the directory containing the files sstan will analyze. The default directory is `./src`"
     )]
     pub path: Option<String>,
-
+    #[clap(
+        short,
+        long,
+        help = "Path to the directory to write the report to. The default directory is `./`"
+    )]
+    pub output: Option<String>,
     #[clap(
         short,
         long,
@@ -60,6 +67,7 @@ pub struct Args {
 #[derive(Default)]
 pub struct Opts {
     pub path: String,
+    pub output: String,
     vulnerabilities: Vec<VulnerabilityTarget>,
     optimizations: Vec<OptimizationTarget>,
     qa: Vec<QualityAssuranceTarget>,
@@ -79,11 +87,10 @@ impl Opts {
 
         let (optimizations, vulnerabilities, qa) = if let Some(toml_path) = args.toml {
             // let toml_str =
-            //     fs::read_to_string(toml_path).expect("Could not read toml file to string");
+                // fs::read_to_string(toml_path).expect("Could not read toml file to string");
 
             // let sstan_toml: SstanToml =
             //     toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
-
             // (
             //     sstan_toml
             //         .optimizations
@@ -115,6 +122,12 @@ impl Opts {
             )
         };
 
+        let output = if let Some(output) = args.output {
+            output
+        } else {
+            "".into()
+        };
+
         let path = if let Some(path) = args.path {
             path
         } else {
@@ -135,6 +148,7 @@ To fix this, either add a `./contracts` directory or provide `--path <path_to_co
 
         Opts {
             path,
+            output,
             optimizations,
             vulnerabilities,
             qa,

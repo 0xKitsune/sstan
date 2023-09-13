@@ -140,139 +140,6 @@ contract Contract3 {
 
  <details open> 
  <summary> 
- <h3> Use assembly when getting a contract's balance of ETH - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp; 
-    You can use `selfbalance()` instead of `address(this).balance` when getting your contract's balance of ETH to save gas. Additionally, you can use `balance(address)` instead of `address.balance()` when getting an external contract's balance of ETH.
-     
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp; Address Balance Optimization - Gas Report Savings: ~15 
-  </summary> 
- 
-```solidity
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-    Contract2 c2;
-    Contract3 c3;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-        c2 = new Contract2();
-        c3 = new Contract3();
-    }
-
-    function testGas() public {
-        c0.addressInternalBalance();
-        c1.assemblyInternalBalance();
-        c2.addressExternalBalance(address(this));
-        c3.assemblyExternalBalance(address(this));
-    }
-}
-
-contract Contract0 {
-    function addressInternalBalance() public returns (uint256) {
-        return address(this).balance;
-    }
-}
-
-contract Contract1 {
-    function assemblyInternalBalance() public returns (uint256) {
-        assembly {
-            let c := selfbalance()
-            mstore(0x00, c)
-            return(0x00, 0x20)
-        }
-    }
-}
-
-contract Contract2 {
-    function addressExternalBalance(address addr) public {
-        uint256 bal = address(addr).balance;
-        bal++;
-    }
-}
-
-contract Contract3 {
-    function assemblyExternalBalance(address addr) public {
-        uint256 bal;
-        assembly {
-            bal := balance(addr)
-        }
-        bal++;
-    }
-}
-```
-
-
-```solidity
-╭────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract0 contract     ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost        ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 23675                  ┆ 147             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name          ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ addressInternalBalance ┆ 148             ┆ 148 ┆ 148    ┆ 148 ┆ 1       │
-╰────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭─────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract1 contract      ┆                 ┆     ┆        ┆     ┆         │
-╞═════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost         ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 27081                   ┆ 165             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name           ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ assemblyInternalBalance ┆ 133             ┆ 133 ┆ 133    ┆ 133 ┆ 1       │
-╰─────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract2 contract     ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost        ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 61511                  ┆ 339             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name          ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ addressExternalBalance ┆ 417             ┆ 417 ┆ 417    ┆ 417 ┆ 1       │
-╰────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭─────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract3 contract      ┆                 ┆     ┆        ┆     ┆         │
-╞═════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost         ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 57105                   ┆ 317             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name           ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ assemblyExternalBalance ┆ 411             ┆ 411 ┆ 411    ┆ 411 ┆ 1       │
-╰─────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-
-```
- 
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> address_balance.sol 5-5 
- ```solidity 
- address(this).balance 
- ```
- &nbsp;
- <span style="color: green;">File: </span> address_balance.sol 10-10 
- ```solidity 
- address(addr).balance 
- ``` 
- </details>
-
- <details open> 
- <summary> 
  <h3> Event is not properly indexed. - Instances: 1 </h3>
  </summary> 
  &nbsp; 
@@ -296,281 +163,7 @@ contract Contract3 {
  event AlsoIsNotOptimized(address addr1, address indexed addr2, address indexed addr3); 
  ``` 
  </details>
- <details open> 
- <summary> 
- <h3> Cache array length during for loop definition. - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp; A typical for loop definition may look like: `for (uint256 i; i < arr.length; i++){}`. Instead of using `array.length`, cache the array length before the loop, and use the cached value to safe gas. This will avoid an `MLOAD` every loop for arrays stored in memory and an `SLOAD` for arrays stored in storage. This can have significant gas savings for arrays with a large length, especially if the array is stored in storage. 
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp; Cache Array Length - Gas Report Savings: ~22 
-  </summary> 
- 
-        
-```solidity
 
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-    Contract2 c2;
-    Contract3 c3;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-        c2 = new Contract2();
-        c3 = new Contract3();
-    }
-
-    function testGas() public view {
-        uint256[] memory arr = new uint256[](10);
-        c0.nonCachedMemoryListLength(arr);
-        c1.cachedMemoryListLength(arr);
-        c2.nonCachedStorageListLength();
-        c3.cachedStorageListLength();
-    }
-}
-
-contract Contract0 {
-    function nonCachedMemoryListLength(uint256[] memory arr) public pure {
-        uint256 j;
-        for (uint256 i; i < arr.length; i++) {
-            j = arr[i] + 10;
-        }
-    }
-}
-
-contract Contract1 {
-    function cachedMemoryListLength(uint256[] memory arr) public pure {
-        uint256 j;
-
-        uint256 length = arr.length;
-        for (uint256 i; i < length; i++) {
-            j = arr[i] + 10;
-        }
-    }
-}
-
-contract Contract2 {
-    uint256[] arr = new uint256[](10);
-
-    function nonCachedStorageListLength() public view {
-        uint256 j;
-        for (uint256 i; i < arr.length; i++) {
-            j = arr[i] + 10;
-        }
-    }
-}
-
-contract Contract3 {
-    uint256[] arr = new uint256[](10);
-
-    function cachedStorageListLength() public view {
-        uint256 j;
-        uint256 length = arr.length;
-
-        for (uint256 i; i < length; i++) {
-            j = arr[i] + 10;
-        }
-    }
-}
-
-
-```
-
-### Gas Report
-```solidity
-╭───────────────────────────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
-│ src/test/GasTest.t.sol:Contract0 contract ┆                 ┆      ┆        ┆      ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 128171                                    ┆ 672             ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ nonCachedMemoryListLength                 ┆ 3755            ┆ 3755 ┆ 3755   ┆ 3755 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
-╭───────────────────────────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
-│ src/test/GasTest.t.sol:Contract1 contract ┆                 ┆      ┆        ┆      ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 128777                                    ┆ 675             ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ cachedMemoryListLength                    ┆ 3733            ┆ 3733 ┆ 3733   ┆ 3733 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
-╭───────────────────────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
-│ src/test/GasTest.t.sol:Contract2 contract ┆                 ┆       ┆        ┆       ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 118474                                    ┆ 539             ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ nonCachedStorageListLength                ┆ 27979           ┆ 27979 ┆ 27979  ┆ 27979 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
-╭───────────────────────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
-│ src/test/GasTest.t.sol:Contract3 contract ┆                 ┆       ┆        ┆       ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 118674                                    ┆ 540             ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ cachedStorageListLength                   ┆ 26984           ┆ 26984 ┆ 26984  ┆ 26984 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
-
-```
-    
- 
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> cache_array_length.sol 9-9 
- ```solidity 
- arr.length 
- ```
- &nbsp;
- <span style="color: green;">File: </span> cache_array_length.sol 25-25 
- ```solidity 
- arr.length 
- ``` 
- </details>
- <details open> 
- <summary> 
- <h3> Cache Storage Variables in Memory - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp;  
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp; Cache Array Length - Gas Report Savings: ~0 
-  </summary> 
-  
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> cache_storage_in_memory.sol 8-8 
- ```solidity 
- y 
- ```
- &nbsp;
- <span style="color: green;">File: </span> cache_storage_in_memory.sol 12-12 
- ```solidity 
- x 
- ``` 
- </details>
-
-
-
- <details open> 
- <summary> 
- <h3> Use assembly to check for address(0) - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp;  
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp; Address Zero Optimization - Gas Report Savings: ~6 
-  </summary> 
- 
-```solidity
-
-
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-    }
-
-    function testGas() public view {
-        c0.ownerNotZero(address(this));
-        c1.assemblyOwnerNotZero(address(this));
-    }
-}
-
-contract Contract0 {
-    function ownerNotZero(address _addr) public pure {
-        require(_addr != address(0), "zero address)");
-    }
-}
-
-contract Contract1 {
-    function assemblyOwnerNotZero(address _addr) public pure {
-        assembly {
-            if iszero(_addr) {
-                mstore(0x00, "zero address")
-                revert(0x00, 0x20)
-            }
-        }
-    }
-}
-
-
-```
-
-### Gas Report
-
-```solidity
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 61311              ┆ 338             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ ownerNotZero       ┆ 258             ┆ 258 ┆ 258    ┆ 258 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭──────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract1 contract   ┆                 ┆     ┆        ┆     ┆         │
-╞══════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost      ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 44893                ┆ 255             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name        ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ assemblyOwnerNotZero ┆ 252             ┆ 252 ┆ 252    ┆ 252 ┆ 1       │
-╰──────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-```
- 
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> address_zero.sol 6-6 
- ```solidity 
- _addr == address(0) 
- ```
- &nbsp;
- <span style="color: green;">File: </span> address_zero.sol 10-10 
- ```solidity 
- _addr != address(0) 
- ```
- &nbsp;
- <span style="color: green;">File: </span> address_zero.sol 14-14 
- ```solidity 
- address(0) == _addr 
- ```
- &nbsp;
- <span style="color: green;">File: </span> address_zero.sol 18-18 
- ```solidity 
- address(0) != _addr 
- ``` 
- </details>
  <details open> 
  <summary> 
  <h3> Mark storage variables as `immutable` if they never change after contract initialization. - Instances: 1 </h3>
@@ -683,140 +276,116 @@ contract Contract2 {
  
 
  &nbsp;
- <span style="color: green;">File: </span> immutable_variables.sol 9-9 
- ```solidity 
- uint256 num2; 
- ```
- &nbsp;
  <span style="color: green;">File: </span> immutable_variables.sol 8-8 
  ```solidity 
  uint256 num1; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> immutable_variables.sol 9-9 
+ ```solidity 
+ uint256 num2; 
  ``` 
  </details>
-
  <details open> 
  <summary> 
- <h3> Mark storage variables as `constant` if they never change. - Instances: 1 </h3>
+ <h3> Use assembly to check for address(0) - Instances: 1 </h3>
  </summary> 
  &nbsp; 
- &nbsp; State variables can be declared as constant or immutable. In both cases, the variables cannot be modified after the contract has been constructed. For constant variables, the value has to be fixed at compile-time, while for immutable, it can still be assigned at construction time. 
- The compiler does not reserve a storage slot for these variables, and every occurrence is inlined by the respective value. 
- Compared to regular state variables, the gas costs of constant and immutable variables are much lower. For a constant variable, the expression assigned to it is copied to all the places where it is accessed and also re-evaluated each time. This allows for local optimizations. Immutable variables are evaluated once at construction time and their value is copied to all the places in the code where they are accessed. For these values, 32 bytes are reserved, even if they would fit in fewer bytes. Due to this, constant values can sometimes be cheaper than immutable values. 
+ &nbsp;  
  &nbsp; <details> &nbsp; 
  <summary> 
- &nbsp; &nbsp; Constant Variable - Gas Report Savings: ~2103 
+ &nbsp; &nbsp; Address Zero Optimization - Gas Report Savings: ~6 
   </summary> 
  
-
 ```solidity
 
+
 contract GasTest is DSTest {
-Contract0 c0;
-Contract1 c1;
-Contract2  c2;
+    Contract0 c0;
+    Contract1 c1;
 
-function setUp() public {
-    c0 = new Contract0();
-    c1 = new Contract1();
-    c2 = new Contract2();
-    
-}
+    function setUp() public {
+        c0 = new Contract0();
+        c1 = new Contract1();
+    }
 
-function testGas() public view {
-    c0.addValue();
-    c1.addImmutableValue();
-    c2.addConstantValue();
-}
+    function testGas() public view {
+        c0.ownerNotZero(address(this));
+        c1.assemblyOwnerNotZero(address(this));
+    }
 }
 
 contract Contract0 {
-uint256 val;
-
-constructor() {
-    val = 10000;
-}
-
-function addValue() public view {
-    uint256 newVal = val + 1000;
-}
+    function ownerNotZero(address _addr) public pure {
+        require(_addr != address(0), "zero address)");
+    }
 }
 
 contract Contract1 {
-uint256 immutable val;
-
-constructor() {
-    val = 10000;
+    function assemblyOwnerNotZero(address _addr) public pure {
+        assembly {
+            if iszero(_addr) {
+                mstore(0x00, "zero address")
+                revert(0x00, 0x20)
+            }
+        }
+    }
 }
 
-function addImmutableValue() public view {
-    uint256 newVal = val + 1000;
-}
-}
-
-contract Contract2 {
-uint256 constant val = 10;
-
-function addConstantValue() public view {
-    uint256 newVal = val + 1000;
-}
-}
 
 ```
 
 ### Gas Report
-```solidity
-╭────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
-│ Contract0 contract ┆                 ┆      ┆        ┆      ┆         │
-╞════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 54593              ┆ 198             ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ addValue           ┆ 2302            ┆ 2302 ┆ 2302   ┆ 2302 ┆ 1       │
-╰────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 38514              ┆ 239             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ addImmutableValue  ┆ 199             ┆ 199 ┆ 199    ┆ 199 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract2 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 32287              ┆ 191             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ addConstantValue   ┆ 199             ┆ 199 ┆ 199    ┆ 199 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-```
 
-         
+```solidity
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 61311              ┆ 338             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ ownerNotZero       ┆ 258             ┆ 258 ┆ 258    ┆ 258 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭──────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract1 contract   ┆                 ┆     ┆        ┆     ┆         │
+╞══════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost      ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 44893                ┆ 255             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name        ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ assemblyOwnerNotZero ┆ 252             ┆ 252 ┆ 252    ┆ 252 ┆ 1       │
+╰──────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+```
+ 
  </details> 
  
 
  &nbsp;
- <span style="color: green;">File: </span> constant_variable.sol 10-10 
+ <span style="color: green;">File: </span> address_zero.sol 6-6 
  ```solidity 
- uint256 fourthUint256 = 100; 
+ _addr == address(0) 
  ```
  &nbsp;
- <span style="color: green;">File: </span> constant_variable.sol 9-9 
+ <span style="color: green;">File: </span> address_zero.sol 10-10 
  ```solidity 
- uint256 immutable thirdUint256 = 100; 
+ _addr != address(0) 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> address_zero.sol 14-14 
+ ```solidity 
+ address(0) == _addr 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> address_zero.sol 18-18 
+ ```solidity 
+ address(0) != _addr 
  ``` 
  </details>
-
-
  <details open> 
  <summary> 
  <h3>  `unchecked{++i}` instead of `i++` (or use assembly when applicable) - Instances: 1 </h3>
@@ -1012,18 +581,314 @@ contract Contract4 {
  ``` 
  </details>
 
+
  <details open> 
  <summary> 
- <h3> Optimal Comparison - Instances: 1 </h3>
+ <h3> Cache Storage Variables in Memory - Instances: 1 </h3>
  </summary> 
  &nbsp; 
- &nbsp; When comparing integers, it is cheaper to use strict `>` & `<` operators over `>=` & `<=` operators, even if you must increment or decrement one of the operands. 
- Note: before using this technique, it's important to consider whether incrementing/decrementing one of the operators could result in an over/underflow.
-        
- This optimization is applicable when the optimizer is turned off. 
+ &nbsp;  
  &nbsp; <details> &nbsp; 
  <summary> 
- &nbsp; &nbsp; Optimal Comparison - Gas Report Savings: ~3 
+ &nbsp; &nbsp; Cache Array Length - Gas Report Savings: ~0 
+  </summary> 
+  
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> cache_storage_in_memory.sol 8-8 
+ ```solidity 
+ y 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> cache_storage_in_memory.sol 12-12 
+ ```solidity 
+ x 
+ ``` 
+ </details>
+
+
+ <details open> 
+ <summary> 
+ <h3> Cache array length during for loop definition. - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp; A typical for loop definition may look like: `for (uint256 i; i < arr.length; i++){}`. Instead of using `array.length`, cache the array length before the loop, and use the cached value to safe gas. This will avoid an `MLOAD` every loop for arrays stored in memory and an `SLOAD` for arrays stored in storage. This can have significant gas savings for arrays with a large length, especially if the array is stored in storage. 
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp; Cache Array Length - Gas Report Savings: ~22 
+  </summary> 
+ 
+        
+```solidity
+
+contract GasTest is DSTest {
+    Contract0 c0;
+    Contract1 c1;
+    Contract2 c2;
+    Contract3 c3;
+
+    function setUp() public {
+        c0 = new Contract0();
+        c1 = new Contract1();
+        c2 = new Contract2();
+        c3 = new Contract3();
+    }
+
+    function testGas() public view {
+        uint256[] memory arr = new uint256[](10);
+        c0.nonCachedMemoryListLength(arr);
+        c1.cachedMemoryListLength(arr);
+        c2.nonCachedStorageListLength();
+        c3.cachedStorageListLength();
+    }
+}
+
+contract Contract0 {
+    function nonCachedMemoryListLength(uint256[] memory arr) public pure {
+        uint256 j;
+        for (uint256 i; i < arr.length; i++) {
+            j = arr[i] + 10;
+        }
+    }
+}
+
+contract Contract1 {
+    function cachedMemoryListLength(uint256[] memory arr) public pure {
+        uint256 j;
+
+        uint256 length = arr.length;
+        for (uint256 i; i < length; i++) {
+            j = arr[i] + 10;
+        }
+    }
+}
+
+contract Contract2 {
+    uint256[] arr = new uint256[](10);
+
+    function nonCachedStorageListLength() public view {
+        uint256 j;
+        for (uint256 i; i < arr.length; i++) {
+            j = arr[i] + 10;
+        }
+    }
+}
+
+contract Contract3 {
+    uint256[] arr = new uint256[](10);
+
+    function cachedStorageListLength() public view {
+        uint256 j;
+        uint256 length = arr.length;
+
+        for (uint256 i; i < length; i++) {
+            j = arr[i] + 10;
+        }
+    }
+}
+
+
+```
+
+### Gas Report
+```solidity
+╭───────────────────────────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
+│ src/test/GasTest.t.sol:Contract0 contract ┆                 ┆      ┆        ┆      ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 128171                                    ┆ 672             ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ nonCachedMemoryListLength                 ┆ 3755            ┆ 3755 ┆ 3755   ┆ 3755 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
+╭───────────────────────────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
+│ src/test/GasTest.t.sol:Contract1 contract ┆                 ┆      ┆        ┆      ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 128777                                    ┆ 675             ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ cachedMemoryListLength                    ┆ 3733            ┆ 3733 ┆ 3733   ┆ 3733 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
+╭───────────────────────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
+│ src/test/GasTest.t.sol:Contract2 contract ┆                 ┆       ┆        ┆       ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 118474                                    ┆ 539             ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ nonCachedStorageListLength                ┆ 27979           ┆ 27979 ┆ 27979  ┆ 27979 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
+╭───────────────────────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
+│ src/test/GasTest.t.sol:Contract3 contract ┆                 ┆       ┆        ┆       ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 118674                                    ┆ 540             ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ cachedStorageListLength                   ┆ 26984           ┆ 26984 ┆ 26984  ┆ 26984 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
+
+```
+    
+ 
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> cache_array_length.sol 9-9 
+ ```solidity 
+ arr.length 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> cache_array_length.sol 25-25 
+ ```solidity 
+ arr.length 
+ ``` 
+ </details>
+ <details open> 
+ <summary> 
+ <h3> Mark storage variables as `constant` if they never change. - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp; State variables can be declared as constant or immutable. In both cases, the variables cannot be modified after the contract has been constructed. For constant variables, the value has to be fixed at compile-time, while for immutable, it can still be assigned at construction time. 
+ The compiler does not reserve a storage slot for these variables, and every occurrence is inlined by the respective value. 
+ Compared to regular state variables, the gas costs of constant and immutable variables are much lower. For a constant variable, the expression assigned to it is copied to all the places where it is accessed and also re-evaluated each time. This allows for local optimizations. Immutable variables are evaluated once at construction time and their value is copied to all the places in the code where they are accessed. For these values, 32 bytes are reserved, even if they would fit in fewer bytes. Due to this, constant values can sometimes be cheaper than immutable values. 
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp; Constant Variable - Gas Report Savings: ~2103 
+  </summary> 
+ 
+
+```solidity
+
+contract GasTest is DSTest {
+Contract0 c0;
+Contract1 c1;
+Contract2  c2;
+
+function setUp() public {
+    c0 = new Contract0();
+    c1 = new Contract1();
+    c2 = new Contract2();
+    
+}
+
+function testGas() public view {
+    c0.addValue();
+    c1.addImmutableValue();
+    c2.addConstantValue();
+}
+}
+
+contract Contract0 {
+uint256 val;
+
+constructor() {
+    val = 10000;
+}
+
+function addValue() public view {
+    uint256 newVal = val + 1000;
+}
+}
+
+contract Contract1 {
+uint256 immutable val;
+
+constructor() {
+    val = 10000;
+}
+
+function addImmutableValue() public view {
+    uint256 newVal = val + 1000;
+}
+}
+
+contract Contract2 {
+uint256 constant val = 10;
+
+function addConstantValue() public view {
+    uint256 newVal = val + 1000;
+}
+}
+
+```
+
+### Gas Report
+```solidity
+╭────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
+│ Contract0 contract ┆                 ┆      ┆        ┆      ┆         │
+╞════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 54593              ┆ 198             ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ addValue           ┆ 2302            ┆ 2302 ┆ 2302   ┆ 2302 ┆ 1       │
+╰────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 38514              ┆ 239             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ addImmutableValue  ┆ 199             ┆ 199 ┆ 199    ┆ 199 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract2 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 32287              ┆ 191             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ addConstantValue   ┆ 199             ┆ 199 ┆ 199    ┆ 199 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+```
+
+         
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> constant_variable.sol 10-10 
+ ```solidity 
+ uint256 fourthUint256 = 100; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> constant_variable.sol 9-9 
+ ```solidity 
+ uint256 immutable thirdUint256 = 100; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Use assembly when getting a contract's balance of ETH - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp; 
+    You can use `selfbalance()` instead of `address(this).balance` when getting your contract's balance of ETH to save gas. Additionally, you can use `balance(address)` instead of `address.balance()` when getting an external contract's balance of ETH.
+     
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp; Address Balance Optimization - Gas Report Savings: ~15 
   </summary> 
  
 ```solidity
@@ -1040,301 +905,112 @@ contract GasTest is DSTest {
         c3 = new Contract3();
     }
 
-    function testGas() public view {
-        c0.gte();
-        c1.gtPlusMinusOne();
-        c2.lte();
-        c3.ltPlusOne();
+    function testGas() public {
+        c0.addressInternalBalance();
+        c1.assemblyInternalBalance();
+        c2.addressExternalBalance(address(this));
+        c3.assemblyExternalBalance(address(this));
     }
 }
 
 contract Contract0 {
-    function gte() external pure returns (bool) {
-        return 2 >= 2;
+    function addressInternalBalance() public returns (uint256) {
+        return address(this).balance;
     }
 }
 
 contract Contract1 {
-    function gtPlusMinusOne() external pure returns (bool) {
-        return 2 > 2 - 1;
+    function assemblyInternalBalance() public returns (uint256) {
+        assembly {
+            let c := selfbalance()
+            mstore(0x00, c)
+            return(0x00, 0x20)
+        }
     }
 }
 
 contract Contract2 {
-    function lte() external pure returns (bool) {
-        return 2 <= 2;
+    function addressExternalBalance(address addr) public {
+        uint256 bal = address(addr).balance;
+        bal++;
     }
 }
 
 contract Contract3 {
-    function ltPlusOne() external pure returns (bool) {
-        return 2 < 2 + 1;
+    function assemblyExternalBalance(address addr) public {
+        uint256 bal;
+        assembly {
+            bal := balance(addr)
+        }
+        bal++;
     }
 }
-
 ```
 
-### Gas Report
 
 ```solidity
-╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ src/test/GasTest.t.sol:Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 37487                                     ┆ 218             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ gte                                       ┆ 330             ┆ 330 ┆ 330    ┆ 330 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ src/test/GasTest.t.sol:Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 37487                                     ┆ 218             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ gtPlusMinusOne                            ┆ 327             ┆ 327 ┆ 327    ┆ 327 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ src/test/GasTest.t.sol:Contract2 contract ┆                 ┆     ┆        ┆     ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 37487                                     ┆ 218             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ lte                                       ┆ 330             ┆ 330 ┆ 330    ┆ 330 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ src/test/GasTest.t.sol:Contract3 contract ┆                 ┆     ┆        ┆     ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 37487                                     ┆ 218             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ ltPlusOne                                 ┆ 327             ┆ 327 ┆ 327    ┆ 327 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-```
+╭────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract0 contract     ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost        ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 23675                  ┆ 147             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name          ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ addressInternalBalance ┆ 148             ┆ 148 ┆ 148    ┆ 148 ┆ 1       │
+╰────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭─────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract1 contract      ┆                 ┆     ┆        ┆     ┆         │
+╞═════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost         ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 27081                   ┆ 165             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name           ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ assemblyInternalBalance ┆ 133             ┆ 133 ┆ 133    ┆ 133 ┆ 1       │
+╰─────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract2 contract     ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost        ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 61511                  ┆ 339             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name          ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ addressExternalBalance ┆ 417             ┆ 417 ┆ 417    ┆ 417 ┆ 1       │
+╰────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭─────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract3 contract      ┆                 ┆     ┆        ┆     ┆         │
+╞═════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost         ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 57105                   ┆ 317             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name           ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ assemblyExternalBalance ┆ 411             ┆ 411 ┆ 411    ┆ 411 ┆ 1       │
+╰─────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 
-         
+```
+ 
  </details> 
  
 
  &nbsp;
- <span style="color: green;">File: </span> optimal_comparison.sol 5-5 
+ <span style="color: green;">File: </span> address_balance.sol 5-5 
  ```solidity 
- a >= b 
+ address(this).balance 
  ```
  &nbsp;
- <span style="color: green;">File: </span> optimal_comparison.sol 9-9 
+ <span style="color: green;">File: </span> address_balance.sol 10-10 
  ```solidity 
- a <= b 
+ address(addr).balance 
  ``` 
  </details>
 
- <details open> 
- <summary> 
- <h3> Use multiple require() statments insted of require(expression && expression && ...) - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp; You can safe gas by breaking up a require statement with multiple conditions, into multiple require statements with a single condition. 
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp; Multiple Require - Gas Report Savings: ~16 
-  </summary> 
- 
-        
-```solidity
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-    }
-
-    function testGas() public {
-        c0.singleRequire(3);
-        c1.multipleRequire(3);
-    }
-}
-
-contract Contract0 {
-    function singleRequire(uint256 num) public {
-        require(num > 1 && num < 10 && num == 3);
-    }
-}
-
-contract Contract1 {
-    function multipleRequire(uint256 num) public {
-        require(num > 1);
-        require(num < 10);
-        require(num == 3);
-    }
-}
-```
-
-### Gas Report
-
-```solidity
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 35487              ┆ 208             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ singleRequire      ┆ 286             ┆ 286 ┆ 286    ┆ 286 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 35887              ┆ 210             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ multipleRequire    ┆ 270             ┆ 270 ┆ 270    ┆ 270 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-
-```
-         
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> multiple_require.sol 11-11 
- ```solidity 
- require(true && a == b, "some message") 
- ```
- &nbsp;
- <span style="color: green;">File: </span> multiple_require.sol 12-12 
- ```solidity 
- require(true && a == b && b == c, "thing") 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <h3> Mark functions as payable (with discretion) - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp; You can mark public or external functions as payable to save gas. Functions that are not payable have additional logic to check if there was a value sent with a call, however, making a function payable eliminates this check. This optimization should be carefully considered due to potentially unwanted behavior when a function does not need to accept ether. 
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp; Payable Functions - Gas Report Savings: ~24 
-  </summary> 
- 
-
-```solidity
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-    }
-
-    function testGas() public {
-        c0.isNotPayable();
-        c1.isPayable();
-    }
-}
-
-contract Contract0 {
-    function isNotPayable() public view {
-        uint256 val = 0;
-        val++;
-    }
-}
-
-contract Contract1 {
-    function isPayable() public payable {
-        uint256 val = 0;
-        val++;
-    }
-}
-```
-
-### Gas Report
-```solidity
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 32081              ┆ 190             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ isNotPayable       ┆ 198             ┆ 198 ┆ 198    ┆ 198 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 29681              ┆ 178             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ isPayable          ┆ 174             ┆ 174 ┆ 174    ┆ 174 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-```
-
-             
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> payable_functions.sol 6-6 
- ```solidity 
- function div2(uint256 a, uint256 b) public pure {} 
- ```
- &nbsp;
- <span style="color: green;">File: </span> payable_functions.sol 10-10 
- ```solidity 
- function mul2(uint256 a, uint256 b) external view {} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <h3> Avoid Reading From Storage in a for loop - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp;  
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp;  Savings: ~0 
-  </summary> 
-  
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> read_from_storage_in_for_loop.sol 7-10 
- ```solidity 
- for (uint256 i = 0; i < 10; i++) {uint256 z = y;} 
- ```
- &nbsp;
- <span style="color: green;">File: </span> read_from_storage_in_for_loop.sol 12-15 
- ```solidity 
- for (uint256 i = 0; i < 10; i++) {uint256 z = x;} 
- ``` 
- </details>
 
  <details open> 
  <summary> 
@@ -1512,6 +1188,538 @@ contract Contract3 {
 
  <details open> 
  <summary> 
+ <h3> Mark functions as payable (with discretion) - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp; You can mark public or external functions as payable to save gas. Functions that are not payable have additional logic to check if there was a value sent with a call, however, making a function payable eliminates this check. This optimization should be carefully considered due to potentially unwanted behavior when a function does not need to accept ether. 
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp; Payable Functions - Gas Report Savings: ~24 
+  </summary> 
+ 
+
+```solidity
+contract GasTest is DSTest {
+    Contract0 c0;
+    Contract1 c1;
+
+    function setUp() public {
+        c0 = new Contract0();
+        c1 = new Contract1();
+    }
+
+    function testGas() public {
+        c0.isNotPayable();
+        c1.isPayable();
+    }
+}
+
+contract Contract0 {
+    function isNotPayable() public view {
+        uint256 val = 0;
+        val++;
+    }
+}
+
+contract Contract1 {
+    function isPayable() public payable {
+        uint256 val = 0;
+        val++;
+    }
+}
+```
+
+### Gas Report
+```solidity
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 32081              ┆ 190             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ isNotPayable       ┆ 198             ┆ 198 ┆ 198    ┆ 198 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 29681              ┆ 178             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ isPayable          ┆ 174             ┆ 174 ┆ 174    ┆ 174 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+```
+
+             
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> payable_functions.sol 6-6 
+ ```solidity 
+ function div2(uint256 a, uint256 b) public pure {} 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> payable_functions.sol 10-10 
+ ```solidity 
+ function mul2(uint256 a, uint256 b) external view {} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Consider marking constants as private - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp; Consider marking constant variables in storage as private to save gas (unless a constant variable should be easily accessible by another protocol or offchain logic). 
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp; Private Constant - Gas Report Savings: ~22 
+  </summary> 
+ 
+```solidity
+contract GasTest is DSTest {
+    Contract0 c0;
+    Contract1 c1;
+    
+    function setUp() public {
+        c0 = new Contract0();
+        c1 = new Contract1();
+        
+    }
+    function testGas() public view {
+        uint256 a = 100;
+        c0.addPublicConstant(a);
+        c1.addPrivateConstant(a);
+        
+    }
+}
+contract Contract0 {
+
+    uint256 constant public x = 100;
+
+    function addPublicConstant(uint256 a) external pure returns (uint256) {
+        return a + x;
+    }
+}
+
+contract Contract1 {
+
+        uint256 constant private x = 100;
+
+    function addPrivateConstant(uint256 a) external pure returns (uint256) {
+        return a +x;
+    }
+}
+```
+
+### Gas Report
+
+```solidity
+╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ src/test/GasTest.t.sol:Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 92741                                     ┆ 495             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ addPublicConstant                         ┆ 790             ┆ 790 ┆ 790    ┆ 790 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ src/test/GasTest.t.sol:Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 83535                                     ┆ 449             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ addPrivateConstant                        ┆ 768             ┆ 768 ┆ 768    ┆ 768 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+```
+             
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> private_constant.sol 5-5 
+ ```solidity 
+ uint256 constant public x = 100; 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> private_constant.sol 7-7 
+ ```solidity 
+ uint256 constant z = 100; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Optimal Comparison - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp; When comparing integers, it is cheaper to use strict `>` & `<` operators over `>=` & `<=` operators, even if you must increment or decrement one of the operands. 
+ Note: before using this technique, it's important to consider whether incrementing/decrementing one of the operators could result in an over/underflow.
+        
+ This optimization is applicable when the optimizer is turned off. 
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp; Optimal Comparison - Gas Report Savings: ~3 
+  </summary> 
+ 
+```solidity
+contract GasTest is DSTest {
+    Contract0 c0;
+    Contract1 c1;
+    Contract2 c2;
+    Contract3 c3;
+
+    function setUp() public {
+        c0 = new Contract0();
+        c1 = new Contract1();
+        c2 = new Contract2();
+        c3 = new Contract3();
+    }
+
+    function testGas() public view {
+        c0.gte();
+        c1.gtPlusMinusOne();
+        c2.lte();
+        c3.ltPlusOne();
+    }
+}
+
+contract Contract0 {
+    function gte() external pure returns (bool) {
+        return 2 >= 2;
+    }
+}
+
+contract Contract1 {
+    function gtPlusMinusOne() external pure returns (bool) {
+        return 2 > 2 - 1;
+    }
+}
+
+contract Contract2 {
+    function lte() external pure returns (bool) {
+        return 2 <= 2;
+    }
+}
+
+contract Contract3 {
+    function ltPlusOne() external pure returns (bool) {
+        return 2 < 2 + 1;
+    }
+}
+
+```
+
+### Gas Report
+
+```solidity
+╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ src/test/GasTest.t.sol:Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 37487                                     ┆ 218             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ gte                                       ┆ 330             ┆ 330 ┆ 330    ┆ 330 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ src/test/GasTest.t.sol:Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 37487                                     ┆ 218             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ gtPlusMinusOne                            ┆ 327             ┆ 327 ┆ 327    ┆ 327 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ src/test/GasTest.t.sol:Contract2 contract ┆                 ┆     ┆        ┆     ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 37487                                     ┆ 218             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ lte                                       ┆ 330             ┆ 330 ┆ 330    ┆ 330 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ src/test/GasTest.t.sol:Contract3 contract ┆                 ┆     ┆        ┆     ┆         │
+╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 37487                                     ┆ 218             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ ltPlusOne                                 ┆ 327             ┆ 327 ┆ 327    ┆ 327 ┆ 1       │
+╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+```
+
+         
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> optimal_comparison.sol 5-5 
+ ```solidity 
+ a >= b 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> optimal_comparison.sol 9-9 
+ ```solidity 
+ a <= b 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Avoid Reading From Storage in a for loop - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp;  
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp;  Savings: ~0 
+  </summary> 
+  
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> read_from_storage_in_for_loop.sol 7-10 
+ ```solidity 
+ for (uint256 i = 0; i < 10; i++) {uint256 z = y;} 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> read_from_storage_in_for_loop.sol 12-15 
+ ```solidity 
+ for (uint256 i = 0; i < 10; i++) {uint256 z = x;} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Pack Structs - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp; When creating structs, make sure that the variables are listed in ascending order by data type. The compiler will pack the variables that can fit into one 32 byte slot. If the variables are not listed in ascending order, the compiler may not pack the data into one slot, causing additional `sload` and `sstore` instructions when reading/storing the struct into the contract's storage. 
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp; Pack Structs - Gas Report Savings: ~0 
+  </summary> 
+ 
+            
+```solidity
+
+contract GasTest is DSTest {
+    Contract0 c0;
+    Contract1 c1;
+
+    function setUp() public {
+        c0 = new Contract0();
+        c1 = new Contract1();
+    }
+
+    function testGas() public {
+        c0.storeUnoptimizedStruct();
+        c1.storeOptimizedStruct();
+    }
+}
+
+contract Contract0 {
+    struct UnoptimizedStruct {
+        uint128 a;
+        uint256 b;
+        uint128 c;
+    }
+
+    mapping(uint256 => UnoptimizedStruct) idToUnoptimizedStruct;
+
+    function storeUnoptimizedStruct() public {
+        idToUnoptimizedStruct[0] = UnoptimizedStruct(
+            23409234,
+            23489234982349,
+            234923093
+        );
+    }
+}
+
+contract Contract1 {
+    struct OptimizedStruct {
+        uint128 a;
+        uint128 b;
+        uint256 c;
+    }
+
+    mapping(uint256 => OptimizedStruct) idToOptimizedStruct;
+
+    function storeOptimizedStruct() public {
+        idToOptimizedStruct[0] = OptimizedStruct(
+            23409234,
+            23489234982349,
+            234923093
+        );
+    }
+}
+```
+
+### Gas Report
+```solidity
+╭────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
+│ Contract0 contract     ┆                 ┆       ┆        ┆       ┆         │
+╞════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
+│ Deployment Cost        ┆ Deployment Size ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 67717                  ┆ 370             ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name          ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ storeUnoptimizedStruct ┆ 66608           ┆ 66608 ┆ 66608  ┆ 66608 ┆ 1       │
+╰────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
+╭──────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
+│ Contract1 contract   ┆                 ┆       ┆        ┆       ┆         │
+╞══════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
+│ Deployment Cost      ┆ Deployment Size ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 54105                ┆ 302             ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name        ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ storeOptimizedStruct ┆ 44468           ┆ 44468 ┆ 44468  ┆ 44468 ┆ 1       │
+╰──────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
+
+```
+
+             
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> pack_struct_variables.sol 11-16 
+ ```solidity 
+ struct Ex1 {bool isUniV2; bytes32 salt; bytes16 initBytecode;} 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> pack_struct_variables.sol 29-34 
+ ```solidity 
+ struct Ex3 {bool isUniV2; bytes32 salt; bytes16 initBytecode;} 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> pack_struct_variables.sol 50-55 
+ ```solidity 
+ struct Ex6 {uint128 thing3; uint256 thing1; uint128 thing2;} 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> pack_struct_variables.sol 57-63 
+ ```solidity 
+ struct Ex7 {address owner; uint256 num0; bytes4 b0; uint64 num1;} 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Use multiple require() statments insted of require(expression && expression && ...) - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp; You can safe gas by breaking up a require statement with multiple conditions, into multiple require statements with a single condition. 
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp; Multiple Require - Gas Report Savings: ~16 
+  </summary> 
+ 
+        
+```solidity
+contract GasTest is DSTest {
+    Contract0 c0;
+    Contract1 c1;
+
+    function setUp() public {
+        c0 = new Contract0();
+        c1 = new Contract1();
+    }
+
+    function testGas() public {
+        c0.singleRequire(3);
+        c1.multipleRequire(3);
+    }
+}
+
+contract Contract0 {
+    function singleRequire(uint256 num) public {
+        require(num > 1 && num < 10 && num == 3);
+    }
+}
+
+contract Contract1 {
+    function multipleRequire(uint256 num) public {
+        require(num > 1);
+        require(num < 10);
+        require(num == 3);
+    }
+}
+```
+
+### Gas Report
+
+```solidity
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 35487              ┆ 208             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ singleRequire      ┆ 286             ┆ 286 ┆ 286    ┆ 286 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 35887              ┆ 210             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ multipleRequire    ┆ 270             ┆ 270 ┆ 270    ┆ 270 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+
+```
+         
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> multiple_require.sol 11-11 
+ ```solidity 
+ require(true && a == b, "some message") 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> multiple_require.sol 12-12 
+ ```solidity 
+ require(true && a == b && b == c, "thing") 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
  <h3> Use `calldata` instead of `memory` for function arguments that do not get mutated. - Instances: 1 </h3>
  </summary> 
  &nbsp; 
@@ -1651,214 +1859,6 @@ contract Contract3 {
 
  <details open> 
  <summary> 
- <h3> Pack Structs - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp; When creating structs, make sure that the variables are listed in ascending order by data type. The compiler will pack the variables that can fit into one 32 byte slot. If the variables are not listed in ascending order, the compiler may not pack the data into one slot, causing additional `sload` and `sstore` instructions when reading/storing the struct into the contract's storage. 
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp; Pack Structs - Gas Report Savings: ~0 
-  </summary> 
- 
-            
-```solidity
-
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-    }
-
-    function testGas() public {
-        c0.storeUnoptimizedStruct();
-        c1.storeOptimizedStruct();
-    }
-}
-
-contract Contract0 {
-    struct UnoptimizedStruct {
-        uint128 a;
-        uint256 b;
-        uint128 c;
-    }
-
-    mapping(uint256 => UnoptimizedStruct) idToUnoptimizedStruct;
-
-    function storeUnoptimizedStruct() public {
-        idToUnoptimizedStruct[0] = UnoptimizedStruct(
-            23409234,
-            23489234982349,
-            234923093
-        );
-    }
-}
-
-contract Contract1 {
-    struct OptimizedStruct {
-        uint128 a;
-        uint128 b;
-        uint256 c;
-    }
-
-    mapping(uint256 => OptimizedStruct) idToOptimizedStruct;
-
-    function storeOptimizedStruct() public {
-        idToOptimizedStruct[0] = OptimizedStruct(
-            23409234,
-            23489234982349,
-            234923093
-        );
-    }
-}
-```
-
-### Gas Report
-```solidity
-╭────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
-│ Contract0 contract     ┆                 ┆       ┆        ┆       ┆         │
-╞════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
-│ Deployment Cost        ┆ Deployment Size ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 67717                  ┆ 370             ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name          ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ storeUnoptimizedStruct ┆ 66608           ┆ 66608 ┆ 66608  ┆ 66608 ┆ 1       │
-╰────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
-╭──────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
-│ Contract1 contract   ┆                 ┆       ┆        ┆       ┆         │
-╞══════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
-│ Deployment Cost      ┆ Deployment Size ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 54105                ┆ 302             ┆       ┆        ┆       ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name        ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ storeOptimizedStruct ┆ 44468           ┆ 44468 ┆ 44468  ┆ 44468 ┆ 1       │
-╰──────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
-
-```
-
-             
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> pack_struct_variables.sol 11-16 
- ```solidity 
- struct Ex1 {bool isUniV2; bytes32 salt; bytes16 initBytecode;} 
- ```
- &nbsp;
- <span style="color: green;">File: </span> pack_struct_variables.sol 29-34 
- ```solidity 
- struct Ex3 {bool isUniV2; bytes32 salt; bytes16 initBytecode;} 
- ```
- &nbsp;
- <span style="color: green;">File: </span> pack_struct_variables.sol 50-55 
- ```solidity 
- struct Ex6 {uint128 thing3; uint256 thing1; uint128 thing2;} 
- ```
- &nbsp;
- <span style="color: green;">File: </span> pack_struct_variables.sol 57-63 
- ```solidity 
- struct Ex7 {address owner; uint256 num0; bytes4 b0; uint64 num1;} 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <h3> Consider marking constants as private - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp; Consider marking constant variables in storage as private to save gas (unless a constant variable should be easily accessible by another protocol or offchain logic). 
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp; Private Constant - Gas Report Savings: ~22 
-  </summary> 
- 
-```solidity
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-    
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-        
-    }
-    function testGas() public view {
-        uint256 a = 100;
-        c0.addPublicConstant(a);
-        c1.addPrivateConstant(a);
-        
-    }
-}
-contract Contract0 {
-
-    uint256 constant public x = 100;
-
-    function addPublicConstant(uint256 a) external pure returns (uint256) {
-        return a + x;
-    }
-}
-
-contract Contract1 {
-
-        uint256 constant private x = 100;
-
-    function addPrivateConstant(uint256 a) external pure returns (uint256) {
-        return a +x;
-    }
-}
-```
-
-### Gas Report
-
-```solidity
-╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ src/test/GasTest.t.sol:Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 92741                                     ┆ 495             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ addPublicConstant                         ┆ 790             ┆ 790 ┆ 790    ┆ 790 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭───────────────────────────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ src/test/GasTest.t.sol:Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
-╞═══════════════════════════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost                           ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 83535                                     ┆ 449             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                             ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ addPrivateConstant                        ┆ 768             ┆ 768 ┆ 768    ┆ 768 ┆ 1       │
-╰───────────────────────────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-```
-             
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> private_constant.sol 5-5 
- ```solidity 
- uint256 constant public x = 100; 
- ```
- &nbsp;
- <span style="color: green;">File: </span> private_constant.sol 7-7 
- ```solidity 
- uint256 constant z = 100; 
- ``` 
- </details>
-
- <details open> 
- <summary> 
  <h3> Tightly pack storage variables - Instances: 1 </h3>
  </summary> 
  &nbsp; 
@@ -1964,6 +1964,100 @@ contract Contract1 {
  <span style="color: green;">File: </span> pack_storage_5.sol 3-3 
  ```solidity 
  address owner; 
+ ``` 
+ </details>
+
+ <details open> 
+ <summary> 
+ <h3> Use assembly to write storage values - Instances: 1 </h3>
+ </summary> 
+ &nbsp; 
+ &nbsp;  
+ &nbsp; <details> &nbsp; 
+ <summary> 
+ &nbsp; &nbsp; sstore - Gas Report Savings: ~66 
+  </summary> 
+ 
+        ```solidity
+
+contract GasTest is DSTest {
+    Contract0 c0;
+    Contract1 c1;
+
+    function setUp() public {
+        c0 = new Contract0();
+        c1 = new Contract1();
+    }
+
+    function testGas() public {
+        c0.updateOwner(0x158B28A1b1CB1BE12C6bD8f5a646a0e3B2024734);
+        c1.assemblyUpdateOwner(0x158B28A1b1CB1BE12C6bD8f5a646a0e3B2024734);
+    }
+}
+
+contract Contract0 {
+    address owner = 0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84;
+
+    function updateOwner(address newOwner) public {
+        owner = newOwner;
+    }
+}
+
+contract Contract1 {
+    address owner = 0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84;
+
+    function assemblyUpdateOwner(address newOwner) public {
+        assembly {
+            sstore(owner.slot, newOwner)
+        }
+    }
+}
+
+```
+
+### Gas Report
+```solidity
+╭────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
+│ Contract0 contract ┆                 ┆      ┆        ┆      ┆         │
+╞════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 60623              ┆ 261             ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ updateOwner        ┆ 5302            ┆ 5302 ┆ 5302   ┆ 5302 ┆ 1       │
+╰────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
+╭────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
+│ Contract1 contract ┆                 ┆      ┆        ┆      ┆         │
+╞════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 54823              ┆ 232             ┆      ┆        ┆      ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ assemblyUpdateOwner┆ 5236            ┆ 5236 ┆ 5236   ┆ 5236 ┆ 1       │
+╰────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
+```
+         
+ </details> 
+ 
+
+ &nbsp;
+ <span style="color: green;">File: </span> sstore.sol 13-13 
+ ```solidity 
+ thing = 1 + 2 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> sstore.sol 14-14 
+ ```solidity 
+ someAddress = msg.sender 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> sstore.sol 15-15 
+ ```solidity 
+ someBytes = bytes(0) 
  ``` 
  </details>
 
@@ -2200,95 +2294,122 @@ contract Contract3 {
 
  <details open> 
  <summary> 
- <h3> Use assembly to write storage values - Instances: 1 </h3>
+ <h3> Don't use SafeMath when using solidity >= 0.8.0 - Instances: 1 </h3>
  </summary> 
  &nbsp; 
- &nbsp;  
+ &nbsp; Solidity >= 0.8.0 checks for overflow/underflow by default. Using Safemath when using version >= 0.8.0 is redundant and will incur additional gas costs. Instead of safemath, you can simply use Solidity's built in arithmetic. For further gas savings, you can also use assembly and check for overflow/underflow as seen below. 
  &nbsp; <details> &nbsp; 
  <summary> 
- &nbsp; &nbsp; sstore - Gas Report Savings: ~66 
+ &nbsp; &nbsp; Safe Math Post 0.8.0 - Gas Report Savings: ~45 
   </summary> 
  
-        ```solidity
+```solidity
 
 contract GasTest is DSTest {
     Contract0 c0;
     Contract1 c1;
+    Contract2 c2;
 
     function setUp() public {
         c0 = new Contract0();
         c1 = new Contract1();
+        c2 = new Contract2();
     }
 
     function testGas() public {
-        c0.updateOwner(0x158B28A1b1CB1BE12C6bD8f5a646a0e3B2024734);
-        c1.assemblyUpdateOwner(0x158B28A1b1CB1BE12C6bD8f5a646a0e3B2024734);
+        uint256 a = 109230923590;
+        uint256 b = 928359823498234;
+        c0.safeMathAdd(a, b);
+        c1.standardAdd(a, b);
+        c2.assemblyAdd(a, b);
     }
 }
 
 contract Contract0 {
-    address owner = 0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84;
+    using SafeMath for uint256;
 
-    function updateOwner(address newOwner) public {
-        owner = newOwner;
+    function safeMathAdd(uint256 a, uint256 b) public {
+        uint256 c = a.add(b);
     }
 }
 
 contract Contract1 {
-    address owner = 0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84;
+    function standardAdd(uint256 a, uint256 b) public {
+        uint256 c = a + b;
+    }
+}
 
-    function assemblyUpdateOwner(address newOwner) public {
+contract Contract2 {
+    function assemblyAdd(uint256 a, uint256 b) public {
         assembly {
-            sstore(owner.slot, newOwner)
+            let c := add(a, b)
         }
     }
 }
 
+
 ```
 
-### Gas Report
+### Gas report
+
 ```solidity
-╭────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
-│ Contract0 contract ┆                 ┆      ┆        ┆      ┆         │
-╞════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 60623              ┆ 261             ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ updateOwner        ┆ 5302            ┆ 5302 ┆ 5302   ┆ 5302 ┆ 1       │
-╰────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
-╭────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
-│ Contract1 contract ┆                 ┆      ┆        ┆      ┆         │
-╞════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 54823              ┆ 232             ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ assemblyUpdateOwner┆ 5236            ┆ 5236 ┆ 5236   ┆ 5236 ┆ 1       │
-╰────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 48899              ┆ 275             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ safeMathAdd        ┆ 348             ┆ 348 ┆ 348    ┆ 348 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 45499              ┆ 258             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ standardAdd        ┆ 303             ┆ 303 ┆ 303    ┆ 303 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
+╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
+│ Contract2 contract ┆                 ┆     ┆        ┆     ┆         │
+╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
+│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 41293              ┆ 237             ┆     ┆        ┆     ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ assemblyAdd        ┆ 263             ┆ 263 ┆ 263    ┆ 263 ┆ 1       │
+╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
 ```
-         
+ 
  </details> 
  
 
  &nbsp;
- <span style="color: green;">File: </span> sstore.sol 13-13 
+ <span style="color: green;">File: </span> safe_math_post_080.sol 14-14 
  ```solidity 
- thing = 1 + 2 
+ something.add 
  ```
  &nbsp;
- <span style="color: green;">File: </span> sstore.sol 14-14 
+ <span style="color: green;">File: </span> safe_math_post_080.sol 15-15 
  ```solidity 
- someAddress = msg.sender 
+ something.sub 
  ```
  &nbsp;
- <span style="color: green;">File: </span> sstore.sol 15-15 
+ <span style="color: green;">File: </span> safe_math_post_080.sol 16-16 
  ```solidity 
- someBytes = bytes(0) 
+ something.mul 
+ ```
+ &nbsp;
+ <span style="color: green;">File: </span> safe_math_post_080.sol 17-17 
+ ```solidity 
+ something.div 
  ``` 
  </details>
 
@@ -2543,126 +2664,5 @@ contract Contract7 {
  <span style="color: green;">File: </span> solidity_math.sol 60-60 
  ```solidity 
  a * b 
- ``` 
- </details>
-
- <details open> 
- <summary> 
- <h3> Don't use SafeMath when using solidity >= 0.8.0 - Instances: 1 </h3>
- </summary> 
- &nbsp; 
- &nbsp; Solidity >= 0.8.0 checks for overflow/underflow by default. Using Safemath when using version >= 0.8.0 is redundant and will incur additional gas costs. Instead of safemath, you can simply use Solidity's built in arithmetic. For further gas savings, you can also use assembly and check for overflow/underflow as seen below. 
- &nbsp; <details> &nbsp; 
- <summary> 
- &nbsp; &nbsp; Safe Math Post 0.8.0 - Gas Report Savings: ~45 
-  </summary> 
- 
-```solidity
-
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-    Contract2 c2;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-        c2 = new Contract2();
-    }
-
-    function testGas() public {
-        uint256 a = 109230923590;
-        uint256 b = 928359823498234;
-        c0.safeMathAdd(a, b);
-        c1.standardAdd(a, b);
-        c2.assemblyAdd(a, b);
-    }
-}
-
-contract Contract0 {
-    using SafeMath for uint256;
-
-    function safeMathAdd(uint256 a, uint256 b) public {
-        uint256 c = a.add(b);
-    }
-}
-
-contract Contract1 {
-    function standardAdd(uint256 a, uint256 b) public {
-        uint256 c = a + b;
-    }
-}
-
-contract Contract2 {
-    function assemblyAdd(uint256 a, uint256 b) public {
-        assembly {
-            let c := add(a, b)
-        }
-    }
-}
-
-
-```
-
-### Gas report
-
-```solidity
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 48899              ┆ 275             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ safeMathAdd        ┆ 348             ┆ 348 ┆ 348    ┆ 348 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 45499              ┆ 258             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ standardAdd        ┆ 303             ┆ 303 ┆ 303    ┆ 303 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract2 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 41293              ┆ 237             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ assemblyAdd        ┆ 263             ┆ 263 ┆ 263    ┆ 263 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-```
- 
- </details> 
- 
-
- &nbsp;
- <span style="color: green;">File: </span> safe_math_post_080.sol 14-14 
- ```solidity 
- something.add 
- ```
- &nbsp;
- <span style="color: green;">File: </span> safe_math_post_080.sol 15-15 
- ```solidity 
- something.sub 
- ```
- &nbsp;
- <span style="color: green;">File: </span> safe_math_post_080.sol 16-16 
- ```solidity 
- something.mul 
- ```
- &nbsp;
- <span style="color: green;">File: </span> safe_math_post_080.sol 17-17 
- ```solidity 
- something.div 
  ``` 
  </details>

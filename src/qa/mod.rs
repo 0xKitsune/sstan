@@ -25,7 +25,6 @@ pub trait QAPattern {
         source: &mut HashMap<PathBuf, SourceUnit>,
     ) -> Result<QualityAssuranceOutcome, EngineError>;
 }
-
 #[macro_export]
 macro_rules! quality_assurance {
     ($(($name:ident, $report_title:expr, $description:expr)),+ $(,)?) => {
@@ -144,7 +143,6 @@ macro_rules! quality_assurance {
     };
 
 }
-
 //TODO: add section name
 quality_assurance!(
     (
