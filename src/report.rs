@@ -118,14 +118,14 @@ pub struct TableSection {
 impl From<&TableSection> for String {
     fn from(section: &TableSection) -> Self {
         format!(
-            "# {}\n\n{}\n\n",
+            "# {} \n\n | Classification | Title | \n |-------|---------| {}",
             section.title,
             section
                 .subsections
                 .iter()
                 .map(|subsection| String::from(subsection))
                 .collect::<Vec<String>>()
-                .join("\n\n")
+                .join("")
         )
     }
 }
@@ -261,7 +261,7 @@ impl From<Report> for ReportOutput {
 impl From<Vec<QualityAssuranceOutcome>> for ReportSection {
     fn from(value: Vec<QualityAssuranceOutcome>) -> Self {
         ReportSection {
-            title: "Vulnerabilities".to_string(),
+            title: "Quality Assurance".to_string(),
             description: String::new(),
             outcomes: value
                 .into_iter()
@@ -303,7 +303,7 @@ impl From<Vec<OptimizationOutcome>> for ReportSection {
 impl From<Vec<VulnerabilityOutcome>> for ReportSection {
     fn from(value: Vec<VulnerabilityOutcome>) -> Self {
         ReportSection {
-            title: "Vulnerability Outcomes".to_string(),
+            title: "Vulnerabilities".to_string(),
             description: String::new(),
             outcomes: value
                 .into_iter()
@@ -369,7 +369,7 @@ impl From<ReportSectionFragment> for String {
                 identifier.classification.identifier(),
                 identifier.nonce
             );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,value.title,value.instances));
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
                 "\n <details open> \n <summary> \n <h3> {} - Instances: {} </h3>\n </summary>",
@@ -404,7 +404,7 @@ impl From<&ReportSectionFragment> for String {
                 identifier.classification.identifier(),
                 identifier.nonce
             );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}>[<span style=\"color: blue;\">{}</span>]</a> <Strong>{}</Strong> - Instances: {} \n </summary>",identifier,identifier,value.title,value.instances));
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
                 "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
@@ -455,7 +455,7 @@ impl From<&TableFragment> for String {
                 identifier.classification.identifier(),
                 identifier.nonce
             );
-            fragment.push_str(&format!("\n | <a name={}>[<span style=\"color: blue;\">{}</span>]</a> | <Strong>{}</Strong> - Instances: {} |\n",identifier,identifier,value.title,value.instances));
+            fragment.push_str(&format!("\n | [{}](#{}) | <Strong>{}</Strong> - Instances: {} |",identifier,identifier,value.title,value.instances));
         } else {
             fragment.push_str(&format!(
                 "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
