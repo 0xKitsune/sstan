@@ -254,7 +254,7 @@ impl OutcomeReport {
 impl From<&OutcomeReport> for String {
     fn from(outcome: &OutcomeReport) -> String {
         let mut snippet = String::new();
-        snippet.push_str(&format!("```solidity\nFile:{} \n", outcome.file_name));
+        snippet.push_str(&format!("\n```solidity\nFile:{} \n", outcome.file_name));
         if let Ok(lines) = read_lines(outcome.file_path.as_path()) {
             for (i, line) in lines.enumerate() {
                 if let Ok(l) = line {
