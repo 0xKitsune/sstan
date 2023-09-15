@@ -284,8 +284,7 @@ Classification::OptimizationLow),
    (
         AddressZero,
         6,
-        "
-> Use assembly to check for address(0)",
+        "Use assembly to check for address(0)",
         "",
         "
 #### Gas Report",

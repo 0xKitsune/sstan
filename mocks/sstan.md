@@ -29,8 +29,7 @@ TODO: add date
  | Classification | Title | 
  |-------|---------| 
  | [[G-0]](#[G-0]) | <Strong>Use assembly when getting a contract's balance of ETH</Strong> - Instances: 1 |
- | [[G-1]](#[G-1]) | <Strong>
-> Use assembly to check for address(0)</Strong> - Instances: 7 |
+ | [[G-1]](#[G-1]) | <Strong>Use assembly to check for address(0)</Strong> - Instances: 7 |
  | [[G-2]](#[G-2]) | <Strong>Cache array length during for loop definition.</Strong> - Instances: 8 |
  | [[G-3]](#[G-3]) | <Strong>Cache Storage Variables in Memory</Strong> - Instances: 6 |
  | [[G-4]](#[G-4]) | <Strong>Event is not properly indexed.</Strong> - Instances: 4 |
@@ -92,211 +91,7 @@ TODO: add date
 
  
 ```solidity
-File:IConveyorExecutor.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:DystopiaCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ConveyorMath.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ApeSwapCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:DeployTest.s.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:DeployArbitrumAggregator.s.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:DeployPolygonAggregator.s.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:IConveyorRouterV1.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:NomiswapCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:LinkSwapCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ILimitOrderRouter.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:UniswapV2Callback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ISandboxLimitOrderBook.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:UniFiCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ConveyorErrors.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
 File:ILimitOrderQuoter.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:PancakeV2Callback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:VerseCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:BiswapCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:DeployMainnetAggregator.s.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderRouter.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:TraderJoeCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:DeployBSCAggregator.s.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ConveyorSwapCallbacks.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ConveyorTickMath.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ISandboxLimitOrderRouter.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:MeerkatCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ElkSwapCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ILimitOrderBook.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:PancakeV3Callback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:ILimitOrderSwapRouter.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
@@ -308,25 +103,13 @@ File:ConveyorRouterV1.sol
 
 
 ```solidity
-File:AlgebraCallback.sol 
+File:SandboxLimitOrderRouter.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 ```solidity
-File:BabyDogeCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:DXSwapCallback.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:WaultSwapCallback.sol 
+File:PancakeV2Callback.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
@@ -338,19 +121,19 @@ File:DeployOptimismAggregator.s.sol
 
 
 ```solidity
-File:CafeSwapCallback.sol 
+File:IConveyorRouterV1.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 ```solidity
-File:DefiSwapCallback.sol 
+File:PancakeV3Callback.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 ```solidity
-File:BabySwapCallback.sol 
+File:DeployArbitrumAggregator.s.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
@@ -362,31 +145,37 @@ File:SakeSwapCallback.sol
 
 
 ```solidity
-File:ConvergenceXCallback.sol 
+File:LimitOrderQuoter.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 ```solidity
-File:DeployAvalancheAggregator.s.sol 
+File:LimitOrderSwapRouter.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 ```solidity
-File:UniswapV3Callback.sol 
+File:ConveyorFeeMath.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 ```solidity
-File:JetSwapCallback.sol 
+File:CafeSwapCallback.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 ```solidity
-File:DeployFantomAggregator.s.sol 
+File:DeployPolygonAggregator.s.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:MeerkatCallback.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
@@ -404,13 +193,7 @@ File:ConveyorExecutor.sol
 
 
 ```solidity
-File:OracleLibraryV2.sol 
-1:pragma solidity ^0.8.19;
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
+File:ConvergenceXCallback.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
@@ -422,7 +205,223 @@ File:KyberSwapV3Callback.sol
 
 
 ```solidity
-File:LimitOrderQuoter.sol 
+File:ApeSwapCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:BabySwapCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:UniswapV3Callback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:BiswapCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:LinkSwapCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ConveyorTickMath.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ElkSwapCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:DXSwapCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:DeployAvalancheAggregator.s.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:UniswapV2Callback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:TraderJoeCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ConveyorErrors.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:DeployFantomAggregator.s.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ILimitOrderBook.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:WaultSwapCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:DeployBSCAggregator.s.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ISandboxLimitOrderRouter.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:DeployTest.s.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:DystopiaCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:VerseCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ISandboxLimitOrderBook.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ConveyorMath.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ILimitOrderSwapRouter.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:UniFiCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ILimitOrderRouter.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:BabyDogeCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:IConveyorExecutor.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:DeployMainnetAggregator.s.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:OracleLibraryV2.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:AlgebraCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:ConveyorSwapCallbacks.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:JetSwapCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:NomiswapCallback.sol 
+1:pragma solidity ^0.8.19;
+``` 
+
+
+```solidity
+File:DefiSwapCallback.sol 
 1:pragma solidity ^0.8.19;
 ``` 
 
@@ -505,43 +504,13 @@ require(success, "ERC20 transfer failed");
         
          
 ```solidity
-File:AlgebraCallback.sol 
-19:            IERC20(_tokenIn).transferFrom(_sender, msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:AlgebraCallback.sol 
-21:            IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:ElkSwapCallback.sol 
+File:JetSwapCallback.sol 
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
 
 ```solidity
-File:KyberSwapV3Callback.sol 
-19:            IERC20(_tokenIn).transferFrom(_sender, msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:KyberSwapV3Callback.sol 
-21:            IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:BabySwapCallback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:BabyDogeCallback.sol 
+File:DefiSwapCallback.sol 
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
@@ -553,37 +522,19 @@ File:CafeSwapCallback.sol
 
 
 ```solidity
+File:AlgebraCallback.sol 
+19:            IERC20(_tokenIn).transferFrom(_sender, msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:AlgebraCallback.sol 
+21:            IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
 File:SakeSwapCallback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:ConvergenceXCallback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:LinkSwapCallback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:MdexSwapCallback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:BiswapCallback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:MeerkatCallback.sol 
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
@@ -595,19 +546,97 @@ File:DystopiaCallback.sol
 
 
 ```solidity
+File:MeerkatCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:BabySwapCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:KyberSwapV3Callback.sol 
+19:            IERC20(_tokenIn).transferFrom(_sender, msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:KyberSwapV3Callback.sol 
+21:            IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:TraderJoeCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:MdexSwapCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
 File:NomiswapCallback.sol 
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
 
 ```solidity
-File:JetSwapCallback.sol 
+File:UniswapV2Callback.sol 
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
 
 ```solidity
-File:DefiSwapCallback.sol 
+File:ConvergenceXCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:VerseCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:WaultSwapCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:DXSwapCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:BabyDogeCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:UniFiCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:BiswapCallback.sol 
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+```solidity
+File:PancakeV2Callback.sol 
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
@@ -631,37 +660,7 @@ File:ConveyorRouterV1.sol
 
 
 ```solidity
-File:VerseCallback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:PancakeV2Callback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:TraderJoeCallback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:UniswapV2Callback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
 File:ApeSwapCallback.sol 
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-```solidity
-File:UniFiCallback.sol 
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
@@ -679,13 +678,13 @@ File:PancakeV3Callback.sol
 
 
 ```solidity
-File:WaultSwapCallback.sol 
+File:LinkSwapCallback.sol 
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
 
 ```solidity
-File:DXSwapCallback.sol 
+File:ElkSwapCallback.sol 
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
@@ -840,8 +839,7 @@ File:ConveyorRouterV1.sol
  <details open> 
  <summary> 
  <a name=[G-1]></a> [G-1] 
- <h3> 
-> Use assembly to check for address(0) - Instances: 7 </h3> 
+ <h3> Use assembly to check for address(0) - Instances: 7 </h3> 
  </summary>
  
   
@@ -917,8 +915,38 @@ contract Contract1 {
  </details> 
  
 ```solidity
-File:LimitOrderBook.sol 
-42:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
+File:SandboxLimitOrderBook.sol 
+93:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+1267:        if (newOwner == address(0)) {
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+131:            require(_dexFactories[i] != address(0), "Zero values in constructor");
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+432:        if (address(0) == pairAddress) {
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+499:        if (pool == address(0)) {
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+540:        if (token0 == address(0)) {
 ``` 
 
 
@@ -977,8 +1005,8 @@ File:ConveyorRouterV1.sol
 
 
 ```solidity
-File:LimitOrderQuoter.sol 
-16:        require(_weth != address(0), "Invalid weth address");
+File:LimitOrderBook.sol 
+42:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
 ``` 
 
 
@@ -991,30 +1019,6 @@ File:LimitOrderRouter.sol
 ```solidity
 File:LimitOrderRouter.sol 
 359:        if (newOwner == address(0)) {
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-131:            require(_dexFactories[i] != address(0), "Zero values in constructor");
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-432:        if (address(0) == pairAddress) {
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-499:        if (pool == address(0)) {
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-540:        if (token0 == address(0)) {
 ``` 
 
 
@@ -1043,14 +1047,8 @@ File:ConveyorExecutor.sol
 
 
 ```solidity
-File:SandboxLimitOrderBook.sol 
-93:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1267:        if (newOwner == address(0)) {
+File:LimitOrderQuoter.sol 
+16:        require(_weth != address(0), "Invalid weth address");
 ``` 
 
  
@@ -1194,96 +1192,6 @@ contract Contract3 {
  </details> 
  
 ```solidity
-File:LimitOrderSwapRouter.sol 
-127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-588:            for (uint256 i = 0; i < dexes.length;) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-58:            for (uint256 i = 0; i < executionPrices.length;) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-74:            for (uint256 i = 0; i < executionPrices.length;) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-102:            for (uint256 i = 0; i < executionPrices.length;) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-116:            for (uint256 i = 0; i < executionPrices.length;) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-147:            for (uint256 i = 0; i < spotReserveAToWeth.length;) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-186:            for (uint256 i = 0; i < spotReserveWethToB.length;) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-206:            for (uint256 i = 0; i < spotReserveAToWeth.length;) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-208:                for (uint256 j = 0; j < spotReserveWethToB.length;) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderRouter.sol 
-76:        for (uint256 i = 0; i < sandboxMulticall.calls.length;) {
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-182:        for (uint256 i = 0; i < orders.length;) {
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-308:        for (uint256 i = 0; i < orders.length;) {
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-431:            for (uint256 i = 0; i < orders.length;) {
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-452:            for (uint256 i = 0; i < orders.length;) {
-``` 
-
-
-```solidity
 File:SandboxLimitOrderBook.sol 
 316:        for (uint256 i = 0; i < orderGroup.length;) {
 ``` 
@@ -1338,6 +1246,102 @@ File:LimitOrderBook.sol
 
 
 ```solidity
+File:LimitOrderQuoter.sol 
+58:            for (uint256 i = 0; i < executionPrices.length;) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+74:            for (uint256 i = 0; i < executionPrices.length;) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+102:            for (uint256 i = 0; i < executionPrices.length;) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+116:            for (uint256 i = 0; i < executionPrices.length;) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+147:            for (uint256 i = 0; i < spotReserveAToWeth.length;) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+186:            for (uint256 i = 0; i < spotReserveWethToB.length;) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+206:            for (uint256 i = 0; i < spotReserveAToWeth.length;) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+208:                for (uint256 j = 0; j < spotReserveWethToB.length;) {
+``` 
+
+
+```solidity
+File:UniswapInterfaceMulticall.sol 
+29:        for (uint256 i = 0; i < calls.length; i++) {
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+588:            for (uint256 i = 0; i < dexes.length;) {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+182:        for (uint256 i = 0; i < orders.length;) {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+308:        for (uint256 i = 0; i < orders.length;) {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+431:            for (uint256 i = 0; i < orders.length;) {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+452:            for (uint256 i = 0; i < orders.length;) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderRouter.sol 
+76:        for (uint256 i = 0; i < sandboxMulticall.calls.length;) {
+``` 
+
+
+```solidity
 File:LimitOrderRouter.sol 
 91:        for (uint256 i = 0; i < orderIds.length;) {
 ``` 
@@ -1366,12 +1370,6 @@ File:LimitOrderRouter.sol
 338:        for (uint256 i = 0; i < orders.length;) {
 ``` 
 
-
-```solidity
-File:UniswapInterfaceMulticall.sol 
-29:        for (uint256 i = 0; i < calls.length; i++) {
-``` 
-
  
  </details>
 
@@ -1389,48 +1387,6 @@ File:UniswapInterfaceMulticall.sol
   
  </details> 
  
-```solidity
-File:ConveyorRouterV1.sol 
-374:        tempOwner = address(0);
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-408:            affiliateNonce = tempAffiliateNonce;
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-419:        referrerIndex[msg.sender] = uint16(tempReferrerNonce);
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-424:            referrerNonce = tempReferrerNonce;
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-445:        locked = true;
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-447:        locked = false;
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-354:        tempOwner = address(0);
-``` 
-
-
 ```solidity
 File:SandboxLimitOrderBook.sol 
 65:        reentrancyStatus = true;
@@ -1678,36 +1634,6 @@ File:LimitOrderBook.sol
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-68:        reentrancyStatus = true;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-70:        reentrancyStatus = false;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-510:        uint256 withdrawAmount = conveyorBalance;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-512:        conveyorBalance = 0;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-523:        tempOwner = address(0);
-``` 
-
-
-```solidity
 File:LimitOrderSwapRouter.sol 
 354:        uniV3AmountOut = 0;
 ``` 
@@ -1772,6 +1698,78 @@ File:LimitOrderSwapRouter.sol
 624:            address[] memory _lps = new address[](dexes.length);
 ``` 
 
+
+```solidity
+File:LimitOrderRouter.sol 
+354:        tempOwner = address(0);
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+374:        tempOwner = address(0);
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+408:            affiliateNonce = tempAffiliateNonce;
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+419:        referrerIndex[msg.sender] = uint16(tempReferrerNonce);
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+424:            referrerNonce = tempReferrerNonce;
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+445:        locked = true;
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+447:        locked = false;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+68:        reentrancyStatus = true;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+70:        reentrancyStatus = false;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+510:        uint256 withdrawAmount = conveyorBalance;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+512:        conveyorBalance = 0;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+523:        tempOwner = address(0);
+``` 
+
  
  </details>
 
@@ -1792,8 +1790,8 @@ File:LimitOrderSwapRouter.sol
  </details> 
  
 ```solidity
-File:ConveyorRouterV1.sol 
-34:    event Withdraw(address indexed receiver, uint256 amount);
+File:ConveyorExecutor.sol 
+103:    event ExecutorCheckIn(address executor, uint256 timestamp);
 ``` 
 
 
@@ -1834,8 +1832,8 @@ File:SandboxLimitOrderBook.sol
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-103:    event ExecutorCheckIn(address executor, uint256 timestamp);
+File:ConveyorRouterV1.sol 
+34:    event Withdraw(address indexed receiver, uint256 amount);
 ``` 
 
 
@@ -2183,6 +2181,66 @@ contract Contract4 {
  </details> 
  
 ```solidity
+File:UniswapInterfaceMulticall.sol 
+29:        for (uint256 i = 0; i < calls.length; i++) {
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+422:            tempReferrerNonce++;
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+406:            tempAffiliateNonce++;
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+598:                ++orderIdIndex;
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+502:        --totalOrdersPerAddress[order.owner];
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+524:        --totalOrdersPerAddress[order.owner];
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+467:        --totalOrdersPerAddress[msg.sender];
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+338:            ++totalOrdersPerAddress[msg.sender];
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+831:                ++orderIdIndex;
+``` 
+
+
+```solidity
 File:SandboxLimitOrderBook.sol 
 542:        --totalOrdersPerAddress[msg.sender];
 ``` 
@@ -2190,7 +2248,7 @@ File:SandboxLimitOrderBook.sol
 
 ```solidity
 File:SandboxLimitOrderBook.sol 
-992:                ++offset;
+1234:                ++orderIdIndex;
 ``` 
 
 
@@ -2208,73 +2266,13 @@ File:SandboxLimitOrderBook.sol
 
 ```solidity
 File:SandboxLimitOrderBook.sol 
-831:                ++orderIdIndex;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1234:                ++orderIdIndex;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
 1098:        --totalOrdersPerAddress[order.owner];
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-422:            tempReferrerNonce++;
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-406:            tempAffiliateNonce++;
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
-``` 
-
-
-```solidity
-File:UniswapInterfaceMulticall.sol 
-29:        for (uint256 i = 0; i < calls.length; i++) {
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-524:        --totalOrdersPerAddress[order.owner];
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-598:                ++orderIdIndex;
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-338:            ++totalOrdersPerAddress[msg.sender];
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-467:        --totalOrdersPerAddress[msg.sender];
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-502:        --totalOrdersPerAddress[order.owner];
+File:SandboxLimitOrderBook.sol 
+992:                ++offset;
 ``` 
 
  
@@ -2410,85 +2408,6 @@ contract Contract3 {
  </details> 
  
 ```solidity
-File:UniswapInterfaceMulticall.sol 
-26:    function multicall(Call[] memory calls) public returns (uint256 blockNumber, Result[] memory returnData) {
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-110:    function _refreshLimitOrder(LimitOrder memory order) internal returns (uint256 executorFee) {
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-177:    function _cancelLimitOrderViaExecutor(LimitOrder memory order) internal returns (uint256) {
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-208:    function _validateOrderSequencing(LimitOrder[] memory orders) internal pure {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-294:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
-295:    ) internal returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-325:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
-326:    ) internal returns (uint256 newSpotPriceA, uint128 newReserveAToken, uint128 newReserveAWeth, uint128 amountOut) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-342:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
-343:    ) internal returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-370:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
-371:    ) internal returns (uint256 newSpotPriceB, uint128 newReserveBWeth, uint128 newReserveBToken) {
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-466:        LimitOrderSwapRouter.TokenToWethExecutionPrice memory executionPrice
-467:    ) external returns (LimitOrderSwapRouter.TokenToWethExecutionPrice memory) {
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-219:        LimitOrderSwapRouter.TokenToWethExecutionPrice memory executionPrice
-220:    ) internal returns (uint256, uint256) {
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-343:        TokenToTokenExecutionPrice memory executionPrice
-344:    ) internal returns (uint256, uint256) {
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-388:    function upgradeMulticall(bytes memory bytecode, bytes32 salt) external payable onlyOwner returns (address) {
-``` 
-
-
-```solidity
 File:SandboxLimitOrderBook.sol 
 587:    function _cancelSandboxLimitOrderViaExecutor(SandboxLimitOrder memory order)
 ``` 
@@ -2535,6 +2454,85 @@ File:SandboxLimitOrderBook.sol
 ```solidity
 File:SandboxLimitOrderBook.sol 
 1005:        uint128[] memory fillAmounts,
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+110:    function _refreshLimitOrder(LimitOrder memory order) internal returns (uint256 executorFee) {
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+177:    function _cancelLimitOrderViaExecutor(LimitOrder memory order) internal returns (uint256) {
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+208:    function _validateOrderSequencing(LimitOrder[] memory orders) internal pure {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+388:    function upgradeMulticall(bytes memory bytecode, bytes32 salt) external payable onlyOwner returns (address) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+294:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
+295:    ) internal returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+325:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
+326:    ) internal returns (uint256 newSpotPriceA, uint128 newReserveAToken, uint128 newReserveAWeth, uint128 amountOut) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+342:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
+343:    ) internal returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+370:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
+371:    ) internal returns (uint256 newSpotPriceB, uint128 newReserveBWeth, uint128 newReserveBToken) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+466:        LimitOrderSwapRouter.TokenToWethExecutionPrice memory executionPrice
+467:    ) external returns (LimitOrderSwapRouter.TokenToWethExecutionPrice memory) {
+``` 
+
+
+```solidity
+File:UniswapInterfaceMulticall.sol 
+26:    function multicall(Call[] memory calls) public returns (uint256 blockNumber, Result[] memory returnData) {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+219:        LimitOrderSwapRouter.TokenToWethExecutionPrice memory executionPrice
+220:    ) internal returns (uint256, uint256) {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+343:        TokenToTokenExecutionPrice memory executionPrice
+344:    ) internal returns (uint256, uint256) {
 ``` 
 
  
@@ -2755,6 +2753,39 @@ contract Contract3 {
  </details> 
  
 ```solidity
+File:ConveyorTickMath.sol 
+90:            require(priceX128 <= type(uint256).max, "Overflow");
+``` 
+
+
+```solidity
+File:ConveyorFeeMath.sol 
+30:        if (percentFee <= ZERO_POINT_ZERO_ZERO_FIVE) {
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+275:            uint128 amountIn = tokenInDecimals <= 18
+276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+479:        uint128 amountIn = tokenInDecimals <= 18
+480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+348:                        relativeWethValue = tokenInDecimals <= 18
+349:                            ? ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
+``` 
+
+
+```solidity
 File:LimitOrderSwapRouter.sol 
 186:        if (amountInUSDCDollarValue >= 1000000) {
 ``` 
@@ -2777,20 +2808,6 @@ File:LimitOrderSwapRouter.sol
 File:LimitOrderSwapRouter.sol 
 476:        uint128 commonReserve1 = token1Decimals <= 18
 477:            ? uint128(reserve1 * (10 ** (18 - token1Decimals)))
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-275:            uint128 amountIn = tokenInDecimals <= 18
-276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-479:        uint128 amountIn = tokenInDecimals <= 18
-480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
 ``` 
 
 
@@ -2973,25 +2990,6 @@ File:ConveyorMath.sol
 548:                if (xx >= 0x8) {
 ``` 
 
-
-```solidity
-File:ConveyorTickMath.sol 
-90:            require(priceX128 <= type(uint256).max, "Overflow");
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-30:        if (percentFee <= ZERO_POINT_ZERO_ZERO_FIVE) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-348:                        relativeWethValue = tokenInDecimals <= 18
-349:                            ? ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
-``` 
-
  
  </details>
 
@@ -3101,6 +3099,12 @@ contract Contract1 {
  </details> 
  
 ```solidity
+File:ConveyorMath.sol 
+7:    uint128 private constant MAX_64x64 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+``` 
+
+
+```solidity
 File:LimitOrderBook.sol 
 13:    address immutable LIMIT_ORDER_EXECUTOR;
 ``` 
@@ -3115,12 +3119,6 @@ File:LimitOrderSwapRouter.sol
 ```solidity
 File:ConveyorExecutor.sol 
 20:    address immutable WETH;
-``` 
-
-
-```solidity
-File:ConveyorMath.sol 
-7:    uint128 private constant MAX_64x64 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
 ``` 
 
  
@@ -3204,67 +3202,116 @@ contract Contract1 {
  </details> 
  
 ```solidity
-File:DeployAvalancheAggregator.s.sol 
-10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
+File:SakeSwapCallback.sol 
+12:    function SakeSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
 ``` 
 
 
 ```solidity
-File:UniswapV2Callback.sol 
-12:    function uniswapV2Call(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+File:LimitOrderRouter.sol 
+77:    function refreshOrder(bytes32[] calldata orderIds) external nonReentrant {
 ``` 
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-153:    function checkIn() external {
+File:LimitOrderRouter.sol 
+152:    function validateAndCancelOrder(bytes32 orderId) external nonReentrant returns (bool success) {
 ``` 
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-161:    function executeTokenToWethOrders(LimitOrderBook.LimitOrder[] calldata orders)
-162:        external
-163:        onlyLimitOrderRouter
-164:        returns (uint256, uint256)
-165:    {
+File:LimitOrderRouter.sol 
+265:    function executeLimitOrders(bytes32[] calldata orderIds) external nonReentrant onlyEOA {
 ``` 
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-276:    function executeTokenToTokenOrders(LimitOrderBook.LimitOrder[] calldata orders)
-277:        external
-278:        onlyLimitOrderRouter
-279:        returns (uint256, uint256)
-280:    {
+File:LimitOrderRouter.sol 
+349:    function confirmTransferOwnership() external {
 ``` 
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-418:    function executeSandboxLimitOrders(
-419:        SandboxLimitOrderBook.SandboxLimitOrder[] calldata orders,
-420:        SandboxLimitOrderRouter.SandboxMulticall calldata sandboxMulticall
-421:    ) external onlySandboxLimitOrderBook nonReentrant {
+File:LimitOrderRouter.sol 
+358:    function transferOwnership(address newOwner) external onlyOwner {
 ``` 
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-506:    function withdrawConveyorFees() external nonReentrant onlyOwner {
+File:LimitOrderRouter.sol 
+365:    function setMinExecutionCredit(uint256 newMinExecutionCredit) external onlyOwner {
 ``` 
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-517:    function confirmTransferOwnership() external {
+File:TraderJoeCallback.sol 
+12:    function joeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
 ``` 
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-528:    function transferOwnership(address newOwner) external onlyOwner {
+File:AlgebraCallback.sol 
+10:    function algebraSwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:MeerkatCallback.sol 
+12:    function MeerkatCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:VerseCallback.sol 
+12:    function swapsCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:BabyDogeCallback.sol 
+12:    function BabyDogeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:DefiSwapCallback.sol 
+12:    function croDefiSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:LinkSwapCallback.sol 
+12:    function linkswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:KyberSwapV3Callback.sol 
+10:    function swapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:ElkSwapCallback.sol 
+12:    function elkCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:ConvergenceXCallback.sol 
+12:    function swapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:DeployMainnetAggregator.s.sol 
+11:    function run() public returns (address conveyorRouterV1) {
+``` 
+
+
+```solidity
+File:BiswapCallback.sol 
+12:    function BiswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
 ``` 
 
 
@@ -3338,6 +3385,82 @@ File:LimitOrderQuoter.sol
 
 
 ```solidity
+File:DystopiaCallback.sol 
+12:    function hook(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:ApeSwapCallback.sol 
+12:    function apeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:DeployAvalancheAggregator.s.sol 
+10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
+``` 
+
+
+```solidity
+File:UniswapV2Callback.sol 
+12:    function uniswapV2Call(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:DeployOptimismAggregator.s.sol 
+10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
+``` 
+
+
+```solidity
+File:PancakeV3Callback.sol 
+10:    function pancakeV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+171:    function calculateFee(uint128 amountIn, address usdc, address weth) public view returns (uint128) {
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+363:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+576:    function getAllPrices(address token0, address token1, uint24 FEE)
+577:        public
+578:        view
+579:        returns (SpotReserve[] memory prices, address[] memory lps)
+580:    {
+``` 
+
+
+```solidity
+File:WaultSwapCallback.sol 
+12:    function waultSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:NomiswapCallback.sol 
+12:    function nomiswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:DXSwapCallback.sol 
+12:    function DXswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
 File:LimitOrderBook.sol 
 167:    function decreaseExecutionCredit(bytes32 orderId, uint128 amount) external nonReentrant {
 ``` 
@@ -3384,130 +3507,14 @@ File:LimitOrderBook.sol
 
 
 ```solidity
-File:ConveyorFeeMath.sol 
-18:    function calculateReward(uint128 percentFee, uint128 wethValue)
-19:        public
-20:        pure
-21:        returns (uint128 conveyorReward, uint128 beaconReward)
-22:    {
-``` 
-
-
-```solidity
-File:ConvergenceXCallback.sol 
-12:    function swapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:ApeSwapCallback.sol 
-12:    function apeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:KyberSwapV3Callback.sol 
-10:    function swapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:DystopiaCallback.sol 
-12:    function hook(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-171:    function calculateFee(uint128 amountIn, address usdc, address weth) public view returns (uint128) {
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-363:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-576:    function getAllPrices(address token0, address token1, uint24 FEE)
-577:        public
-578:        view
-579:        returns (SpotReserve[] memory prices, address[] memory lps)
-580:    {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderRouter.sol 
-60:    function executeSandboxMulticall(SandboxMulticall calldata sandboxMultiCall) external {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderRouter.sol 
-74:    function sandboxRouterCallback(SandboxMulticall calldata sandboxMulticall) external onlyLimitOrderExecutor {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderRouter.sol 
-95:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:TraderJoeCallback.sol 
-12:    function joeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:DeployOptimismAggregator.s.sol 
-10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
-``` 
-
-
-```solidity
-File:DeployFantomAggregator.s.sol 
-10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
-``` 
-
-
-```solidity
-File:WaultSwapCallback.sol 
-12:    function waultSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:DeployTest.s.sol 
-13:    function run() public {
-``` 
-
-
-```solidity
 File:UniswapV3Callback.sol 
 10:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
 ``` 
 
 
 ```solidity
-File:MdexSwapCallback.sol 
-12:    function swapV2Call(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:SakeSwapCallback.sol 
-12:    function SakeSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:DeployMainnetAggregator.s.sol 
-11:    function run() public returns (address conveyorRouterV1) {
+File:DeployArbitrumAggregator.s.sol 
+10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
 ``` 
 
 
@@ -3518,14 +3525,103 @@ File:CafeSwapCallback.sol
 
 
 ```solidity
-File:DXSwapCallback.sol 
-12:    function DXswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+File:DeployTest.s.sol 
+13:    function run() public {
 ``` 
 
 
 ```solidity
-File:DeployArbitrumAggregator.s.sol 
-10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
+File:DeployPolygonAggregator.s.sol 
+11:    function run() public returns (address conveyorRouterV1) {
+``` 
+
+
+```solidity
+File:JetSwapCallback.sol 
+12:    function jetswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+362:    function withdraw() external onlyOwner {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+368:    function confirmTransferOwnership() external {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+379:    function transferOwnership(address newOwner) external onlyOwner {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+401:    function initializeAffiliate(address affiliateAddress) external onlyOwner {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+452:    function executeMulticall(ConveyorRouterV1.Call[] calldata calls) external lock {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+153:    function checkIn() external {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+161:    function executeTokenToWethOrders(LimitOrderBook.LimitOrder[] calldata orders)
+162:        external
+163:        onlyLimitOrderRouter
+164:        returns (uint256, uint256)
+165:    {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+276:    function executeTokenToTokenOrders(LimitOrderBook.LimitOrder[] calldata orders)
+277:        external
+278:        onlyLimitOrderRouter
+279:        returns (uint256, uint256)
+280:    {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+418:    function executeSandboxLimitOrders(
+419:        SandboxLimitOrderBook.SandboxLimitOrder[] calldata orders,
+420:        SandboxLimitOrderRouter.SandboxMulticall calldata sandboxMulticall
+421:    ) external onlySandboxLimitOrderBook nonReentrant {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+506:    function withdrawConveyorFees() external nonReentrant onlyOwner {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+517:    function confirmTransferOwnership() external {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+528:    function transferOwnership(address newOwner) external onlyOwner {
 ``` 
 
 
@@ -3548,32 +3644,38 @@ File:UniswapInterfaceMulticall.sol
 
 
 ```solidity
-File:BiswapCallback.sol 
-12:    function BiswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+File:PancakeV2Callback.sol 
+12:    function pancakeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
 ``` 
 
 
 ```solidity
-File:BabyDogeCallback.sol 
-12:    function BabyDogeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+File:SandboxLimitOrderRouter.sol 
+60:    function executeSandboxMulticall(SandboxMulticall calldata sandboxMultiCall) external {
 ``` 
 
 
 ```solidity
-File:LinkSwapCallback.sol 
-12:    function linkswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+File:SandboxLimitOrderRouter.sol 
+74:    function sandboxRouterCallback(SandboxMulticall calldata sandboxMulticall) external onlyLimitOrderExecutor {
 ``` 
 
 
 ```solidity
-File:PancakeV3Callback.sol 
-10:    function pancakeV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+File:SandboxLimitOrderRouter.sol 
+95:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
 ``` 
 
 
 ```solidity
-File:VerseCallback.sol 
-12:    function swapsCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+File:UniFiCallback.sol 
+12:    function unifiCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:DeployFantomAggregator.s.sol 
+10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
 ``` 
 
 
@@ -3670,134 +3772,30 @@ File:SandboxLimitOrderBook.sol
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-362:    function withdraw() external onlyOwner {
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-368:    function confirmTransferOwnership() external {
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-379:    function transferOwnership(address newOwner) external onlyOwner {
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-401:    function initializeAffiliate(address affiliateAddress) external onlyOwner {
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-452:    function executeMulticall(ConveyorRouterV1.Call[] calldata calls) external lock {
-``` 
-
-
-```solidity
-File:NomiswapCallback.sol 
-12:    function nomiswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:DeployPolygonAggregator.s.sol 
-11:    function run() public returns (address conveyorRouterV1) {
-``` 
-
-
-```solidity
-File:ElkSwapCallback.sol 
-12:    function elkCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:PancakeV2Callback.sol 
-12:    function pancakeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:JetSwapCallback.sol 
-12:    function jetswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:AlgebraCallback.sol 
-10:    function algebraSwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:DefiSwapCallback.sol 
-12:    function croDefiSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:UniFiCallback.sol 
-12:    function unifiCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:MeerkatCallback.sol 
-12:    function MeerkatCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-77:    function refreshOrder(bytes32[] calldata orderIds) external nonReentrant {
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-152:    function validateAndCancelOrder(bytes32 orderId) external nonReentrant returns (bool success) {
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-265:    function executeLimitOrders(bytes32[] calldata orderIds) external nonReentrant onlyEOA {
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-349:    function confirmTransferOwnership() external {
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-358:    function transferOwnership(address newOwner) external onlyOwner {
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-365:    function setMinExecutionCredit(uint256 newMinExecutionCredit) external onlyOwner {
-``` 
-
-
-```solidity
-File:BabySwapCallback.sol 
-12:    function babyCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+File:ConveyorFeeMath.sol 
+18:    function calculateReward(uint128 percentFee, uint128 wethValue)
+19:        public
+20:        pure
+21:        returns (uint128 conveyorReward, uint128 beaconReward)
+22:    {
 ``` 
 
 
 ```solidity
 File:DeployBSCAggregator.s.sol 
 13:    function run() public returns (address conveyorRouterV1) {
+``` 
+
+
+```solidity
+File:MdexSwapCallback.sol 
+12:    function swapV2Call(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+```solidity
+File:BabySwapCallback.sol 
+12:    function babyCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
 ``` 
 
  
@@ -3890,20 +3888,8 @@ File:DeployPolygonAggregator.s.sol
 
 
 ```solidity
-File:DeployMainnetAggregator.s.sol 
-9:    address constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
-``` 
-
-
-```solidity
 File:DeployFantomAggregator.s.sol 
 8:    address constant WFTM = 0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83;
-``` 
-
-
-```solidity
-File:DeployOptimismAggregator.s.sol 
-8:    address constant WETH = 0x4200000000000000000000000000000000000006;
 ``` 
 
 
@@ -3914,8 +3900,8 @@ File:LimitOrderBook.sol
 
 
 ```solidity
-File:SandboxLimitOrderRouter.sol 
-21:    uint256 public constant CHECK_IN_INTERVAL = 1 days;
+File:ConveyorTickMath.sol 
+28:    uint256 internal constant Q96 = 0x1000000000000000000000000;
 ``` 
 
 
@@ -3944,26 +3930,38 @@ File:ConveyorFeeMath.sol
 
 
 ```solidity
-File:SandboxLimitOrderBook.sol 
-41:    uint256 public constant CHECK_IN_INTERVAL = 1 days;
-``` 
-
-
-```solidity
-File:DeployAvalancheAggregator.s.sol 
-8:    address constant WAVAX = 0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7;
-``` 
-
-
-```solidity
-File:ConveyorTickMath.sol 
-28:    uint256 internal constant Q96 = 0x1000000000000000000000000;
-``` 
-
-
-```solidity
 File:DeployBSCAggregator.s.sol 
 11:    address constant WBNB = 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c;
+``` 
+
+
+```solidity
+File:DeployOptimismAggregator.s.sol 
+8:    address constant WETH = 0x4200000000000000000000000000000000000006;
+``` 
+
+
+```solidity
+File:DeployArbitrumAggregator.s.sol 
+8:    address constant WETH = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1;
+``` 
+
+
+```solidity
+File:DeployMainnetAggregator.s.sol 
+9:    address constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderRouter.sol 
+21:    uint256 public constant CHECK_IN_INTERVAL = 1 days;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+41:    uint256 public constant CHECK_IN_INTERVAL = 1 days;
 ``` 
 
 
@@ -3974,8 +3972,8 @@ File:DeployTest.s.sol
 
 
 ```solidity
-File:DeployArbitrumAggregator.s.sol 
-8:    address constant WETH = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1;
+File:DeployAvalancheAggregator.s.sol 
+8:    address constant WAVAX = 0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7;
 ``` 
 
  
@@ -3995,6 +3993,661 @@ File:DeployArbitrumAggregator.s.sol
   
  </details> 
  
+```solidity
+File:LimitOrderSwapRouter.sol 
+127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
+128:            if (i == 0) {
+129:                require(_isUniV2[i], "First Dex must be uniswap v2");
+130:            }
+131:            require(_dexFactories[i] != address(0), "Zero values in constructor");
+132:            dexes.push(Dex({factoryAddress: _dexFactories[i], isUniV2: _isUniV2[i]}));
+133:
+134:            address uniswapV3Factory;
+135:            ///@notice If the dex is a univ3 variant, then set the uniswapV3Factory storage address.
+136:            if (!_isUniV2[i]) {
+137:                uniswapV3Factory = _dexFactories[i];
+138:            }
+139:
+140:            UNISWAP_V3_FACTORY = uniswapV3Factory;
+141:        }
+142:    }
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+588:            for (uint256 i = 0; i < dexes.length;) {
+589:                if (dexes[i].isUniV2) {
+590:                    {
+591:                        ///@notice Get the Uniswap v2 spot price and lp address.
+592:                        (SpotReserve memory spotPrice, address poolAddress) =
+593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
+594:                        ///@notice Set SpotReserve and lp values if the returned values are not null.
+595:                        if (spotPrice.spotPrice != 0) {
+596:                            _spotPrices[i] = spotPrice;
+597:                            _lps[i] = poolAddress;
+598:                        }
+599:                    }
+600:                } else {
+601:                    {
+602:                        {
+603:                            ///@notice Get the Uniswap v2 spot price and lp address.
+604:                            (SpotReserve memory spotPrice, address poolAddress) =
+605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
+606:
+607:                            ///@notice Set SpotReserve and lp values if the returned values are not null.
+608:                            if (spotPrice.spotPrice != 0) {
+609:                                _lps[i] = poolAddress;
+610:                                _spotPrices[i] = spotPrice;
+611:                            }
+612:                        }
+613:                    }
+614:                }
+615:
+616:                unchecked {
+617:                    ++i;
+618:                }
+619:            }
+620:
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+588:            for (uint256 i = 0; i < dexes.length;) {
+589:                if (dexes[i].isUniV2) {
+590:                    {
+591:                        ///@notice Get the Uniswap v2 spot price and lp address.
+592:                        (SpotReserve memory spotPrice, address poolAddress) =
+593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
+594:                        ///@notice Set SpotReserve and lp values if the returned values are not null.
+595:                        if (spotPrice.spotPrice != 0) {
+596:                            _spotPrices[i] = spotPrice;
+597:                            _lps[i] = poolAddress;
+598:                        }
+599:                    }
+600:                } else {
+601:                    {
+602:                        {
+603:                            ///@notice Get the Uniswap v2 spot price and lp address.
+604:                            (SpotReserve memory spotPrice, address poolAddress) =
+605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
+606:
+607:                            ///@notice Set SpotReserve and lp values if the returned values are not null.
+608:                            if (spotPrice.spotPrice != 0) {
+609:                                _lps[i] = poolAddress;
+610:                                _spotPrices[i] = spotPrice;
+611:                            }
+612:                        }
+613:                    }
+614:                }
+615:
+616:                unchecked {
+617:                    ++i;
+618:                }
+619:            }
+620:
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+588:            for (uint256 i = 0; i < dexes.length;) {
+589:                if (dexes[i].isUniV2) {
+590:                    {
+591:                        ///@notice Get the Uniswap v2 spot price and lp address.
+592:                        (SpotReserve memory spotPrice, address poolAddress) =
+593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
+594:                        ///@notice Set SpotReserve and lp values if the returned values are not null.
+595:                        if (spotPrice.spotPrice != 0) {
+596:                            _spotPrices[i] = spotPrice;
+597:                            _lps[i] = poolAddress;
+598:                        }
+599:                    }
+600:                } else {
+601:                    {
+602:                        {
+603:                            ///@notice Get the Uniswap v2 spot price and lp address.
+604:                            (SpotReserve memory spotPrice, address poolAddress) =
+605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
+606:
+607:                            ///@notice Set SpotReserve and lp values if the returned values are not null.
+608:                            if (spotPrice.spotPrice != 0) {
+609:                                _lps[i] = poolAddress;
+610:                                _spotPrices[i] = spotPrice;
+611:                            }
+612:                        }
+613:                    }
+614:                }
+615:
+616:                unchecked {
+617:                    ++i;
+618:                }
+619:            }
+620:
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+588:            for (uint256 i = 0; i < dexes.length;) {
+589:                if (dexes[i].isUniV2) {
+590:                    {
+591:                        ///@notice Get the Uniswap v2 spot price and lp address.
+592:                        (SpotReserve memory spotPrice, address poolAddress) =
+593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
+594:                        ///@notice Set SpotReserve and lp values if the returned values are not null.
+595:                        if (spotPrice.spotPrice != 0) {
+596:                            _spotPrices[i] = spotPrice;
+597:                            _lps[i] = poolAddress;
+598:                        }
+599:                    }
+600:                } else {
+601:                    {
+602:                        {
+603:                            ///@notice Get the Uniswap v2 spot price and lp address.
+604:                            (SpotReserve memory spotPrice, address poolAddress) =
+605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
+606:
+607:                            ///@notice Set SpotReserve and lp values if the returned values are not null.
+608:                            if (spotPrice.spotPrice != 0) {
+609:                                _lps[i] = poolAddress;
+610:                                _spotPrices[i] = spotPrice;
+611:                            }
+612:                        }
+613:                    }
+614:                }
+615:
+616:                unchecked {
+617:                    ++i;
+618:                }
+619:            }
+620:
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+280:        for (uint256 i = 0; i < orderGroup.length;) {
+281:            ///@notice Get the order details from the orderGroup.
+282:            LimitOrder memory newOrder = orderGroup[i];
+283:
+284:            if (newOrder.quantity == 0) {
+285:                revert OrderQuantityIsZero();
+286:            }
+287:
+288:            ///@notice Increment the total value of orders by the quantity of the new order
+289:            updatedTotalOrdersValue += newOrder.quantity;
+290:
+291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+292:            if (!(orderToken == newOrder.tokenIn)) {
+293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
+294:            }
+295:
+296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+297:            if (newOrder.tokenOut == newOrder.tokenIn) {
+298:                revert TokenInIsTokenOut();
+299:            }
+300:
+301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
+302:            if (tokenBalance < updatedTotalOrdersValue) {
+303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
+304:            }
+305:
+306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
+307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
+308:
+309:            ///@notice Increment the cumulative execution credit by the current orders execution.
+310:            cumulativeExecutionCredit += newOrder.executionCredit;
+311:
+312:            ///@notice increment the orderNonce
+313:            /**
+314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
+315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
+316:             */
+317:            unchecked {
+318:                orderNonce += 2;
+319:            }
+320:
+321:            ///@notice Set the new order's owner to the msg.sender
+322:            newOrder.owner = msg.sender;
+323:
+324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
+325:            newOrder.orderId = orderId;
+326:
+327:            ///@notice update the newOrder's last refresh timestamp
+328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
+329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
+330:
+331:            ///@notice Add the newly created order to the orderIdToOrder mapping
+332:            orderIdToLimitOrder[orderId] = newOrder;
+333:
+334:            ///@notice Add the orderId to the addressToOrderIds mapping
+335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
+336:
+337:            ///@notice Increment the total orders per address for the msg.sender
+338:            ++totalOrdersPerAddress[msg.sender];
+339:
+340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
+341:            orderIds[i] = orderId;
+342:
+343:            ///@notice Add the orderId to the addressToAllOrderIds structure
+344:            addressToAllOrderIds[msg.sender].push(orderId);
+345:
+346:            unchecked {
+347:                ++i;
+348:            }
+349:        }
+350:
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+280:        for (uint256 i = 0; i < orderGroup.length;) {
+281:            ///@notice Get the order details from the orderGroup.
+282:            LimitOrder memory newOrder = orderGroup[i];
+283:
+284:            if (newOrder.quantity == 0) {
+285:                revert OrderQuantityIsZero();
+286:            }
+287:
+288:            ///@notice Increment the total value of orders by the quantity of the new order
+289:            updatedTotalOrdersValue += newOrder.quantity;
+290:
+291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+292:            if (!(orderToken == newOrder.tokenIn)) {
+293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
+294:            }
+295:
+296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+297:            if (newOrder.tokenOut == newOrder.tokenIn) {
+298:                revert TokenInIsTokenOut();
+299:            }
+300:
+301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
+302:            if (tokenBalance < updatedTotalOrdersValue) {
+303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
+304:            }
+305:
+306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
+307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
+308:
+309:            ///@notice Increment the cumulative execution credit by the current orders execution.
+310:            cumulativeExecutionCredit += newOrder.executionCredit;
+311:
+312:            ///@notice increment the orderNonce
+313:            /**
+314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
+315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
+316:             */
+317:            unchecked {
+318:                orderNonce += 2;
+319:            }
+320:
+321:            ///@notice Set the new order's owner to the msg.sender
+322:            newOrder.owner = msg.sender;
+323:
+324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
+325:            newOrder.orderId = orderId;
+326:
+327:            ///@notice update the newOrder's last refresh timestamp
+328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
+329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
+330:
+331:            ///@notice Add the newly created order to the orderIdToOrder mapping
+332:            orderIdToLimitOrder[orderId] = newOrder;
+333:
+334:            ///@notice Add the orderId to the addressToOrderIds mapping
+335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
+336:
+337:            ///@notice Increment the total orders per address for the msg.sender
+338:            ++totalOrdersPerAddress[msg.sender];
+339:
+340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
+341:            orderIds[i] = orderId;
+342:
+343:            ///@notice Add the orderId to the addressToAllOrderIds structure
+344:            addressToAllOrderIds[msg.sender].push(orderId);
+345:
+346:            unchecked {
+347:                ++i;
+348:            }
+349:        }
+350:
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+280:        for (uint256 i = 0; i < orderGroup.length;) {
+281:            ///@notice Get the order details from the orderGroup.
+282:            LimitOrder memory newOrder = orderGroup[i];
+283:
+284:            if (newOrder.quantity == 0) {
+285:                revert OrderQuantityIsZero();
+286:            }
+287:
+288:            ///@notice Increment the total value of orders by the quantity of the new order
+289:            updatedTotalOrdersValue += newOrder.quantity;
+290:
+291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+292:            if (!(orderToken == newOrder.tokenIn)) {
+293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
+294:            }
+295:
+296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+297:            if (newOrder.tokenOut == newOrder.tokenIn) {
+298:                revert TokenInIsTokenOut();
+299:            }
+300:
+301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
+302:            if (tokenBalance < updatedTotalOrdersValue) {
+303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
+304:            }
+305:
+306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
+307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
+308:
+309:            ///@notice Increment the cumulative execution credit by the current orders execution.
+310:            cumulativeExecutionCredit += newOrder.executionCredit;
+311:
+312:            ///@notice increment the orderNonce
+313:            /**
+314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
+315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
+316:             */
+317:            unchecked {
+318:                orderNonce += 2;
+319:            }
+320:
+321:            ///@notice Set the new order's owner to the msg.sender
+322:            newOrder.owner = msg.sender;
+323:
+324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
+325:            newOrder.orderId = orderId;
+326:
+327:            ///@notice update the newOrder's last refresh timestamp
+328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
+329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
+330:
+331:            ///@notice Add the newly created order to the orderIdToOrder mapping
+332:            orderIdToLimitOrder[orderId] = newOrder;
+333:
+334:            ///@notice Add the orderId to the addressToOrderIds mapping
+335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
+336:
+337:            ///@notice Increment the total orders per address for the msg.sender
+338:            ++totalOrdersPerAddress[msg.sender];
+339:
+340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
+341:            orderIds[i] = orderId;
+342:
+343:            ///@notice Add the orderId to the addressToAllOrderIds structure
+344:            addressToAllOrderIds[msg.sender].push(orderId);
+345:
+346:            unchecked {
+347:                ++i;
+348:            }
+349:        }
+350:
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+280:        for (uint256 i = 0; i < orderGroup.length;) {
+281:            ///@notice Get the order details from the orderGroup.
+282:            LimitOrder memory newOrder = orderGroup[i];
+283:
+284:            if (newOrder.quantity == 0) {
+285:                revert OrderQuantityIsZero();
+286:            }
+287:
+288:            ///@notice Increment the total value of orders by the quantity of the new order
+289:            updatedTotalOrdersValue += newOrder.quantity;
+290:
+291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+292:            if (!(orderToken == newOrder.tokenIn)) {
+293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
+294:            }
+295:
+296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+297:            if (newOrder.tokenOut == newOrder.tokenIn) {
+298:                revert TokenInIsTokenOut();
+299:            }
+300:
+301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
+302:            if (tokenBalance < updatedTotalOrdersValue) {
+303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
+304:            }
+305:
+306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
+307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
+308:
+309:            ///@notice Increment the cumulative execution credit by the current orders execution.
+310:            cumulativeExecutionCredit += newOrder.executionCredit;
+311:
+312:            ///@notice increment the orderNonce
+313:            /**
+314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
+315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
+316:             */
+317:            unchecked {
+318:                orderNonce += 2;
+319:            }
+320:
+321:            ///@notice Set the new order's owner to the msg.sender
+322:            newOrder.owner = msg.sender;
+323:
+324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
+325:            newOrder.orderId = orderId;
+326:
+327:            ///@notice update the newOrder's last refresh timestamp
+328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
+329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
+330:
+331:            ///@notice Add the newly created order to the orderIdToOrder mapping
+332:            orderIdToLimitOrder[orderId] = newOrder;
+333:
+334:            ///@notice Add the orderId to the addressToOrderIds mapping
+335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
+336:
+337:            ///@notice Increment the total orders per address for the msg.sender
+338:            ++totalOrdersPerAddress[msg.sender];
+339:
+340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
+341:            orderIds[i] = orderId;
+342:
+343:            ///@notice Add the orderId to the addressToAllOrderIds structure
+344:            addressToAllOrderIds[msg.sender].push(orderId);
+345:
+346:            unchecked {
+347:                ++i;
+348:            }
+349:        }
+350:
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+280:        for (uint256 i = 0; i < orderGroup.length;) {
+281:            ///@notice Get the order details from the orderGroup.
+282:            LimitOrder memory newOrder = orderGroup[i];
+283:
+284:            if (newOrder.quantity == 0) {
+285:                revert OrderQuantityIsZero();
+286:            }
+287:
+288:            ///@notice Increment the total value of orders by the quantity of the new order
+289:            updatedTotalOrdersValue += newOrder.quantity;
+290:
+291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+292:            if (!(orderToken == newOrder.tokenIn)) {
+293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
+294:            }
+295:
+296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+297:            if (newOrder.tokenOut == newOrder.tokenIn) {
+298:                revert TokenInIsTokenOut();
+299:            }
+300:
+301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
+302:            if (tokenBalance < updatedTotalOrdersValue) {
+303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
+304:            }
+305:
+306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
+307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
+308:
+309:            ///@notice Increment the cumulative execution credit by the current orders execution.
+310:            cumulativeExecutionCredit += newOrder.executionCredit;
+311:
+312:            ///@notice increment the orderNonce
+313:            /**
+314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
+315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
+316:             */
+317:            unchecked {
+318:                orderNonce += 2;
+319:            }
+320:
+321:            ///@notice Set the new order's owner to the msg.sender
+322:            newOrder.owner = msg.sender;
+323:
+324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
+325:            newOrder.orderId = orderId;
+326:
+327:            ///@notice update the newOrder's last refresh timestamp
+328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
+329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
+330:
+331:            ///@notice Add the newly created order to the orderIdToOrder mapping
+332:            orderIdToLimitOrder[orderId] = newOrder;
+333:
+334:            ///@notice Add the orderId to the addressToOrderIds mapping
+335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
+336:
+337:            ///@notice Increment the total orders per address for the msg.sender
+338:            ++totalOrdersPerAddress[msg.sender];
+339:
+340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
+341:            orderIds[i] = orderId;
+342:
+343:            ///@notice Add the orderId to the addressToAllOrderIds structure
+344:            addressToAllOrderIds[msg.sender].push(orderId);
+345:
+346:            unchecked {
+347:                ++i;
+348:            }
+349:        }
+350:
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+280:        for (uint256 i = 0; i < orderGroup.length;) {
+281:            ///@notice Get the order details from the orderGroup.
+282:            LimitOrder memory newOrder = orderGroup[i];
+283:
+284:            if (newOrder.quantity == 0) {
+285:                revert OrderQuantityIsZero();
+286:            }
+287:
+288:            ///@notice Increment the total value of orders by the quantity of the new order
+289:            updatedTotalOrdersValue += newOrder.quantity;
+290:
+291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+292:            if (!(orderToken == newOrder.tokenIn)) {
+293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
+294:            }
+295:
+296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
+297:            if (newOrder.tokenOut == newOrder.tokenIn) {
+298:                revert TokenInIsTokenOut();
+299:            }
+300:
+301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
+302:            if (tokenBalance < updatedTotalOrdersValue) {
+303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
+304:            }
+305:
+306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
+307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
+308:
+309:            ///@notice Increment the cumulative execution credit by the current orders execution.
+310:            cumulativeExecutionCredit += newOrder.executionCredit;
+311:
+312:            ///@notice increment the orderNonce
+313:            /**
+314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
+315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
+316:             */
+317:            unchecked {
+318:                orderNonce += 2;
+319:            }
+320:
+321:            ///@notice Set the new order's owner to the msg.sender
+322:            newOrder.owner = msg.sender;
+323:
+324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
+325:            newOrder.orderId = orderId;
+326:
+327:            ///@notice update the newOrder's last refresh timestamp
+328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
+329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
+330:
+331:            ///@notice Add the newly created order to the orderIdToOrder mapping
+332:            orderIdToLimitOrder[orderId] = newOrder;
+333:
+334:            ///@notice Add the orderId to the addressToOrderIds mapping
+335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
+336:
+337:            ///@notice Increment the total orders per address for the msg.sender
+338:            ++totalOrdersPerAddress[msg.sender];
+339:
+340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
+341:            orderIds[i] = orderId;
+342:
+343:            ///@notice Add the orderId to the addressToAllOrderIds structure
+344:            addressToAllOrderIds[msg.sender].push(orderId);
+345:
+346:            unchecked {
+347:                ++i;
+348:            }
+349:        }
+350:
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+585:        for (uint256 i = 0; i < length;) {
+586:            bytes32 orderId;
+587:            assembly {
+588:                //Get the orderId at the orderOffsetSlot.
+589:                orderId := mload(orderOffsetSlot)
+590:                //Update the orderOffsetSlot.
+591:                orderOffsetSlot := add(orderOffsetSlot, 0x20)
+592:            }
+593:
+594:            OrderType orderType = addressToOrderIds[_owner][orderId];
+595:
+596:            if (orderType == targetOrderType) {
+597:                orderIds[orderIdIndex] = orderId;
+598:                ++orderIdIndex;
+599:            }
+600:
+601:            unchecked {
+602:                ++i;
+603:            }
+604:        }
+605:
+``` 
+
+
 ```solidity
 File:SandboxLimitOrderBook.sol 
 316:        for (uint256 i = 0; i < orderGroup.length;) {
@@ -4824,661 +5477,6 @@ File:SandboxLimitOrderBook.sol
 1241:
 ``` 
 
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
-128:            if (i == 0) {
-129:                require(_isUniV2[i], "First Dex must be uniswap v2");
-130:            }
-131:            require(_dexFactories[i] != address(0), "Zero values in constructor");
-132:            dexes.push(Dex({factoryAddress: _dexFactories[i], isUniV2: _isUniV2[i]}));
-133:
-134:            address uniswapV3Factory;
-135:            ///@notice If the dex is a univ3 variant, then set the uniswapV3Factory storage address.
-136:            if (!_isUniV2[i]) {
-137:                uniswapV3Factory = _dexFactories[i];
-138:            }
-139:
-140:            UNISWAP_V3_FACTORY = uniswapV3Factory;
-141:        }
-142:    }
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-588:            for (uint256 i = 0; i < dexes.length;) {
-589:                if (dexes[i].isUniV2) {
-590:                    {
-591:                        ///@notice Get the Uniswap v2 spot price and lp address.
-592:                        (SpotReserve memory spotPrice, address poolAddress) =
-593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
-594:                        ///@notice Set SpotReserve and lp values if the returned values are not null.
-595:                        if (spotPrice.spotPrice != 0) {
-596:                            _spotPrices[i] = spotPrice;
-597:                            _lps[i] = poolAddress;
-598:                        }
-599:                    }
-600:                } else {
-601:                    {
-602:                        {
-603:                            ///@notice Get the Uniswap v2 spot price and lp address.
-604:                            (SpotReserve memory spotPrice, address poolAddress) =
-605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
-606:
-607:                            ///@notice Set SpotReserve and lp values if the returned values are not null.
-608:                            if (spotPrice.spotPrice != 0) {
-609:                                _lps[i] = poolAddress;
-610:                                _spotPrices[i] = spotPrice;
-611:                            }
-612:                        }
-613:                    }
-614:                }
-615:
-616:                unchecked {
-617:                    ++i;
-618:                }
-619:            }
-620:
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-588:            for (uint256 i = 0; i < dexes.length;) {
-589:                if (dexes[i].isUniV2) {
-590:                    {
-591:                        ///@notice Get the Uniswap v2 spot price and lp address.
-592:                        (SpotReserve memory spotPrice, address poolAddress) =
-593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
-594:                        ///@notice Set SpotReserve and lp values if the returned values are not null.
-595:                        if (spotPrice.spotPrice != 0) {
-596:                            _spotPrices[i] = spotPrice;
-597:                            _lps[i] = poolAddress;
-598:                        }
-599:                    }
-600:                } else {
-601:                    {
-602:                        {
-603:                            ///@notice Get the Uniswap v2 spot price and lp address.
-604:                            (SpotReserve memory spotPrice, address poolAddress) =
-605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
-606:
-607:                            ///@notice Set SpotReserve and lp values if the returned values are not null.
-608:                            if (spotPrice.spotPrice != 0) {
-609:                                _lps[i] = poolAddress;
-610:                                _spotPrices[i] = spotPrice;
-611:                            }
-612:                        }
-613:                    }
-614:                }
-615:
-616:                unchecked {
-617:                    ++i;
-618:                }
-619:            }
-620:
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-588:            for (uint256 i = 0; i < dexes.length;) {
-589:                if (dexes[i].isUniV2) {
-590:                    {
-591:                        ///@notice Get the Uniswap v2 spot price and lp address.
-592:                        (SpotReserve memory spotPrice, address poolAddress) =
-593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
-594:                        ///@notice Set SpotReserve and lp values if the returned values are not null.
-595:                        if (spotPrice.spotPrice != 0) {
-596:                            _spotPrices[i] = spotPrice;
-597:                            _lps[i] = poolAddress;
-598:                        }
-599:                    }
-600:                } else {
-601:                    {
-602:                        {
-603:                            ///@notice Get the Uniswap v2 spot price and lp address.
-604:                            (SpotReserve memory spotPrice, address poolAddress) =
-605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
-606:
-607:                            ///@notice Set SpotReserve and lp values if the returned values are not null.
-608:                            if (spotPrice.spotPrice != 0) {
-609:                                _lps[i] = poolAddress;
-610:                                _spotPrices[i] = spotPrice;
-611:                            }
-612:                        }
-613:                    }
-614:                }
-615:
-616:                unchecked {
-617:                    ++i;
-618:                }
-619:            }
-620:
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-588:            for (uint256 i = 0; i < dexes.length;) {
-589:                if (dexes[i].isUniV2) {
-590:                    {
-591:                        ///@notice Get the Uniswap v2 spot price and lp address.
-592:                        (SpotReserve memory spotPrice, address poolAddress) =
-593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
-594:                        ///@notice Set SpotReserve and lp values if the returned values are not null.
-595:                        if (spotPrice.spotPrice != 0) {
-596:                            _spotPrices[i] = spotPrice;
-597:                            _lps[i] = poolAddress;
-598:                        }
-599:                    }
-600:                } else {
-601:                    {
-602:                        {
-603:                            ///@notice Get the Uniswap v2 spot price and lp address.
-604:                            (SpotReserve memory spotPrice, address poolAddress) =
-605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
-606:
-607:                            ///@notice Set SpotReserve and lp values if the returned values are not null.
-608:                            if (spotPrice.spotPrice != 0) {
-609:                                _lps[i] = poolAddress;
-610:                                _spotPrices[i] = spotPrice;
-611:                            }
-612:                        }
-613:                    }
-614:                }
-615:
-616:                unchecked {
-617:                    ++i;
-618:                }
-619:            }
-620:
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-280:        for (uint256 i = 0; i < orderGroup.length;) {
-281:            ///@notice Get the order details from the orderGroup.
-282:            LimitOrder memory newOrder = orderGroup[i];
-283:
-284:            if (newOrder.quantity == 0) {
-285:                revert OrderQuantityIsZero();
-286:            }
-287:
-288:            ///@notice Increment the total value of orders by the quantity of the new order
-289:            updatedTotalOrdersValue += newOrder.quantity;
-290:
-291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-292:            if (!(orderToken == newOrder.tokenIn)) {
-293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
-294:            }
-295:
-296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-297:            if (newOrder.tokenOut == newOrder.tokenIn) {
-298:                revert TokenInIsTokenOut();
-299:            }
-300:
-301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
-302:            if (tokenBalance < updatedTotalOrdersValue) {
-303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
-304:            }
-305:
-306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
-307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
-308:
-309:            ///@notice Increment the cumulative execution credit by the current orders execution.
-310:            cumulativeExecutionCredit += newOrder.executionCredit;
-311:
-312:            ///@notice increment the orderNonce
-313:            /**
-314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
-315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
-316:             */
-317:            unchecked {
-318:                orderNonce += 2;
-319:            }
-320:
-321:            ///@notice Set the new order's owner to the msg.sender
-322:            newOrder.owner = msg.sender;
-323:
-324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
-325:            newOrder.orderId = orderId;
-326:
-327:            ///@notice update the newOrder's last refresh timestamp
-328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
-329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
-330:
-331:            ///@notice Add the newly created order to the orderIdToOrder mapping
-332:            orderIdToLimitOrder[orderId] = newOrder;
-333:
-334:            ///@notice Add the orderId to the addressToOrderIds mapping
-335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
-336:
-337:            ///@notice Increment the total orders per address for the msg.sender
-338:            ++totalOrdersPerAddress[msg.sender];
-339:
-340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
-341:            orderIds[i] = orderId;
-342:
-343:            ///@notice Add the orderId to the addressToAllOrderIds structure
-344:            addressToAllOrderIds[msg.sender].push(orderId);
-345:
-346:            unchecked {
-347:                ++i;
-348:            }
-349:        }
-350:
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-280:        for (uint256 i = 0; i < orderGroup.length;) {
-281:            ///@notice Get the order details from the orderGroup.
-282:            LimitOrder memory newOrder = orderGroup[i];
-283:
-284:            if (newOrder.quantity == 0) {
-285:                revert OrderQuantityIsZero();
-286:            }
-287:
-288:            ///@notice Increment the total value of orders by the quantity of the new order
-289:            updatedTotalOrdersValue += newOrder.quantity;
-290:
-291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-292:            if (!(orderToken == newOrder.tokenIn)) {
-293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
-294:            }
-295:
-296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-297:            if (newOrder.tokenOut == newOrder.tokenIn) {
-298:                revert TokenInIsTokenOut();
-299:            }
-300:
-301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
-302:            if (tokenBalance < updatedTotalOrdersValue) {
-303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
-304:            }
-305:
-306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
-307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
-308:
-309:            ///@notice Increment the cumulative execution credit by the current orders execution.
-310:            cumulativeExecutionCredit += newOrder.executionCredit;
-311:
-312:            ///@notice increment the orderNonce
-313:            /**
-314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
-315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
-316:             */
-317:            unchecked {
-318:                orderNonce += 2;
-319:            }
-320:
-321:            ///@notice Set the new order's owner to the msg.sender
-322:            newOrder.owner = msg.sender;
-323:
-324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
-325:            newOrder.orderId = orderId;
-326:
-327:            ///@notice update the newOrder's last refresh timestamp
-328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
-329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
-330:
-331:            ///@notice Add the newly created order to the orderIdToOrder mapping
-332:            orderIdToLimitOrder[orderId] = newOrder;
-333:
-334:            ///@notice Add the orderId to the addressToOrderIds mapping
-335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
-336:
-337:            ///@notice Increment the total orders per address for the msg.sender
-338:            ++totalOrdersPerAddress[msg.sender];
-339:
-340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
-341:            orderIds[i] = orderId;
-342:
-343:            ///@notice Add the orderId to the addressToAllOrderIds structure
-344:            addressToAllOrderIds[msg.sender].push(orderId);
-345:
-346:            unchecked {
-347:                ++i;
-348:            }
-349:        }
-350:
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-280:        for (uint256 i = 0; i < orderGroup.length;) {
-281:            ///@notice Get the order details from the orderGroup.
-282:            LimitOrder memory newOrder = orderGroup[i];
-283:
-284:            if (newOrder.quantity == 0) {
-285:                revert OrderQuantityIsZero();
-286:            }
-287:
-288:            ///@notice Increment the total value of orders by the quantity of the new order
-289:            updatedTotalOrdersValue += newOrder.quantity;
-290:
-291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-292:            if (!(orderToken == newOrder.tokenIn)) {
-293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
-294:            }
-295:
-296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-297:            if (newOrder.tokenOut == newOrder.tokenIn) {
-298:                revert TokenInIsTokenOut();
-299:            }
-300:
-301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
-302:            if (tokenBalance < updatedTotalOrdersValue) {
-303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
-304:            }
-305:
-306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
-307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
-308:
-309:            ///@notice Increment the cumulative execution credit by the current orders execution.
-310:            cumulativeExecutionCredit += newOrder.executionCredit;
-311:
-312:            ///@notice increment the orderNonce
-313:            /**
-314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
-315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
-316:             */
-317:            unchecked {
-318:                orderNonce += 2;
-319:            }
-320:
-321:            ///@notice Set the new order's owner to the msg.sender
-322:            newOrder.owner = msg.sender;
-323:
-324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
-325:            newOrder.orderId = orderId;
-326:
-327:            ///@notice update the newOrder's last refresh timestamp
-328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
-329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
-330:
-331:            ///@notice Add the newly created order to the orderIdToOrder mapping
-332:            orderIdToLimitOrder[orderId] = newOrder;
-333:
-334:            ///@notice Add the orderId to the addressToOrderIds mapping
-335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
-336:
-337:            ///@notice Increment the total orders per address for the msg.sender
-338:            ++totalOrdersPerAddress[msg.sender];
-339:
-340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
-341:            orderIds[i] = orderId;
-342:
-343:            ///@notice Add the orderId to the addressToAllOrderIds structure
-344:            addressToAllOrderIds[msg.sender].push(orderId);
-345:
-346:            unchecked {
-347:                ++i;
-348:            }
-349:        }
-350:
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-280:        for (uint256 i = 0; i < orderGroup.length;) {
-281:            ///@notice Get the order details from the orderGroup.
-282:            LimitOrder memory newOrder = orderGroup[i];
-283:
-284:            if (newOrder.quantity == 0) {
-285:                revert OrderQuantityIsZero();
-286:            }
-287:
-288:            ///@notice Increment the total value of orders by the quantity of the new order
-289:            updatedTotalOrdersValue += newOrder.quantity;
-290:
-291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-292:            if (!(orderToken == newOrder.tokenIn)) {
-293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
-294:            }
-295:
-296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-297:            if (newOrder.tokenOut == newOrder.tokenIn) {
-298:                revert TokenInIsTokenOut();
-299:            }
-300:
-301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
-302:            if (tokenBalance < updatedTotalOrdersValue) {
-303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
-304:            }
-305:
-306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
-307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
-308:
-309:            ///@notice Increment the cumulative execution credit by the current orders execution.
-310:            cumulativeExecutionCredit += newOrder.executionCredit;
-311:
-312:            ///@notice increment the orderNonce
-313:            /**
-314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
-315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
-316:             */
-317:            unchecked {
-318:                orderNonce += 2;
-319:            }
-320:
-321:            ///@notice Set the new order's owner to the msg.sender
-322:            newOrder.owner = msg.sender;
-323:
-324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
-325:            newOrder.orderId = orderId;
-326:
-327:            ///@notice update the newOrder's last refresh timestamp
-328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
-329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
-330:
-331:            ///@notice Add the newly created order to the orderIdToOrder mapping
-332:            orderIdToLimitOrder[orderId] = newOrder;
-333:
-334:            ///@notice Add the orderId to the addressToOrderIds mapping
-335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
-336:
-337:            ///@notice Increment the total orders per address for the msg.sender
-338:            ++totalOrdersPerAddress[msg.sender];
-339:
-340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
-341:            orderIds[i] = orderId;
-342:
-343:            ///@notice Add the orderId to the addressToAllOrderIds structure
-344:            addressToAllOrderIds[msg.sender].push(orderId);
-345:
-346:            unchecked {
-347:                ++i;
-348:            }
-349:        }
-350:
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-280:        for (uint256 i = 0; i < orderGroup.length;) {
-281:            ///@notice Get the order details from the orderGroup.
-282:            LimitOrder memory newOrder = orderGroup[i];
-283:
-284:            if (newOrder.quantity == 0) {
-285:                revert OrderQuantityIsZero();
-286:            }
-287:
-288:            ///@notice Increment the total value of orders by the quantity of the new order
-289:            updatedTotalOrdersValue += newOrder.quantity;
-290:
-291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-292:            if (!(orderToken == newOrder.tokenIn)) {
-293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
-294:            }
-295:
-296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-297:            if (newOrder.tokenOut == newOrder.tokenIn) {
-298:                revert TokenInIsTokenOut();
-299:            }
-300:
-301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
-302:            if (tokenBalance < updatedTotalOrdersValue) {
-303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
-304:            }
-305:
-306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
-307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
-308:
-309:            ///@notice Increment the cumulative execution credit by the current orders execution.
-310:            cumulativeExecutionCredit += newOrder.executionCredit;
-311:
-312:            ///@notice increment the orderNonce
-313:            /**
-314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
-315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
-316:             */
-317:            unchecked {
-318:                orderNonce += 2;
-319:            }
-320:
-321:            ///@notice Set the new order's owner to the msg.sender
-322:            newOrder.owner = msg.sender;
-323:
-324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
-325:            newOrder.orderId = orderId;
-326:
-327:            ///@notice update the newOrder's last refresh timestamp
-328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
-329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
-330:
-331:            ///@notice Add the newly created order to the orderIdToOrder mapping
-332:            orderIdToLimitOrder[orderId] = newOrder;
-333:
-334:            ///@notice Add the orderId to the addressToOrderIds mapping
-335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
-336:
-337:            ///@notice Increment the total orders per address for the msg.sender
-338:            ++totalOrdersPerAddress[msg.sender];
-339:
-340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
-341:            orderIds[i] = orderId;
-342:
-343:            ///@notice Add the orderId to the addressToAllOrderIds structure
-344:            addressToAllOrderIds[msg.sender].push(orderId);
-345:
-346:            unchecked {
-347:                ++i;
-348:            }
-349:        }
-350:
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-280:        for (uint256 i = 0; i < orderGroup.length;) {
-281:            ///@notice Get the order details from the orderGroup.
-282:            LimitOrder memory newOrder = orderGroup[i];
-283:
-284:            if (newOrder.quantity == 0) {
-285:                revert OrderQuantityIsZero();
-286:            }
-287:
-288:            ///@notice Increment the total value of orders by the quantity of the new order
-289:            updatedTotalOrdersValue += newOrder.quantity;
-290:
-291:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-292:            if (!(orderToken == newOrder.tokenIn)) {
-293:                revert IncongruentInputTokenInOrderGroup(newOrder.tokenIn, orderToken);
-294:            }
-295:
-296:            ///@notice If the newOrder's tokenIn does not match the orderToken, revert.
-297:            if (newOrder.tokenOut == newOrder.tokenIn) {
-298:                revert TokenInIsTokenOut();
-299:            }
-300:
-301:            ///@notice If the msg.sender does not have a sufficent balance to cover the order, revert.
-302:            if (tokenBalance < updatedTotalOrdersValue) {
-303:                revert InsufficientWalletBalance(msg.sender, tokenBalance, updatedTotalOrdersValue);
-304:            }
-305:
-306:            ///@notice Create a new orderId from the orderNonce and current block timestamp
-307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
-308:
-309:            ///@notice Increment the cumulative execution credit by the current orders execution.
-310:            cumulativeExecutionCredit += newOrder.executionCredit;
-311:
-312:            ///@notice increment the orderNonce
-313:            /**
-314:             * @dev This is unchecked because the orderNonce and block.timestamp will never be the same, so even if the
-315:             *         orderNonce overflows, it will still produce unique orderIds because the timestamp will be different.
-316:             */
-317:            unchecked {
-318:                orderNonce += 2;
-319:            }
-320:
-321:            ///@notice Set the new order's owner to the msg.sender
-322:            newOrder.owner = msg.sender;
-323:
-324:            ///@notice update the newOrder's Id to the orderId generated from the orderNonce
-325:            newOrder.orderId = orderId;
-326:
-327:            ///@notice update the newOrder's last refresh timestamp
-328:            ///@dev uint32(block.timestamp % (2**32 - 1)) is used to future proof the contract.
-329:            newOrder.lastRefreshTimestamp = uint32(block.timestamp);
-330:
-331:            ///@notice Add the newly created order to the orderIdToOrder mapping
-332:            orderIdToLimitOrder[orderId] = newOrder;
-333:
-334:            ///@notice Add the orderId to the addressToOrderIds mapping
-335:            addressToOrderIds[msg.sender][orderId] = OrderType.PendingLimitOrder;
-336:
-337:            ///@notice Increment the total orders per address for the msg.sender
-338:            ++totalOrdersPerAddress[msg.sender];
-339:
-340:            ///@notice Add the orderId to the orderIds array for the PlaceOrder event emission and increment the orderIdIndex
-341:            orderIds[i] = orderId;
-342:
-343:            ///@notice Add the orderId to the addressToAllOrderIds structure
-344:            addressToAllOrderIds[msg.sender].push(orderId);
-345:
-346:            unchecked {
-347:                ++i;
-348:            }
-349:        }
-350:
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-585:        for (uint256 i = 0; i < length;) {
-586:            bytes32 orderId;
-587:            assembly {
-588:                //Get the orderId at the orderOffsetSlot.
-589:                orderId := mload(orderOffsetSlot)
-590:                //Update the orderOffsetSlot.
-591:                orderOffsetSlot := add(orderOffsetSlot, 0x20)
-592:            }
-593:
-594:            OrderType orderType = addressToOrderIds[_owner][orderId];
-595:
-596:            if (orderType == targetOrderType) {
-597:                orderIds[orderIdIndex] = orderId;
-598:                ++orderIdIndex;
-599:            }
-600:
-601:            unchecked {
-602:                ++i;
-603:            }
-604:        }
-605:
-``` 
-
  
  </details>
 
@@ -5848,519 +5846,80 @@ contract Contract7 {
  </details> 
  
 ```solidity
-File:LimitOrderSwapRouter.sol 
-183:        uint256 amountInUSDCDollarValue = ConveyorMath.mul128U(spotPrice, amountIn) / uint256(10 ** 18);
+File:SandboxLimitOrderRouter.sol 
+64:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-206:        return ConveyorMath.add64x64(rationalFraction, 461168601842738800) / 10 ** 2;
+File:LimitOrderRouter.sol 
+82:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-271:        amountReceived = IERC20(_tokenOut).balanceOf(_receiver) - balanceBefore;
+File:LimitOrderRouter.sol 
+122:            if (executionCreditBalance - REFRESH_FEE < minExecutionCredit) {
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-347:            _zeroForOne ? TickMath.MIN_SQRT_RATIO + 1 : TickMath.MAX_SQRT_RATIO - 1,
+File:LimitOrderRouter.sol 
+132:        if (block.timestamp - order.lastRefreshTimestamp < REFRESH_INTERVAL) {
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-347:            _zeroForOne ? TickMath.MIN_SQRT_RATIO + 1 : TickMath.MAX_SQRT_RATIO - 1,
+File:LimitOrderRouter.sol 
+136:        orderIdToLimitOrder[order.orderId].executionCredit = executionCreditBalance - uint128(REFRESH_FEE);
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-474:            ? uint128(reserve0 * (10 ** (18 - token0Decimals)))
+File:LimitOrderRouter.sol 
+137:        emit OrderExecutionCreditUpdated(order.orderId, executionCreditBalance - REFRESH_FEE);
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-474:            ? uint128(reserve0 * (10 ** (18 - token0Decimals)))
+File:LimitOrderRouter.sol 
+140:        orderIdToLimitOrder[order.orderId].lastRefreshTimestamp = uint32(block.timestamp % (2 ** 32 - 1));
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-475:            : uint128(reserve0 * (10 ** (token0Decimals - 18)));
+File:LimitOrderRouter.sol 
+157:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-475:            : uint128(reserve0 * (10 ** (token0Decimals - 18)));
+File:LimitOrderRouter.sol 
+189:            orderIdToLimitOrder[order.orderId].executionCredit = executionCredit - uint128(REFRESH_FEE);
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-477:            ? uint128(reserve1 * (10 ** (18 - token1Decimals)))
+File:LimitOrderRouter.sol 
+191:            _safeTransferETH(order.owner, executionCredit - REFRESH_FEE);
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-477:            ? uint128(reserve1 * (10 ** (18 - token1Decimals)))
+File:LimitOrderRouter.sol 
+210:        for (uint256 i = 0; i < orders.length - 1;) {
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-478:            : uint128(reserve1 * (10 ** (token1Decimals - 18)));
+File:LimitOrderRouter.sol 
+213:            LimitOrder memory nextOrder = orders[i + 1];
 ``` 
 
 
 ```solidity
-File:LimitOrderSwapRouter.sol 
-478:            : uint128(reserve1 * (10 ** (token1Decimals - 18)));
-``` 
-
-
-```solidity
-File:OracleLibraryV2.sol 
-11:        uint256 numerator = reserveIn * amountOut * 100000;
-``` 
-
-
-```solidity
-File:OracleLibraryV2.sol 
-11:        uint256 numerator = reserveIn * amountOut * 100000;
-``` 
-
-
-```solidity
-File:OracleLibraryV2.sol 
-12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
-``` 
-
-
-```solidity
-File:OracleLibraryV2.sol 
-12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
-``` 
-
-
-```solidity
-File:OracleLibraryV2.sol 
-12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
-``` 
-
-
-```solidity
-File:OracleLibraryV2.sol 
-13:        amountIn = (numerator / denominator) + 1;
-``` 
-
-
-```solidity
-File:OracleLibraryV2.sol 
-13:        amountIn = (numerator / denominator) + 1;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-180:                spotReserveAToWeth.length * spotReserveWethToB.length
-181:            );
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-277:                : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-277:                : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-400:                uint256 denominator = reserveA + alphaX;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-455:        uint256 amountInWithFee = amountIn * 997;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-456:        uint256 numerator = amountInWithFee * reserveOut;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-457:        uint256 denominator = reserveIn * 1000 + (amountInWithFee);
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-457:        uint256 denominator = reserveIn * 1000 + (amountInWithFee);
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-458:        amountOut = numerator / denominator;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-481:            : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-481:            : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-559:            uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-559:            uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-560:            uint256 amountIn = amountInOrder - amountInBuffer;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-580:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-580:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-582:                uint256 amountIn = amountInOrder - amountInBuffer;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-585:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-585:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-587:                uint256 amountIn = amountInOrder - amountInBuffer;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-251:            if (executionCreditRemaining - amount < minExecutionCredit) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-252:                revert InsufficientExecutionCredit(executionCreditRemaining - amount, minExecutionCredit);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-256:        orderIdToSandboxLimitOrder[orderId].executionCreditRemaining = executionCreditRemaining - amount;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-259:        emit OrderExecutionCreditUpdated(orderId, executionCreditRemaining - amount);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-275:            orderIdToSandboxLimitOrder[orderId].executionCreditRemaining + uint128(msg.value);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-291:        uint256 minimumExecutionCreditForOrderGroup = minExecutionCredit * orderGroup.length;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-349:                            ? ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
-350:                                * 10 ** (18 - tokenInDecimals)
-351:                            : ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-350:                                * 10 ** (18 - tokenInDecimals)
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-351:                            : ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
-352:                                / 10 ** (tokenInDecimals - 18);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-352:                                / 10 ** (tokenInDecimals - 18);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-471:                orderIdToSandboxLimitOrder[order.orderId].executionCreditRemaining + uint128(msg.value);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-564:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-602:                executionCreditRemaining - uint128(REFRESH_FEE);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-604:            _safeTransferETH(order.owner, executionCreditRemaining - REFRESH_FEE);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-624:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-665:            if (executionCreditBalance - REFRESH_FEE < minExecutionCredit) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-675:        if (block.timestamp - order.lastRefreshTimestamp < REFRESH_INTERVAL) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-680:            executionCreditBalance - uint128(REFRESH_FEE);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-681:        emit OrderExecutionCreditUpdated(order.orderId, executionCreditBalance - REFRESH_FEE);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-821:                orderIdIndex += orderIdBundle.length - 1;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-867:        if (initialTokenInBalance - currentTokenInBalance > fillAmount) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-869:                currentOrder.orderId, initialTokenInBalance - currentTokenInBalance, fillAmount
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-874:        if (currentTokenOutBalance - initialTokenOutBalance != amountOutRequired) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-876:                currentOrder.orderId, currentTokenOutBalance - initialTokenOutBalance, amountOutRequired
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-887:                uint128(initialTokenInBalance - currentTokenInBalance),
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-888:                uint128(currentTokenOutBalance - initialTokenOutBalance),
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-932:                SandboxLimitOrder memory currentOrder = preSandboxExecutionState.sandboxLimitOrders[offset + 1];
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-943:                        fillAmounts[offset + 1]
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-955:                        preSandboxExecutionState.initialTokenInBalances[offset] - currentTokenInBalance
-956:                            > cumulativeFillAmount
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-960:                            preSandboxExecutionState.initialTokenInBalances[offset] - currentTokenInBalance,
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-965:                    cumulativeFillAmount = fillAmounts[offset + 1];
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-968:                    cumulativeFillAmount += fillAmounts[offset + 1];
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-974:                        currentTokenOutBalance - preSandboxExecutionState.initialTokenOutBalances[offset]
-975:                            != cumulativeAmountOutRequired
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-979:                            currentTokenOutBalance - preSandboxExecutionState.initialTokenOutBalances[offset],
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-998:            _resolveOrPartialFillOrder(prevOrder, offset - 1, fillAmounts, cumulativeExecutionCompensation);
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1057:        orderIdToSandboxLimitOrder[orderId].amountInRemaining = order.amountInRemaining - amountInFilled;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1059:        orderIdToSandboxLimitOrder[orderId].amountOutRemaining = order.amountOutRemaining - amountOutFilled;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1064:        uint128 updatedFeeRemaining = feeRemaining
-1065:            - uint128(ConveyorMath.mul64U(ConveyorMath.divUU(amountInFilled, amountInRemaining), feeRemaining));
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1072:        uint128 updatedExecutionCreditRemaining = executionCreditRemaining - executionCreditCompensation;
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1079:            order.amountInRemaining - amountInFilled,
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1080:            order.amountOutRemaining - amountOutFilled,
+File:LimitOrderRouter.sol 
+270:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
 ``` 
 
 
@@ -7019,135 +6578,422 @@ File:ConveyorMath.sol
 
 
 ```solidity
-File:ConveyorFeeMath.sol 
-10:    uint128 constant MAX_CONVEYOR_PERCENT = 110680464442257300 * 10 ** 2;
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-31:            int256 innerPartial = int256(uint256(ZERO_POINT_ZERO_ZERO_FIVE)) - int128(percentFee);
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-33:            conveyorPercent = (
-34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
-35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
-36:            ) * 10 ** 2;
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
-35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
-36:            ) * 10 ** 2;
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
-35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-48:        beaconReward = uint128(totalWethReward) - conveyorReward;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-271:        amountOutWeth = amountOutWeth - (beaconReward + conveyorReward);
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-271:        amountOutWeth = amountOutWeth - (beaconReward + conveyorReward);
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-383:                amountInWethToB = amountIn - (beaconReward + conveyorReward);
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-383:                amountInWethToB = amountIn - (beaconReward + conveyorReward);
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-499:                contractBalancePostExecution - contractBalancePreExecution,
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-500:                expectedAccumulatedFees - (contractBalancePostExecution - contractBalancePreExecution)
-501:            );
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-500:                expectedAccumulatedFees - (contractBalancePostExecution - contractBalancePreExecution)
-``` 
-
-
-```solidity
 File:UniswapInterfaceMulticall.sol 
 34:            uint256 gasUsed = gasLeftBefore - gasleft();
 ``` 
 
 
 ```solidity
-File:LimitOrderBook.sol 
-185:        if (executionCredit - amount < minExecutionCredit) {
+File:LimitOrderSwapRouter.sol 
+183:        uint256 amountInUSDCDollarValue = ConveyorMath.mul128U(spotPrice, amountIn) / uint256(10 ** 18);
 ``` 
 
 
 ```solidity
-File:LimitOrderBook.sol 
-186:            revert InsufficientExecutionCredit(executionCredit - amount, minExecutionCredit);
+File:LimitOrderSwapRouter.sol 
+206:        return ConveyorMath.add64x64(rationalFraction, 461168601842738800) / 10 ** 2;
 ``` 
 
 
 ```solidity
-File:LimitOrderBook.sol 
-189:        orderIdToLimitOrder[orderId].executionCredit = executionCredit - amount;
+File:LimitOrderSwapRouter.sol 
+271:        amountReceived = IERC20(_tokenOut).balanceOf(_receiver) - balanceBefore;
 ``` 
 
 
 ```solidity
-File:LimitOrderBook.sol 
-193:        emit OrderExecutionCreditUpdated(orderId, executionCredit - amount);
+File:LimitOrderSwapRouter.sol 
+347:            _zeroForOne ? TickMath.MIN_SQRT_RATIO + 1 : TickMath.MAX_SQRT_RATIO - 1,
 ``` 
 
 
 ```solidity
-File:LimitOrderBook.sol 
-214:        uint128 newExecutionCreditBalance = orderIdToLimitOrder[orderId].executionCredit + uint128(msg.value);
+File:LimitOrderSwapRouter.sol 
+347:            _zeroForOne ? TickMath.MIN_SQRT_RATIO + 1 : TickMath.MAX_SQRT_RATIO - 1,
 ``` 
 
 
 ```solidity
-File:LimitOrderBook.sol 
-254:        uint256 minimumExecutionCreditForOrderGroup = minExecutionCredit * orderGroup.length;
+File:LimitOrderSwapRouter.sol 
+474:            ? uint128(reserve0 * (10 ** (18 - token0Decimals)))
 ``` 
 
 
 ```solidity
-File:LimitOrderBook.sol 
-408:            uint128 newExecutionCredit = orderIdToLimitOrder[order.orderId].executionCredit + uint128(msg.value);
+File:LimitOrderSwapRouter.sol 
+474:            ? uint128(reserve0 * (10 ** (18 - token0Decimals)))
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+475:            : uint128(reserve0 * (10 ** (token0Decimals - 18)));
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+475:            : uint128(reserve0 * (10 ** (token0Decimals - 18)));
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+477:            ? uint128(reserve1 * (10 ** (18 - token1Decimals)))
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+477:            ? uint128(reserve1 * (10 ** (18 - token1Decimals)))
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+478:            : uint128(reserve1 * (10 ** (token1Decimals - 18)));
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+478:            : uint128(reserve1 * (10 ** (token1Decimals - 18)));
+``` 
+
+
+```solidity
+File:OracleLibraryV2.sol 
+11:        uint256 numerator = reserveIn * amountOut * 100000;
+``` 
+
+
+```solidity
+File:OracleLibraryV2.sol 
+11:        uint256 numerator = reserveIn * amountOut * 100000;
+``` 
+
+
+```solidity
+File:OracleLibraryV2.sol 
+12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
+``` 
+
+
+```solidity
+File:OracleLibraryV2.sol 
+12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
+``` 
+
+
+```solidity
+File:OracleLibraryV2.sol 
+12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
+``` 
+
+
+```solidity
+File:OracleLibraryV2.sol 
+13:        amountIn = (numerator / denominator) + 1;
+``` 
+
+
+```solidity
+File:OracleLibraryV2.sol 
+13:        amountIn = (numerator / denominator) + 1;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+251:            if (executionCreditRemaining - amount < minExecutionCredit) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+252:                revert InsufficientExecutionCredit(executionCreditRemaining - amount, minExecutionCredit);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+256:        orderIdToSandboxLimitOrder[orderId].executionCreditRemaining = executionCreditRemaining - amount;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+259:        emit OrderExecutionCreditUpdated(orderId, executionCreditRemaining - amount);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+275:            orderIdToSandboxLimitOrder[orderId].executionCreditRemaining + uint128(msg.value);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+291:        uint256 minimumExecutionCreditForOrderGroup = minExecutionCredit * orderGroup.length;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+349:                            ? ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
+350:                                * 10 ** (18 - tokenInDecimals)
+351:                            : ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+350:                                * 10 ** (18 - tokenInDecimals)
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+351:                            : ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
+352:                                / 10 ** (tokenInDecimals - 18);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+352:                                / 10 ** (tokenInDecimals - 18);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+471:                orderIdToSandboxLimitOrder[order.orderId].executionCreditRemaining + uint128(msg.value);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+564:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+602:                executionCreditRemaining - uint128(REFRESH_FEE);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+604:            _safeTransferETH(order.owner, executionCreditRemaining - REFRESH_FEE);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+624:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+665:            if (executionCreditBalance - REFRESH_FEE < minExecutionCredit) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+675:        if (block.timestamp - order.lastRefreshTimestamp < REFRESH_INTERVAL) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+680:            executionCreditBalance - uint128(REFRESH_FEE);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+681:        emit OrderExecutionCreditUpdated(order.orderId, executionCreditBalance - REFRESH_FEE);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+821:                orderIdIndex += orderIdBundle.length - 1;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+867:        if (initialTokenInBalance - currentTokenInBalance > fillAmount) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+869:                currentOrder.orderId, initialTokenInBalance - currentTokenInBalance, fillAmount
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+874:        if (currentTokenOutBalance - initialTokenOutBalance != amountOutRequired) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+876:                currentOrder.orderId, currentTokenOutBalance - initialTokenOutBalance, amountOutRequired
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+887:                uint128(initialTokenInBalance - currentTokenInBalance),
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+888:                uint128(currentTokenOutBalance - initialTokenOutBalance),
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+932:                SandboxLimitOrder memory currentOrder = preSandboxExecutionState.sandboxLimitOrders[offset + 1];
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+943:                        fillAmounts[offset + 1]
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+955:                        preSandboxExecutionState.initialTokenInBalances[offset] - currentTokenInBalance
+956:                            > cumulativeFillAmount
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+960:                            preSandboxExecutionState.initialTokenInBalances[offset] - currentTokenInBalance,
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+965:                    cumulativeFillAmount = fillAmounts[offset + 1];
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+968:                    cumulativeFillAmount += fillAmounts[offset + 1];
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+974:                        currentTokenOutBalance - preSandboxExecutionState.initialTokenOutBalances[offset]
+975:                            != cumulativeAmountOutRequired
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+979:                            currentTokenOutBalance - preSandboxExecutionState.initialTokenOutBalances[offset],
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+998:            _resolveOrPartialFillOrder(prevOrder, offset - 1, fillAmounts, cumulativeExecutionCompensation);
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+1057:        orderIdToSandboxLimitOrder[orderId].amountInRemaining = order.amountInRemaining - amountInFilled;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+1059:        orderIdToSandboxLimitOrder[orderId].amountOutRemaining = order.amountOutRemaining - amountOutFilled;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+1064:        uint128 updatedFeeRemaining = feeRemaining
+1065:            - uint128(ConveyorMath.mul64U(ConveyorMath.divUU(amountInFilled, amountInRemaining), feeRemaining));
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+1072:        uint128 updatedExecutionCreditRemaining = executionCreditRemaining - executionCreditCompensation;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+1079:            order.amountInRemaining - amountInFilled,
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+1080:            order.amountOutRemaining - amountOutFilled,
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+125:        uint256 tokenOutAmountRequired = balanceBefore + swapData.amountOutMin;
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+134:            revert InsufficientOutputAmount(tokenOutAmountRequired - balanceAfter, swapData.amountOutMin);
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+165:        uint256 amountIn = msg.value - swapData.protocolFee;
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+177:        uint256 tokenOutAmountRequired = balanceBefore + swapData.amountOutMin;
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+187:            revert InsufficientOutputAmount(tokenOutAmountRequired - balanceAfter, swapData.amountOutMin);
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+224:        uint256 amountOutRequired = balanceBefore + swapData.amountOutMin;
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+240:            revert InsufficientOutputAmount(amountOutRequired - msg.sender.balance, swapData.amountOutMin);
 ``` 
 
 
@@ -7233,122 +7079,274 @@ File:ConveyorTickMath.sol
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-82:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+File:LimitOrderQuoter.sol 
+180:                spotReserveAToWeth.length * spotReserveWethToB.length
+181:            );
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-122:            if (executionCreditBalance - REFRESH_FEE < minExecutionCredit) {
+File:LimitOrderQuoter.sol 
+276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-132:        if (block.timestamp - order.lastRefreshTimestamp < REFRESH_INTERVAL) {
+File:LimitOrderQuoter.sol 
+276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-136:        orderIdToLimitOrder[order.orderId].executionCredit = executionCreditBalance - uint128(REFRESH_FEE);
+File:LimitOrderQuoter.sol 
+277:                : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-137:        emit OrderExecutionCreditUpdated(order.orderId, executionCreditBalance - REFRESH_FEE);
+File:LimitOrderQuoter.sol 
+277:                : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-140:        orderIdToLimitOrder[order.orderId].lastRefreshTimestamp = uint32(block.timestamp % (2 ** 32 - 1));
+File:LimitOrderQuoter.sol 
+400:                uint256 denominator = reserveA + alphaX;
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-157:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+File:LimitOrderQuoter.sol 
+455:        uint256 amountInWithFee = amountIn * 997;
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-189:            orderIdToLimitOrder[order.orderId].executionCredit = executionCredit - uint128(REFRESH_FEE);
+File:LimitOrderQuoter.sol 
+456:        uint256 numerator = amountInWithFee * reserveOut;
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-191:            _safeTransferETH(order.owner, executionCredit - REFRESH_FEE);
+File:LimitOrderQuoter.sol 
+457:        uint256 denominator = reserveIn * 1000 + (amountInWithFee);
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-210:        for (uint256 i = 0; i < orders.length - 1;) {
+File:LimitOrderQuoter.sol 
+457:        uint256 denominator = reserveIn * 1000 + (amountInWithFee);
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-213:            LimitOrder memory nextOrder = orders[i + 1];
+File:LimitOrderQuoter.sol 
+458:        amountOut = numerator / denominator;
 ``` 
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-270:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+File:LimitOrderQuoter.sol 
+480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-125:        uint256 tokenOutAmountRequired = balanceBefore + swapData.amountOutMin;
+File:LimitOrderQuoter.sol 
+480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-134:            revert InsufficientOutputAmount(tokenOutAmountRequired - balanceAfter, swapData.amountOutMin);
+File:LimitOrderQuoter.sol 
+481:            : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-165:        uint256 amountIn = msg.value - swapData.protocolFee;
+File:LimitOrderQuoter.sol 
+481:            : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-177:        uint256 tokenOutAmountRequired = balanceBefore + swapData.amountOutMin;
+File:LimitOrderQuoter.sol 
+559:            uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-187:            revert InsufficientOutputAmount(tokenOutAmountRequired - balanceAfter, swapData.amountOutMin);
+File:LimitOrderQuoter.sol 
+559:            uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-224:        uint256 amountOutRequired = balanceBefore + swapData.amountOutMin;
+File:LimitOrderQuoter.sol 
+560:            uint256 amountIn = amountInOrder - amountInBuffer;
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-240:            revert InsufficientOutputAmount(amountOutRequired - msg.sender.balance, swapData.amountOutMin);
+File:LimitOrderQuoter.sol 
+580:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
 ``` 
 
 
 ```solidity
-File:SandboxLimitOrderRouter.sol 
-64:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+File:LimitOrderQuoter.sol 
+580:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+582:                uint256 amountIn = amountInOrder - amountInBuffer;
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+585:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+585:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+587:                uint256 amountIn = amountInOrder - amountInBuffer;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+271:        amountOutWeth = amountOutWeth - (beaconReward + conveyorReward);
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+271:        amountOutWeth = amountOutWeth - (beaconReward + conveyorReward);
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+383:                amountInWethToB = amountIn - (beaconReward + conveyorReward);
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+383:                amountInWethToB = amountIn - (beaconReward + conveyorReward);
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+499:                contractBalancePostExecution - contractBalancePreExecution,
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+500:                expectedAccumulatedFees - (contractBalancePostExecution - contractBalancePreExecution)
+501:            );
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+500:                expectedAccumulatedFees - (contractBalancePostExecution - contractBalancePreExecution)
+``` 
+
+
+```solidity
+File:ConveyorFeeMath.sol 
+10:    uint128 constant MAX_CONVEYOR_PERCENT = 110680464442257300 * 10 ** 2;
+``` 
+
+
+```solidity
+File:ConveyorFeeMath.sol 
+31:            int256 innerPartial = int256(uint256(ZERO_POINT_ZERO_ZERO_FIVE)) - int128(percentFee);
+``` 
+
+
+```solidity
+File:ConveyorFeeMath.sol 
+33:            conveyorPercent = (
+34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
+35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
+36:            ) * 10 ** 2;
+``` 
+
+
+```solidity
+File:ConveyorFeeMath.sol 
+34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
+35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
+36:            ) * 10 ** 2;
+``` 
+
+
+```solidity
+File:ConveyorFeeMath.sol 
+34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
+35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
+``` 
+
+
+```solidity
+File:ConveyorFeeMath.sol 
+48:        beaconReward = uint128(totalWethReward) - conveyorReward;
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+185:        if (executionCredit - amount < minExecutionCredit) {
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+186:            revert InsufficientExecutionCredit(executionCredit - amount, minExecutionCredit);
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+189:        orderIdToLimitOrder[orderId].executionCredit = executionCredit - amount;
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+193:        emit OrderExecutionCreditUpdated(orderId, executionCredit - amount);
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+214:        uint128 newExecutionCreditBalance = orderIdToLimitOrder[orderId].executionCredit + uint128(msg.value);
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+254:        uint256 minimumExecutionCreditForOrderGroup = minExecutionCredit * orderGroup.length;
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+408:            uint128 newExecutionCredit = orderIdToLimitOrder[order.orderId].executionCredit + uint128(msg.value);
 ``` 
 
  
@@ -7490,6 +7488,24 @@ File:ConveyorRouterV1.sol
 
 
 ```solidity
+File:LimitOrderBook.sol 
+31:        reentrancyStatus = true;
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+33:        reentrancyStatus = false;
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+46:        minExecutionCredit = _minExecutionCredit;
+``` 
+
+
+```solidity
 File:LimitOrderSwapRouter.sol 
 354:        uniV3AmountOut = 0;
 ``` 
@@ -7504,6 +7520,72 @@ File:LimitOrderSwapRouter.sol
 ```solidity
 File:LimitOrderSwapRouter.sol 
 382:            uniV3AmountOut = uint256(-amount0Delta);
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+68:        reentrancyStatus = true;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+70:        reentrancyStatus = false;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+149:        owner = msg.sender;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+512:        conveyorBalance = 0;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+523:        tempOwner = address(0);
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+524:        owner = msg.sender;
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+533:        tempOwner = newOwner;
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+72:        owner = tx.origin;
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+353:        owner = msg.sender;
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+354:        tempOwner = address(0);
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+362:        tempOwner = newOwner;
 ``` 
 
 
@@ -7552,90 +7634,6 @@ File:SandboxLimitOrderBook.sol
 ```solidity
 File:SandboxLimitOrderBook.sol 
 1270:        tempOwner = newOwner;
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-31:        reentrancyStatus = true;
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-33:        reentrancyStatus = false;
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-46:        minExecutionCredit = _minExecutionCredit;
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-72:        owner = tx.origin;
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-353:        owner = msg.sender;
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-354:        tempOwner = address(0);
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-362:        tempOwner = newOwner;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-68:        reentrancyStatus = true;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-70:        reentrancyStatus = false;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-149:        owner = msg.sender;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-512:        conveyorBalance = 0;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-523:        tempOwner = address(0);
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-524:        owner = msg.sender;
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-533:        tempOwner = newOwner;
 ``` 
 
  
@@ -7725,6 +7723,30 @@ contract Contract1 {
  </details> 
  
 ```solidity
+File:ConveyorExecutor.sol 
+118:        require(_weth != address(0), "Invalid weth address");
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+119:        require(_usdc != address(0), "Invalid usdc address");
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+120:        require(_limitOrderQuoterAddress != address(0), "Invalid LimitOrderQuoter address");
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+69:        require(_limitOrderExecutor != address(0), "Invalid ConveyorExecutor address");
+``` 
+
+
+```solidity
 File:ConveyorMath.sol 
 220:            require(answer <= uint128(MAX_64x64), "overflow");
 ``` 
@@ -7749,6 +7771,54 @@ File:ConveyorMath.sol
 
 
 ```solidity
+File:LimitOrderBook.sol 
+42:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+44:        require(_minExecutionCredit != 0, "Minimum Execution Credit is 0");
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+129:                require(_isUniV2[i], "First Dex must be uniswap v2");
+``` 
+
+
+```solidity
+File:LimitOrderSwapRouter.sol 
+131:            require(_dexFactories[i] != address(0), "Zero values in constructor");
+``` 
+
+
+```solidity
+File:ConveyorTickMath.sol 
+90:            require(priceX128 <= type(uint256).max, "Overflow");
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+16:        require(_weth != address(0), "Invalid weth address");
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+93:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+94:        require(_minExecutionCredit != 0, "Minimum Execution Credit is 0");
+``` 
+
+
+```solidity
 File:ConveyorRouterV1.sol 
 64:        require(_weth != address(0), "WETH address is zero");
 ``` 
@@ -7767,12 +7837,6 @@ File:ConveyorRouterV1.sol
 
 
 ```solidity
-File:LimitOrderRouter.sol 
-69:        require(_limitOrderExecutor != address(0), "Invalid ConveyorExecutor address");
-``` 
-
-
-```solidity
 File:OracleLibraryV2.sol 
 9:        require(amountOut > 0, "UniswapV2Library: INSUFFICIENT_OUTPUT_AMOUNT");
 ``` 
@@ -7781,72 +7845,6 @@ File:OracleLibraryV2.sol
 ```solidity
 File:OracleLibraryV2.sol 
 10:        require(reserveIn > 0 && reserveOut > 0, "UniswapV2Library: INSUFFICIENT_LIQUIDITY");
-``` 
-
-
-```solidity
-File:ConveyorTickMath.sol 
-90:            require(priceX128 <= type(uint256).max, "Overflow");
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-118:        require(_weth != address(0), "Invalid weth address");
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-119:        require(_usdc != address(0), "Invalid usdc address");
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-120:        require(_limitOrderQuoterAddress != address(0), "Invalid LimitOrderQuoter address");
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-93:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-94:        require(_minExecutionCredit != 0, "Minimum Execution Credit is 0");
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-16:        require(_weth != address(0), "Invalid weth address");
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-129:                require(_isUniV2[i], "First Dex must be uniswap v2");
-``` 
-
-
-```solidity
-File:LimitOrderSwapRouter.sol 
-131:            require(_dexFactories[i] != address(0), "Zero values in constructor");
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-42:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-44:        require(_minExecutionCredit != 0, "Minimum Execution Credit is 0");
 ``` 
 
  
@@ -7943,47 +7941,47 @@ File:LimitOrderBook.sol
 
 
 ```solidity
-File:ConveyorExecutor.sol 
-110:    constructor(
-111:        address _weth,
-112:        address _usdc,
-113:        address _limitOrderQuoterAddress,
-114:        address[] memory _dexFactories,
-115:        bool[] memory _isUniV2,
-116:        uint256 _minExecutionCredit
-117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-110:    constructor(
-111:        address _weth,
-112:        address _usdc,
-113:        address _limitOrderQuoterAddress,
-114:        address[] memory _dexFactories,
-115:        bool[] memory _isUniV2,
-116:        uint256 _minExecutionCredit
-117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-110:    constructor(
-111:        address _weth,
-112:        address _usdc,
-113:        address _limitOrderQuoterAddress,
-114:        address[] memory _dexFactories,
-115:        bool[] memory _isUniV2,
-116:        uint256 _minExecutionCredit
-117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
-``` 
-
-
-```solidity
 File:LimitOrderSwapRouter.sol 
 125:    constructor(address[] memory _dexFactories, bool[] memory _isUniV2) {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+110:    constructor(
+111:        address _weth,
+112:        address _usdc,
+113:        address _limitOrderQuoterAddress,
+114:        address[] memory _dexFactories,
+115:        bool[] memory _isUniV2,
+116:        uint256 _minExecutionCredit
+117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+110:    constructor(
+111:        address _weth,
+112:        address _usdc,
+113:        address _limitOrderQuoterAddress,
+114:        address[] memory _dexFactories,
+115:        bool[] memory _isUniV2,
+116:        uint256 _minExecutionCredit
+117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+110:    constructor(
+111:        address _weth,
+112:        address _usdc,
+113:        address _limitOrderQuoterAddress,
+114:        address[] memory _dexFactories,
+115:        bool[] memory _isUniV2,
+116:        uint256 _minExecutionCredit
+117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
 ``` 
 
 
@@ -8008,320 +8006,20 @@ File:SandboxLimitOrderBook.sol
  </summary>
  This will minimize compiled code size and help with readability 
 ```solidity
-File:LimitOrderQuoter.sol 
-3:import "./LimitOrderSwapRouter.sol";
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-4:import "./lib/ConveyorTickMath.sol";
-``` 
-
-
-```solidity
-File:LimitOrderQuoter.sol 
-5:import "./interfaces/ILimitOrderQuoter.sol";
-``` 
-
-
-```solidity
-File:BabySwapCallback.sol 
+File:WaultSwapCallback.sol 
 3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
 
 
 ```solidity
-File:BabySwapCallback.sol 
+File:WaultSwapCallback.sol 
 4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
 ``` 
 
 
 ```solidity
-File:BabySwapCallback.sol 
+File:WaultSwapCallback.sol 
 5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:DeployTest.s.sol 
-6:import "../../test/utils/Console.sol";
-``` 
-
-
-```solidity
-File:ISandboxLimitOrderBook.sol 
-3:import "../SandboxLimitOrderRouter.sol";
-``` 
-
-
-```solidity
-File:ISandboxLimitOrderBook.sol 
-4:import "../SandboxLimitOrderBook.sol";
-``` 
-
-
-```solidity
-File:BiswapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:BiswapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:BiswapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:UniFiCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:UniFiCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:UniFiCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:IConveyorExecutor.sol 
-3:import "../LimitOrderBook.sol";
-``` 
-
-
-```solidity
-File:IConveyorExecutor.sol 
-4:import "../SandboxLimitOrderBook.sol";
-``` 
-
-
-```solidity
-File:IConveyorExecutor.sol 
-5:import "../SandboxLimitOrderRouter.sol";
-``` 
-
-
-```solidity
-File:MdexSwapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:MdexSwapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:MdexSwapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-3:import "./LimitOrderSwapRouter.sol";
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-4:import "./interfaces/ILimitOrderQuoter.sol";
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-5:import "./lib/ConveyorFeeMath.sol";
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-6:import "./LimitOrderRouter.sol";
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-7:import "./interfaces/ILimitOrderSwapRouter.sol";
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-8:import "./interfaces/ISandboxLimitOrderRouter.sol";
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-9:import "./interfaces/ISandboxLimitOrderBook.sol";
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-10:import "./interfaces/ILimitOrderBook.sol";
-``` 
-
-
-```solidity
-File:ConveyorExecutor.sol 
-11:import "./interfaces/IConveyorExecutor.sol";
-``` 
-
-
-```solidity
-File:ConveyorMath.sol 
-3:import "../../lib/libraries/Uniswap/FullMath.sol";
-``` 
-
-
-```solidity
-File:AlgebraCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:VerseCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:VerseCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:VerseCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:ISandboxLimitOrderRouter.sol 
-3:import "../SandboxLimitOrderRouter.sol";
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-3:import "../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-4:import "./LimitOrderBook.sol";
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-5:import "./ConveyorErrors.sol";
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-6:import "../lib/interfaces/token/IWETH.sol";
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-7:import "./LimitOrderSwapRouter.sol";
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-8:import "./interfaces/ILimitOrderQuoter.sol";
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-9:import "./interfaces/IConveyorExecutor.sol";
-``` 
-
-
-```solidity
-File:LimitOrderRouter.sol 
-10:import "./interfaces/ILimitOrderRouter.sol";
-``` 
-
-
-```solidity
-File:ILimitOrderQuoter.sol 
-3:import "../LimitOrderSwapRouter.sol";
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-3:import "./ConveyorErrors.sol";
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-4:import "../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-5:import "./interfaces/ILimitOrderBook.sol";
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-6:import "./interfaces/ILimitOrderSwapRouter.sol";
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-7:import "./LimitOrderSwapRouter.sol";
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-8:import "./lib/ConveyorMath.sol";
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-9:import "./interfaces/IConveyorExecutor.sol";
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-10:import "./SandboxLimitOrderRouter.sol";
 ``` 
 
 
@@ -8434,169 +8132,25 @@ File:LimitOrderSwapRouter.sol
 
 
 ```solidity
-File:UniswapV3Callback.sol 
+File:PancakeV2Callback.sol 
 3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-3:import "./ConveyorErrors.sol";
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-9:import "../test/utils/Console.sol";
-``` 
-
-
-```solidity
-File:UniswapV2Callback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:UniswapV2Callback.sol 
+File:PancakeV2Callback.sol 
 4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
 ``` 
 
 
 ```solidity
-File:UniswapV2Callback.sol 
+File:PancakeV2Callback.sol 
 5:import "../lib/OracleLibraryV2.sol";
 ``` 
 
 
 ```solidity
-File:ConvergenceXCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:ConvergenceXCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:ConvergenceXCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:ILimitOrderSwapRouter.sol 
-3:import "../LimitOrderSwapRouter.sol";
-``` 
-
-
-```solidity
-File:JetSwapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:JetSwapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:JetSwapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:BabyDogeCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:BabyDogeCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:BabyDogeCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:IConveyorRouterV1.sol 
-3:import "../ConveyorRouterV1.sol";
-``` 
-
-
-```solidity
-File:ILimitOrderBook.sol 
-3:import "../LimitOrderBook.sol";
-``` 
-
-
-```solidity
-File:DefiSwapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:DefiSwapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:DefiSwapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:TraderJoeCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:TraderJoeCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:TraderJoeCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:LinkSwapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:LinkSwapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:LinkSwapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:KyberSwapV3Callback.sol 
+File:AlgebraCallback.sol 
 3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
 
@@ -8615,180 +8169,6 @@ File:ElkSwapCallback.sol
 
 ```solidity
 File:ElkSwapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-3:import "../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-4:import "./ConveyorErrors.sol";
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-5:import "./interfaces/ILimitOrderSwapRouter.sol";
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-6:import "./lib/ConveyorMath.sol";
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-7:import "./interfaces/IConveyorExecutor.sol";
-``` 
-
-
-```solidity
-File:DystopiaCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:DystopiaCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:DystopiaCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-3:import "./ConveyorMath.sol";
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-4:import "../../lib/libraries/QuadruplePrecision.sol";
-``` 
-
-
-```solidity
-File:PancakeV3Callback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:MeerkatCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:MeerkatCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:MeerkatCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:CafeSwapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:CafeSwapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:CafeSwapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:NomiswapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:NomiswapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:NomiswapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:ApeSwapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:ApeSwapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:ApeSwapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:DXSwapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:DXSwapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:DXSwapCallback.sol 
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-```solidity
-File:WaultSwapCallback.sol 
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-```solidity
-File:WaultSwapCallback.sol 
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-```solidity
-File:WaultSwapCallback.sol 
 5:import "../lib/OracleLibraryV2.sol";
 ``` 
 
@@ -8872,6 +8252,294 @@ File:ConveyorTickMath.sol
 
 
 ```solidity
+File:ILimitOrderBook.sol 
+3:import "../LimitOrderBook.sol";
+``` 
+
+
+```solidity
+File:ILimitOrderQuoter.sol 
+3:import "../LimitOrderSwapRouter.sol";
+``` 
+
+
+```solidity
+File:UniswapV2Callback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:UniswapV2Callback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:UniswapV2Callback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:JetSwapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:JetSwapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:JetSwapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:UniswapV3Callback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:KyberSwapV3Callback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:TraderJoeCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:TraderJoeCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:TraderJoeCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+3:import "../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+4:import "./ConveyorErrors.sol";
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+5:import "./interfaces/ILimitOrderSwapRouter.sol";
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+6:import "./lib/ConveyorMath.sol";
+``` 
+
+
+```solidity
+File:LimitOrderBook.sol 
+7:import "./interfaces/IConveyorExecutor.sol";
+``` 
+
+
+```solidity
+File:BabyDogeCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:BabyDogeCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:BabyDogeCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+3:import "./LimitOrderSwapRouter.sol";
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+4:import "./lib/ConveyorTickMath.sol";
+``` 
+
+
+```solidity
+File:LimitOrderQuoter.sol 
+5:import "./interfaces/ILimitOrderQuoter.sol";
+``` 
+
+
+```solidity
+File:CafeSwapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:CafeSwapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:CafeSwapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:PancakeV3Callback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:BiswapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:BiswapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:BiswapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:ILimitOrderSwapRouter.sol 
+3:import "../LimitOrderSwapRouter.sol";
+``` 
+
+
+```solidity
+File:VerseCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:VerseCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:VerseCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:UniFiCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:UniFiCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:UniFiCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:DeployBSCAggregator.s.sol 
+6:import "../../test/utils/Console.sol";
+``` 
+
+
+```solidity
+File:ConveyorFeeMath.sol 
+3:import "./ConveyorMath.sol";
+``` 
+
+
+```solidity
+File:ConveyorFeeMath.sol 
+4:import "../../lib/libraries/QuadruplePrecision.sol";
+``` 
+
+
+```solidity
+File:DXSwapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:DXSwapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:DXSwapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:DeployTest.s.sol 
+6:import "../../test/utils/Console.sol";
+``` 
+
+
+```solidity
+File:ConvergenceXCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:ConvergenceXCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:ConvergenceXCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
 File:SandboxLimitOrderRouter.sol 
 3:import "../lib/interfaces/token/IERC20.sol";
 ``` 
@@ -8908,6 +8576,78 @@ File:SandboxLimitOrderRouter.sol
 
 
 ```solidity
+File:LinkSwapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:LinkSwapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:LinkSwapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+3:import "./ConveyorErrors.sol";
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+4:import "../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+5:import "./interfaces/ILimitOrderBook.sol";
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+6:import "./interfaces/ILimitOrderSwapRouter.sol";
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+7:import "./LimitOrderSwapRouter.sol";
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+8:import "./lib/ConveyorMath.sol";
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+9:import "./interfaces/IConveyorExecutor.sol";
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+10:import "./SandboxLimitOrderRouter.sol";
+``` 
+
+
+```solidity
+File:IConveyorRouterV1.sol 
+3:import "../ConveyorRouterV1.sol";
+``` 
+
+
+```solidity
 File:SakeSwapCallback.sol 
 3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
@@ -8926,26 +8666,284 @@ File:SakeSwapCallback.sol
 
 
 ```solidity
-File:DeployBSCAggregator.s.sol 
-6:import "../../test/utils/Console.sol";
+File:ConveyorRouterV1.sol 
+3:import "./ConveyorErrors.sol";
 ``` 
 
 
 ```solidity
-File:PancakeV2Callback.sol 
+File:ConveyorRouterV1.sol 
+9:import "../test/utils/Console.sol";
+``` 
+
+
+```solidity
+File:IConveyorExecutor.sol 
+3:import "../LimitOrderBook.sol";
+``` 
+
+
+```solidity
+File:IConveyorExecutor.sol 
+4:import "../SandboxLimitOrderBook.sol";
+``` 
+
+
+```solidity
+File:IConveyorExecutor.sol 
+5:import "../SandboxLimitOrderRouter.sol";
+``` 
+
+
+```solidity
+File:DystopiaCallback.sol 
 3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
 
 
 ```solidity
-File:PancakeV2Callback.sol 
+File:DystopiaCallback.sol 
 4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
 ``` 
 
 
 ```solidity
-File:PancakeV2Callback.sol 
+File:DystopiaCallback.sol 
 5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:BabySwapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:BabySwapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:BabySwapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:DefiSwapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:DefiSwapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:DefiSwapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+3:import "./LimitOrderSwapRouter.sol";
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+4:import "./interfaces/ILimitOrderQuoter.sol";
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+5:import "./lib/ConveyorFeeMath.sol";
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+6:import "./LimitOrderRouter.sol";
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+7:import "./interfaces/ILimitOrderSwapRouter.sol";
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+8:import "./interfaces/ISandboxLimitOrderRouter.sol";
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+9:import "./interfaces/ISandboxLimitOrderBook.sol";
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+10:import "./interfaces/ILimitOrderBook.sol";
+``` 
+
+
+```solidity
+File:ConveyorExecutor.sol 
+11:import "./interfaces/IConveyorExecutor.sol";
+``` 
+
+
+```solidity
+File:ISandboxLimitOrderRouter.sol 
+3:import "../SandboxLimitOrderRouter.sol";
+``` 
+
+
+```solidity
+File:ApeSwapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:ApeSwapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:ApeSwapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:ISandboxLimitOrderBook.sol 
+3:import "../SandboxLimitOrderRouter.sol";
+``` 
+
+
+```solidity
+File:ISandboxLimitOrderBook.sol 
+4:import "../SandboxLimitOrderBook.sol";
+``` 
+
+
+```solidity
+File:MeerkatCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:MeerkatCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:MeerkatCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:NomiswapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:NomiswapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:NomiswapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:ConveyorMath.sol 
+3:import "../../lib/libraries/Uniswap/FullMath.sol";
+``` 
+
+
+```solidity
+File:MdexSwapCallback.sol 
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:MdexSwapCallback.sol 
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+```solidity
+File:MdexSwapCallback.sol 
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+3:import "../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+4:import "./LimitOrderBook.sol";
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+5:import "./ConveyorErrors.sol";
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+6:import "../lib/interfaces/token/IWETH.sol";
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+7:import "./LimitOrderSwapRouter.sol";
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+8:import "./interfaces/ILimitOrderQuoter.sol";
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+9:import "./interfaces/IConveyorExecutor.sol";
+``` 
+
+
+```solidity
+File:LimitOrderRouter.sol 
+10:import "./interfaces/ILimitOrderRouter.sol";
 ``` 
 
  
@@ -8957,6 +8955,12 @@ File:PancakeV2Callback.sol
  <h3> Constants & Immutables should be named with screaming snake case - Instances: 6 </h3> 
  </summary>
  Consider renaming to follow convention 
+```solidity
+File:ConveyorTickMath.sol 
+27:    uint128 private constant MAX_64x64 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+``` 
+
+
 ```solidity
 File:LimitOrderSwapRouter.sol 
 100:    uint128 private constant MIN_FEE_64x64 = 18446744073709552;
@@ -8986,12 +8990,6 @@ File:ConveyorMath.sol
 15:    uint256 private constant MAX_128x128 = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
 ``` 
 
-
-```solidity
-File:ConveyorTickMath.sol 
-27:    uint128 private constant MAX_64x64 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
-``` 
-
  
  </details>
 
@@ -9002,26 +9000,26 @@ File:ConveyorTickMath.sol
  </summary>
  For example 100000 can be written as 1e5 
 ```solidity
-File:SandboxLimitOrderBook.sol 
-32:    uint256 private constant REFRESH_INTERVAL = 2592000;
+File:ConveyorFeeMath.sol 
+8:    uint128 constant ZERO_POINT_ZERO_ZERO_FIVE = 92233720368547760;
 ``` 
 
 
 ```solidity
-File:SandboxLimitOrderBook.sol 
-38:    uint256 private constant REFRESH_FEE = 20000000000000000;
+File:ConveyorFeeMath.sol 
+9:    uint128 constant ZERO_POINT_ZERO_ZERO_ONE = 18446744073709550;
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-27:    uint128 private constant AFFILIATE_PERCENT = 5534023222112865000;
+File:ConveyorFeeMath.sol 
+10:    uint128 constant MAX_CONVEYOR_PERCENT = 110680464442257300 * 10 ** 2;
 ``` 
 
 
 ```solidity
-File:ConveyorRouterV1.sol 
-28:    uint128 private constant REFERRAL_PERCENT = 5534023222112865000;
+File:ConveyorFeeMath.sol 
+11:    uint128 constant MIN_CONVEYOR_PERCENT = 7378697629483821000;
 ``` 
 
 
@@ -9044,26 +9042,14 @@ File:LimitOrderRouter.sol
 
 
 ```solidity
-File:ConveyorFeeMath.sol 
-8:    uint128 constant ZERO_POINT_ZERO_ZERO_FIVE = 92233720368547760;
+File:ConveyorRouterV1.sol 
+27:    uint128 private constant AFFILIATE_PERCENT = 5534023222112865000;
 ``` 
 
 
 ```solidity
-File:ConveyorFeeMath.sol 
-9:    uint128 constant ZERO_POINT_ZERO_ZERO_ONE = 18446744073709550;
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-10:    uint128 constant MAX_CONVEYOR_PERCENT = 110680464442257300 * 10 ** 2;
-``` 
-
-
-```solidity
-File:ConveyorFeeMath.sol 
-11:    uint128 constant MIN_CONVEYOR_PERCENT = 7378697629483821000;
+File:ConveyorRouterV1.sol 
+28:    uint128 private constant REFERRAL_PERCENT = 5534023222112865000;
 ``` 
 
 
@@ -9102,6 +9088,18 @@ File:LimitOrderSwapRouter.sol
 110:    uint128 private constant ZERO_POINT_ZERO_ZERO_ONE = 18446744073709550;
 ``` 
 
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+32:    uint256 private constant REFRESH_INTERVAL = 2592000;
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+38:    uint256 private constant REFRESH_FEE = 20000000000000000;
+``` 
+
  
  </details>
 
@@ -9112,20 +9110,26 @@ File:LimitOrderSwapRouter.sol
  </summary>
   
 ```solidity
-File:ConveyorMath.sol 
-182:    function div64x64(uint128 x, uint128 y) internal pure returns (uint128) {
+File:ConveyorTickMath.sol 
+102:    function simulateAmountOutOnSqrtPriceX96(
+103:        address token0,
+104:        address tokenIn,
+105:        address pool,
+106:        uint256 amountIn,
+107:        int24 tickSpacing,
+108:        uint128 liquidity,
+109:        uint24 fee
+110:    ) internal view returns (uint128 amountOut, uint160 sqrtPriceX96) {
 ``` 
 
 
 ```solidity
-File:ConveyorMath.sol 
-95:    function add128x128(uint256 x, uint256 y) internal pure returns (uint256) {
-``` 
-
-
-```solidity
-File:ConveyorMath.sol 
-105:    function add128x64(uint256 x, uint128 y) internal pure returns (uint256) {
+File:ConveyorTickMath.sol 
+68:    function fromSqrtX96(uint160 sqrtPriceX96, bool token0IsReserve0, address token0, address token1)
+69:        internal
+70:        view
+71:        returns (uint256 priceX128)
+72:    {
 ``` 
 
 
@@ -9137,13 +9141,7 @@ File:ConveyorMath.sol
 
 ```solidity
 File:ConveyorMath.sol 
-517:    function sqrtu(uint256 x) internal pure returns (uint128) {
-``` 
-
-
-```solidity
-File:ConveyorMath.sol 
-287:    function fromX64ToX16(uint128 x) internal pure returns (uint32) {
+197:    function div128x128(uint256 x, uint256 y) internal pure returns (uint256) {
 ``` 
 
 
@@ -9155,13 +9153,7 @@ File:ConveyorMath.sol
 
 ```solidity
 File:ConveyorMath.sol 
-50:    function from128x128(uint256 x) internal pure returns (uint128) {
-``` 
-
-
-```solidity
-File:ConveyorMath.sol 
-197:    function div128x128(uint256 x, uint256 y) internal pure returns (uint256) {
+39:    function fromUInt128(uint128 x) internal pure returns (uint256) {
 ``` 
 
 
@@ -9173,13 +9165,25 @@ File:ConveyorMath.sol
 
 ```solidity
 File:ConveyorMath.sol 
-61:    function to128x128(uint128 x) internal pure returns (uint256) {
+517:    function sqrtu(uint256 x) internal pure returns (uint128) {
 ``` 
 
 
 ```solidity
 File:ConveyorMath.sol 
-83:    function sub(int128 x, int128 y) internal pure returns (int128) {
+30:    function toUInt64(uint128 x) internal pure returns (uint64) {
+``` 
+
+
+```solidity
+File:ConveyorMath.sol 
+95:    function add128x128(uint256 x, uint256 y) internal pure returns (uint256) {
+``` 
+
+
+```solidity
+File:ConveyorMath.sol 
+140:    function mul64U(uint128 x, uint256 y) internal pure returns (uint256) {
 ``` 
 
 
@@ -9197,7 +9201,19 @@ File:ConveyorMath.sol
 
 ```solidity
 File:ConveyorMath.sol 
-140:    function mul64U(uint128 x, uint256 y) internal pure returns (uint256) {
+50:    function from128x128(uint256 x) internal pure returns (uint128) {
+``` 
+
+
+```solidity
+File:ConveyorMath.sol 
+287:    function fromX64ToX16(uint128 x) internal pure returns (uint32) {
+``` 
+
+
+```solidity
+File:ConveyorMath.sol 
+105:    function add128x64(uint256 x, uint128 y) internal pure returns (uint256) {
 ``` 
 
 
@@ -9209,7 +9225,7 @@ File:ConveyorMath.sol
 
 ```solidity
 File:ConveyorMath.sol 
-30:    function toUInt64(uint128 x) internal pure returns (uint64) {
+20:    function fromUInt256(uint256 x) internal pure returns (uint128) {
 ``` 
 
 
@@ -9221,25 +9237,19 @@ File:ConveyorMath.sol
 
 ```solidity
 File:ConveyorMath.sol 
-20:    function fromUInt256(uint256 x) internal pure returns (uint128) {
+83:    function sub(int128 x, int128 y) internal pure returns (int128) {
 ``` 
 
 
 ```solidity
 File:ConveyorMath.sol 
-39:    function fromUInt128(uint128 x) internal pure returns (uint256) {
+61:    function to128x128(uint128 x) internal pure returns (uint256) {
 ``` 
 
 
 ```solidity
-File:LimitOrderBook.sol 
-495:    function _removeOrderFromSystem(bytes32 orderId) internal {
-``` 
-
-
-```solidity
-File:LimitOrderBook.sol 
-510:    function _resolveCompletedOrder(bytes32 orderId) internal {
+File:ConveyorMath.sol 
+182:    function div64x64(uint128 x, uint128 y) internal pure returns (uint128) {
 ``` 
 
 
@@ -9281,26 +9291,14 @@ File:LimitOrderSwapRouter.sol
 
 
 ```solidity
-File:ConveyorTickMath.sol 
-68:    function fromSqrtX96(uint160 sqrtPriceX96, bool token0IsReserve0, address token0, address token1)
-69:        internal
-70:        view
-71:        returns (uint256 priceX128)
-72:    {
+File:LimitOrderBook.sol 
+510:    function _resolveCompletedOrder(bytes32 orderId) internal {
 ``` 
 
 
 ```solidity
-File:ConveyorTickMath.sol 
-102:    function simulateAmountOutOnSqrtPriceX96(
-103:        address token0,
-104:        address tokenIn,
-105:        address pool,
-106:        uint256 amountIn,
-107:        int24 tickSpacing,
-108:        uint128 liquidity,
-109:        uint24 fee
-110:    ) internal view returns (uint128 amountOut, uint160 sqrtPriceX96) {
+File:LimitOrderBook.sol 
+495:    function _removeOrderFromSystem(bytes32 orderId) internal {
 ``` 
 
  
@@ -9326,45 +9324,6 @@ File:ConveyorRouterV1.sol
  <h3> Remove any unused returns - Instances: 11 </h3> 
  </summary>
   
-```solidity
-File:ConveyorRouterV1.sol 
-261:    function quoteSwapExactTokenForToken(
-262:        TokenToTokenSwapData calldata swapData,
-263:        SwapAggregatorMulticall calldata swapAggregatorMulticall
-264:    ) external payable returns (uint256 gasConsumed) {
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-277:    function quoteSwapExactEthForToken(
-278:        EthToTokenSwapData calldata swapData,
-279:        SwapAggregatorMulticall calldata swapAggregatorMulticall
-280:    ) external payable returns (uint256 gasConsumed) {
-``` 
-
-
-```solidity
-File:ConveyorRouterV1.sol 
-293:    function quoteSwapExactTokenForEth(
-294:        TokenToEthSwapData calldata swapData,
-295:        SwapAggregatorMulticall calldata swapAggregatorMulticall
-296:    ) external payable returns (uint256 gasConsumed) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-559:    function validateAndCancelOrder(bytes32 orderId) external nonReentrant returns (bool success) {
-``` 
-
-
-```solidity
-File:SandboxLimitOrderBook.sol 
-1177:    function getTotalOrdersValue(address token) public view returns (uint256 totalOrderValue) {
-``` 
-
-
 ```solidity
 File:LimitOrderSwapRouter.sol 
 320:    function _swapV3(
@@ -9403,6 +9362,45 @@ File:LimitOrderSwapRouter.sol
 ```solidity
 File:LimitOrderBook.sol 
 536:    function getTotalOrdersValue(address token) public view returns (uint256 totalOrderValue) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+559:    function validateAndCancelOrder(bytes32 orderId) external nonReentrant returns (bool success) {
+``` 
+
+
+```solidity
+File:SandboxLimitOrderBook.sol 
+1177:    function getTotalOrdersValue(address token) public view returns (uint256 totalOrderValue) {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+261:    function quoteSwapExactTokenForToken(
+262:        TokenToTokenSwapData calldata swapData,
+263:        SwapAggregatorMulticall calldata swapAggregatorMulticall
+264:    ) external payable returns (uint256 gasConsumed) {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+277:    function quoteSwapExactEthForToken(
+278:        EthToTokenSwapData calldata swapData,
+279:        SwapAggregatorMulticall calldata swapAggregatorMulticall
+280:    ) external payable returns (uint256 gasConsumed) {
+``` 
+
+
+```solidity
+File:ConveyorRouterV1.sol 
+293:    function quoteSwapExactTokenForEth(
+294:        TokenToEthSwapData calldata swapData,
+295:        SwapAggregatorMulticall calldata swapAggregatorMulticall
+296:    ) external payable returns (uint256 gasConsumed) {
 ``` 
 
 
