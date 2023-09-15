@@ -1,4 +1,4 @@
-use solang_parser::pt::{*, self};
+use solang_parser::pt::{self, *};
 
 /// Macro to implmement expression visitor methods
 macro_rules! visit_exprs {

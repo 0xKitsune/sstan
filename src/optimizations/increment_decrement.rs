@@ -17,12 +17,12 @@ impl OptimizationPattern for IncrementDecrement {
             //Get all increment/decrement expressions in unchecked blocks so that the analyzer does not mark these as optimization targets
             let block_nodes = BlockExtractor::extract(source_unit)?;
             let mut unchecked_locations: HashSet<Loc> = HashSet::new();
-            for node in block_nodes {
+            for statement in block_nodes {
                 if let pt::Statement::Block {
                     loc: _,
                     unchecked,
                     mut statements,
-                } = node
+                } = statement
                 {
                     if unchecked {
                         for statement in statements.iter_mut() {
@@ -38,7 +38,7 @@ impl OptimizationPattern for IncrementDecrement {
 
             for node in nodes {
                 if !unchecked_locations.contains(&node.0) {
-                    outcome.push_or_insert(path_buf.clone(), node.1.loc(), node.1.to_string());
+                    outcome.push_or_insert(path_buf.clone(), node.0, node.1.to_string());
                 }
             }
         }

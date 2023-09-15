@@ -78,15 +78,15 @@ impl Engine {
     pub fn run(&mut self) -> Result<(), EngineError> {
         //Run the vulnerability module
         if !self.vulnerabilities.targets.is_empty() {
-            self.vulnerabilities.outcomes=self.vulnerabilities.run(&mut self.source)?;
+            self.vulnerabilities.outcomes = self.vulnerabilities.run(&mut self.source)?;
         }
         //Run the optimization module
         if !self.optimizations.targets.is_empty() {
-            self.optimizations.outcomes =self.optimizations.run(&mut self.source)?;
+            self.optimizations.outcomes = self.optimizations.run(&mut self.source)?;
         }
         //Run the QA module
         if !self.qa.targets.is_empty() {
-            self.qa.outcomes=self.qa.run(&mut self.source)?;
+            self.qa.outcomes = self.qa.run(&mut self.source)?;
         }
         Ok(())
     }

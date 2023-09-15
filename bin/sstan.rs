@@ -3,7 +3,7 @@
 // use sstan::report;
 // use std::{fs, process};
 
-use std::{fs, process, io::Write, path::PathBuf, collections::HashMap};
+use std::{collections::HashMap, fs, io::Write, path::PathBuf, process};
 
 use clap::Parser;
 use solang_parser::pt::SourceUnit;
@@ -11,7 +11,8 @@ use sstan::{
     engine::Engine,
     optimizations::{self, OptimizationTarget},
     qa::{self, QualityAssuranceTarget},
-    vulnerabilities::VulnerabilityTarget, report::Report,
+    report::Report,
+    vulnerabilities::VulnerabilityTarget,
 };
 
 pub const DEFAULT_PATH: &str = "./src";
@@ -87,7 +88,7 @@ impl Opts {
 
         let (optimizations, vulnerabilities, qa) = if let Some(toml_path) = args.toml {
             // let toml_str =
-                // fs::read_to_string(toml_path).expect("Could not read toml file to string");
+            // fs::read_to_string(toml_path).expect("Could not read toml file to string");
 
             // let sstan_toml: SstanToml =
             //     toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");

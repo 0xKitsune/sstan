@@ -118,6 +118,7 @@ macro_rules! vulnerability {
                                             file_name.to_string(),
                                             (start_line, end_line),
                                             snippet.to_string(),
+                                            path.clone(),
                                         ));
 
                                 }else{

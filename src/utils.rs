@@ -4,8 +4,8 @@ use solang_parser::pt::{self, ContractPart, Loc, SourceUnit};
 use std::collections::HashMap;
 
 use std::fs::{self, File};
-use std::io::Write;
-use std::path::PathBuf;
+use std::io::{self, BufRead, Write};
+use std::path::{Path, PathBuf};
 
 pub type LineNumber = i32;
 pub type Outcome = (PathBuf, Loc);
@@ -28,9 +28,7 @@ pub fn extract_source(path: &str, source: &mut HashMap<PathBuf, SourceUnit>) -> 
 
             if file_name.ends_with(".sol") && !file_name.to_lowercase().contains(".t.sol") {
                 let file_contents = fs::read_to_string(&path).expect("Unable to read file");
-                let source_unit = solang_parser::parse(&file_contents, counter)
-                    .unwrap()
-                    .0;
+                let source_unit = solang_parser::parse(&file_contents, counter).unwrap().0;
                 source.insert(path, source_unit);
                 counter += 1;
             }
@@ -108,6 +106,13 @@ pub fn storage_slots_used(variables: Vec<u16>) -> u32 {
     slots_used
 }
 
+pub fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+where
+    P: AsRef<Path>,
+{
+    let file = File::open(filename)?;
+    Ok(io::BufReader::new(file).lines())
+}
 //TODO: move this to a compound extractor
 pub fn get_32_byte_storage_variables(
     source_unit: &mut pt::SourceUnit,

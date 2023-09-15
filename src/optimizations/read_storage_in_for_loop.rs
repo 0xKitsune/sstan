@@ -1,9 +1,11 @@
+use core::fmt;
 use std::{
     collections::{HashMap, HashSet},
+    fmt::Display,
     path::PathBuf,
 };
 
-use solang_parser::pt::{CodeLocation, Expression, SourceUnit};
+use solang_parser::pt::{CodeLocation, Expression, SourceUnit, Statement};
 
 use crate::extractors::{
     compound::MutableStorageVariableExtractor,
@@ -37,8 +39,8 @@ impl OptimizationPattern for ReadStorageInForLoop {
                             if variable_names.contains(&identifier.name) {
                                 outcome.push_or_insert(
                                     path_buf.clone(),
-                                    for_loop.loc(),
-                                    for_loop.to_string(),
+                                    for_loop.loc().clone(),
+                                    format!("{}", for_loop),
                                 )
                             }
                         }

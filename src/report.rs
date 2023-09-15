@@ -1,8 +1,14 @@
-use std::{path::PathBuf, ops::Deref};
+use std::{ops::Deref, path::PathBuf};
 
 use toml::value::Date;
 
-use crate::{engine::{Engine, OptimizationModule, QualityAssuranceModule, VulnerabilityModule}, qa::QualityAssuranceOutcome, optimizations::OptimizationOutcome, vulnerabilities::VulnerabilityOutcome};
+use crate::{
+    engine::{Engine, OptimizationModule, QualityAssuranceModule, Snippet, VulnerabilityModule},
+    optimizations::OptimizationOutcome,
+    qa::QualityAssuranceOutcome,
+    utils::read_lines,
+    vulnerabilities::VulnerabilityOutcome,
+};
 #[derive(Default, Clone)]
 pub struct ReportOutput {
     pub file_name: PathBuf,
@@ -93,9 +99,7 @@ pub struct TableOfContents {
 
 impl TableOfContents {
     pub fn new(table_sections: Vec<TableSection>) -> Self {
-        Self {
-            table_sections,
-        }
+        Self { table_sections }
     }
 }
 
@@ -228,16 +232,41 @@ pub struct OutcomeReport {
     pub file_name: String,
     pub line_numbers: (usize, usize), //if the same line number then we just compile report as one number
     pub snippet: String,
-    //TODO: whatever else that we want
+    pub file_path: PathBuf,
 }
 
 impl OutcomeReport {
-    pub fn new(file_name: String, line_numbers: (usize, usize), snippet: String) -> Self {
+    pub fn new(
+        file_name: String,
+        line_numbers: (usize, usize),
+        snippet: String,
+        file_path: PathBuf,
+    ) -> Self {
         Self {
             file_name,
             line_numbers,
             snippet,
+            file_path,
         }
+    }
+}
+
+impl From<&OutcomeReport> for String {
+    fn from(outcome: &OutcomeReport) -> String {
+        let mut snippet = String::new();
+        snippet.push_str(&format!("```solidity\nFile:{} \n", outcome.file_name));
+        if let Ok(lines) = read_lines(outcome.file_path.as_path()) {
+            for (i, line) in lines.enumerate() {
+                if let Ok(l) = line {
+                    if i + 1 >= outcome.line_numbers.0 && i + 1 <= outcome.line_numbers.1 {
+                        snippet.push_str(&format!("{}:{}\n", i, l));
+                    }
+                }
+            }
+        }
+        snippet.push_str(&format!("``` \n\n"));
+
+        snippet
     }
 }
 
@@ -329,8 +358,11 @@ impl From<ReportSection> for String {
             value.title,
             value.outcomes.len()
         ));
-        fragment.push_str(&format!(" \n {} 
-\n", value.description));
+        fragment.push_str(&format!(
+            " \n {} 
+\n",
+            value.description
+        ));
 
         fragment.push_str(
             &value
@@ -350,9 +382,10 @@ impl From<ReportSection> for String {
 impl From<&ReportSection> for TableSection {
     fn from(value: &ReportSection) -> Self {
         TableSection {
-            title: format!("<h3>{}</h3>",value.title.clone()),
+            title: format!("<h3>{}</h3>", value.title.clone()),
             subsections: value
-                .outcomes.clone()
+                .outcomes
+                .clone()
                 .into_iter()
                 .map(|outcome| TableFragment::from(&outcome))
                 .collect::<Vec<TableFragment>>(),
@@ -456,7 +489,10 @@ impl From<&TableFragment> for String {
                 identifier.classification.identifier(),
                 identifier.nonce
             );
-            fragment.push_str(&format!("\n | [{}](#{}) | <Strong>{}</Strong> - Instances: {} |",identifier,identifier,value.title,value.instances));
+            fragment.push_str(&format!(
+                "\n | [{}](#{}) | <Strong>{}</Strong> - Instances: {} |",
+                identifier, identifier, value.title, value.instances
+            ));
         } else {
             fragment.push_str(&format!(
                 "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
@@ -464,17 +500,5 @@ impl From<&TableFragment> for String {
             ));
         }
         fragment
-    }
-}
-
-impl From<&OutcomeReport> for String {
-    fn from(outcome_report: &OutcomeReport) -> String {
-        format!(
-            "\n <span style=\"color: green;\">File: </span> {} {}-{} \n ```solidity \n {} \n ```",
-            outcome_report.file_name,
-            outcome_report.line_numbers.0,
-            outcome_report.line_numbers.1,
-            outcome_report.snippet
-        )
     }
 }
