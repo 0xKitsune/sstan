@@ -1,27 +1,40 @@
-use report::generation::generate_report;
-use sstan::analyzer;
-use sstan::report;
-use std::{fs, process};
+// use report::generation::generate_report;
+// use sstan::analyzer;
+// use sstan::report;
+// use std::{fs, process};
 
-use crate::analyzer::{optimizations, vulnerabilities};
-use crate::analyzer::{
-    optimizations::{str_to_optimization, Optimization},
-    qa::{self, str_to_qa, QualityAssurance},
-    vulnerabilities::{str_to_vulnerability, Vulnerability},
-};
+use std::{collections::HashMap, fs, io::Write, path::PathBuf, process};
+
 use clap::Parser;
+use solang_parser::pt::SourceUnit;
+use sstan::{
+    engine::Engine,
+    optimizations::{self, OptimizationTarget},
+    qa::{self, QualityAssuranceTarget},
+    report::Report,
+    vulnerabilities::VulnerabilityTarget,
+};
+
+pub const DEFAULT_PATH: &str = "./src";
 
 #[macro_use]
 extern crate colour;
-
 fn main() -> eyre::Result<()> {
     let opts = Opts::new();
 
-    let vulnerabilities = vulnerabilities::analyze_dir(&opts.path, opts.vulnerabilities)?;
-    let optimizations = optimizations::analyze_dir(&opts.path, opts.optimizations)?;
-    let qa = qa::analyze_dir(&opts.path, opts.qa)?;
+    let mut engine = Engine::new(
+        &opts.path,
+        opts.vulnerabilities,
+        opts.optimizations,
+        opts.qa,
+    );
+    //Populate the modules
+    engine.run()?;
+    //Generate the report struct
+    let report = Report::from(engine);
+    //Generate the report string & write to the output path.
+    std::fs::File::create("sstan.md")?.write_all(String::from(report).as_bytes())?;
 
-    generate_report(vulnerabilities, optimizations, qa);
     Ok(())
 }
 
@@ -38,7 +51,12 @@ pub struct Args {
         help = "Path to the directory containing the files sstan will analyze. The default directory is `./src`"
     )]
     pub path: Option<String>,
-
+    #[clap(
+        short,
+        long,
+        help = "Path to the directory to write the report to. The default directory is `./`"
+    )]
+    pub output: Option<String>,
     #[clap(
         short,
         long,
@@ -50,9 +68,10 @@ pub struct Args {
 #[derive(Default)]
 pub struct Opts {
     pub path: String,
-    pub optimizations: Vec<Optimization>,
-    pub vulnerabilities: Vec<Vulnerability>,
-    pub qa: Vec<QualityAssurance>,
+    pub output: String,
+    vulnerabilities: Vec<VulnerabilityTarget>,
+    optimizations: Vec<OptimizationTarget>,
+    qa: Vec<QualityAssuranceTarget>,
 }
 
 #[derive(serde::Deserialize, Debug)]
@@ -63,42 +82,51 @@ pub struct SstanToml {
     pub qa: Vec<String>,
 }
 
-pub const DEFAULT_PATH: &str = "./src";
-
 impl Opts {
     pub fn new() -> Opts {
         let args = Args::parse();
 
         let (optimizations, vulnerabilities, qa) = if let Some(toml_path) = args.toml {
-            let toml_str =
-                fs::read_to_string(toml_path).expect("Could not read toml file to string");
+            // let toml_str =
+            // fs::read_to_string(toml_path).expect("Could not read toml file to string");
 
-            let sstan_toml: SstanToml =
-                toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
+            // let sstan_toml: SstanToml =
+            //     toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
+            // (
+            //     sstan_toml
+            //         .optimizations
+            //         .iter()
+            //         .map(|f| str_to_optimization(f))
+            //         .collect::<Vec<OptimizationTarget>>(),
+            //     sstan_toml
+            //         .vulnerabilities
+            //         .iter()
+            //         .map(|f| str_to_vulnerability(f))
+            //         .collect::<Vec<VulnerabilityTarget>>(),
+            //     sstan_toml
+            //         .vulnerabilities
+            //         .iter()
+            //         .map(|f| str_to_qa(f))
+            //         .collect::<Vec<QualityAssuranceTarget>>(),
+            // )
 
             (
-                sstan_toml
-                    .optimizations
-                    .iter()
-                    .map(|f| str_to_optimization(f))
-                    .collect::<Vec<Optimization>>(),
-                sstan_toml
-                    .vulnerabilities
-                    .iter()
-                    .map(|f| str_to_vulnerability(f))
-                    .collect::<Vec<Vulnerability>>(),
-                sstan_toml
-                    .vulnerabilities
-                    .iter()
-                    .map(|f| str_to_qa(f))
-                    .collect::<Vec<QualityAssurance>>(),
+                OptimizationTarget::all_targets(),
+                VulnerabilityTarget::all_targets(),
+                QualityAssuranceTarget::all_targets(),
             )
         } else {
             (
-                optimizations::get_all_optimizations(),
-                vulnerabilities::get_all_vulnerabilities(),
-                qa::get_all_qa(),
+                OptimizationTarget::all_targets(),
+                VulnerabilityTarget::all_targets(),
+                QualityAssuranceTarget::all_targets(),
             )
+        };
+
+        let output = if let Some(output) = args.output {
+            output
+        } else {
+            "".into()
         };
 
         let path = if let Some(path) = args.path {
@@ -109,7 +137,7 @@ impl Opts {
 
                 Err(_) => {
                     yellow!(
-                        "Error when reading the target contracts directory. 
+                        "Error when reading the target contracts directory.
 If the `--path` flag is not passed, sstan will look for `./src` by default.
 To fix this, either add a `./contracts` directory or provide `--path <path_to_contracts_dir>\n"
                     );
@@ -121,6 +149,7 @@ To fix this, either add a `./contracts` directory or provide `--path <path_to_co
 
         Opts {
             path,
+            output,
             optimizations,
             vulnerabilities,
             qa,

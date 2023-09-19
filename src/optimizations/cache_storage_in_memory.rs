@@ -1,0 +1,112 @@
+use std::{
+    collections::{HashMap, HashSet},
+    path::PathBuf,
+};
+
+use solang_parser::pt::{CodeLocation, Expression, SourceUnit};
+
+use crate::{
+    engine::{EngineError, Outcome, Pushable},
+    extractors::{
+        compound::MutableStorageVariableExtractor,
+        primitive::{ContractDefinitionExtractor, FunctionExtractor, VariableExtractor},
+        Extractor,
+    },
+};
+
+use super::{CacheStorageInMemory, OptimizationOutcome, OptimizationPattern};
+
+impl OptimizationPattern for CacheStorageInMemory {
+    fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
+        let mut outcome = Outcome::new();
+        for (path_buf, source_unit) in source {
+            let mut contracts = ContractDefinitionExtractor::extract(source_unit)?;
+            for contract in contracts.iter_mut() {
+                let storage_variables = MutableStorageVariableExtractor::extract(contract)?;
+                //Create a hashset of the names of the storage variables
+                let mut storage_variable_names = HashSet::new();
+                for storage_variable in storage_variables {
+                    if let Some(identifier) = storage_variable.name {
+                        storage_variable_names.insert(identifier.name);
+                    }
+                }
+                //Get all functions in the contract
+                let mut functions = FunctionExtractor::extract(contract)?;
+                //Iterate through the functions
+                for function in functions.iter_mut() {
+                    let mut num_storage_references: HashMap<String, u32> = HashMap::new();
+                    let all_variables = VariableExtractor::extract(function)?;
+                    for var in all_variables {
+                        if let Expression::Variable(identifier) = var.clone() {
+                            if storage_variable_names.contains(&identifier.name) {
+                                let current_count = if let Some(count) =
+                                    num_storage_references.get(&identifier.name)
+                                {
+                                    *count
+                                } else {
+                                    0
+                                };
+                                num_storage_references.insert(identifier.name, current_count + 1);
+                                if current_count + 1 > 1 {
+                                    outcome.push_or_insert(
+                                        path_buf.clone(),
+                                        var.loc(),
+                                        var.to_string(),
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Ok(OptimizationOutcome::CacheStorageInMemory(outcome))
+    }
+}
+mod test {
+
+    use std::{fs::File, io::Write};
+
+    use crate::{
+        optimizations::{CacheStorageInMemory, OptimizationPattern},
+        report::ReportSectionFragment,
+        utils::MockSource,
+    };
+
+    #[test]
+    fn test_public_function_optimization() -> eyre::Result<()> {
+        let file_contents = r#"
+
+    contract Contract0 {
+        uint x;
+        uint y;
+        function shouldCacheInMemory() public {
+            uint z = y;
+            uint e = y;
+        }
+        function shouldCacheInMemory() public {
+            uint z = x;
+            uint e = x;
+        }
+        function isCachingInMemory() public {
+            uint z = x;
+            uint a = z;
+        }
+
+    }
+    "#;
+
+        let mut source = MockSource::new().add_source("cache_storage_in_memory.sol", file_contents);
+        let optimization_locations = CacheStorageInMemory::find(&mut source.source)?;
+
+        assert_eq!(optimization_locations.len(), 2);
+        let report: Option<ReportSectionFragment> = optimization_locations.into();
+        if let Some(report) = report {
+            let mut f = File::options()
+                .append(true)
+                .open("mocks/optimization_report_sections.md")?;
+            writeln!(&mut f, "{}", &String::from(report))?;
+        }
+        Ok(())
+    }
+}
