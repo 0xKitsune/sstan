@@ -28,6 +28,7 @@ fn main() -> eyre::Result<()> {
         opts.optimizations,
         opts.qa,
     );
+
     //Populate the modules
     engine.run()?;
     //Generate the report struct
