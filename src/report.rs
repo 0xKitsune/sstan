@@ -122,7 +122,7 @@ pub struct TableSection {
 impl From<&TableSection> for String {
     fn from(section: &TableSection) -> Self {
         format!(
-            "# {} \n\n | Classification | Title | \n |-------|---------| {}",
+            "# {} \n\n | Classification | Title | Instances | \n |:-------:|:---------:|:-------:| {}",
             section.title,
             section
                 .subsections
@@ -490,7 +490,7 @@ impl From<&TableFragment> for String {
                 identifier.nonce
             );
             fragment.push_str(&format!(
-                "\n | [{}](#{}) | <Strong>{}</Strong> - Instances: {} |",
+                "\n | [{}](#{}) | <Strong>{}</Strong> | {} |",
                 identifier, identifier, value.title, value.instances
             ));
         } else {
