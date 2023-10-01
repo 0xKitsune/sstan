@@ -1,4 +1,4 @@
-use std::{ops::Deref, path::PathBuf};
+use std::{ops::Deref, path::PathBuf, os::unix::raw::gid_t};
 
 use toml::value::Date;
 
@@ -18,6 +18,7 @@ pub struct ReportOutput {
 
 pub struct Report {
     pub preamble: ReportPreamble,
+    pub git_url: Option<String>,
     pub description: String,
     pub summary: ReportSummary, //this is a struct that would define the charts/data visualizations
     pub table_of_contents: TableOfContents,
@@ -30,6 +31,7 @@ impl Default for Report {
     fn default() -> Self {
         Self {
             preamble: ReportPreamble::default(),
+            git_url: None,
             description: String::default(),
             summary: ReportSummary::default(),
             table_of_contents: TableOfContents::default(),
@@ -230,6 +232,7 @@ impl Classification {
 
 pub struct OutcomeReport {
     pub file_name: String,
+    pub git_url: Option<String>,
     pub line_numbers: (usize, usize), //if the same line number then we just compile report as one number
     pub snippet: String,
     pub file_path: PathBuf,
@@ -238,12 +241,14 @@ pub struct OutcomeReport {
 impl OutcomeReport {
     pub fn new(
         file_name: String,
+        git_url: Option<String>,
         line_numbers: (usize, usize),
         snippet: String,
         file_path: PathBuf,
     ) -> Self {
         Self {
             file_name,
+            git_url,
             line_numbers,
             snippet,
             file_path,
@@ -359,8 +364,7 @@ impl From<ReportSection> for String {
             value.outcomes.len()
         ));
         fragment.push_str(&format!(
-            " \n {} 
-\n",
+            " \n {} \n",
             value.description
         ));
 

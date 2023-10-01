@@ -116,6 +116,7 @@ macro_rules! quality_assurance {
                                         let end_line = utils::get_line_number(*end, &file_contents);
                                         outcome_reports.push(OutcomeReport::new(
                                             file_name.to_string(),
+                                            None,
                                             (start_line, end_line),
                                             snippet.to_string(),
                                             path.clone(),
