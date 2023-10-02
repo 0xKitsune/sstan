@@ -172,11 +172,11 @@ pub struct ReportPreamble {
 impl Default for ReportPreamble {
     fn default() -> Self {
         Self {
-            title: format!("Sstan Report"),
+            title: format!("Sstan"),
             logo: String::default(),
             description: format!("TODO: add description"),
             date: format!("TODO: add date"),
-            version: format!("0.1.0"),
+            version: format!("v0.1.0"),
             authors: vec!["0x00face".to_string(), "0xOsiris".to_string()],
         }
     }
@@ -185,13 +185,11 @@ impl Default for ReportPreamble {
 impl From<ReportPreamble> for String {
     fn from(preamble: ReportPreamble) -> Self {
         format!(
-            "# {} \n\n ({})\n\n{}\n\n{}\n\n{}\n\n{}\n\n",
+            "# {} - {} \n\n --- \n ## Authors: {} \n --- \n {}",
             preamble.title,
-            preamble.logo,
-            preamble.description,
-            preamble.date,
             preamble.version,
             preamble.authors.join(", "),
+            preamble.description,
         )
     }
 }

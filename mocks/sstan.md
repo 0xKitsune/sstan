@@ -1,16 +1,9 @@
-# Sstan Report 
+# Sstan - v0.1.0 
 
- ()
-
-TODO: add description
-
-TODO: add date
-
-0.1.0
-
-0x00face, 0xOsiris
-
-
+ --- 
+ ## Authors: 0x00face, 0xOsiris 
+ --- 
+ TODO: add description
 
 # Summary
 
@@ -90,112 +83,7 @@ TODO: add date
 
  
 
-File:[ILimitOrderSwapRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderSwapRouter.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[DeployOptimismAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployOptimismAggregator.s.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ConveyorErrors.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorErrors.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ConveyorMath.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ISandboxLimitOrderRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderRouter.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[TraderJoeCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[JetSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/JetSwapCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[VerseCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/VerseCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
 File:[ConveyorRouterV1.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[LimitOrderBook.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[UniswapV2Callback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[NomiswapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ILimitOrderRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderRouter.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[DeployMainnetAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployMainnetAggregator.s.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[AlgebraCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ILimitOrderBook.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderBook.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
 ``` 
@@ -209,133 +97,7 @@ File:[DeployFantomAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-con
 
 
 
-File:[ConvergenceXCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[DeployTest.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployTest.s.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[PancakeV3Callback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[UniFiCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[DystopiaCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[IConveyorExecutor.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorExecutor.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[DeployBSCAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployBSCAggregator.s.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[BabyDogeCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[LinkSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[DXSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DXSwapCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ApeSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[DeployAvalancheAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployAvalancheAggregator.s.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[KyberSwapV3Callback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/KyberSwapV3Callback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ElkSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ISandboxLimitOrderBook.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderBook.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[BabySwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[OracleLibraryV2.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L2) 
+File:[MdexSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MdexSwapCallback.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
 ``` 
@@ -349,41 +111,6 @@ File:[ILimitOrderQuoter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/
 
 
 
-File:[UniswapV3Callback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV3Callback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[DeployPolygonAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployPolygonAggregator.s.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ConveyorSwapCallbacks.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConveyorSwapCallbacks.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
 File:[BiswapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
@@ -391,42 +118,14 @@ File:[BiswapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blo
 
 
 
-File:[IConveyorRouterV1.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorRouterV1.sol#L2) 
+File:[ILimitOrderSwapRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderSwapRouter.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 
-File:[CafeSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[DeployArbitrumAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployArbitrumAggregator.s.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[WaultSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[MeerkatCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L2) 
-```solidity
-1:pragma solidity ^0.8.19;
-``` 
-
-
-
-File:[SandboxLimitOrderRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L2) 
+File:[ConveyorTickMath.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
 ``` 
@@ -440,28 +139,126 @@ File:[PancakeV2Callback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/
 
 
 
-File:[DefiSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L2) 
+File:[SandboxLimitOrderRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 
-File:[LimitOrderRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L2) 
+File:[DeployPolygonAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployPolygonAggregator.s.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L2) 
+File:[OracleLibraryV2.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
 ``` 
 
 
 
-File:[SakeSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L2) 
+File:[DeployOptimismAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployOptimismAggregator.s.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[JetSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/JetSwapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[DXSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DXSwapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[BabyDogeCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[DystopiaCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ISandboxLimitOrderBook.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderBook.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[UniswapV3Callback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV3Callback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[TraderJoeCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[MeerkatCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[DeployTest.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployTest.s.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[WaultSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[IConveyorRouterV1.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorRouterV1.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[DeployMainnetAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployMainnetAggregator.s.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[DeployAvalancheAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployAvalancheAggregator.s.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[LinkSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
 ``` 
@@ -475,7 +272,203 @@ File:[LimitOrderQuoter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/b
 
 
 
-File:[MdexSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MdexSwapCallback.sol#L2) 
+File:[ISandboxLimitOrderRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderRouter.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[IConveyorExecutor.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorExecutor.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ConveyorErrors.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorErrors.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ApeSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[PancakeV3Callback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[SakeSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[LimitOrderBook.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ConveyorSwapCallbacks.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConveyorSwapCallbacks.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ConvergenceXCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[UniswapV2Callback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[DeployArbitrumAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployArbitrumAggregator.s.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ILimitOrderRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderRouter.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[UniFiCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ILimitOrderBook.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderBook.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ElkSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[NomiswapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[DeployBSCAggregator.s.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployBSCAggregator.s.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[DefiSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[VerseCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/VerseCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[BabySwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[CafeSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[ConveyorMath.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[KyberSwapV3Callback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/KyberSwapV3Callback.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L2) 
+```solidity
+1:pragma solidity ^0.8.19;
+``` 
+
+
+
+File:[AlgebraCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L2) 
 ```solidity
 1:pragma solidity ^0.8.19;
 ``` 
@@ -491,16 +484,16 @@ File:[MdexSwapCallback.sol#L2](https://github.com/ConveyorLabs/smart-contracts/b
  
 > A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value. 
 
-File:[LimitOrderSwapRouter.sol#L92](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L92) 
+File:[ConveyorTickMath.sol#L25](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L25) 
 ```solidity
-91:    mapping(address => uint256) dexToIndex;
+24:    mapping(int24 => Tick.Info) public ticks;
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L25](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L25) 
+File:[LimitOrderSwapRouter.sol#L92](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L92) 
 ```solidity
-24:    mapping(int24 => Tick.Info) public ticks;
+91:    mapping(address => uint256) dexToIndex;
 ``` 
 
  
@@ -561,14 +554,42 @@ require(success, "ERC20 transfer failed");
         
          
 
-File:[ElkSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L23) 
+File:[NomiswapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L23) 
 ```solidity
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
 
 
-File:[DefiSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L23) 
+File:[BabyDogeCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[WaultSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[TraderJoeCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[UniswapV2Callback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[BiswapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L23) 
 ```solidity
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
@@ -578,6 +599,27 @@ File:[DefiSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/
 File:[JetSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/JetSwapCallback.sol#L23) 
 ```solidity
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[PancakeV2Callback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV2Callback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[AlgebraCallback.sol#L20](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L20) 
+```solidity
+19:            IERC20(_tokenIn).transferFrom(_sender, msg.sender, amountIn);
+``` 
+
+
+
+File:[AlgebraCallback.sol#L22](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L22) 
+```solidity
+21:            IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
 
@@ -603,16 +645,23 @@ File:[ConveyorRouterV1.sol#L217](https://github.com/ConveyorLabs/smart-contracts
 
 
 
-File:[AlgebraCallback.sol#L20](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L20) 
+File:[DefiSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L23) 
 ```solidity
-19:            IERC20(_tokenIn).transferFrom(_sender, msg.sender, amountIn);
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
 
 
-File:[AlgebraCallback.sol#L22](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L22) 
+File:[CafeSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L23) 
 ```solidity
-21:            IERC20(_tokenIn).transfer(msg.sender, amountIn);
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[ApeSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
 
@@ -624,9 +673,72 @@ File:[MeerkatCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/b
 
 
 
+File:[MdexSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MdexSwapCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[DystopiaCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[UniFiCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[ElkSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[ConvergenceXCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[SakeSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[VerseCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/VerseCallback.sol#L23) 
+```solidity
+22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
 File:[LinkSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L23) 
 ```solidity
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
+``` 
+
+
+
+File:[PancakeV3Callback.sol#L20](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L20) 
+```solidity
+19:            IERC20(_tokenIn).transferFrom(_sender, msg.sender, amountIn);
+``` 
+
+
+
+File:[PancakeV3Callback.sol#L22](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L22) 
+```solidity
+21:            IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
 
 
@@ -652,126 +764,7 @@ File:[BabySwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/
 
 
 
-File:[NomiswapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[ApeSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[DystopiaCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[SakeSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[UniFiCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[PancakeV3Callback.sol#L20](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L20) 
-```solidity
-19:            IERC20(_tokenIn).transferFrom(_sender, msg.sender, amountIn);
-``` 
-
-
-
-File:[PancakeV3Callback.sol#L22](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L22) 
-```solidity
-21:            IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[BiswapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[CafeSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
 File:[DXSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DXSwapCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[UniswapV2Callback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[TraderJoeCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[VerseCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/VerseCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[MdexSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MdexSwapCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[PancakeV2Callback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV2Callback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[ConvergenceXCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[WaultSwapCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L23) 
-```solidity
-22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
-``` 
-
-
-
-File:[BabyDogeCallback.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L23) 
 ```solidity
 22:        IERC20(_tokenIn).transfer(msg.sender, amountIn);
 ``` 
@@ -1004,6 +997,55 @@ contract Contract1 {
  </details> 
  
 
+File:[SandboxLimitOrderBook.sol#L94](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L94) 
+```solidity
+93:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1268](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1268) 
+```solidity
+1267:        if (newOwner == address(0)) {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L43](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L43) 
+```solidity
+42:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L132](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L132) 
+```solidity
+131:            require(_dexFactories[i] != address(0), "Zero values in constructor");
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L433](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L433) 
+```solidity
+432:        if (address(0) == pairAddress) {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L500](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L500) 
+```solidity
+499:        if (pool == address(0)) {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L541](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L541) 
+```solidity
+540:        if (token0 == address(0)) {
+``` 
+
+
+
 File:[ConveyorRouterV1.sol#L65](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L65) 
 ```solidity
 64:        require(_weth != address(0), "WETH address is zero");
@@ -1067,6 +1109,13 @@ File:[ConveyorRouterV1.sol#L381](https://github.com/ConveyorLabs/smart-contracts
 
 
 
+File:[LimitOrderQuoter.sol#L17](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L17) 
+```solidity
+16:        require(_weth != address(0), "Invalid weth address");
+``` 
+
+
+
 File:[ConveyorExecutor.sol#L119](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L119) 
 ```solidity
 118:        require(_weth != address(0), "Invalid weth address");
@@ -1095,41 +1144,6 @@ File:[ConveyorExecutor.sol#L530](https://github.com/ConveyorLabs/smart-contracts
 
 
 
-File:[LimitOrderSwapRouter.sol#L132](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L132) 
-```solidity
-131:            require(_dexFactories[i] != address(0), "Zero values in constructor");
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L433](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L433) 
-```solidity
-432:        if (address(0) == pairAddress) {
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L500](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L500) 
-```solidity
-499:        if (pool == address(0)) {
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L541](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L541) 
-```solidity
-540:        if (token0 == address(0)) {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L43](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L43) 
-```solidity
-42:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
-``` 
-
-
-
 File:[LimitOrderRouter.sol#L70](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L70) 
 ```solidity
 69:        require(_limitOrderExecutor != address(0), "Invalid ConveyorExecutor address");
@@ -1140,27 +1154,6 @@ File:[LimitOrderRouter.sol#L70](https://github.com/ConveyorLabs/smart-contracts/
 File:[LimitOrderRouter.sol#L360](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L360) 
 ```solidity
 359:        if (newOwner == address(0)) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L94](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L94) 
-```solidity
-93:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1268](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1268) 
-```solidity
-1267:        if (newOwner == address(0)) {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L17](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L17) 
-```solidity
-16:        require(_weth != address(0), "Invalid weth address");
 ``` 
 
  
@@ -1304,51 +1297,9 @@ contract Contract3 {
  </details> 
  
 
-File:[LimitOrderBook.sol#L281](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L281) 
+File:[SandboxLimitOrderRouter.sol#L77](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L77) 
 ```solidity
-280:        for (uint256 i = 0; i < orderGroup.length;) {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L485](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L485) 
-```solidity
-484:        for (uint256 i = 0; i < orderIds.length;) {
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L92](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L92) 
-```solidity
-91:        for (uint256 i = 0; i < orderIds.length;) {
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L211](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L211) 
-```solidity
-210:        for (uint256 i = 0; i < orders.length - 1;) {
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L284](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L284) 
-```solidity
-283:        for (uint256 i = 0; i < orderIds.length;) {
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L324](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L324) 
-```solidity
-323:        for (uint256 i = 0; i < orderIds.length;) {
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L339](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L339) 
-```solidity
-338:        for (uint256 i = 0; i < orders.length;) {
+76:        for (uint256 i = 0; i < sandboxMulticall.calls.length;) {
 ``` 
 
 
@@ -1402,20 +1353,6 @@ File:[SandboxLimitOrderBook.sol#L815](https://github.com/ConveyorLabs/smart-cont
 
 
 
-File:[LimitOrderSwapRouter.sol#L128](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L128) 
-```solidity
-127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L589](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L589) 
-```solidity
-588:            for (uint256 i = 0; i < dexes.length;) {
-``` 
-
-
-
 File:[ConveyorExecutor.sol#L183](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L183) 
 ```solidity
 182:        for (uint256 i = 0; i < orders.length;) {
@@ -1444,9 +1381,51 @@ File:[ConveyorExecutor.sol#L453](https://github.com/ConveyorLabs/smart-contracts
 
 
 
-File:[SandboxLimitOrderRouter.sol#L77](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L77) 
+File:[LimitOrderRouter.sol#L92](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L92) 
 ```solidity
-76:        for (uint256 i = 0; i < sandboxMulticall.calls.length;) {
+91:        for (uint256 i = 0; i < orderIds.length;) {
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L211](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L211) 
+```solidity
+210:        for (uint256 i = 0; i < orders.length - 1;) {
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L284](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L284) 
+```solidity
+283:        for (uint256 i = 0; i < orderIds.length;) {
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L324](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L324) 
+```solidity
+323:        for (uint256 i = 0; i < orderIds.length;) {
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L339](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L339) 
+```solidity
+338:        for (uint256 i = 0; i < orders.length;) {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L128](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L128) 
+```solidity
+127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L589](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L589) 
+```solidity
+588:            for (uint256 i = 0; i < dexes.length;) {
 ``` 
 
 
@@ -1512,6 +1491,20 @@ File:[UniswapInterfaceMulticall.sol#L30](https://github.com/ConveyorLabs/smart-c
 29:        for (uint256 i = 0; i < calls.length; i++) {
 ``` 
 
+
+
+File:[LimitOrderBook.sol#L281](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L281) 
+```solidity
+280:        for (uint256 i = 0; i < orderGroup.length;) {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L485](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L485) 
+```solidity
+484:        for (uint256 i = 0; i < orderIds.length;) {
+``` 
+
  
  </details>
 
@@ -1530,44 +1523,79 @@ File:[UniswapInterfaceMulticall.sol#L30](https://github.com/ConveyorLabs/smart-c
  </details> 
  
 
-File:[ConveyorRouterV1.sol#L375](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L375) 
+File:[LimitOrderSwapRouter.sol#L355](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L355) 
 ```solidity
-374:        tempOwner = address(0);
+354:        uniV3AmountOut = 0;
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L409](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L409) 
+File:[LimitOrderSwapRouter.sol#L383](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L383) 
 ```solidity
-408:            affiliateNonce = tempAffiliateNonce;
+382:            uniV3AmountOut = uint256(-amount0Delta);
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L420](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L420) 
+File:[LimitOrderSwapRouter.sol#L387](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L387) 
 ```solidity
-419:        referrerIndex[msg.sender] = uint16(tempReferrerNonce);
+386:        if (uniV3AmountOut < amountOutMin) {
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L425](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L425) 
+File:[LimitOrderSwapRouter.sol#L388](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L388) 
 ```solidity
-424:            referrerNonce = tempReferrerNonce;
+387:            revert InsufficientOutputAmount(uniV3AmountOut, amountOutMin);
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L446](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L446) 
+File:[LimitOrderSwapRouter.sol#L586](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L586) 
 ```solidity
-445:        locked = true;
+585:            address[] memory _lps = new address[](dexes.length);
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L448](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L448) 
+File:[LimitOrderSwapRouter.sol#L589](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L589) 
 ```solidity
-447:        locked = false;
+588:            for (uint256 i = 0; i < dexes.length;) {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L590](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L590) 
+```solidity
+589:                if (dexes[i].isUniV2) {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L594](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L594) 
+```solidity
+593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L606](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L606) 
+```solidity
+605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L624](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L624) 
+```solidity
+623:            SpotReserve[] memory _spotPrices = new SpotReserve[](dexes.length);
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L625](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L625) 
+```solidity
+624:            address[] memory _lps = new address[](dexes.length);
 ``` 
 
 
@@ -1747,41 +1775,6 @@ File:[SandboxLimitOrderBook.sol#L1263](https://github.com/ConveyorLabs/smart-con
 
 
 
-File:[ConveyorExecutor.sol#L69](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L69) 
-```solidity
-68:        reentrancyStatus = true;
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L71](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L71) 
-```solidity
-70:        reentrancyStatus = false;
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L511](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L511) 
-```solidity
-510:        uint256 withdrawAmount = conveyorBalance;
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L513](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L513) 
-```solidity
-512:        conveyorBalance = 0;
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L524](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L524) 
-```solidity
-523:        tempOwner = address(0);
-``` 
-
-
-
 File:[LimitOrderBook.sol#L32](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L32) 
 ```solidity
 31:        reentrancyStatus = true;
@@ -1894,79 +1887,37 @@ File:[LimitOrderBook.sol#L531](https://github.com/ConveyorLabs/smart-contracts/b
 
 
 
-File:[LimitOrderSwapRouter.sol#L355](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L355) 
+File:[ConveyorExecutor.sol#L69](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L69) 
 ```solidity
-354:        uniV3AmountOut = 0;
+68:        reentrancyStatus = true;
 ``` 
 
 
 
-File:[LimitOrderSwapRouter.sol#L383](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L383) 
+File:[ConveyorExecutor.sol#L71](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L71) 
 ```solidity
-382:            uniV3AmountOut = uint256(-amount0Delta);
+70:        reentrancyStatus = false;
 ``` 
 
 
 
-File:[LimitOrderSwapRouter.sol#L387](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L387) 
+File:[ConveyorExecutor.sol#L511](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L511) 
 ```solidity
-386:        if (uniV3AmountOut < amountOutMin) {
+510:        uint256 withdrawAmount = conveyorBalance;
 ``` 
 
 
 
-File:[LimitOrderSwapRouter.sol#L388](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L388) 
+File:[ConveyorExecutor.sol#L513](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L513) 
 ```solidity
-387:            revert InsufficientOutputAmount(uniV3AmountOut, amountOutMin);
+512:        conveyorBalance = 0;
 ``` 
 
 
 
-File:[LimitOrderSwapRouter.sol#L586](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L586) 
+File:[ConveyorExecutor.sol#L524](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L524) 
 ```solidity
-585:            address[] memory _lps = new address[](dexes.length);
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L589](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L589) 
-```solidity
-588:            for (uint256 i = 0; i < dexes.length;) {
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L590](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L590) 
-```solidity
-589:                if (dexes[i].isUniV2) {
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L594](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L594) 
-```solidity
-593:                            _calculateV2SpotPrice(token0, token1, dexes[i].factoryAddress);
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L606](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L606) 
-```solidity
-605:                                _calculateV3SpotPrice(token0, token1, FEE, dexes[i].factoryAddress);
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L624](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L624) 
-```solidity
-623:            SpotReserve[] memory _spotPrices = new SpotReserve[](dexes.length);
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L625](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L625) 
-```solidity
-624:            address[] memory _lps = new address[](dexes.length);
+523:        tempOwner = address(0);
 ``` 
 
 
@@ -1974,6 +1925,48 @@ File:[LimitOrderSwapRouter.sol#L625](https://github.com/ConveyorLabs/smart-contr
 File:[LimitOrderRouter.sol#L355](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L355) 
 ```solidity
 354:        tempOwner = address(0);
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L375](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L375) 
+```solidity
+374:        tempOwner = address(0);
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L409](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L409) 
+```solidity
+408:            affiliateNonce = tempAffiliateNonce;
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L420](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L420) 
+```solidity
+419:        referrerIndex[msg.sender] = uint16(tempReferrerNonce);
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L425](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L425) 
+```solidity
+424:            referrerNonce = tempReferrerNonce;
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L446](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L446) 
+```solidity
+445:        locked = true;
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L448](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L448) 
+```solidity
+447:        locked = false;
 ``` 
 
  
@@ -1995,48 +1988,6 @@ File:[LimitOrderRouter.sol#L355](https://github.com/ConveyorLabs/smart-contracts
   
  </details> 
  
-
-File:[SandboxLimitOrderBook.sol#L112](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L112) 
-```solidity
-111:    event OrderPlaced(bytes32[] orderIds);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L118](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L118) 
-```solidity
-117:    event OrderCanceled(bytes32[] orderIds);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L124](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L124) 
-```solidity
-123:    event OrderUpdated(bytes32[] orderIds);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L130](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L130) 
-```solidity
-129:    event OrderFilled(bytes32[] orderIds);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L152](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L152) 
-```solidity
-151:    event OrderExecutionCreditUpdated(bytes32 orderId, uint256 newExecutionCredit);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L157](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L157) 
-```solidity
-156:    event MinExecutionCreditUpdated(uint256 newMinExecutionCredit, uint256 oldMinExecutionCredit);
-``` 
-
-
 
 File:[LimitOrderBook.sol#L58](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L58) 
 ```solidity
@@ -2083,6 +2034,48 @@ File:[LimitOrderBook.sol#L91](https://github.com/ConveyorLabs/smart-contracts/bl
 File:[ConveyorRouterV1.sol#L35](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L35) 
 ```solidity
 34:    event Withdraw(address indexed receiver, uint256 amount);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L112](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L112) 
+```solidity
+111:    event OrderPlaced(bytes32[] orderIds);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L118](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L118) 
+```solidity
+117:    event OrderCanceled(bytes32[] orderIds);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L124](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L124) 
+```solidity
+123:    event OrderUpdated(bytes32[] orderIds);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L130](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L130) 
+```solidity
+129:    event OrderFilled(bytes32[] orderIds);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L152](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L152) 
+```solidity
+151:    event OrderExecutionCreditUpdated(bytes32 orderId, uint256 newExecutionCredit);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L157](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L157) 
+```solidity
+156:    event MinExecutionCreditUpdated(uint256 newMinExecutionCredit, uint256 oldMinExecutionCredit);
 ``` 
 
 
@@ -2403,65 +2396,9 @@ contract Contract4 {
  </details> 
  
 
-File:[LimitOrderSwapRouter.sol#L128](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L128) 
+File:[LimitOrderBook.sol#L525](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L525) 
 ```solidity
-127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1235](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1235) 
-```solidity
-1234:                ++orderIdIndex;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L416](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L416) 
-```solidity
-415:            ++totalOrdersPerAddress[msg.sender];
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L832](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L832) 
-```solidity
-831:                ++orderIdIndex;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1099](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1099) 
-```solidity
-1098:        --totalOrdersPerAddress[order.owner];
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1122](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1122) 
-```solidity
-1121:        --totalOrdersPerAddress[order.owner];
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L543](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L543) 
-```solidity
-542:        --totalOrdersPerAddress[msg.sender];
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L993](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L993) 
-```solidity
-992:                ++offset;
-``` 
-
-
-
-File:[LimitOrderBook.sol#L468](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L468) 
-```solidity
-467:        --totalOrdersPerAddress[msg.sender];
+524:        --totalOrdersPerAddress[order.owner];
 ``` 
 
 
@@ -2480,13 +2417,6 @@ File:[LimitOrderBook.sol#L503](https://github.com/ConveyorLabs/smart-contracts/b
 
 
 
-File:[LimitOrderBook.sol#L525](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L525) 
-```solidity
-524:        --totalOrdersPerAddress[order.owner];
-``` 
-
-
-
 File:[LimitOrderBook.sol#L599](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L599) 
 ```solidity
 598:                ++orderIdIndex;
@@ -2494,9 +2424,9 @@ File:[LimitOrderBook.sol#L599](https://github.com/ConveyorLabs/smart-contracts/b
 
 
 
-File:[ConveyorRouterV1.sol#L423](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L423) 
+File:[LimitOrderBook.sol#L468](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L468) 
 ```solidity
-422:            tempReferrerNonce++;
+467:        --totalOrdersPerAddress[msg.sender];
 ``` 
 
 
@@ -2508,9 +2438,72 @@ File:[ConveyorRouterV1.sol#L407](https://github.com/ConveyorLabs/smart-contracts
 
 
 
+File:[ConveyorRouterV1.sol#L423](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L423) 
+```solidity
+422:            tempReferrerNonce++;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L543](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L543) 
+```solidity
+542:        --totalOrdersPerAddress[msg.sender];
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1122](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1122) 
+```solidity
+1121:        --totalOrdersPerAddress[order.owner];
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L416](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L416) 
+```solidity
+415:            ++totalOrdersPerAddress[msg.sender];
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L832](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L832) 
+```solidity
+831:                ++orderIdIndex;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L993](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L993) 
+```solidity
+992:                ++offset;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1099](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1099) 
+```solidity
+1098:        --totalOrdersPerAddress[order.owner];
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1235](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1235) 
+```solidity
+1234:                ++orderIdIndex;
+``` 
+
+
+
 File:[UniswapInterfaceMulticall.sol#L30](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L30) 
 ```solidity
 29:        for (uint256 i = 0; i < calls.length; i++) {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L128](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L128) 
+```solidity
+127:        for (uint256 i = 0; i < _dexFactories.length; ++i) {
 ``` 
 
  
@@ -2646,49 +2639,23 @@ contract Contract3 {
  </details> 
  
 
-File:[LimitOrderQuoter.sol#L295](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L295) 
+File:[LimitOrderRouter.sol#L111](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L111) 
 ```solidity
-294:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
-295:    ) internal returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
+110:    function _refreshLimitOrder(LimitOrder memory order) internal returns (uint256 executorFee) {
 ``` 
 
 
 
-File:[LimitOrderQuoter.sol#L326](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L326) 
+File:[LimitOrderRouter.sol#L178](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L178) 
 ```solidity
-325:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
-326:    ) internal returns (uint256 newSpotPriceA, uint128 newReserveAToken, uint128 newReserveAWeth, uint128 amountOut) {
+177:    function _cancelLimitOrderViaExecutor(LimitOrder memory order) internal returns (uint256) {
 ``` 
 
 
 
-File:[LimitOrderQuoter.sol#L343](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L343) 
+File:[LimitOrderRouter.sol#L209](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L209) 
 ```solidity
-342:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
-343:    ) internal returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L371](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L371) 
-```solidity
-370:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
-371:    ) internal returns (uint256 newSpotPriceB, uint128 newReserveBWeth, uint128 newReserveBToken) {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L467](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L467) 
-```solidity
-466:        LimitOrderSwapRouter.TokenToWethExecutionPrice memory executionPrice
-467:    ) external returns (LimitOrderSwapRouter.TokenToWethExecutionPrice memory) {
-``` 
-
-
-
-File:[UniswapInterfaceMulticall.sol#L27](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L27) 
-```solidity
-26:    function multicall(Call[] memory calls) public returns (uint256 blockNumber, Result[] memory returnData) {
+208:    function _validateOrderSequencing(LimitOrder[] memory orders) internal pure {
 ``` 
 
 
@@ -2716,23 +2683,9 @@ File:[ConveyorExecutor.sol#L344](https://github.com/ConveyorLabs/smart-contracts
 
 
 
-File:[LimitOrderRouter.sol#L111](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L111) 
+File:[UniswapInterfaceMulticall.sol#L27](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L27) 
 ```solidity
-110:    function _refreshLimitOrder(LimitOrder memory order) internal returns (uint256 executorFee) {
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L178](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L178) 
-```solidity
-177:    function _cancelLimitOrderViaExecutor(LimitOrder memory order) internal returns (uint256) {
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L209](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L209) 
-```solidity
-208:    function _validateOrderSequencing(LimitOrder[] memory orders) internal pure {
+26:    function multicall(Call[] memory calls) public returns (uint256 blockNumber, Result[] memory returnData) {
 ``` 
 
 
@@ -2791,6 +2744,46 @@ File:[SandboxLimitOrderBook.sol#L1006](https://github.com/ConveyorLabs/smart-con
 File:[SandboxLimitOrderBook.sol#L1004](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1004) 
 ```solidity
 1003:        SandboxLimitOrder memory prevOrder,
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L295](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L295) 
+```solidity
+294:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
+295:    ) internal returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L326](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L326) 
+```solidity
+325:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
+326:    ) internal returns (uint256 newSpotPriceA, uint128 newReserveAToken, uint128 newReserveAWeth, uint128 amountOut) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L343](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L343) 
+```solidity
+342:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
+343:    ) internal returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L371](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L371) 
+```solidity
+370:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
+371:    ) internal returns (uint256 newSpotPriceB, uint128 newReserveBWeth, uint128 newReserveBToken) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L467](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L467) 
+```solidity
+466:        LimitOrderSwapRouter.TokenToWethExecutionPrice memory executionPrice
+467:    ) external returns (LimitOrderSwapRouter.TokenToWethExecutionPrice memory) {
 ``` 
 
  
@@ -3014,6 +3007,44 @@ contract Contract3 {
  </details> 
  
 
+File:[SandboxLimitOrderBook.sol#L349](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L349) 
+```solidity
+348:                        relativeWethValue = tokenInDecimals <= 18
+349:                            ? ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L276](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L276) 
+```solidity
+275:            uint128 amountIn = tokenInDecimals <= 18
+276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L480](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L480) 
+```solidity
+479:        uint128 amountIn = tokenInDecimals <= 18
+480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L91](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L91) 
+```solidity
+90:            require(priceX128 <= type(uint256).max, "Overflow");
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L31](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L31) 
+```solidity
+30:        if (percentFee <= ZERO_POINT_ZERO_ZERO_FIVE) {
+``` 
+
+
+
 File:[ConveyorMath.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L23) 
 ```solidity
 22:            require(x <= MAX_UINT64);
@@ -3224,44 +3255,6 @@ File:[ConveyorMath.sol#L549](https://github.com/ConveyorLabs/smart-contracts/blo
 
 
 
-File:[ConveyorTickMath.sol#L91](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L91) 
-```solidity
-90:            require(priceX128 <= type(uint256).max, "Overflow");
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L349](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L349) 
-```solidity
-348:                        relativeWethValue = tokenInDecimals <= 18
-349:                            ? ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L276](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L276) 
-```solidity
-275:            uint128 amountIn = tokenInDecimals <= 18
-276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L480](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L480) 
-```solidity
-479:        uint128 amountIn = tokenInDecimals <= 18
-480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L31](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L31) 
-```solidity
-30:        if (percentFee <= ZERO_POINT_ZERO_ZERO_FIVE) {
-``` 
-
-
-
 File:[LimitOrderSwapRouter.sol#L187](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L187) 
 ```solidity
 186:        if (amountInUSDCDollarValue >= 1000000) {
@@ -3406,16 +3399,16 @@ File:[LimitOrderBook.sol#L14](https://github.com/ConveyorLabs/smart-contracts/bl
 
 
 
-File:[ConveyorMath.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L8) 
+File:[ConveyorExecutor.sol#L21](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L21) 
 ```solidity
-7:    uint128 private constant MAX_64x64 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+20:    address immutable WETH;
 ``` 
 
 
 
-File:[ConveyorExecutor.sol#L21](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L21) 
+File:[ConveyorMath.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L8) 
 ```solidity
-20:    address immutable WETH;
+7:    uint128 private constant MAX_64x64 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
 ``` 
 
 
@@ -3506,426 +3499,9 @@ contract Contract1 {
  </details> 
  
 
-File:[SandboxLimitOrderRouter.sol#L61](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L61) 
-```solidity
-60:    function executeSandboxMulticall(SandboxMulticall calldata sandboxMultiCall) external {
-``` 
-
-
-
-File:[SandboxLimitOrderRouter.sol#L75](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L75) 
-```solidity
-74:    function sandboxRouterCallback(SandboxMulticall calldata sandboxMulticall) external onlyLimitOrderExecutor {
-``` 
-
-
-
-File:[SandboxLimitOrderRouter.sol#L96](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L96) 
-```solidity
-95:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
-``` 
-
-
-
-File:[DeployFantomAggregator.s.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployFantomAggregator.s.sol#L11) 
-```solidity
-10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
-``` 
-
-
-
-File:[BiswapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L13) 
-```solidity
-12:    function BiswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[KyberSwapV3Callback.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/KyberSwapV3Callback.sol#L11) 
-```solidity
-10:    function swapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L168](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L168) 
-```solidity
-167:    function decreaseExecutionCredit(bytes32 orderId, uint128 amount) external nonReentrant {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L224](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L224) 
-```solidity
-223:    function getLimitOrderById(bytes32 orderId) public view returns (LimitOrder memory) {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L449](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L449) 
-```solidity
-448:    function cancelOrder(bytes32 orderId) public {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L483](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L483) 
-```solidity
-482:    function cancelOrders(bytes32[] calldata orderIds) public {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L537](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L537) 
-```solidity
-536:    function getTotalOrdersValue(address token) public view returns (uint256 totalOrderValue) {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L560](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L560) 
-```solidity
-559:    function getAllOrderIdsLength(address _owner) public view returns (uint256) {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L570](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L570) 
-```solidity
-569:    function getOrderIds(address _owner, OrderType targetOrderType, uint256 orderOffset, uint256 length)
-570:        public
-571:        view
-572:        returns (bytes32[] memory)
-573:    {
-``` 
-
-
-
-File:[UniswapInterfaceMulticall.sol#L19](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L19) 
-```solidity
-18:    function getCurrentBlockTimestamp() public view returns (uint256 timestamp) {
-``` 
-
-
-
-File:[UniswapInterfaceMulticall.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L23) 
-```solidity
-22:    function getEthBalance(address addr) public view returns (uint256 balance) {
-``` 
-
-
-
-File:[UniswapInterfaceMulticall.sol#L27](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L27) 
-```solidity
-26:    function multicall(Call[] memory calls) public returns (uint256 blockNumber, Result[] memory returnData) {
-``` 
-
-
-
-File:[WaultSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L13) 
-```solidity
-12:    function waultSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[DeployArbitrumAggregator.s.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployArbitrumAggregator.s.sol#L11) 
-```solidity
-10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
-``` 
-
-
-
-File:[UniFiCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L13) 
-```solidity
-12:    function unifiCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[AlgebraCallback.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L11) 
-```solidity
-10:    function algebraSwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
-``` 
-
-
-
-File:[BabyDogeCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L13) 
-```solidity
-12:    function BabyDogeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
 File:[DefiSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L13) 
 ```solidity
 12:    function croDefiSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[TraderJoeCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L13) 
-```solidity
-12:    function joeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[BabySwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L13) 
-```solidity
-12:    function babyCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[ConveyorRouterV1.sol#L363](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L363) 
-```solidity
-362:    function withdraw() external onlyOwner {
-``` 
-
-
-
-File:[ConveyorRouterV1.sol#L369](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L369) 
-```solidity
-368:    function confirmTransferOwnership() external {
-``` 
-
-
-
-File:[ConveyorRouterV1.sol#L380](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L380) 
-```solidity
-379:    function transferOwnership(address newOwner) external onlyOwner {
-``` 
-
-
-
-File:[ConveyorRouterV1.sol#L402](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L402) 
-```solidity
-401:    function initializeAffiliate(address affiliateAddress) external onlyOwner {
-``` 
-
-
-
-File:[ConveyorRouterV1.sol#L453](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L453) 
-```solidity
-452:    function executeMulticall(ConveyorRouterV1.Call[] calldata calls) external lock {
-``` 
-
-
-
-File:[DeployBSCAggregator.s.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployBSCAggregator.s.sol#L14) 
-```solidity
-13:    function run() public returns (address conveyorRouterV1) {
-``` 
-
-
-
-File:[ElkSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L13) 
-```solidity
-12:    function elkCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[DystopiaCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L13) 
-```solidity
-12:    function hook(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L50](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L50) 
-```solidity
-49:    function findBestTokenToWethExecutionPrice(
-50:        LimitOrderSwapRouter.TokenToWethExecutionPrice[] calldata executionPrices,
-51:        bool buyOrder
-52:    ) external pure returns (uint256 bestPriceIndex) {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L95](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L95) 
-```solidity
-94:    function findBestTokenToTokenExecutionPrice(
-95:        LimitOrderSwapRouter.TokenToTokenExecutionPrice[] calldata executionPrices,
-96:        bool buyOrder
-97:    ) external pure returns (uint256 bestPriceIndex) {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L135](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L135) 
-```solidity
-134:    function initializeTokenToWethExecutionPrices(
-135:        LimitOrderSwapRouter.SpotReserve[] calldata spotReserveAToWeth,
-136:        address[] calldata lpAddressesAToWeth
-137:    ) external pure returns (LimitOrderSwapRouter.TokenToWethExecutionPrice[] memory) {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L171](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L171) 
-```solidity
-170:    function initializeTokenToTokenExecutionPrices(
-171:        address tokenIn,
-172:        LimitOrderSwapRouter.SpotReserve[] calldata spotReserveAToWeth,
-173:        address[] calldata lpAddressesAToWeth,
-174:        LimitOrderSwapRouter.SpotReserve[] calldata spotReserveWethToB,
-175:        address[] calldata lpAddressesWethToB
-176:    ) external view returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice[] memory) {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L249](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L249) 
-```solidity
-248:    function simulateTokenToTokenPriceChange(
-249:        uint128 alphaX,
-250:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
-251:    ) external returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L465](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L465) 
-```solidity
-464:    function simulateTokenToWethPriceChange(
-465:        uint128 alphaX,
-466:        LimitOrderSwapRouter.TokenToWethExecutionPrice memory executionPrice
-467:    ) external returns (LimitOrderSwapRouter.TokenToWethExecutionPrice memory) {
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L549](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L549) 
-```solidity
-548:    function calculateAmountOutMinAToWeth(
-549:        address lpAddressAToWeth,
-550:        uint256 amountInOrder,
-551:        uint16 taxIn,
-552:        uint24 feeIn,
-553:        address tokenIn
-554:    ) external returns (uint256 amountOutMinAToWeth) {
-``` 
-
-
-
-File:[DeployPolygonAggregator.s.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployPolygonAggregator.s.sol#L12) 
-```solidity
-11:    function run() public returns (address conveyorRouterV1) {
-``` 
-
-
-
-File:[DeployOptimismAggregator.s.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployOptimismAggregator.s.sol#L11) 
-```solidity
-10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
-``` 
-
-
-
-File:[DXSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DXSwapCallback.sol#L13) 
-```solidity
-12:    function DXswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L19](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L19) 
-```solidity
-18:    function calculateReward(uint128 percentFee, uint128 wethValue)
-19:        public
-20:        pure
-21:        returns (uint128 conveyorReward, uint128 beaconReward)
-22:    {
-``` 
-
-
-
-File:[LinkSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L13) 
-```solidity
-12:    function linkswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[JetSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/JetSwapCallback.sol#L13) 
-```solidity
-12:    function jetswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[NomiswapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L13) 
-```solidity
-12:    function nomiswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L172](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L172) 
-```solidity
-171:    function calculateFee(uint128 amountIn, address usdc, address weth) public view returns (uint128) {
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L364](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L364) 
-```solidity
-363:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L577](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L577) 
-```solidity
-576:    function getAllPrices(address token0, address token1, uint24 FEE)
-577:        public
-578:        view
-579:        returns (SpotReserve[] memory prices, address[] memory lps)
-580:    {
-``` 
-
-
-
-File:[MeerkatCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L13) 
-```solidity
-12:    function MeerkatCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[SakeSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L13) 
-```solidity
-12:    function SakeSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[MdexSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MdexSwapCallback.sol#L13) 
-```solidity
-12:    function swapV2Call(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[CafeSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L13) 
-```solidity
-12:    function cafeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[VerseCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/VerseCallback.sol#L13) 
-```solidity
-12:    function swapsCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
-``` 
-
-
-
-File:[UniswapV3Callback.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV3Callback.sol#L11) 
-```solidity
-10:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
 ``` 
 
 
@@ -4036,23 +3612,37 @@ File:[SandboxLimitOrderBook.sol#L1267](https://github.com/ConveyorLabs/smart-con
 
 
 
-File:[DeployTest.s.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployTest.s.sol#L14) 
+File:[LinkSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L13) 
 ```solidity
-13:    function run() public {
+12:    function linkswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
 ``` 
 
 
 
-File:[PancakeV3Callback.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L11) 
+File:[SandboxLimitOrderRouter.sol#L61](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L61) 
 ```solidity
-10:    function pancakeV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+60:    function executeSandboxMulticall(SandboxMulticall calldata sandboxMultiCall) external {
 ``` 
 
 
 
-File:[ConvergenceXCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L13) 
+File:[SandboxLimitOrderRouter.sol#L75](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L75) 
 ```solidity
-12:    function swapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+74:    function sandboxRouterCallback(SandboxMulticall calldata sandboxMulticall) external onlyLimitOrderExecutor {
+``` 
+
+
+
+File:[SandboxLimitOrderRouter.sol#L96](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L96) 
+```solidity
+95:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+
+File:[SakeSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L13) 
+```solidity
+12:    function SakeSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
 ``` 
 
 
@@ -4117,6 +3707,34 @@ File:[ConveyorExecutor.sol#L529](https://github.com/ConveyorLabs/smart-contracts
 
 
 
+File:[KyberSwapV3Callback.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/KyberSwapV3Callback.sol#L11) 
+```solidity
+10:    function swapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+
+File:[UniswapInterfaceMulticall.sol#L19](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L19) 
+```solidity
+18:    function getCurrentBlockTimestamp() public view returns (uint256 timestamp) {
+``` 
+
+
+
+File:[UniswapInterfaceMulticall.sol#L23](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L23) 
+```solidity
+22:    function getEthBalance(address addr) public view returns (uint256 balance) {
+``` 
+
+
+
+File:[UniswapInterfaceMulticall.sol#L27](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L27) 
+```solidity
+26:    function multicall(Call[] memory calls) public returns (uint256 blockNumber, Result[] memory returnData) {
+``` 
+
+
+
 File:[LimitOrderRouter.sol#L78](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L78) 
 ```solidity
 77:    function refreshOrder(bytes32[] calldata orderIds) external nonReentrant {
@@ -4159,6 +3777,13 @@ File:[LimitOrderRouter.sol#L366](https://github.com/ConveyorLabs/smart-contracts
 
 
 
+File:[TraderJoeCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L13) 
+```solidity
+12:    function joeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
 File:[ApeSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L13) 
 ```solidity
 12:    function apeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
@@ -4166,16 +3791,41 @@ File:[ApeSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/b
 
 
 
-File:[PancakeV2Callback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV2Callback.sol#L13) 
+File:[MeerkatCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L13) 
 ```solidity
-12:    function pancakeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+12:    function MeerkatCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
 ``` 
 
 
 
-File:[DeployAvalancheAggregator.s.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployAvalancheAggregator.s.sol#L11) 
+File:[WaultSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L13) 
 ```solidity
-10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
+12:    function waultSwapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L172](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L172) 
+```solidity
+171:    function calculateFee(uint128 amountIn, address usdc, address weth) public view returns (uint128) {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L364](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L364) 
+```solidity
+363:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L577](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L577) 
+```solidity
+576:    function getAllPrices(address token0, address token1, uint24 FEE)
+577:        public
+578:        view
+579:        returns (SpotReserve[] memory prices, address[] memory lps)
+580:    {
 ``` 
 
 
@@ -4187,9 +3837,352 @@ File:[UniswapV2Callback.sol#L13](https://github.com/ConveyorLabs/smart-contracts
 
 
 
+File:[AlgebraCallback.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L11) 
+```solidity
+10:    function algebraSwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+
+File:[DXSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DXSwapCallback.sol#L13) 
+```solidity
+12:    function DXswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[PancakeV2Callback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV2Callback.sol#L13) 
+```solidity
+12:    function pancakeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[DeployTest.s.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployTest.s.sol#L14) 
+```solidity
+13:    function run() public {
+``` 
+
+
+
+File:[DeployArbitrumAggregator.s.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployArbitrumAggregator.s.sol#L11) 
+```solidity
+10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L363](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L363) 
+```solidity
+362:    function withdraw() external onlyOwner {
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L369](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L369) 
+```solidity
+368:    function confirmTransferOwnership() external {
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L380](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L380) 
+```solidity
+379:    function transferOwnership(address newOwner) external onlyOwner {
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L402](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L402) 
+```solidity
+401:    function initializeAffiliate(address affiliateAddress) external onlyOwner {
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L453](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L453) 
+```solidity
+452:    function executeMulticall(ConveyorRouterV1.Call[] calldata calls) external lock {
+``` 
+
+
+
+File:[DeployAvalancheAggregator.s.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployAvalancheAggregator.s.sol#L11) 
+```solidity
+10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L19](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L19) 
+```solidity
+18:    function calculateReward(uint128 percentFee, uint128 wethValue)
+19:        public
+20:        pure
+21:        returns (uint128 conveyorReward, uint128 beaconReward)
+22:    {
+``` 
+
+
+
+File:[JetSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/JetSwapCallback.sol#L13) 
+```solidity
+12:    function jetswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[DeployOptimismAggregator.s.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployOptimismAggregator.s.sol#L11) 
+```solidity
+10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
+``` 
+
+
+
+File:[BabyDogeCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L13) 
+```solidity
+12:    function BabyDogeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[UniFiCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L13) 
+```solidity
+12:    function unifiCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L50](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L50) 
+```solidity
+49:    function findBestTokenToWethExecutionPrice(
+50:        LimitOrderSwapRouter.TokenToWethExecutionPrice[] calldata executionPrices,
+51:        bool buyOrder
+52:    ) external pure returns (uint256 bestPriceIndex) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L95](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L95) 
+```solidity
+94:    function findBestTokenToTokenExecutionPrice(
+95:        LimitOrderSwapRouter.TokenToTokenExecutionPrice[] calldata executionPrices,
+96:        bool buyOrder
+97:    ) external pure returns (uint256 bestPriceIndex) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L135](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L135) 
+```solidity
+134:    function initializeTokenToWethExecutionPrices(
+135:        LimitOrderSwapRouter.SpotReserve[] calldata spotReserveAToWeth,
+136:        address[] calldata lpAddressesAToWeth
+137:    ) external pure returns (LimitOrderSwapRouter.TokenToWethExecutionPrice[] memory) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L171](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L171) 
+```solidity
+170:    function initializeTokenToTokenExecutionPrices(
+171:        address tokenIn,
+172:        LimitOrderSwapRouter.SpotReserve[] calldata spotReserveAToWeth,
+173:        address[] calldata lpAddressesAToWeth,
+174:        LimitOrderSwapRouter.SpotReserve[] calldata spotReserveWethToB,
+175:        address[] calldata lpAddressesWethToB
+176:    ) external view returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice[] memory) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L249](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L249) 
+```solidity
+248:    function simulateTokenToTokenPriceChange(
+249:        uint128 alphaX,
+250:        LimitOrderSwapRouter.TokenToTokenExecutionPrice memory executionPrice
+251:    ) external returns (LimitOrderSwapRouter.TokenToTokenExecutionPrice memory) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L465](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L465) 
+```solidity
+464:    function simulateTokenToWethPriceChange(
+465:        uint128 alphaX,
+466:        LimitOrderSwapRouter.TokenToWethExecutionPrice memory executionPrice
+467:    ) external returns (LimitOrderSwapRouter.TokenToWethExecutionPrice memory) {
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L549](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L549) 
+```solidity
+548:    function calculateAmountOutMinAToWeth(
+549:        address lpAddressAToWeth,
+550:        uint256 amountInOrder,
+551:        uint16 taxIn,
+552:        uint24 feeIn,
+553:        address tokenIn
+554:    ) external returns (uint256 amountOutMinAToWeth) {
+``` 
+
+
+
+File:[VerseCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/VerseCallback.sol#L13) 
+```solidity
+12:    function swapsCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[NomiswapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L13) 
+```solidity
+12:    function nomiswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L168](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L168) 
+```solidity
+167:    function decreaseExecutionCredit(bytes32 orderId, uint128 amount) external nonReentrant {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L224](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L224) 
+```solidity
+223:    function getLimitOrderById(bytes32 orderId) public view returns (LimitOrder memory) {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L449](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L449) 
+```solidity
+448:    function cancelOrder(bytes32 orderId) public {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L483](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L483) 
+```solidity
+482:    function cancelOrders(bytes32[] calldata orderIds) public {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L537](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L537) 
+```solidity
+536:    function getTotalOrdersValue(address token) public view returns (uint256 totalOrderValue) {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L560](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L560) 
+```solidity
+559:    function getAllOrderIdsLength(address _owner) public view returns (uint256) {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L570](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L570) 
+```solidity
+569:    function getOrderIds(address _owner, OrderType targetOrderType, uint256 orderOffset, uint256 length)
+570:        public
+571:        view
+572:        returns (bytes32[] memory)
+573:    {
+``` 
+
+
+
+File:[ElkSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L13) 
+```solidity
+12:    function elkCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[PancakeV3Callback.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L11) 
+```solidity
+10:    function pancakeV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+
+File:[DeployFantomAggregator.s.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployFantomAggregator.s.sol#L11) 
+```solidity
+10:    function run() public returns (ConveyorRouterV1 conveyorRouterV1) {
+``` 
+
+
+
+File:[UniswapV3Callback.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV3Callback.sol#L11) 
+```solidity
+10:    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {
+``` 
+
+
+
+File:[MdexSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MdexSwapCallback.sol#L13) 
+```solidity
+12:    function swapV2Call(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[DeployPolygonAggregator.s.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployPolygonAggregator.s.sol#L12) 
+```solidity
+11:    function run() public returns (address conveyorRouterV1) {
+``` 
+
+
+
+File:[CafeSwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L13) 
+```solidity
+12:    function cafeCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[DystopiaCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L13) 
+```solidity
+12:    function hook(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[DeployBSCAggregator.s.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployBSCAggregator.s.sol#L14) 
+```solidity
+13:    function run() public returns (address conveyorRouterV1) {
+``` 
+
+
+
+File:[BiswapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L13) 
+```solidity
+12:    function BiswapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
+File:[ConvergenceXCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L13) 
+```solidity
+12:    function swapCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
+``` 
+
+
+
 File:[DeployMainnetAggregator.s.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployMainnetAggregator.s.sol#L12) 
 ```solidity
 11:    function run() public returns (address conveyorRouterV1) {
+``` 
+
+
+
+File:[BabySwapCallback.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L13) 
+```solidity
+12:    function babyCall(address, uint256 amount0, uint256 amount1, bytes calldata data) external {
 ``` 
 
  
@@ -4276,41 +4269,6 @@ contract Contract1 {
  </details> 
  
 
-File:[DeployPolygonAggregator.s.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployPolygonAggregator.s.sol#L10) 
-```solidity
-9:    address constant WMATIC = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
-``` 
-
-
-
-File:[SandboxLimitOrderRouter.sol#L22](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L22) 
-```solidity
-21:    uint256 public constant CHECK_IN_INTERVAL = 1 days;
-``` 
-
-
-
-File:[DeployOptimismAggregator.s.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployOptimismAggregator.s.sol#L9) 
-```solidity
-8:    address constant WETH = 0x4200000000000000000000000000000000000006;
-``` 
-
-
-
-File:[DeployTest.s.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployTest.s.sol#L12) 
-```solidity
-11:    address constant GOERLI_WETH = 0xdD69DB25F6D620A7baD3023c5d32761D353D3De9;
-``` 
-
-
-
-File:[DeployArbitrumAggregator.s.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployArbitrumAggregator.s.sol#L9) 
-```solidity
-8:    address constant WETH = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1;
-``` 
-
-
-
 File:[LimitOrderBook.sol#L20](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L20) 
 ```solidity
 19:    uint256 public constant CHECK_IN_INTERVAL = 1 days;
@@ -4318,9 +4276,9 @@ File:[LimitOrderBook.sol#L20](https://github.com/ConveyorLabs/smart-contracts/bl
 
 
 
-File:[DeployBSCAggregator.s.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployBSCAggregator.s.sol#L12) 
+File:[DeployPolygonAggregator.s.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployPolygonAggregator.s.sol#L10) 
 ```solidity
-11:    address constant WBNB = 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c;
+9:    address constant WMATIC = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
 ``` 
 
 
@@ -4332,9 +4290,9 @@ File:[DeployFantomAggregator.s.sol#L9](https://github.com/ConveyorLabs/smart-con
 
 
 
-File:[ConveyorTickMath.sol#L29](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L29) 
+File:[DeployOptimismAggregator.s.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployOptimismAggregator.s.sol#L9) 
 ```solidity
-28:    uint256 internal constant Q96 = 0x1000000000000000000000000;
+8:    address constant WETH = 0x4200000000000000000000000000000000000006;
 ``` 
 
 
@@ -4346,16 +4304,9 @@ File:[DeployAvalancheAggregator.s.sol#L9](https://github.com/ConveyorLabs/smart-
 
 
 
-File:[DeployMainnetAggregator.s.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployMainnetAggregator.s.sol#L10) 
+File:[ConveyorTickMath.sol#L29](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L29) 
 ```solidity
-9:    address constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L42](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L42) 
-```solidity
-41:    uint256 public constant CHECK_IN_INTERVAL = 1 days;
+28:    uint256 internal constant Q96 = 0x1000000000000000000000000;
 ``` 
 
 
@@ -4384,6 +4335,48 @@ File:[ConveyorFeeMath.sol#L11](https://github.com/ConveyorLabs/smart-contracts/b
 File:[ConveyorFeeMath.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L12) 
 ```solidity
 11:    uint128 constant MIN_CONVEYOR_PERCENT = 7378697629483821000;
+``` 
+
+
+
+File:[DeployArbitrumAggregator.s.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployArbitrumAggregator.s.sol#L9) 
+```solidity
+8:    address constant WETH = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L42](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L42) 
+```solidity
+41:    uint256 public constant CHECK_IN_INTERVAL = 1 days;
+``` 
+
+
+
+File:[DeployTest.s.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployTest.s.sol#L12) 
+```solidity
+11:    address constant GOERLI_WETH = 0xdD69DB25F6D620A7baD3023c5d32761D353D3De9;
+``` 
+
+
+
+File:[DeployBSCAggregator.s.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployBSCAggregator.s.sol#L12) 
+```solidity
+11:    address constant WBNB = 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c;
+``` 
+
+
+
+File:[SandboxLimitOrderRouter.sol#L22](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L22) 
+```solidity
+21:    uint256 public constant CHECK_IN_INTERVAL = 1 days;
+``` 
+
+
+
+File:[DeployMainnetAggregator.s.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployMainnetAggregator.s.sol#L10) 
+```solidity
+9:    address constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
 ``` 
 
  
@@ -5994,34 +5987,6 @@ contract Contract1 {
  </details> 
  
 
-File:[LimitOrderBook.sol#L308](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L308) 
-```solidity
-307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
-``` 
-
-
-
-File:[LimitOrderBook.sol#L538](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L538) 
-```solidity
-537:        bytes32 totalOrdersValueKey = keccak256(abi.encode(msg.sender, token));
-``` 
-
-
-
-File:[LimitOrderBook.sol#L547](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L547) 
-```solidity
-546:        bytes32 totalOrdersValueKey = keccak256(abi.encode(_owner, token));
-``` 
-
-
-
-File:[LimitOrderBook.sol#L556](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L556) 
-```solidity
-555:        bytes32 totalOrdersValueKey = keccak256(abi.encode(_owner, token));
-``` 
-
-
-
 File:[SandboxLimitOrderBook.sol#L385](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L385) 
 ```solidity
 384:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
@@ -6046,6 +6011,34 @@ File:[SandboxLimitOrderBook.sol#L1151](https://github.com/ConveyorLabs/smart-con
 File:[SandboxLimitOrderBook.sol#L1179](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1179) 
 ```solidity
 1178:        bytes32 totalOrdersValueKey = keccak256(abi.encode(msg.sender, token));
+``` 
+
+
+
+File:[LimitOrderBook.sol#L308](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L308) 
+```solidity
+307:            bytes32 orderId = keccak256(abi.encode(orderNonce, block.timestamp));
+``` 
+
+
+
+File:[LimitOrderBook.sol#L538](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L538) 
+```solidity
+537:        bytes32 totalOrdersValueKey = keccak256(abi.encode(msg.sender, token));
+``` 
+
+
+
+File:[LimitOrderBook.sol#L547](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L547) 
+```solidity
+546:        bytes32 totalOrdersValueKey = keccak256(abi.encode(_owner, token));
+``` 
+
+
+
+File:[LimitOrderBook.sol#L556](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L556) 
+```solidity
+555:        bytes32 totalOrdersValueKey = keccak256(abi.encode(_owner, token));
 ``` 
 
  
@@ -6285,544 +6278,171 @@ contract Contract7 {
  </details> 
  
 
-File:[ConveyorTickMath.sol#L76](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L76) 
+File:[LimitOrderQuoter.sol#L181](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L181) 
 ```solidity
-75:            int8 decimalShift = int8(IERC20(token0).decimals()) - int8(IERC20(token1).decimals());
+180:                spotReserveAToWeth.length * spotReserveWethToB.length
+181:            );
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L79](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L79) 
+File:[LimitOrderQuoter.sol#L277](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L277) 
 ```solidity
-78:                ? uint256(sqrtPriceX96) ** 2 / uint256(10) ** (uint8(-decimalShift))
-79:                : uint256(sqrtPriceX96) ** 2 * 10 ** uint8(decimalShift);
+276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L80](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L80) 
+File:[LimitOrderQuoter.sol#L277](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L277) 
 ```solidity
-79:                : uint256(sqrtPriceX96) ** 2 * 10 ** uint8(decimalShift);
+276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L84](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L84) 
+File:[LimitOrderQuoter.sol#L278](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L278) 
 ```solidity
-83:                ? priceSquaredX96 / Q96
-84:                : (Q96 * 0xffffffffffffffffffffffffffffffff) / (priceSquaredX96 / Q96);
+277:                : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L85](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L85) 
+File:[LimitOrderQuoter.sol#L278](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L278) 
 ```solidity
-84:                : (Q96 * 0xffffffffffffffffffffffffffffffff) / (priceSquaredX96 / Q96);
+277:                : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L85](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L85) 
+File:[LimitOrderQuoter.sol#L401](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L401) 
 ```solidity
-84:                : (Q96 * 0xffffffffffffffffffffffffffffffff) / (priceSquaredX96 / Q96);
+400:                uint256 denominator = reserveA + alphaX;
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L85](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L85) 
+File:[LimitOrderQuoter.sol#L456](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L456) 
 ```solidity
-84:                : (Q96 * 0xffffffffffffffffffffffffffffffff) / (priceSquaredX96 / Q96);
+455:        uint256 amountInWithFee = amountIn * 997;
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L89](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L89) 
+File:[LimitOrderQuoter.sol#L457](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L457) 
 ```solidity
-88:                ? (uint256(priceSquaredShiftQ96) * 0xffffffffffffffffffffffffffffffff) / Q96
-89:                : priceSquaredShiftQ96;
+456:        uint256 numerator = amountInWithFee * reserveOut;
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L89](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L89) 
+File:[LimitOrderQuoter.sol#L458](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L458) 
 ```solidity
-88:                ? (uint256(priceSquaredShiftQ96) * 0xffffffffffffffffffffffffffffffff) / Q96
+457:        uint256 denominator = reserveIn * 1000 + (amountInWithFee);
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L120](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L120) 
+File:[LimitOrderQuoter.sol#L458](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L458) 
 ```solidity
-119:        uint160 sqrtPriceLimitX96 = zeroForOne ? TickMath.MIN_SQRT_RATIO + 1 : TickMath.MAX_SQRT_RATIO - 1;
+457:        uint256 denominator = reserveIn * 1000 + (amountInWithFee);
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L120](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L120) 
+File:[LimitOrderQuoter.sol#L459](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L459) 
 ```solidity
-119:        uint160 sqrtPriceLimitX96 = zeroForOne ? TickMath.MIN_SQRT_RATIO + 1 : TickMath.MAX_SQRT_RATIO - 1;
+458:        amountOut = numerator / denominator;
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L163](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L163) 
+File:[LimitOrderQuoter.sol#L481](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L481) 
 ```solidity
-162:            currentState.amountSpecifiedRemaining -= (step.amountIn + step.feeAmount).toInt256();
+480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
 ``` 
 
 
 
-File:[ConveyorTickMath.sol#L177](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L177) 
+File:[LimitOrderQuoter.sol#L481](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L481) 
 ```solidity
-176:                    currentState.tick = zeroForOne ? step.tickNext - 1 : step.tickNext;
+480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
 ``` 
 
 
 
-File:[UniswapInterfaceMulticall.sol#L35](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L35) 
+File:[LimitOrderQuoter.sol#L482](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L482) 
 ```solidity
-34:            uint256 gasUsed = gasLeftBefore - gasleft();
+481:            : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L252](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L252) 
+File:[LimitOrderQuoter.sol#L482](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L482) 
 ```solidity
-251:            if (executionCreditRemaining - amount < minExecutionCredit) {
+481:            : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L253](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L253) 
+File:[LimitOrderQuoter.sol#L560](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L560) 
 ```solidity
-252:                revert InsufficientExecutionCredit(executionCreditRemaining - amount, minExecutionCredit);
+559:            uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L257](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L257) 
+File:[LimitOrderQuoter.sol#L560](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L560) 
 ```solidity
-256:        orderIdToSandboxLimitOrder[orderId].executionCreditRemaining = executionCreditRemaining - amount;
+559:            uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L260](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L260) 
+File:[LimitOrderQuoter.sol#L561](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L561) 
 ```solidity
-259:        emit OrderExecutionCreditUpdated(orderId, executionCreditRemaining - amount);
+560:            uint256 amountIn = amountInOrder - amountInBuffer;
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L276](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L276) 
+File:[LimitOrderQuoter.sol#L581](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L581) 
 ```solidity
-275:            orderIdToSandboxLimitOrder[orderId].executionCreditRemaining + uint128(msg.value);
+580:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L292](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L292) 
+File:[LimitOrderQuoter.sol#L581](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L581) 
 ```solidity
-291:        uint256 minimumExecutionCreditForOrderGroup = minExecutionCredit * orderGroup.length;
+580:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L350](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L350) 
+File:[LimitOrderQuoter.sol#L583](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L583) 
 ```solidity
-349:                            ? ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
-350:                                * 10 ** (18 - tokenInDecimals)
-351:                            : ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
+582:                uint256 amountIn = amountInOrder - amountInBuffer;
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L351](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L351) 
+File:[LimitOrderQuoter.sol#L586](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L586) 
 ```solidity
-350:                                * 10 ** (18 - tokenInDecimals)
+585:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L352](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L352) 
+File:[LimitOrderQuoter.sol#L586](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L586) 
 ```solidity
-351:                            : ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
-352:                                / 10 ** (tokenInDecimals - 18);
+585:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
 ``` 
 
 
 
-File:[SandboxLimitOrderBook.sol#L353](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L353) 
+File:[LimitOrderQuoter.sol#L588](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L588) 
 ```solidity
-352:                                / 10 ** (tokenInDecimals - 18);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L472](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L472) 
-```solidity
-471:                orderIdToSandboxLimitOrder[order.orderId].executionCreditRemaining + uint128(msg.value);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L565](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L565) 
-```solidity
-564:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L603](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L603) 
-```solidity
-602:                executionCreditRemaining - uint128(REFRESH_FEE);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L605](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L605) 
-```solidity
-604:            _safeTransferETH(order.owner, executionCreditRemaining - REFRESH_FEE);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L625](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L625) 
-```solidity
-624:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L666](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L666) 
-```solidity
-665:            if (executionCreditBalance - REFRESH_FEE < minExecutionCredit) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L676](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L676) 
-```solidity
-675:        if (block.timestamp - order.lastRefreshTimestamp < REFRESH_INTERVAL) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L681](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L681) 
-```solidity
-680:            executionCreditBalance - uint128(REFRESH_FEE);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L682](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L682) 
-```solidity
-681:        emit OrderExecutionCreditUpdated(order.orderId, executionCreditBalance - REFRESH_FEE);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L822](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L822) 
-```solidity
-821:                orderIdIndex += orderIdBundle.length - 1;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L868](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L868) 
-```solidity
-867:        if (initialTokenInBalance - currentTokenInBalance > fillAmount) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L870](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L870) 
-```solidity
-869:                currentOrder.orderId, initialTokenInBalance - currentTokenInBalance, fillAmount
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L875](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L875) 
-```solidity
-874:        if (currentTokenOutBalance - initialTokenOutBalance != amountOutRequired) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L877](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L877) 
-```solidity
-876:                currentOrder.orderId, currentTokenOutBalance - initialTokenOutBalance, amountOutRequired
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L888](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L888) 
-```solidity
-887:                uint128(initialTokenInBalance - currentTokenInBalance),
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L889](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L889) 
-```solidity
-888:                uint128(currentTokenOutBalance - initialTokenOutBalance),
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L933](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L933) 
-```solidity
-932:                SandboxLimitOrder memory currentOrder = preSandboxExecutionState.sandboxLimitOrders[offset + 1];
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L944](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L944) 
-```solidity
-943:                        fillAmounts[offset + 1]
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L956](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L956) 
-```solidity
-955:                        preSandboxExecutionState.initialTokenInBalances[offset] - currentTokenInBalance
-956:                            > cumulativeFillAmount
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L961](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L961) 
-```solidity
-960:                            preSandboxExecutionState.initialTokenInBalances[offset] - currentTokenInBalance,
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L966](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L966) 
-```solidity
-965:                    cumulativeFillAmount = fillAmounts[offset + 1];
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L969](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L969) 
-```solidity
-968:                    cumulativeFillAmount += fillAmounts[offset + 1];
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L975](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L975) 
-```solidity
-974:                        currentTokenOutBalance - preSandboxExecutionState.initialTokenOutBalances[offset]
-975:                            != cumulativeAmountOutRequired
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L980](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L980) 
-```solidity
-979:                            currentTokenOutBalance - preSandboxExecutionState.initialTokenOutBalances[offset],
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L999](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L999) 
-```solidity
-998:            _resolveOrPartialFillOrder(prevOrder, offset - 1, fillAmounts, cumulativeExecutionCompensation);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1058](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1058) 
-```solidity
-1057:        orderIdToSandboxLimitOrder[orderId].amountInRemaining = order.amountInRemaining - amountInFilled;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1060](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1060) 
-```solidity
-1059:        orderIdToSandboxLimitOrder[orderId].amountOutRemaining = order.amountOutRemaining - amountOutFilled;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1065](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1065) 
-```solidity
-1064:        uint128 updatedFeeRemaining = feeRemaining
-1065:            - uint128(ConveyorMath.mul64U(ConveyorMath.divUU(amountInFilled, amountInRemaining), feeRemaining));
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1073](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1073) 
-```solidity
-1072:        uint128 updatedExecutionCreditRemaining = executionCreditRemaining - executionCreditCompensation;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1080](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1080) 
-```solidity
-1079:            order.amountInRemaining - amountInFilled,
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1081](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1081) 
-```solidity
-1080:            order.amountOutRemaining - amountOutFilled,
-``` 
-
-
-
-File:[LimitOrderBook.sol#L186](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L186) 
-```solidity
-185:        if (executionCredit - amount < minExecutionCredit) {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L187](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L187) 
-```solidity
-186:            revert InsufficientExecutionCredit(executionCredit - amount, minExecutionCredit);
-``` 
-
-
-
-File:[LimitOrderBook.sol#L190](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L190) 
-```solidity
-189:        orderIdToLimitOrder[orderId].executionCredit = executionCredit - amount;
-``` 
-
-
-
-File:[LimitOrderBook.sol#L194](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L194) 
-```solidity
-193:        emit OrderExecutionCreditUpdated(orderId, executionCredit - amount);
-``` 
-
-
-
-File:[LimitOrderBook.sol#L215](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L215) 
-```solidity
-214:        uint128 newExecutionCreditBalance = orderIdToLimitOrder[orderId].executionCredit + uint128(msg.value);
-``` 
-
-
-
-File:[LimitOrderBook.sol#L255](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L255) 
-```solidity
-254:        uint256 minimumExecutionCreditForOrderGroup = minExecutionCredit * orderGroup.length;
-``` 
-
-
-
-File:[LimitOrderBook.sol#L409](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L409) 
-```solidity
-408:            uint128 newExecutionCredit = orderIdToLimitOrder[order.orderId].executionCredit + uint128(msg.value);
-``` 
-
-
-
-File:[OracleLibraryV2.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L12) 
-```solidity
-11:        uint256 numerator = reserveIn * amountOut * 100000;
-``` 
-
-
-
-File:[OracleLibraryV2.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L12) 
-```solidity
-11:        uint256 numerator = reserveIn * amountOut * 100000;
-``` 
-
-
-
-File:[OracleLibraryV2.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L13) 
-```solidity
-12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
-``` 
-
-
-
-File:[OracleLibraryV2.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L13) 
-```solidity
-12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
-``` 
-
-
-
-File:[OracleLibraryV2.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L13) 
-```solidity
-12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
-``` 
-
-
-
-File:[OracleLibraryV2.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L14) 
-```solidity
-13:        amountIn = (numerator / denominator) + 1;
-``` 
-
-
-
-File:[OracleLibraryV2.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L14) 
-```solidity
-13:        amountIn = (numerator / denominator) + 1;
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L272](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L272) 
-```solidity
-271:        amountOutWeth = amountOutWeth - (beaconReward + conveyorReward);
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L272](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L272) 
-```solidity
-271:        amountOutWeth = amountOutWeth - (beaconReward + conveyorReward);
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L384](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L384) 
-```solidity
-383:                amountInWethToB = amountIn - (beaconReward + conveyorReward);
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L384](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L384) 
-```solidity
-383:                amountInWethToB = amountIn - (beaconReward + conveyorReward);
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L500](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L500) 
-```solidity
-499:                contractBalancePostExecution - contractBalancePreExecution,
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L501](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L501) 
-```solidity
-500:                expectedAccumulatedFees - (contractBalancePostExecution - contractBalancePreExecution)
-501:            );
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L501](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L501) 
-```solidity
-500:                expectedAccumulatedFees - (contractBalancePostExecution - contractBalancePreExecution)
+587:                uint256 amountIn = amountInOrder - amountInBuffer;
 ``` 
 
 
@@ -7590,226 +7210,51 @@ File:[ConveyorMath.sol#L559](https://github.com/ConveyorLabs/smart-contracts/blo
 
 
 
-File:[LimitOrderQuoter.sol#L181](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L181) 
+File:[OracleLibraryV2.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L12) 
 ```solidity
-180:                spotReserveAToWeth.length * spotReserveWethToB.length
-181:            );
+11:        uint256 numerator = reserveIn * amountOut * 100000;
 ``` 
 
 
 
-File:[LimitOrderQuoter.sol#L277](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L277) 
+File:[OracleLibraryV2.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L12) 
 ```solidity
-276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
+11:        uint256 numerator = reserveIn * amountOut * 100000;
 ``` 
 
 
 
-File:[LimitOrderQuoter.sol#L277](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L277) 
+File:[OracleLibraryV2.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L13) 
 ```solidity
-276:                ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
+12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
 ``` 
 
 
 
-File:[LimitOrderQuoter.sol#L278](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L278) 
+File:[OracleLibraryV2.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L13) 
 ```solidity
-277:                : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
+12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
 ``` 
 
 
 
-File:[LimitOrderQuoter.sol#L278](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L278) 
+File:[OracleLibraryV2.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L13) 
 ```solidity
-277:                : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
+12:        uint256 denominator = (reserveOut - amountOut) * (100000 - swapFee);
 ``` 
 
 
 
-File:[LimitOrderQuoter.sol#L401](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L401) 
+File:[OracleLibraryV2.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L14) 
 ```solidity
-400:                uint256 denominator = reserveA + alphaX;
+13:        amountIn = (numerator / denominator) + 1;
 ``` 
 
 
 
-File:[LimitOrderQuoter.sol#L456](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L456) 
+File:[OracleLibraryV2.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L14) 
 ```solidity
-455:        uint256 amountInWithFee = amountIn * 997;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L457](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L457) 
-```solidity
-456:        uint256 numerator = amountInWithFee * reserveOut;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L458](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L458) 
-```solidity
-457:        uint256 denominator = reserveIn * 1000 + (amountInWithFee);
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L458](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L458) 
-```solidity
-457:        uint256 denominator = reserveIn * 1000 + (amountInWithFee);
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L459](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L459) 
-```solidity
-458:        amountOut = numerator / denominator;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L481](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L481) 
-```solidity
-480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L481](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L481) 
-```solidity
-480:            ? uint128(alphaX * 10 ** (18 - tokenInDecimals))
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L482](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L482) 
-```solidity
-481:            : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L482](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L482) 
-```solidity
-481:            : uint128(alphaX / (10 ** (tokenInDecimals - 18)));
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L560](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L560) 
-```solidity
-559:            uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L560](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L560) 
-```solidity
-559:            uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L561](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L561) 
-```solidity
-560:            uint256 amountIn = amountInOrder - amountInBuffer;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L581](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L581) 
-```solidity
-580:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L581](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L581) 
-```solidity
-580:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L583](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L583) 
-```solidity
-582:                uint256 amountIn = amountInOrder - amountInBuffer;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L586](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L586) 
-```solidity
-585:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L586](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L586) 
-```solidity
-585:                uint256 amountInBuffer = (amountInOrder * taxIn) / 10 ** 5;
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L588](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L588) 
-```solidity
-587:                uint256 amountIn = amountInOrder - amountInBuffer;
-``` 
-
-
-
-File:[SandboxLimitOrderRouter.sol#L65](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L65) 
-```solidity
-64:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L11) 
-```solidity
-10:    uint128 constant MAX_CONVEYOR_PERCENT = 110680464442257300 * 10 ** 2;
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L32](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L32) 
-```solidity
-31:            int256 innerPartial = int256(uint256(ZERO_POINT_ZERO_ZERO_FIVE)) - int128(percentFee);
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L34](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L34) 
-```solidity
-33:            conveyorPercent = (
-34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
-35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
-36:            ) * 10 ** 2;
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L35](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L35) 
-```solidity
-34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
-35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
-36:            ) * 10 ** 2;
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L35](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L35) 
-```solidity
-34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
-35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L49](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L49) 
-```solidity
-48:        beaconReward = uint128(totalWethReward) - conveyorReward;
+13:        amountIn = (numerator / denominator) + 1;
 ``` 
 
 
@@ -7905,51 +7350,144 @@ File:[LimitOrderSwapRouter.sol#L479](https://github.com/ConveyorLabs/smart-contr
 
 
 
-File:[ConveyorRouterV1.sol#L126](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L126) 
+File:[ConveyorTickMath.sol#L76](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L76) 
 ```solidity
-125:        uint256 tokenOutAmountRequired = balanceBefore + swapData.amountOutMin;
+75:            int8 decimalShift = int8(IERC20(token0).decimals()) - int8(IERC20(token1).decimals());
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L135](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L135) 
+File:[ConveyorTickMath.sol#L79](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L79) 
 ```solidity
-134:            revert InsufficientOutputAmount(tokenOutAmountRequired - balanceAfter, swapData.amountOutMin);
+78:                ? uint256(sqrtPriceX96) ** 2 / uint256(10) ** (uint8(-decimalShift))
+79:                : uint256(sqrtPriceX96) ** 2 * 10 ** uint8(decimalShift);
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L166](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L166) 
+File:[ConveyorTickMath.sol#L80](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L80) 
 ```solidity
-165:        uint256 amountIn = msg.value - swapData.protocolFee;
+79:                : uint256(sqrtPriceX96) ** 2 * 10 ** uint8(decimalShift);
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L178](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L178) 
+File:[ConveyorTickMath.sol#L84](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L84) 
 ```solidity
-177:        uint256 tokenOutAmountRequired = balanceBefore + swapData.amountOutMin;
+83:                ? priceSquaredX96 / Q96
+84:                : (Q96 * 0xffffffffffffffffffffffffffffffff) / (priceSquaredX96 / Q96);
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L188](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L188) 
+File:[ConveyorTickMath.sol#L85](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L85) 
 ```solidity
-187:            revert InsufficientOutputAmount(tokenOutAmountRequired - balanceAfter, swapData.amountOutMin);
+84:                : (Q96 * 0xffffffffffffffffffffffffffffffff) / (priceSquaredX96 / Q96);
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L225](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L225) 
+File:[ConveyorTickMath.sol#L85](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L85) 
 ```solidity
-224:        uint256 amountOutRequired = balanceBefore + swapData.amountOutMin;
+84:                : (Q96 * 0xffffffffffffffffffffffffffffffff) / (priceSquaredX96 / Q96);
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L241](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L241) 
+File:[ConveyorTickMath.sol#L85](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L85) 
 ```solidity
-240:            revert InsufficientOutputAmount(amountOutRequired - msg.sender.balance, swapData.amountOutMin);
+84:                : (Q96 * 0xffffffffffffffffffffffffffffffff) / (priceSquaredX96 / Q96);
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L89](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L89) 
+```solidity
+88:                ? (uint256(priceSquaredShiftQ96) * 0xffffffffffffffffffffffffffffffff) / Q96
+89:                : priceSquaredShiftQ96;
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L89](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L89) 
+```solidity
+88:                ? (uint256(priceSquaredShiftQ96) * 0xffffffffffffffffffffffffffffffff) / Q96
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L120](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L120) 
+```solidity
+119:        uint160 sqrtPriceLimitX96 = zeroForOne ? TickMath.MIN_SQRT_RATIO + 1 : TickMath.MAX_SQRT_RATIO - 1;
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L120](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L120) 
+```solidity
+119:        uint160 sqrtPriceLimitX96 = zeroForOne ? TickMath.MIN_SQRT_RATIO + 1 : TickMath.MAX_SQRT_RATIO - 1;
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L163](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L163) 
+```solidity
+162:            currentState.amountSpecifiedRemaining -= (step.amountIn + step.feeAmount).toInt256();
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L177](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L177) 
+```solidity
+176:                    currentState.tick = zeroForOne ? step.tickNext - 1 : step.tickNext;
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L11) 
+```solidity
+10:    uint128 constant MAX_CONVEYOR_PERCENT = 110680464442257300 * 10 ** 2;
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L32](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L32) 
+```solidity
+31:            int256 innerPartial = int256(uint256(ZERO_POINT_ZERO_ZERO_FIVE)) - int128(percentFee);
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L34](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L34) 
+```solidity
+33:            conveyorPercent = (
+34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
+35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
+36:            ) * 10 ** 2;
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L35](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L35) 
+```solidity
+34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
+35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
+36:            ) * 10 ** 2;
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L35](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L35) 
+```solidity
+34:                percentFee + ConveyorMath.div64x64(uint128(uint256(innerPartial)), uint128(2) << 64)
+35:                    + uint128(ZERO_POINT_ZERO_ZERO_ONE)
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L49](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L49) 
+```solidity
+48:        beaconReward = uint128(totalWethReward) - conveyorReward;
 ``` 
 
 
@@ -8034,6 +7572,461 @@ File:[LimitOrderRouter.sol#L214](https://github.com/ConveyorLabs/smart-contracts
 File:[LimitOrderRouter.sol#L271](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L271) 
 ```solidity
 270:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+``` 
+
+
+
+File:[SandboxLimitOrderRouter.sol#L65](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L65) 
+```solidity
+64:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L272](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L272) 
+```solidity
+271:        amountOutWeth = amountOutWeth - (beaconReward + conveyorReward);
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L272](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L272) 
+```solidity
+271:        amountOutWeth = amountOutWeth - (beaconReward + conveyorReward);
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L384](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L384) 
+```solidity
+383:                amountInWethToB = amountIn - (beaconReward + conveyorReward);
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L384](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L384) 
+```solidity
+383:                amountInWethToB = amountIn - (beaconReward + conveyorReward);
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L500](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L500) 
+```solidity
+499:                contractBalancePostExecution - contractBalancePreExecution,
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L501](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L501) 
+```solidity
+500:                expectedAccumulatedFees - (contractBalancePostExecution - contractBalancePreExecution)
+501:            );
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L501](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L501) 
+```solidity
+500:                expectedAccumulatedFees - (contractBalancePostExecution - contractBalancePreExecution)
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L126](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L126) 
+```solidity
+125:        uint256 tokenOutAmountRequired = balanceBefore + swapData.amountOutMin;
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L135](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L135) 
+```solidity
+134:            revert InsufficientOutputAmount(tokenOutAmountRequired - balanceAfter, swapData.amountOutMin);
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L166](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L166) 
+```solidity
+165:        uint256 amountIn = msg.value - swapData.protocolFee;
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L178](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L178) 
+```solidity
+177:        uint256 tokenOutAmountRequired = balanceBefore + swapData.amountOutMin;
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L188](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L188) 
+```solidity
+187:            revert InsufficientOutputAmount(tokenOutAmountRequired - balanceAfter, swapData.amountOutMin);
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L225](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L225) 
+```solidity
+224:        uint256 amountOutRequired = balanceBefore + swapData.amountOutMin;
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L241](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L241) 
+```solidity
+240:            revert InsufficientOutputAmount(amountOutRequired - msg.sender.balance, swapData.amountOutMin);
+``` 
+
+
+
+File:[UniswapInterfaceMulticall.sol#L35](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/UniswapInterfaceMulticall.sol#L35) 
+```solidity
+34:            uint256 gasUsed = gasLeftBefore - gasleft();
+``` 
+
+
+
+File:[LimitOrderBook.sol#L186](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L186) 
+```solidity
+185:        if (executionCredit - amount < minExecutionCredit) {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L187](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L187) 
+```solidity
+186:            revert InsufficientExecutionCredit(executionCredit - amount, minExecutionCredit);
+``` 
+
+
+
+File:[LimitOrderBook.sol#L190](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L190) 
+```solidity
+189:        orderIdToLimitOrder[orderId].executionCredit = executionCredit - amount;
+``` 
+
+
+
+File:[LimitOrderBook.sol#L194](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L194) 
+```solidity
+193:        emit OrderExecutionCreditUpdated(orderId, executionCredit - amount);
+``` 
+
+
+
+File:[LimitOrderBook.sol#L215](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L215) 
+```solidity
+214:        uint128 newExecutionCreditBalance = orderIdToLimitOrder[orderId].executionCredit + uint128(msg.value);
+``` 
+
+
+
+File:[LimitOrderBook.sol#L255](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L255) 
+```solidity
+254:        uint256 minimumExecutionCreditForOrderGroup = minExecutionCredit * orderGroup.length;
+``` 
+
+
+
+File:[LimitOrderBook.sol#L409](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L409) 
+```solidity
+408:            uint128 newExecutionCredit = orderIdToLimitOrder[order.orderId].executionCredit + uint128(msg.value);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L252](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L252) 
+```solidity
+251:            if (executionCreditRemaining - amount < minExecutionCredit) {
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L253](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L253) 
+```solidity
+252:                revert InsufficientExecutionCredit(executionCreditRemaining - amount, minExecutionCredit);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L257](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L257) 
+```solidity
+256:        orderIdToSandboxLimitOrder[orderId].executionCreditRemaining = executionCreditRemaining - amount;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L260](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L260) 
+```solidity
+259:        emit OrderExecutionCreditUpdated(orderId, executionCreditRemaining - amount);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L276](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L276) 
+```solidity
+275:            orderIdToSandboxLimitOrder[orderId].executionCreditRemaining + uint128(msg.value);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L292](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L292) 
+```solidity
+291:        uint256 minimumExecutionCreditForOrderGroup = minExecutionCredit * orderGroup.length;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L350](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L350) 
+```solidity
+349:                            ? ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
+350:                                * 10 ** (18 - tokenInDecimals)
+351:                            : ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L351](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L351) 
+```solidity
+350:                                * 10 ** (18 - tokenInDecimals)
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L352](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L352) 
+```solidity
+351:                            : ConveyorMath.mul128U(tokenAWethSpotPrice, newOrder.amountInRemaining)
+352:                                / 10 ** (tokenInDecimals - 18);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L353](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L353) 
+```solidity
+352:                                / 10 ** (tokenInDecimals - 18);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L472](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L472) 
+```solidity
+471:                orderIdToSandboxLimitOrder[order.orderId].executionCreditRemaining + uint128(msg.value);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L565](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L565) 
+```solidity
+564:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L603](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L603) 
+```solidity
+602:                executionCreditRemaining - uint128(REFRESH_FEE);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L605](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L605) 
+```solidity
+604:            _safeTransferETH(order.owner, executionCreditRemaining - REFRESH_FEE);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L625](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L625) 
+```solidity
+624:        if (block.timestamp - lastCheckInTime > CHECK_IN_INTERVAL) {
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L666](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L666) 
+```solidity
+665:            if (executionCreditBalance - REFRESH_FEE < minExecutionCredit) {
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L676](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L676) 
+```solidity
+675:        if (block.timestamp - order.lastRefreshTimestamp < REFRESH_INTERVAL) {
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L681](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L681) 
+```solidity
+680:            executionCreditBalance - uint128(REFRESH_FEE);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L682](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L682) 
+```solidity
+681:        emit OrderExecutionCreditUpdated(order.orderId, executionCreditBalance - REFRESH_FEE);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L822](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L822) 
+```solidity
+821:                orderIdIndex += orderIdBundle.length - 1;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L868](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L868) 
+```solidity
+867:        if (initialTokenInBalance - currentTokenInBalance > fillAmount) {
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L870](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L870) 
+```solidity
+869:                currentOrder.orderId, initialTokenInBalance - currentTokenInBalance, fillAmount
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L875](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L875) 
+```solidity
+874:        if (currentTokenOutBalance - initialTokenOutBalance != amountOutRequired) {
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L877](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L877) 
+```solidity
+876:                currentOrder.orderId, currentTokenOutBalance - initialTokenOutBalance, amountOutRequired
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L888](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L888) 
+```solidity
+887:                uint128(initialTokenInBalance - currentTokenInBalance),
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L889](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L889) 
+```solidity
+888:                uint128(currentTokenOutBalance - initialTokenOutBalance),
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L933](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L933) 
+```solidity
+932:                SandboxLimitOrder memory currentOrder = preSandboxExecutionState.sandboxLimitOrders[offset + 1];
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L944](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L944) 
+```solidity
+943:                        fillAmounts[offset + 1]
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L956](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L956) 
+```solidity
+955:                        preSandboxExecutionState.initialTokenInBalances[offset] - currentTokenInBalance
+956:                            > cumulativeFillAmount
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L961](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L961) 
+```solidity
+960:                            preSandboxExecutionState.initialTokenInBalances[offset] - currentTokenInBalance,
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L966](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L966) 
+```solidity
+965:                    cumulativeFillAmount = fillAmounts[offset + 1];
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L969](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L969) 
+```solidity
+968:                    cumulativeFillAmount += fillAmounts[offset + 1];
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L975](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L975) 
+```solidity
+974:                        currentTokenOutBalance - preSandboxExecutionState.initialTokenOutBalances[offset]
+975:                            != cumulativeAmountOutRequired
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L980](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L980) 
+```solidity
+979:                            currentTokenOutBalance - preSandboxExecutionState.initialTokenOutBalances[offset],
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L999](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L999) 
+```solidity
+998:            _resolveOrPartialFillOrder(prevOrder, offset - 1, fillAmounts, cumulativeExecutionCompensation);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1058](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1058) 
+```solidity
+1057:        orderIdToSandboxLimitOrder[orderId].amountInRemaining = order.amountInRemaining - amountInFilled;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1060](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1060) 
+```solidity
+1059:        orderIdToSandboxLimitOrder[orderId].amountOutRemaining = order.amountOutRemaining - amountOutFilled;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1065](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1065) 
+```solidity
+1064:        uint128 updatedFeeRemaining = feeRemaining
+1065:            - uint128(ConveyorMath.mul64U(ConveyorMath.divUU(amountInFilled, amountInRemaining), feeRemaining));
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1073](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1073) 
+```solidity
+1072:        uint128 updatedExecutionCreditRemaining = executionCreditRemaining - executionCreditCompensation;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1080](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1080) 
+```solidity
+1079:            order.amountInRemaining - amountInFilled,
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1081](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1081) 
+```solidity
+1080:            order.amountOutRemaining - amountOutFilled,
 ``` 
 
  
@@ -8121,6 +8114,90 @@ contract Contract1 {
  </details> 
  
 
+File:[LimitOrderRouter.sol#L73](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L73) 
+```solidity
+72:        owner = tx.origin;
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L354](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L354) 
+```solidity
+353:        owner = msg.sender;
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L355](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L355) 
+```solidity
+354:        tempOwner = address(0);
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L363](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L363) 
+```solidity
+362:        tempOwner = newOwner;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L66](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L66) 
+```solidity
+65:        reentrancyStatus = true;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L68](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L68) 
+```solidity
+67:        reentrancyStatus = false;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L96](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L96) 
+```solidity
+95:        minExecutionCredit = _minExecutionCredit;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L103](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L103) 
+```solidity
+102:        owner = tx.origin;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1253](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1253) 
+```solidity
+1252:        minExecutionCredit = newMinExecutionCredit;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1262](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1262) 
+```solidity
+1261:        owner = msg.sender;
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1263](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1263) 
+```solidity
+1262:        tempOwner = address(0);
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1271](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1271) 
+```solidity
+1270:        tempOwner = newOwner;
+``` 
+
+
+
 File:[ConveyorRouterV1.sol#L66](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L66) 
 ```solidity
 65:        CONVEYOR_MULTICALL = address(new ConveyorMulticall());
@@ -8184,132 +8261,6 @@ File:[ConveyorRouterV1.sol#L448](https://github.com/ConveyorLabs/smart-contracts
 
 
 
-File:[SandboxLimitOrderBook.sol#L66](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L66) 
-```solidity
-65:        reentrancyStatus = true;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L68](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L68) 
-```solidity
-67:        reentrancyStatus = false;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L96](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L96) 
-```solidity
-95:        minExecutionCredit = _minExecutionCredit;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L103](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L103) 
-```solidity
-102:        owner = tx.origin;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1253](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1253) 
-```solidity
-1252:        minExecutionCredit = newMinExecutionCredit;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1262](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1262) 
-```solidity
-1261:        owner = msg.sender;
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1263](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1263) 
-```solidity
-1262:        tempOwner = address(0);
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1271](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1271) 
-```solidity
-1270:        tempOwner = newOwner;
-``` 
-
-
-
-File:[LimitOrderBook.sol#L32](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L32) 
-```solidity
-31:        reentrancyStatus = true;
-``` 
-
-
-
-File:[LimitOrderBook.sol#L34](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L34) 
-```solidity
-33:        reentrancyStatus = false;
-``` 
-
-
-
-File:[LimitOrderBook.sol#L47](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L47) 
-```solidity
-46:        minExecutionCredit = _minExecutionCredit;
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L73](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L73) 
-```solidity
-72:        owner = tx.origin;
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L354](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L354) 
-```solidity
-353:        owner = msg.sender;
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L355](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L355) 
-```solidity
-354:        tempOwner = address(0);
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L363](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L363) 
-```solidity
-362:        tempOwner = newOwner;
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L355](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L355) 
-```solidity
-354:        uniV3AmountOut = 0;
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L378](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L378) 
-```solidity
-377:            uniV3AmountOut = uint256(-amount1Delta);
-``` 
-
-
-
-File:[LimitOrderSwapRouter.sol#L383](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L383) 
-```solidity
-382:            uniV3AmountOut = uint256(-amount0Delta);
-``` 
-
-
-
 File:[ConveyorExecutor.sol#L69](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L69) 
 ```solidity
 68:        reentrancyStatus = true;
@@ -8355,6 +8306,48 @@ File:[ConveyorExecutor.sol#L525](https://github.com/ConveyorLabs/smart-contracts
 File:[ConveyorExecutor.sol#L534](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L534) 
 ```solidity
 533:        tempOwner = newOwner;
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L355](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L355) 
+```solidity
+354:        uniV3AmountOut = 0;
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L378](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L378) 
+```solidity
+377:            uniV3AmountOut = uint256(-amount1Delta);
+``` 
+
+
+
+File:[LimitOrderSwapRouter.sol#L383](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L383) 
+```solidity
+382:            uniV3AmountOut = uint256(-amount0Delta);
+``` 
+
+
+
+File:[LimitOrderBook.sol#L32](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L32) 
+```solidity
+31:        reentrancyStatus = true;
+``` 
+
+
+
+File:[LimitOrderBook.sol#L34](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L34) 
+```solidity
+33:        reentrancyStatus = false;
+``` 
+
+
+
+File:[LimitOrderBook.sol#L47](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L47) 
+```solidity
+46:        minExecutionCredit = _minExecutionCredit;
 ``` 
 
  
@@ -8444,30 +8437,16 @@ contract Contract1 {
  </details> 
  
 
-File:[ConveyorExecutor.sol#L119](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L119) 
-```solidity
-118:        require(_weth != address(0), "Invalid weth address");
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L120](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L120) 
-```solidity
-119:        require(_usdc != address(0), "Invalid usdc address");
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L121](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L121) 
-```solidity
-120:        require(_limitOrderQuoterAddress != address(0), "Invalid LimitOrderQuoter address");
-``` 
-
-
-
 File:[LimitOrderQuoter.sol#L17](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L17) 
 ```solidity
 16:        require(_weth != address(0), "Invalid weth address");
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L91](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L91) 
+```solidity
+90:            require(priceX128 <= type(uint256).max, "Overflow");
 ``` 
 
 
@@ -8521,13 +8500,6 @@ File:[OracleLibraryV2.sol#L11](https://github.com/ConveyorLabs/smart-contracts/b
 
 
 
-File:[LimitOrderRouter.sol#L70](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L70) 
-```solidity
-69:        require(_limitOrderExecutor != address(0), "Invalid ConveyorExecutor address");
-``` 
-
-
-
 File:[ConveyorMath.sol#L221](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L221) 
 ```solidity
 220:            require(answer <= uint128(MAX_64x64), "overflow");
@@ -8556,27 +8528,6 @@ File:[ConveyorMath.sol#L509](https://github.com/ConveyorLabs/smart-contracts/blo
 
 
 
-File:[SandboxLimitOrderBook.sol#L94](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L94) 
-```solidity
-93:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L95](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L95) 
-```solidity
-94:        require(_minExecutionCredit != 0, "Minimum Execution Credit is 0");
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L91](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L91) 
-```solidity
-90:            require(priceX128 <= type(uint256).max, "Overflow");
-``` 
-
-
-
 File:[LimitOrderBook.sol#L43](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L43) 
 ```solidity
 42:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
@@ -8587,6 +8538,48 @@ File:[LimitOrderBook.sol#L43](https://github.com/ConveyorLabs/smart-contracts/bl
 File:[LimitOrderBook.sol#L45](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L45) 
 ```solidity
 44:        require(_minExecutionCredit != 0, "Minimum Execution Credit is 0");
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L70](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L70) 
+```solidity
+69:        require(_limitOrderExecutor != address(0), "Invalid ConveyorExecutor address");
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L119](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L119) 
+```solidity
+118:        require(_weth != address(0), "Invalid weth address");
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L120](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L120) 
+```solidity
+119:        require(_usdc != address(0), "Invalid usdc address");
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L121](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L121) 
+```solidity
+120:        require(_limitOrderQuoterAddress != address(0), "Invalid LimitOrderQuoter address");
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L94](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L94) 
+```solidity
+93:        require(_limitOrderExecutor != address(0), "limitOrderExecutor address is address(0)");
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L95](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L95) 
+```solidity
+94:        require(_minExecutionCredit != 0, "Minimum Execution Credit is 0");
 ``` 
 
  
@@ -8636,6 +8629,62 @@ File:[ConveyorRouterV1.sol#L439](https://github.com/ConveyorLabs/smart-contracts
  </summary>
  Description of the qa pattern goes here 
 
+File:[SandboxLimitOrderBook.sol#L93](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L93) 
+```solidity
+92:    constructor(address _limitOrderExecutor, address _weth, address _usdc, uint256 _minExecutionCredit) {
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L93](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L93) 
+```solidity
+92:    constructor(address _limitOrderExecutor, address _weth, address _usdc, uint256 _minExecutionCredit) {
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L111](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L111) 
+```solidity
+110:    constructor(
+111:        address _weth,
+112:        address _usdc,
+113:        address _limitOrderQuoterAddress,
+114:        address[] memory _dexFactories,
+115:        bool[] memory _isUniV2,
+116:        uint256 _minExecutionCredit
+117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L111](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L111) 
+```solidity
+110:    constructor(
+111:        address _weth,
+112:        address _usdc,
+113:        address _limitOrderQuoterAddress,
+114:        address[] memory _dexFactories,
+115:        bool[] memory _isUniV2,
+116:        uint256 _minExecutionCredit
+117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L111](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L111) 
+```solidity
+110:    constructor(
+111:        address _weth,
+112:        address _usdc,
+113:        address _limitOrderQuoterAddress,
+114:        address[] memory _dexFactories,
+115:        bool[] memory _isUniV2,
+116:        uint256 _minExecutionCredit
+117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
+``` 
+
+
+
 File:[LimitOrderRouter.sol#L65](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L65) 
 ```solidity
 64:    constructor(address _weth, address _usdc, address _limitOrderExecutor, uint256 _minExecutionCredit)
@@ -8666,62 +8715,6 @@ File:[LimitOrderRouter.sol#L65](https://github.com/ConveyorLabs/smart-contracts/
 File:[LimitOrderSwapRouter.sol#L126](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L126) 
 ```solidity
 125:    constructor(address[] memory _dexFactories, bool[] memory _isUniV2) {
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L111](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L111) 
-```solidity
-110:    constructor(
-111:        address _weth,
-112:        address _usdc,
-113:        address _limitOrderQuoterAddress,
-114:        address[] memory _dexFactories,
-115:        bool[] memory _isUniV2,
-116:        uint256 _minExecutionCredit
-117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L111](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L111) 
-```solidity
-110:    constructor(
-111:        address _weth,
-112:        address _usdc,
-113:        address _limitOrderQuoterAddress,
-114:        address[] memory _dexFactories,
-115:        bool[] memory _isUniV2,
-116:        uint256 _minExecutionCredit
-117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L111](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L111) 
-```solidity
-110:    constructor(
-111:        address _weth,
-112:        address _usdc,
-113:        address _limitOrderQuoterAddress,
-114:        address[] memory _dexFactories,
-115:        bool[] memory _isUniV2,
-116:        uint256 _minExecutionCredit
-117:    ) LimitOrderSwapRouter(_dexFactories, _isUniV2) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L93](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L93) 
-```solidity
-92:    constructor(address _limitOrderExecutor, address _weth, address _usdc, uint256 _minExecutionCredit) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L93](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L93) 
-```solidity
-92:    constructor(address _limitOrderExecutor, address _weth, address _usdc, uint256 _minExecutionCredit) {
 ``` 
 
 
@@ -8762,293 +8755,6 @@ File:[SandboxLimitOrderRouter.sol#L54](https://github.com/ConveyorLabs/smart-con
  </summary>
  This will minimize compiled code size and help with readability 
 
-File:[SandboxLimitOrderBook.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L4) 
-```solidity
-3:import "./ConveyorErrors.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L5) 
-```solidity
-4:import "../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L6) 
-```solidity
-5:import "./interfaces/ILimitOrderBook.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L7) 
-```solidity
-6:import "./interfaces/ILimitOrderSwapRouter.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L8) 
-```solidity
-7:import "./LimitOrderSwapRouter.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L9) 
-```solidity
-8:import "./lib/ConveyorMath.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L10) 
-```solidity
-9:import "./interfaces/IConveyorExecutor.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L11) 
-```solidity
-10:import "./SandboxLimitOrderRouter.sol";
-``` 
-
-
-
-File:[MeerkatCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[MeerkatCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[MeerkatCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[DystopiaCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[DystopiaCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[DystopiaCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[ConveyorMath.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L4) 
-```solidity
-3:import "../../lib/libraries/Uniswap/FullMath.sol";
-``` 
-
-
-
-File:[ElkSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[ElkSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[ElkSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L4) 
-```solidity
-3:import "../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L5) 
-```solidity
-4:import "./LimitOrderBook.sol";
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L6) 
-```solidity
-5:import "./ConveyorErrors.sol";
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L7) 
-```solidity
-6:import "../lib/interfaces/token/IWETH.sol";
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L8) 
-```solidity
-7:import "./LimitOrderSwapRouter.sol";
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L9) 
-```solidity
-8:import "./interfaces/ILimitOrderQuoter.sol";
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L10) 
-```solidity
-9:import "./interfaces/IConveyorExecutor.sol";
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L11) 
-```solidity
-10:import "./interfaces/ILimitOrderRouter.sol";
-``` 
-
-
-
-File:[ILimitOrderSwapRouter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderSwapRouter.sol#L4) 
-```solidity
-3:import "../LimitOrderSwapRouter.sol";
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L4) 
-```solidity
-3:import "./LimitOrderSwapRouter.sol";
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L5) 
-```solidity
-4:import "./lib/ConveyorTickMath.sol";
-``` 
-
-
-
-File:[LimitOrderQuoter.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L6) 
-```solidity
-5:import "./interfaces/ILimitOrderQuoter.sol";
-``` 
-
-
-
-File:[NomiswapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[NomiswapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[NomiswapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[IConveyorExecutor.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorExecutor.sol#L4) 
-```solidity
-3:import "../LimitOrderBook.sol";
-``` 
-
-
-
-File:[IConveyorExecutor.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorExecutor.sol#L5) 
-```solidity
-4:import "../SandboxLimitOrderBook.sol";
-``` 
-
-
-
-File:[IConveyorExecutor.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorExecutor.sol#L6) 
-```solidity
-5:import "../SandboxLimitOrderRouter.sol";
-``` 
-
-
-
-File:[ConveyorRouterV1.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L4) 
-```solidity
-3:import "./ConveyorErrors.sol";
-``` 
-
-
-
-File:[ConveyorRouterV1.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L10) 
-```solidity
-9:import "../test/utils/Console.sol";
-``` 
-
-
-
-File:[CafeSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[CafeSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[CafeSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
 File:[PancakeV2Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV2Callback.sol#L4) 
 ```solidity
 3:import "../../lib/interfaces/token/IERC20.sol";
@@ -9070,142 +8776,23 @@ File:[PancakeV2Callback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/
 
 
 
-File:[DeployTest.s.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployTest.s.sol#L7) 
+File:[WaultSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L4) 
 ```solidity
-6:import "../../test/utils/Console.sol";
+3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
 
 
 
-File:[SandboxLimitOrderRouter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L4) 
+File:[WaultSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L5) 
 ```solidity
-3:import "../lib/interfaces/token/IERC20.sol";
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
 ``` 
 
 
 
-File:[SandboxLimitOrderRouter.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L5) 
+File:[WaultSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L6) 
 ```solidity
-4:import "./ConveyorErrors.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderRouter.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L6) 
-```solidity
-5:import "./interfaces/ISandboxLimitOrderBook.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderRouter.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L7) 
-```solidity
-6:import "../lib/libraries/token/SafeERC20.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderRouter.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L8) 
-```solidity
-7:import "./interfaces/ISandboxLimitOrderRouter.sol";
-``` 
-
-
-
-File:[SandboxLimitOrderRouter.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L9) 
-```solidity
-8:import "./interfaces/IConveyorExecutor.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L4) 
-```solidity
-3:import "../../lib/libraries/Uniswap/FullMath.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L5) 
-```solidity
-4:import "../../lib/libraries/Uniswap/LowGasSafeMath.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L6) 
-```solidity
-5:import "../../lib/libraries/Uniswap/SafeCast.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L7) 
-```solidity
-6:import "../../lib/libraries/Uniswap/SqrtPriceMath.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L8) 
-```solidity
-7:import "../../lib/libraries/Uniswap/TickMath.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L9) 
-```solidity
-8:import "../../lib/libraries/Uniswap/TickBitmap.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L10) 
-```solidity
-9:import "../../lib/libraries/Uniswap/SwapMath.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L11) 
-```solidity
-10:import "../../lib/interfaces/uniswap-v3/IUniswapV3Pool.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L12) 
-```solidity
-11:import "../../lib/libraries/Uniswap/LowGasSafeMath.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L13) 
-```solidity
-12:import "../../lib/libraries/Uniswap/LiquidityMath.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L14) 
-```solidity
-13:import "../../lib/libraries/Uniswap/Tick.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L15](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L15) 
-```solidity
-14:import "../../lib/libraries/Uniswap/SafeCast.sol";
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L16](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L16) 
-```solidity
-15:import "../../lib/interfaces/token/IERC20.sol";
+5:import "../lib/OracleLibraryV2.sol";
 ``` 
 
 
@@ -9273,23 +8860,65 @@ File:[ConveyorExecutor.sol#L12](https://github.com/ConveyorLabs/smart-contracts/
 
 
 
-File:[BabySwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L4) 
+File:[ISandboxLimitOrderRouter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderRouter.sol#L4) 
+```solidity
+3:import "../SandboxLimitOrderRouter.sol";
+``` 
+
+
+
+File:[BabyDogeCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L4) 
 ```solidity
 3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
 
 
 
-File:[BabySwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L5) 
+File:[BabyDogeCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L5) 
 ```solidity
 4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
 ``` 
 
 
 
-File:[BabySwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L6) 
+File:[BabyDogeCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L6) 
 ```solidity
 5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[UniswapV3Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV3Callback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[DeployTest.s.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployTest.s.sol#L7) 
+```solidity
+6:import "../../test/utils/Console.sol";
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L4) 
+```solidity
+3:import "./LimitOrderSwapRouter.sol";
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L5) 
+```solidity
+4:import "./lib/ConveyorTickMath.sol";
+``` 
+
+
+
+File:[LimitOrderQuoter.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderQuoter.sol#L6) 
+```solidity
+5:import "./interfaces/ILimitOrderQuoter.sol";
 ``` 
 
 
@@ -9315,254 +8944,58 @@ File:[VerseCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob
 
 
 
-File:[ApeSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[ApeSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[ApeSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[UniswapV3Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV3Callback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[UniFiCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[UniFiCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[UniFiCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[LimitOrderBook.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L4) 
-```solidity
-3:import "../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[LimitOrderBook.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L5) 
-```solidity
-4:import "./ConveyorErrors.sol";
-``` 
-
-
-
-File:[LimitOrderBook.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L6) 
-```solidity
-5:import "./interfaces/ILimitOrderSwapRouter.sol";
-``` 
-
-
-
-File:[LimitOrderBook.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L7) 
-```solidity
-6:import "./lib/ConveyorMath.sol";
-``` 
-
-
-
-File:[LimitOrderBook.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L8) 
-```solidity
-7:import "./interfaces/IConveyorExecutor.sol";
-``` 
-
-
-
-File:[SakeSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[SakeSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[SakeSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[KyberSwapV3Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/KyberSwapV3Callback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[WaultSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[WaultSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[WaultSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/WaultSwapCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[ILimitOrderBook.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderBook.sol#L4) 
-```solidity
-3:import "../LimitOrderBook.sol";
-``` 
-
-
-
-File:[BiswapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[BiswapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[BiswapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[TraderJoeCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[TraderJoeCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[TraderJoeCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[DeployBSCAggregator.s.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployBSCAggregator.s.sol#L7) 
-```solidity
-6:import "../../test/utils/Console.sol";
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L4) 
-```solidity
-3:import "./ConveyorMath.sol";
-``` 
-
-
-
-File:[ConveyorFeeMath.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L5) 
-```solidity
-4:import "../../lib/libraries/QuadruplePrecision.sol";
-``` 
-
-
-
-File:[ISandboxLimitOrderBook.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderBook.sol#L4) 
-```solidity
-3:import "../SandboxLimitOrderRouter.sol";
-``` 
-
-
-
-File:[ISandboxLimitOrderBook.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderBook.sol#L5) 
-```solidity
-4:import "../SandboxLimitOrderBook.sol";
-``` 
-
-
-
-File:[IConveyorRouterV1.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorRouterV1.sol#L4) 
-```solidity
-3:import "../ConveyorRouterV1.sol";
-``` 
-
-
-
-File:[LinkSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L4) 
-```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
-``` 
-
-
-
-File:[LinkSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L5) 
-```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
-``` 
-
-
-
-File:[LinkSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L6) 
-```solidity
-5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
 File:[ILimitOrderQuoter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderQuoter.sol#L4) 
 ```solidity
 3:import "../LimitOrderSwapRouter.sol";
+``` 
+
+
+
+File:[DefiSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[DefiSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[DefiSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[MeerkatCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[MeerkatCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[MeerkatCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/MeerkatCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[PancakeV3Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
 
 
@@ -9693,30 +9126,58 @@ File:[LimitOrderSwapRouter.sol#L21](https://github.com/ConveyorLabs/smart-contra
 
 
 
-File:[ConvergenceXCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L4) 
+File:[LimitOrderBook.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L4) 
+```solidity
+3:import "../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[LimitOrderBook.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L5) 
+```solidity
+4:import "./ConveyorErrors.sol";
+``` 
+
+
+
+File:[LimitOrderBook.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L6) 
+```solidity
+5:import "./interfaces/ILimitOrderSwapRouter.sol";
+``` 
+
+
+
+File:[LimitOrderBook.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L7) 
+```solidity
+6:import "./lib/ConveyorMath.sol";
+``` 
+
+
+
+File:[LimitOrderBook.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L8) 
+```solidity
+7:import "./interfaces/IConveyorExecutor.sol";
+``` 
+
+
+
+File:[LinkSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L4) 
 ```solidity
 3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
 
 
 
-File:[ConvergenceXCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L5) 
+File:[LinkSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L5) 
 ```solidity
 4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
 ``` 
 
 
 
-File:[ConvergenceXCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L6) 
+File:[LinkSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/LinkSwapCallback.sol#L6) 
 ```solidity
 5:import "../lib/OracleLibraryV2.sol";
-``` 
-
-
-
-File:[ISandboxLimitOrderRouter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderRouter.sol#L4) 
-```solidity
-3:import "../SandboxLimitOrderRouter.sol";
 ``` 
 
 
@@ -9742,23 +9203,429 @@ File:[JetSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/bl
 
 
 
-File:[BabyDogeCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L4) 
+File:[ILimitOrderBook.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderBook.sol#L4) 
+```solidity
+3:import "../LimitOrderBook.sol";
+``` 
+
+
+
+File:[AlgebraCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L4) 
 ```solidity
 3:import "../../lib/interfaces/token/IERC20.sol";
 ``` 
 
 
 
-File:[BabyDogeCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L5) 
+File:[SandboxLimitOrderBook.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L4) 
+```solidity
+3:import "./ConveyorErrors.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L5) 
+```solidity
+4:import "../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L6) 
+```solidity
+5:import "./interfaces/ILimitOrderBook.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L7) 
+```solidity
+6:import "./interfaces/ILimitOrderSwapRouter.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L8) 
+```solidity
+7:import "./LimitOrderSwapRouter.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L9) 
+```solidity
+8:import "./lib/ConveyorMath.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L10) 
+```solidity
+9:import "./interfaces/IConveyorExecutor.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L11) 
+```solidity
+10:import "./SandboxLimitOrderRouter.sol";
+``` 
+
+
+
+File:[DystopiaCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[DystopiaCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L5) 
 ```solidity
 4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
 ``` 
 
 
 
-File:[BabyDogeCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabyDogeCallback.sol#L6) 
+File:[DystopiaCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DystopiaCallback.sol#L6) 
 ```solidity
 5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[ElkSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[ElkSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[ElkSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ElkSwapCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L4) 
+```solidity
+3:import "./ConveyorMath.sol";
+``` 
+
+
+
+File:[ConveyorFeeMath.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorFeeMath.sol#L5) 
+```solidity
+4:import "../../lib/libraries/QuadruplePrecision.sol";
+``` 
+
+
+
+File:[IConveyorExecutor.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorExecutor.sol#L4) 
+```solidity
+3:import "../LimitOrderBook.sol";
+``` 
+
+
+
+File:[IConveyorExecutor.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorExecutor.sol#L5) 
+```solidity
+4:import "../SandboxLimitOrderBook.sol";
+``` 
+
+
+
+File:[IConveyorExecutor.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorExecutor.sol#L6) 
+```solidity
+5:import "../SandboxLimitOrderRouter.sol";
+``` 
+
+
+
+File:[NomiswapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[NomiswapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[NomiswapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/NomiswapCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[ConvergenceXCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[ConvergenceXCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[ConvergenceXCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ConvergenceXCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[UniFiCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[UniFiCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[UniFiCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniFiCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[ILimitOrderSwapRouter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ILimitOrderSwapRouter.sol#L4) 
+```solidity
+3:import "../LimitOrderSwapRouter.sol";
+``` 
+
+
+
+File:[IConveyorRouterV1.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/IConveyorRouterV1.sol#L4) 
+```solidity
+3:import "../ConveyorRouterV1.sol";
+``` 
+
+
+
+File:[ISandboxLimitOrderBook.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderBook.sol#L4) 
+```solidity
+3:import "../SandboxLimitOrderRouter.sol";
+``` 
+
+
+
+File:[ISandboxLimitOrderBook.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/interfaces/ISandboxLimitOrderBook.sol#L5) 
+```solidity
+4:import "../SandboxLimitOrderBook.sol";
+``` 
+
+
+
+File:[SakeSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[SakeSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[SakeSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/SakeSwapCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[CafeSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[CafeSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[CafeSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/CafeSwapCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[ConveyorMath.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L4) 
+```solidity
+3:import "../../lib/libraries/Uniswap/FullMath.sol";
+``` 
+
+
+
+File:[UniswapV2Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[UniswapV2Callback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[UniswapV2Callback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[KyberSwapV3Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/KyberSwapV3Callback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[TraderJoeCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[TraderJoeCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[TraderJoeCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/TraderJoeCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[BabySwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[BabySwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[BabySwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BabySwapCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[DeployBSCAggregator.s.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/deploy/DeployBSCAggregator.s.sol#L7) 
+```solidity
+6:import "../../test/utils/Console.sol";
+``` 
+
+
+
+File:[ApeSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[ApeSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[ApeSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/ApeSwapCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderRouter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L4) 
+```solidity
+3:import "../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderRouter.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L5) 
+```solidity
+4:import "./ConveyorErrors.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderRouter.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L6) 
+```solidity
+5:import "./interfaces/ISandboxLimitOrderBook.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderRouter.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L7) 
+```solidity
+6:import "../lib/libraries/token/SafeERC20.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderRouter.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L8) 
+```solidity
+7:import "./interfaces/ISandboxLimitOrderRouter.sol";
+``` 
+
+
+
+File:[SandboxLimitOrderRouter.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderRouter.sol#L9) 
+```solidity
+8:import "./interfaces/IConveyorExecutor.sol";
 ``` 
 
 
@@ -9778,6 +9645,27 @@ File:[DXSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blo
 
 
 File:[DXSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DXSwapCallback.sol#L6) 
+```solidity
+5:import "../lib/OracleLibraryV2.sol";
+``` 
+
+
+
+File:[BiswapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L4) 
+```solidity
+3:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[BiswapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L5) 
+```solidity
+4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+``` 
+
+
+
+File:[BiswapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/BiswapCallback.sol#L6) 
 ```solidity
 5:import "../lib/OracleLibraryV2.sol";
 ``` 
@@ -9805,58 +9693,163 @@ File:[MdexSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/b
 
 
 
-File:[AlgebraCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/AlgebraCallback.sol#L4) 
+File:[ConveyorTickMath.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L4) 
 ```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
+3:import "../../lib/libraries/Uniswap/FullMath.sol";
 ``` 
 
 
 
-File:[DefiSwapCallback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L4) 
+File:[ConveyorTickMath.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L5) 
 ```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
+4:import "../../lib/libraries/Uniswap/LowGasSafeMath.sol";
 ``` 
 
 
 
-File:[DefiSwapCallback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L5) 
+File:[ConveyorTickMath.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L6) 
 ```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+5:import "../../lib/libraries/Uniswap/SafeCast.sol";
 ``` 
 
 
 
-File:[DefiSwapCallback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/DefiSwapCallback.sol#L6) 
+File:[ConveyorTickMath.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L7) 
 ```solidity
-5:import "../lib/OracleLibraryV2.sol";
+6:import "../../lib/libraries/Uniswap/SqrtPriceMath.sol";
 ``` 
 
 
 
-File:[UniswapV2Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L4) 
+File:[ConveyorTickMath.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L8) 
 ```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
+7:import "../../lib/libraries/Uniswap/TickMath.sol";
 ``` 
 
 
 
-File:[UniswapV2Callback.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L5) 
+File:[ConveyorTickMath.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L9) 
 ```solidity
-4:import "../../lib/interfaces/uniswap-v2/IUniswapV2Pair.sol";
+8:import "../../lib/libraries/Uniswap/TickBitmap.sol";
 ``` 
 
 
 
-File:[UniswapV2Callback.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/UniswapV2Callback.sol#L6) 
+File:[ConveyorTickMath.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L10) 
 ```solidity
-5:import "../lib/OracleLibraryV2.sol";
+9:import "../../lib/libraries/Uniswap/SwapMath.sol";
 ``` 
 
 
 
-File:[PancakeV3Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/callbacks/PancakeV3Callback.sol#L4) 
+File:[ConveyorTickMath.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L11) 
 ```solidity
-3:import "../../lib/interfaces/token/IERC20.sol";
+10:import "../../lib/interfaces/uniswap-v3/IUniswapV3Pool.sol";
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L12](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L12) 
+```solidity
+11:import "../../lib/libraries/Uniswap/LowGasSafeMath.sol";
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L13](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L13) 
+```solidity
+12:import "../../lib/libraries/Uniswap/LiquidityMath.sol";
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L14](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L14) 
+```solidity
+13:import "../../lib/libraries/Uniswap/Tick.sol";
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L15](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L15) 
+```solidity
+14:import "../../lib/libraries/Uniswap/SafeCast.sol";
+``` 
+
+
+
+File:[ConveyorTickMath.sol#L16](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L16) 
+```solidity
+15:import "../../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L4) 
+```solidity
+3:import "../lib/interfaces/token/IERC20.sol";
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L5) 
+```solidity
+4:import "./LimitOrderBook.sol";
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L6](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L6) 
+```solidity
+5:import "./ConveyorErrors.sol";
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L7](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L7) 
+```solidity
+6:import "../lib/interfaces/token/IWETH.sol";
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L8](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L8) 
+```solidity
+7:import "./LimitOrderSwapRouter.sol";
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L9](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L9) 
+```solidity
+8:import "./interfaces/ILimitOrderQuoter.sol";
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L10) 
+```solidity
+9:import "./interfaces/IConveyorExecutor.sol";
+``` 
+
+
+
+File:[LimitOrderRouter.sol#L11](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L11) 
+```solidity
+10:import "./interfaces/ILimitOrderRouter.sol";
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L4](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L4) 
+```solidity
+3:import "./ConveyorErrors.sol";
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L10](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L10) 
+```solidity
+9:import "../test/utils/Console.sol";
 ``` 
 
  
@@ -9869,6 +9862,13 @@ File:[PancakeV3Callback.sol#L4](https://github.com/ConveyorLabs/smart-contracts/
  </summary>
  Consider renaming to follow convention 
 
+File:[ConveyorTickMath.sol#L28](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L28) 
+```solidity
+27:    uint128 private constant MAX_64x64 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+``` 
+
+
+
 File:[LimitOrderSwapRouter.sol#L101](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L101) 
 ```solidity
 100:    uint128 private constant MIN_FEE_64x64 = 18446744073709552;
@@ -9879,13 +9879,6 @@ File:[LimitOrderSwapRouter.sol#L101](https://github.com/ConveyorLabs/smart-contr
 File:[LimitOrderSwapRouter.sol#L105](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L105) 
 ```solidity
 104:    uint256 private constant ONE_128x128 = uint256(1) << 128;
-``` 
-
-
-
-File:[ConveyorTickMath.sol#L28](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L28) 
-```solidity
-27:    uint128 private constant MAX_64x64 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
 ``` 
 
 
@@ -9918,6 +9911,27 @@ File:[ConveyorMath.sol#L16](https://github.com/ConveyorLabs/smart-contracts/blob
  <h3> Consider using scientific notation for large multiples of 10 - Instances: 17 </h3> 
  </summary>
  For example 100000 can be written as 1e5 
+
+File:[ConveyorRouterV1.sol#L28](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L28) 
+```solidity
+27:    uint128 private constant AFFILIATE_PERCENT = 5534023222112865000;
+``` 
+
+
+
+File:[ConveyorRouterV1.sol#L29](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L29) 
+```solidity
+28:    uint128 private constant REFERRAL_PERCENT = 5534023222112865000;
+``` 
+
+
+
+File:[ConveyorExecutor.sol#L35](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L35) 
+```solidity
+34:    uint128 private constant STOP_LOSS_MAX_BEACON_REWARD = 50000000000000000;
+``` 
+
+
 
 File:[LimitOrderSwapRouter.sol#L102](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L102) 
 ```solidity
@@ -9961,23 +9975,16 @@ File:[LimitOrderSwapRouter.sol#L111](https://github.com/ConveyorLabs/smart-contr
 
 
 
-File:[ConveyorRouterV1.sol#L28](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L28) 
+File:[LimitOrderRouter.sol#L49](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L49) 
 ```solidity
-27:    uint128 private constant AFFILIATE_PERCENT = 5534023222112865000;
+48:    uint256 private constant REFRESH_INTERVAL = 2592000;
 ``` 
 
 
 
-File:[ConveyorRouterV1.sol#L29](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L29) 
+File:[LimitOrderRouter.sol#L53](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L53) 
 ```solidity
-28:    uint128 private constant REFERRAL_PERCENT = 5534023222112865000;
-``` 
-
-
-
-File:[ConveyorExecutor.sol#L35](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorExecutor.sol#L35) 
-```solidity
-34:    uint128 private constant STOP_LOSS_MAX_BEACON_REWARD = 50000000000000000;
+52:    uint256 private constant REFRESH_FEE = 20000000000000000;
 ``` 
 
 
@@ -10010,20 +10017,6 @@ File:[ConveyorFeeMath.sol#L12](https://github.com/ConveyorLabs/smart-contracts/b
 
 
 
-File:[LimitOrderRouter.sol#L49](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L49) 
-```solidity
-48:    uint256 private constant REFRESH_INTERVAL = 2592000;
-``` 
-
-
-
-File:[LimitOrderRouter.sol#L53](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderRouter.sol#L53) 
-```solidity
-52:    uint256 private constant REFRESH_FEE = 20000000000000000;
-``` 
-
-
-
 File:[SandboxLimitOrderBook.sol#L33](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L33) 
 ```solidity
 32:    uint256 private constant REFRESH_INTERVAL = 2592000;
@@ -10045,6 +10038,20 @@ File:[SandboxLimitOrderBook.sol#L39](https://github.com/ConveyorLabs/smart-contr
  <h3> Remove any unused functions - Instances: 28 </h3> 
  </summary>
   
+
+File:[LimitOrderBook.sol#L511](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L511) 
+```solidity
+510:    function _resolveCompletedOrder(bytes32 orderId) internal {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L496](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L496) 
+```solidity
+495:    function _removeOrderFromSystem(bytes32 orderId) internal {
+``` 
+
+
 
 File:[ConveyorTickMath.sol#L69](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorTickMath.sol#L69) 
 ```solidity
@@ -10072,30 +10079,153 @@ File:[ConveyorTickMath.sol#L103](https://github.com/ConveyorLabs/smart-contracts
 
 
 
-File:[LimitOrderBook.sol#L511](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L511) 
+File:[OracleLibraryV2.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L5) 
 ```solidity
-510:    function _resolveCompletedOrder(bytes32 orderId) internal {
+4:    function getAmountIn(uint256 amountOut, uint256 reserveIn, uint256 reserveOut, uint24 swapFee)
+5:        internal
+6:        pure
+7:        returns (uint256 amountIn)
+8:    {
 ``` 
 
 
 
-File:[LimitOrderBook.sol#L496](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L496) 
+File:[ConveyorMath.sol#L84](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L84) 
 ```solidity
-495:    function _removeOrderFromSystem(bytes32 orderId) internal {
+83:    function sub(int128 x, int128 y) internal pure returns (int128) {
 ``` 
 
 
 
-File:[LimitOrderSwapRouter.sol#L214](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L214) 
+File:[ConveyorMath.sol#L162](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L162) 
 ```solidity
-213:    function _transferTokensOutToOwner(address orderOwner, uint256 amount, address tokenOut) internal {
+161:    function mul128U(uint256 x, uint256 y) internal pure returns (uint256) {
 ``` 
 
 
 
-File:[LimitOrderSwapRouter.sol#L222](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L222) 
+File:[ConveyorMath.sol#L31](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L31) 
 ```solidity
-221:    function _transferBeaconReward(uint256 totalBeaconReward, address executorAddress, address weth) internal {
+30:    function toUInt64(uint128 x) internal pure returns (uint64) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L40](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L40) 
+```solidity
+39:    function fromUInt128(uint128 x) internal pure returns (uint256) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L141](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L141) 
+```solidity
+140:    function mul64U(uint128 x, uint256 y) internal pure returns (uint256) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L72](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L72) 
+```solidity
+71:    function add64x64(uint128 x, uint128 y) internal pure returns (uint128) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L183](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L183) 
+```solidity
+182:    function div64x64(uint128 x, uint128 y) internal pure returns (uint128) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L128](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L128) 
+```solidity
+127:    function mul128x64(uint256 x, uint128 y) internal pure returns (uint256) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L518](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L518) 
+```solidity
+517:    function sqrtu(uint256 x) internal pure returns (uint128) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L51](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L51) 
+```solidity
+50:    function from128x128(uint256 x) internal pure returns (uint128) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L116](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L116) 
+```solidity
+115:    function mul64x64(uint128 x, uint128 y) internal pure returns (uint128) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L21](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L21) 
+```solidity
+20:    function fromUInt256(uint256 x) internal pure returns (uint128) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L62](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L62) 
+```solidity
+61:    function to128x128(uint128 x) internal pure returns (uint256) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L288](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L288) 
+```solidity
+287:    function fromX64ToX16(uint128 x) internal pure returns (uint32) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L507](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L507) 
+```solidity
+506:    function exp(uint128 x) internal pure returns (uint128) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L217](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L217) 
+```solidity
+216:    function divUU(uint256 x, uint256 y) internal pure returns (uint128) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L96](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L96) 
+```solidity
+95:    function add128x128(uint256 x, uint256 y) internal pure returns (uint256) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L106](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L106) 
+```solidity
+105:    function add128x64(uint256 x, uint128 y) internal pure returns (uint256) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L198](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L198) 
+```solidity
+197:    function div128x128(uint256 x, uint256 y) internal pure returns (uint256) {
+``` 
+
+
+
+File:[ConveyorMath.sol#L173](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L173) 
+```solidity
+172:    function abs(int256 x) internal pure returns (int256) {
 ``` 
 
 
@@ -10116,153 +10246,16 @@ File:[LimitOrderSwapRouter.sol#L295](https://github.com/ConveyorLabs/smart-contr
 
 
 
-File:[ConveyorMath.sol#L51](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L51) 
+File:[LimitOrderSwapRouter.sol#L214](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L214) 
 ```solidity
-50:    function from128x128(uint256 x) internal pure returns (uint128) {
+213:    function _transferTokensOutToOwner(address orderOwner, uint256 amount, address tokenOut) internal {
 ``` 
 
 
 
-File:[ConveyorMath.sol#L518](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L518) 
+File:[LimitOrderSwapRouter.sol#L222](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L222) 
 ```solidity
-517:    function sqrtu(uint256 x) internal pure returns (uint128) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L116](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L116) 
-```solidity
-115:    function mul64x64(uint128 x, uint128 y) internal pure returns (uint128) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L128](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L128) 
-```solidity
-127:    function mul128x64(uint256 x, uint128 y) internal pure returns (uint256) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L141](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L141) 
-```solidity
-140:    function mul64U(uint128 x, uint256 y) internal pure returns (uint256) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L162](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L162) 
-```solidity
-161:    function mul128U(uint256 x, uint256 y) internal pure returns (uint256) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L106](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L106) 
-```solidity
-105:    function add128x64(uint256 x, uint128 y) internal pure returns (uint256) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L198](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L198) 
-```solidity
-197:    function div128x128(uint256 x, uint256 y) internal pure returns (uint256) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L507](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L507) 
-```solidity
-506:    function exp(uint128 x) internal pure returns (uint128) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L40](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L40) 
-```solidity
-39:    function fromUInt128(uint128 x) internal pure returns (uint256) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L173](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L173) 
-```solidity
-172:    function abs(int256 x) internal pure returns (int256) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L31](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L31) 
-```solidity
-30:    function toUInt64(uint128 x) internal pure returns (uint64) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L21](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L21) 
-```solidity
-20:    function fromUInt256(uint256 x) internal pure returns (uint128) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L72](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L72) 
-```solidity
-71:    function add64x64(uint128 x, uint128 y) internal pure returns (uint128) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L84](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L84) 
-```solidity
-83:    function sub(int128 x, int128 y) internal pure returns (int128) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L183](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L183) 
-```solidity
-182:    function div64x64(uint128 x, uint128 y) internal pure returns (uint128) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L96](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L96) 
-```solidity
-95:    function add128x128(uint256 x, uint256 y) internal pure returns (uint256) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L288](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L288) 
-```solidity
-287:    function fromX64ToX16(uint128 x) internal pure returns (uint32) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L62](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L62) 
-```solidity
-61:    function to128x128(uint128 x) internal pure returns (uint256) {
-``` 
-
-
-
-File:[ConveyorMath.sol#L217](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/ConveyorMath.sol#L217) 
-```solidity
-216:    function divUU(uint256 x, uint256 y) internal pure returns (uint128) {
-``` 
-
-
-
-File:[OracleLibraryV2.sol#L5](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/lib/OracleLibraryV2.sol#L5) 
-```solidity
-4:    function getAmountIn(uint256 amountOut, uint256 reserveIn, uint256 reserveOut, uint24 swapFee)
-5:        internal
-6:        pure
-7:        returns (uint256 amountIn)
-8:    {
+221:    function _transferBeaconReward(uint256 totalBeaconReward, address executorAddress, address weth) internal {
 ``` 
 
  
@@ -10289,6 +10282,27 @@ File:[ConveyorRouterV1.sol#L22](https://github.com/ConveyorLabs/smart-contracts/
  <h3> Remove any unused returns - Instances: 11 </h3> 
  </summary>
   
+
+File:[SandboxLimitOrderBook.sol#L560](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L560) 
+```solidity
+559:    function validateAndCancelOrder(bytes32 orderId) external nonReentrant returns (bool success) {
+``` 
+
+
+
+File:[SandboxLimitOrderBook.sol#L1178](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1178) 
+```solidity
+1177:    function getTotalOrdersValue(address token) public view returns (uint256 totalOrderValue) {
+``` 
+
+
+
+File:[LimitOrderBook.sol#L537](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L537) 
+```solidity
+536:    function getTotalOrdersValue(address token) public view returns (uint256 totalOrderValue) {
+``` 
+
+
 
 File:[LimitOrderSwapRouter.sol#L321](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderSwapRouter.sol#L321) 
 ```solidity
@@ -10342,20 +10356,6 @@ File:[LimitOrderRouter.sol#L153](https://github.com/ConveyorLabs/smart-contracts
 
 
 
-File:[SandboxLimitOrderBook.sol#L560](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L560) 
-```solidity
-559:    function validateAndCancelOrder(bytes32 orderId) external nonReentrant returns (bool success) {
-``` 
-
-
-
-File:[SandboxLimitOrderBook.sol#L1178](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/SandboxLimitOrderBook.sol#L1178) 
-```solidity
-1177:    function getTotalOrdersValue(address token) public view returns (uint256 totalOrderValue) {
-``` 
-
-
-
 File:[ConveyorRouterV1.sol#L262](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/ConveyorRouterV1.sol#L262) 
 ```solidity
 261:    function quoteSwapExactTokenForToken(
@@ -10382,13 +10382,6 @@ File:[ConveyorRouterV1.sol#L294](https://github.com/ConveyorLabs/smart-contracts
 294:        TokenToEthSwapData calldata swapData,
 295:        SwapAggregatorMulticall calldata swapAggregatorMulticall
 296:    ) external payable returns (uint256 gasConsumed) {
-``` 
-
-
-
-File:[LimitOrderBook.sol#L537](https://github.com/ConveyorLabs/smart-contracts/blob/production/src/LimitOrderBook.sol#L537) 
-```solidity
-536:    function getTotalOrdersValue(address token) public view returns (uint256 totalOrderValue) {
 ``` 
 
  
