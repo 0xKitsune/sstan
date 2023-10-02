@@ -225,7 +225,7 @@ pub struct TableSection {
 impl From<&TableSection> for String {
     fn from(section: &TableSection) -> Self {
         format!(
-            "# {} \n\n | Classification | Title | Instances | \n |:-------:|:---------:|:-------:| {}",
+            "# {} \n\n | Classification | Title | Instances | \n |:-------:|:---------|:-------:| {}",
             section.title,
             section
                 .subsections
