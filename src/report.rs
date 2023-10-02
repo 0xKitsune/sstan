@@ -106,9 +106,7 @@ impl Report {
     pub fn string_from_report_outcome(&self, report_outcome: &OutcomeReport) -> String {
         let mut snippet = String::new();
         snippet.push_str(&format!("\nFile:{} \n", report_outcome.file_name));
-        snippet.push_str(&format!(
-            "```solidity\n"
-        ));
+        snippet.push_str(&format!("```solidity\n"));
         if let Ok(lines) = read_lines(report_outcome.file_path.as_path()) {
             for (i, line) in lines.enumerate() {
                 if let Ok(l) = line {
