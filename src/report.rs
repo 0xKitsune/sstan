@@ -1,4 +1,4 @@
-use std::{ops::Deref, path::PathBuf, os::unix::raw::gid_t};
+use std::{ops::Deref, os::unix::raw::gid_t, path::PathBuf};
 
 use toml::value::Date;
 
@@ -42,17 +42,102 @@ impl Default for Report {
     }
 }
 
+impl Report {
+    //Converts a report section into a string
+    pub fn string_from_report_section(&self, report_section: ReportSection) -> String {
+        let mut fragment: String = String::new();
+        fragment.push_str(&format!(
+            "\n <details open> \n <summary> \n <h3>{} - Instances: {} </h3> \n </summary>",
+            report_section.title,
+            report_section.outcomes.len()
+        ));
+        fragment.push_str(&format!(" \n {} \n", report_section.description));
+
+        fragment.push_str(
+            &report_section
+                .outcomes
+                .iter()
+                .map(|f| self.string_from_report_section_fragment(f))
+                .collect::<Vec<String>>()
+                .join("\n"),
+        );
+
+        fragment.push_str(" \n </details>");
+
+        fragment
+    }
+    //Converts a report section fragment into a string
+    pub fn string_from_report_section_fragment(
+        &self,
+        report_section_fragment: &ReportSectionFragment,
+    ) -> String {
+        let mut fragment: String = String::new();
+        if let Some(identifier) = report_section_fragment.identifier {
+            let identifier: String = format!(
+                "[{}-{}]",
+                identifier.classification.identifier(),
+                identifier.nonce
+            );
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,report_section_fragment.title,report_section_fragment.instances));
+        } else {
+            fragment.push_str(&format!(
+                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
+                report_section_fragment.title, report_section_fragment.instances,
+            ));
+        }
+
+        fragment.push_str(&format!("\n {} \n", report_section_fragment.description));
+
+        fragment.push_str(
+            &report_section_fragment
+                .outcomes
+                .iter()
+                .map(|o| self.string_from_report_outcome(o))
+                .collect::<Vec<String>>()
+                .join("\n"),
+        );
+
+        fragment.push_str(" \n </details>");
+
+        fragment
+    }
+
+    //Converts a report outcome into a string
+    pub fn string_from_report_outcome(&self, report_outcome: &OutcomeReport) -> String {
+        let mut snippet = String::new();
+        snippet.push_str(&format!(
+            "\n```solidity\nFile:{} \n",
+            report_outcome.file_name
+        ));
+        if let Ok(lines) = read_lines(report_outcome.file_path.as_path()) {
+            for (i, line) in lines.enumerate() {
+                if let Ok(l) = line {
+                    if i + 1 >= report_outcome.line_numbers.0
+                        && i + 1 <= report_outcome.line_numbers.1
+                    {
+                        snippet.push_str(&format!("{}:{}\n", i, l));
+                    }
+                }
+            }
+        }
+        snippet.push_str(&format!("``` \n\n"));
+
+        snippet
+    }
+}
+
 impl From<Report> for String {
     fn from(report: Report) -> Self {
+        //TODO: This is clone city, try to make this not clone city
         format!(
             "{}\n{}\n{}\n{}\n{}\n{}\n{}\n",
-            String::from(report.preamble),
-            report.description,
-            String::from(report.summary),
-            String::from(report.table_of_contents),
-            String::from(report.vulnerability_report),
-            String::from(report.optimization_report),
-            String::from(report.qa_report),
+            String::from(report.preamble.clone()),
+            report.description.clone(),
+            String::from(report.summary.clone()),
+            String::from(report.table_of_contents.clone()),
+            report.string_from_report_section(report.vulnerability_report.clone()),
+            report.string_from_report_section(report.optimization_report.clone()),
+            report.string_from_report_section(report.qa_report.clone()),
         )
     }
 }
@@ -129,7 +214,7 @@ impl From<&TableSection> for String {
             section
                 .subsections
                 .iter()
-                .map(|subsection| String::from(subsection))
+                .map(String::from)
                 .collect::<Vec<String>>()
                 .join("")
         )
@@ -256,25 +341,6 @@ impl OutcomeReport {
     }
 }
 
-impl From<&OutcomeReport> for String {
-    fn from(outcome: &OutcomeReport) -> String {
-        let mut snippet = String::new();
-        snippet.push_str(&format!("\n```solidity\nFile:{} \n", outcome.file_name));
-        if let Ok(lines) = read_lines(outcome.file_path.as_path()) {
-            for (i, line) in lines.enumerate() {
-                if let Ok(l) = line {
-                    if i + 1 >= outcome.line_numbers.0 && i + 1 <= outcome.line_numbers.1 {
-                        snippet.push_str(&format!("{}:{}\n", i, l));
-                    }
-                }
-            }
-        }
-        snippet.push_str(&format!("``` \n\n"));
-
-        snippet
-    }
-}
-
 #[derive(Default, Clone)]
 pub struct ReportSummary {
     pub charts: Vec<String>,
@@ -283,12 +349,6 @@ pub struct ReportSummary {
 impl From<ReportSummary> for String {
     fn from(summary: ReportSummary) -> Self {
         format!("# Summary\n\n{}\n\n", summary.charts.join("\n\n"))
-    }
-}
-
-impl From<Report> for ReportOutput {
-    fn from(_value: Report) -> Self {
-        todo!()
     }
 }
 
@@ -355,34 +415,6 @@ impl From<Vec<VulnerabilityOutcome>> for ReportSection {
     }
 }
 
-impl From<ReportSection> for String {
-    fn from(value: ReportSection) -> Self {
-        let mut fragment: String = String::new();
-        fragment.push_str(&format!(
-            "\n <details open> \n <summary> \n <h3>{} - Instances: {} </h3> \n </summary>",
-            value.title,
-            value.outcomes.len()
-        ));
-        fragment.push_str(&format!(
-            " \n {} \n",
-            value.description
-        ));
-
-        fragment.push_str(
-            &value
-                .outcomes
-                .iter()
-                .map(String::from)
-                .collect::<Vec<String>>()
-                .join("\n"),
-        );
-
-        fragment.push_str(" \n </details>");
-
-        fragment
-    }
-}
-
 impl From<&ReportSection> for TableSection {
     fn from(value: &ReportSection) -> Self {
         TableSection {
@@ -394,76 +426,6 @@ impl From<&ReportSection> for TableSection {
                 .map(|outcome| TableFragment::from(&outcome))
                 .collect::<Vec<TableFragment>>(),
         }
-    }
-}
-
-//Report Fragment Formatting
-impl From<ReportSectionFragment> for String {
-    fn from(value: ReportSectionFragment) -> String {
-        let mut fragment: String = String::new();
-        if let Some(identifier) = value.identifier {
-            let identifier: String = format!(
-                "[{}-{}]",
-                identifier.classification.identifier(),
-                identifier.nonce
-            );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h4> {} - Instances: {} </h4> \n </summary>",identifier,identifier,value.title,value.instances));
-        } else {
-            fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <h4> {} - Instances: {} </h4>\n </summary>",
-                value.title, value.instances,
-            ));
-        }
-
-        fragment.push_str(&format!(" \n &nbsp; {} \n", value.description));
-        fragment.push_str("\n &nbsp;");
-        fragment.push_str(
-            &value
-                .outcomes
-                .iter()
-                .map(String::from)
-                .collect::<Vec<String>>()
-                .join("\n &nbsp;"),
-        );
-
-        fragment.push_str(" \n </details>");
-
-        fragment
-    }
-}
-
-//Report Fragment Formatting
-impl From<&ReportSectionFragment> for String {
-    fn from(value: &ReportSectionFragment) -> String {
-        let mut fragment: String = String::new();
-        if let Some(identifier) = value.identifier {
-            let identifier: String = format!(
-                "[{}-{}]",
-                identifier.classification.identifier(),
-                identifier.nonce
-            );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,value.title,value.instances));
-        } else {
-            fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
-                value.title, value.instances,
-            ));
-        }
-
-        fragment.push_str(&format!("\n {} \n", value.description));
-
-        fragment.push_str(
-            &value
-                .outcomes
-                .iter()
-                .map(String::from)
-                .collect::<Vec<String>>()
-                .join("\n"),
-        );
-
-        fragment.push_str(" \n </details>");
-
-        fragment
     }
 }
 

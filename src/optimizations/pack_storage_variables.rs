@@ -135,13 +135,7 @@ mod test {
         let mut source_5 = MockSource::new().add_source("pack_storage_5.sol", contract);
         let optimization_locations = PackStorageVariables::find(&mut source_5.source)?;
         assert_eq!(optimization_locations.len(), 1);
-        let report: Option<ReportSectionFragment> = optimization_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/optimization_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
+
         Ok(())
     }
 }

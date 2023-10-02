@@ -82,13 +82,5 @@ fn test_unsafe_erc20_operation() -> eyre::Result<()> {
     let vuln_locations = UnsafeErc20Operation::find(&mut mock_source.source)?;
     assert_eq!(vuln_locations.len(), 3);
 
-    let report: Option<ReportSectionFragment> = vuln_locations.into();
-    if let Some(report) = report {
-        let mut f = File::options()
-            .append(true)
-            .open("mocks/vulnerability_report_sections.md")?;
-        writeln!(&mut f, "{}", &String::from(report))?;
-    }
-
     Ok(())
 }

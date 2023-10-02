@@ -64,18 +64,6 @@ mod test {
         let mut mock_source = MockSource::new().add_source("constant_immutable.sol", file_contents);
         let qa_locations = ConstantImmutableNamespace::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 2);
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let table = TableFragment::from(&report.clone());
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/qa_table_sections.md")?;
-            writeln!(&mut f, "{}", String::from(&table))?;
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report.clone()))?;
-        }
 
         Ok(())
     }

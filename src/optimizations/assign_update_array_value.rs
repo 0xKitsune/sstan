@@ -210,13 +210,7 @@ mod test {
 
         let optimization_locations = AssignUpdateArrayValue::find(&mut mock_source.source)?;
         assert_eq!(optimization_locations.len(), 1);
-        let report: Option<ReportSectionFragment> = optimization_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/optimization_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
+
         Ok(())
     }
 }
