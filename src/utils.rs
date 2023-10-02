@@ -9,7 +9,9 @@ use std::path::{Path, PathBuf};
 
 pub type LineNumber = i32;
 pub type Outcome = (PathBuf, Loc);
-
+pub fn remove_first_character(s: &str) -> &str {
+    &s[1..]
+}
 //TODO: propagate these errors, dont unwrap
 pub fn extract_source(path: &str, source: &mut HashMap<PathBuf, SourceUnit>) -> eyre::Result<()> {
     let mut counter = 0;

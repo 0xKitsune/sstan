@@ -105,7 +105,26 @@ impl Report {
     //Converts a report outcome into a string
     pub fn string_from_report_outcome(&self, report_outcome: &OutcomeReport) -> String {
         let mut snippet = String::new();
-        snippet.push_str(&format!("\nFile:{} \n", report_outcome.file_name));
+        if let Some(url) = &self.git_url {
+            snippet.push_str(&format!(
+                "\nFile:[{}#L{}]({}{}#L{}) \n",
+                report_outcome.file_name,
+                report_outcome.line_numbers.0,
+                url,
+                &report_outcome
+                    .file_path
+                    .as_path()
+                    .as_os_str()
+                    .to_str()
+                    .unwrap()[1..],
+                report_outcome.line_numbers.0
+            ));
+        } else {
+            snippet.push_str(&format!(
+                "\nFile:{}#L{}\n",
+                report_outcome.file_name, report_outcome.line_numbers.0
+            ));
+        }
         snippet.push_str(&format!("```solidity\n"));
         if let Ok(lines) = read_lines(report_outcome.file_path.as_path()) {
             for (i, line) in lines.enumerate() {
