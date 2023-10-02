@@ -117,7 +117,7 @@ impl Report {
                     .as_path()
                     .as_os_str()
                     .to_str()
-                    .unwrap()[1..], //./src/*/**  -> /src/*/** 
+                    .unwrap()[1..], //./src/*/**  -> /src/*/**
                 report_outcome.line_numbers.0
             ));
         } else {
