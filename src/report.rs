@@ -108,7 +108,7 @@ impl Report {
         //Git url should be formatted as base_url/blob/branch
         if let Some(url) = &self.git_url {
             snippet.push_str(&format!(
-                "\nFile:[{}#L{}]({}{}#L{}) \n",
+                "\n[File:{}#L{}]({}{}#L{}) \n",
                 report_outcome.file_name,
                 report_outcome.line_numbers.0,
                 url,
