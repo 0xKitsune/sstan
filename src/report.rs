@@ -105,6 +105,7 @@ impl Report {
     //Converts a report outcome into a string
     pub fn string_from_report_outcome(&self, report_outcome: &OutcomeReport) -> String {
         let mut snippet = String::new();
+        //Git url should be formatted as base_url/blob/branch
         if let Some(url) = &self.git_url {
             snippet.push_str(&format!(
                 "\nFile:[{}#L{}]({}{}#L{}) \n",
@@ -116,7 +117,7 @@ impl Report {
                     .as_path()
                     .as_os_str()
                     .to_str()
-                    .unwrap()[1..],
+                    .unwrap()[1..], //./src/*/**  -> /src/*/** 
                 report_outcome.line_numbers.0
             ));
         } else {
