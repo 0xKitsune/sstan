@@ -1,5 +1,5 @@
-use std::{collections::HashMap, path::PathBuf, vec};
 use solang_parser::pt::{Loc, SourceUnit};
+use std::{collections::HashMap, path::PathBuf, vec};
 use thiserror::Error;
 
 use crate::{
