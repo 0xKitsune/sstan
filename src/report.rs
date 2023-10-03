@@ -72,19 +72,15 @@ impl Report {
         report_section_fragment: &ReportSectionFragment,
     ) -> String {
         let mut fragment: String = String::new();
-        if let Some(identifier) = report_section_fragment.identifier {
-            let identifier: String = format!(
-                "[{}-{}]",
-                identifier.classification.identifier(),
-                identifier.nonce
-            );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,report_section_fragment.title,report_section_fragment.instances));
-        } else {
-            fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
-                report_section_fragment.title, report_section_fragment.instances,
-            ));
-        }
+        let identifier: String = format!(
+            "[{}-{}]",
+            report_section_fragment
+                .identifier
+                .classification
+                .identifier(),
+            report_section_fragment.identifier.nonce
+        );
+        fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,report_section_fragment.title,report_section_fragment.instances));
 
         fragment.push_str(&format!("\n {} \n", report_section_fragment.description));
 
@@ -277,7 +273,7 @@ pub struct ReportSection {
 
 #[derive(Default, Clone)]
 pub struct ReportSectionFragment {
-    pub identifier: Option<Identifier>, //TODO: this would be something that would define the item like [G-0], [G-1], etc
+    pub identifier: Identifier, //TODO: this would be something that would define the item like [G-0], [G-1], etc
     pub instances: usize,
     pub title: String,
     pub description: String,
@@ -287,7 +283,7 @@ pub struct ReportSectionFragment {
 impl ReportSectionFragment {
     pub fn new(
         title: String,
-        identifier: Option<Identifier>,
+        identifier: Identifier,
         description: String,
         instances: usize,
     ) -> Self {
@@ -333,7 +329,6 @@ impl Classification {
 
 pub struct OutcomeReport {
     pub file_name: String,
-    pub git_url: Option<String>,
     pub line_numbers: (usize, usize), //if the same line number then we just compile report as one number
     pub snippet: String,
     pub file_path: PathBuf,
@@ -342,14 +337,12 @@ pub struct OutcomeReport {
 impl OutcomeReport {
     pub fn new(
         file_name: String,
-        git_url: Option<String>,
         line_numbers: (usize, usize),
         snippet: String,
         file_path: PathBuf,
     ) -> Self {
         Self {
             file_name,
-            git_url,
             line_numbers,
             snippet,
             file_path,
@@ -380,7 +373,7 @@ impl From<Vec<QualityAssuranceOutcome>> for ReportSection {
                 .enumerate()
                 .map(
                     |(nonce, (classification, fragment))| ReportSectionFragment {
-                        identifier: Some(Identifier::new(classification, nonce)),
+                        identifier: Identifier::new(classification, nonce),
                         ..fragment.unwrap()
                     },
                 )
@@ -401,7 +394,7 @@ impl From<Vec<OptimizationOutcome>> for ReportSection {
                 .enumerate()
                 .map(
                     |(nonce, (classification, fragment))| ReportSectionFragment {
-                        identifier: Some(Identifier::new(classification, nonce)),
+                        identifier: Identifier::new(classification, nonce),
                         ..fragment.unwrap()
                     },
                 )
@@ -422,7 +415,7 @@ impl From<Vec<VulnerabilityOutcome>> for ReportSection {
                 .enumerate()
                 .map(
                     |(nonce, (classification, fragment))| ReportSectionFragment {
-                        identifier: Some(Identifier::new(classification, nonce)),
+                        identifier: Identifier::new(classification, nonce),
                         ..fragment.unwrap()
                     },
                 )
@@ -447,18 +440,14 @@ impl From<&ReportSection> for TableSection {
 
 impl From<&ReportSectionFragment> for TableFragment {
     fn from(value: &ReportSectionFragment) -> TableFragment {
-        if let Some(ident) = &value.identifier {
-            TableFragment::new(
-                value.title.to_string(),
-                Some(Identifier {
-                    classification: ident.classification,
-                    nonce: ident.nonce,
-                }),
-                value.instances,
-            )
-        } else {
-            TableFragment::new(value.title.to_string(), None, value.instances)
-        }
+        TableFragment::new(
+            value.title.to_string(),
+            Some(Identifier {
+                classification: value.identifier.classification,
+                nonce: value.identifier.nonce,
+            }),
+            value.instances,
+        )
     }
 }
 

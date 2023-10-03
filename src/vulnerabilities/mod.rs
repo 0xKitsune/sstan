@@ -4,7 +4,7 @@ pub mod incorrect_shift_math;
 pub mod uninitialized_storage_variable;
 pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
-
+use crate::report::Identifier;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::{Classification, OutcomeReport, ReportSectionFragment};
@@ -83,12 +83,9 @@ macro_rules! vulnerability {
             }
         }
 
-
-
-
         impl From<VulnerabilityOutcome> for Option<ReportSectionFragment> {
             fn from(value: VulnerabilityOutcome) -> Self {
-                match value {
+                match &value {
                     $(
                         VulnerabilityOutcome::$name(outcome) => {
                             if outcome.is_empty() {
@@ -99,7 +96,7 @@ macro_rules! vulnerability {
 
                             let mut report_fragment = ReportSectionFragment::new(
                                 $report_title.to_string(),
-                                None,
+                                Identifier::new(value.classification(), 0),
                                 $description.to_string(),
                                 length,
                             );
@@ -116,7 +113,6 @@ macro_rules! vulnerability {
                                         let end_line = utils::get_line_number(*end, &file_contents);
                                         outcome_reports.push(OutcomeReport::new(
                                             file_name.to_string(),
-                                            None,
                                             (start_line, end_line),
                                             snippet.to_string(),
                                             path.clone(),

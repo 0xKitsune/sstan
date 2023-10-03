@@ -10,6 +10,7 @@ pub mod unused_functions;
 pub mod unused_returns;
 // pub mod unused_returns;
 pub mod interface_namespace;
+use crate::report::Identifier;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::{Classification, OutcomeReport, ReportSectionFragment};
@@ -88,7 +89,7 @@ macro_rules! quality_assurance {
 
         impl From<QualityAssuranceOutcome> for Option<ReportSectionFragment> {
             fn from(value: QualityAssuranceOutcome) -> Self {
-                match value {
+                match &value {
                     $(
                         QualityAssuranceOutcome::$name(outcome) => {
                             if outcome.is_empty() {
@@ -99,7 +100,7 @@ macro_rules! quality_assurance {
 
                             let mut report_fragment = ReportSectionFragment::new(
                                 $report_title.to_string(),
-                                None,
+                                Identifier::new(value.classification(), 0),
                                 $description.to_string(),
                                 length,
                             );
@@ -116,7 +117,6 @@ macro_rules! quality_assurance {
                                         let end_line = utils::get_line_number(*end, &file_contents);
                                         outcome_reports.push(OutcomeReport::new(
                                             file_name.to_string(),
-                                            None,
                                             (start_line, end_line),
                                             snippet.to_string(),
                                             path.clone(),

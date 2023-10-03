@@ -23,6 +23,7 @@ pub mod solidity_keccak256;
 pub mod solidity_math;
 pub mod sstore;
 pub mod string_error;
+use crate::report::Identifier;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Classification;
@@ -110,7 +111,7 @@ macro_rules! optimization {
         //TODO: simplify this so that it isnt implementing this for every single macro, just have | when you are matching
         impl From<OptimizationOutcome> for Option<ReportSectionFragment> {
             fn from(value: OptimizationOutcome) -> Self {
-                match value {
+                match &value {
                     $(
                         OptimizationOutcome::$name(outcome) => {
                             if outcome.is_empty() {
@@ -121,7 +122,7 @@ macro_rules! optimization {
 
                             let mut report_fragment = ReportSectionFragment::new(
                                 $report_title.to_string(),
-                                None,
+                                Identifier::new(value.classification(), 0),
                                 description,
                                 outcome.len(),
                             );
@@ -138,7 +139,6 @@ macro_rules! optimization {
                                         let end_line = utils::get_line_number(*end, &file_contents);
                                         outcome_reports.push(OutcomeReport::new(
                                             file_name.to_string(),
-                                            None,
                                             (start_line, end_line),
                                             snippet.to_string(),
                                             path.clone(),
