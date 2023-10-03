@@ -1,4 +1,4 @@
-use std::{ops::Deref, path::PathBuf};
+use std::{ops::Deref, os::unix::raw::gid_t, path::PathBuf};
 
 use toml::value::Date;
 
@@ -18,6 +18,7 @@ pub struct ReportOutput {
 
 pub struct Report {
     pub preamble: ReportPreamble,
+    pub git_url: Option<String>,
     pub description: String,
     pub summary: ReportSummary, //this is a struct that would define the charts/data visualizations
     pub table_of_contents: TableOfContents,
@@ -30,6 +31,7 @@ impl Default for Report {
     fn default() -> Self {
         Self {
             preamble: ReportPreamble::default(),
+            git_url: None,
             description: String::default(),
             summary: ReportSummary::default(),
             table_of_contents: TableOfContents::default(),
@@ -40,17 +42,120 @@ impl Default for Report {
     }
 }
 
+impl Report {
+    //Converts a report section into a string
+    pub fn string_from_report_section(&self, report_section: ReportSection) -> String {
+        let mut fragment: String = String::new();
+        fragment.push_str(&format!(
+            "\n <details open> \n <summary> \n <h3>{} - Instances: {} </h3> \n </summary>",
+            report_section.title,
+            report_section.outcomes.len()
+        ));
+        fragment.push_str(&format!(" \n {} \n", report_section.description));
+
+        fragment.push_str(
+            &report_section
+                .outcomes
+                .iter()
+                .map(|f| self.string_from_report_section_fragment(f))
+                .collect::<Vec<String>>()
+                .join("\n"),
+        );
+
+        fragment.push_str(" \n </details>");
+
+        fragment
+    }
+    //Converts a report section fragment into a string
+    pub fn string_from_report_section_fragment(
+        &self,
+        report_section_fragment: &ReportSectionFragment,
+    ) -> String {
+        let mut fragment: String = String::new();
+        if let Some(identifier) = report_section_fragment.identifier {
+            let identifier: String = format!(
+                "[{}-{}]",
+                identifier.classification.identifier(),
+                identifier.nonce
+            );
+            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,report_section_fragment.title,report_section_fragment.instances));
+        } else {
+            fragment.push_str(&format!(
+                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
+                report_section_fragment.title, report_section_fragment.instances,
+            ));
+        }
+
+        fragment.push_str(&format!("\n {} \n", report_section_fragment.description));
+
+        fragment.push_str(
+            &report_section_fragment
+                .outcomes
+                .iter()
+                .map(|o| self.string_from_report_outcome(o))
+                .collect::<Vec<String>>()
+                .join("\n"),
+        );
+
+        fragment.push_str(" \n </details>");
+
+        fragment
+    }
+
+    //Converts a report outcome into a string
+    pub fn string_from_report_outcome(&self, report_outcome: &OutcomeReport) -> String {
+        let mut snippet = String::new();
+        //Git url should be formatted as base_url/blob/branch
+        if let Some(url) = &self.git_url {
+            snippet.push_str(&format!(
+                "\n[File:{}#L{}]({}{}#L{}) \n",
+                report_outcome.file_name,
+                report_outcome.line_numbers.0,
+                url,
+                &report_outcome
+                    .file_path
+                    .as_path()
+                    .as_os_str()
+                    .to_str()
+                    .unwrap()[1..], //./src/*/**  -> /src/*/**
+                report_outcome.line_numbers.0
+            ));
+        } else {
+            snippet.push_str(&format!(
+                "\nFile:{}#L{}\n",
+                report_outcome.file_name, report_outcome.line_numbers.0
+            ));
+        }
+        snippet.push_str(&format!("```solidity\n"));
+        if let Ok(lines) = read_lines(report_outcome.file_path.as_path()) {
+            for (i, line) in lines.enumerate() {
+                if let Ok(l) = line {
+                    if i + 1 >= report_outcome.line_numbers.0
+                        && i + 1 <= report_outcome.line_numbers.1
+                    {
+                        snippet.push_str(&format!("{}:{}\n", i, l));
+                    }
+                }
+            }
+        }
+        snippet.push_str(&format!("``` \n\n"));
+
+        snippet
+    }
+}
+
 impl From<Report> for String {
     fn from(report: Report) -> Self {
+        //TODO: This is clone city, try to make this not clone city
         format!(
             "{}\n{}\n{}\n{}\n{}\n{}\n{}\n",
-            String::from(report.preamble),
-            report.description,
-            String::from(report.summary),
-            String::from(report.table_of_contents),
-            String::from(report.vulnerability_report),
-            String::from(report.optimization_report),
-            String::from(report.qa_report),
+            String::from(report.preamble.clone()),
+            report.description.clone(),
+            String::from(report.summary.clone()),
+            String::from(report.table_of_contents.clone()),
+            report.string_from_report_section(report.vulnerability_report.clone()),
+            report.string_from_report_section(report.optimization_report.clone()),
+            report.string_from_report_section(report.qa_report.clone()),
         )
     }
 }
@@ -67,11 +172,11 @@ pub struct ReportPreamble {
 impl Default for ReportPreamble {
     fn default() -> Self {
         Self {
-            title: format!("Sstan Report"),
+            title: format!("Sstan"),
             logo: String::default(),
             description: format!("TODO: add description"),
             date: format!("TODO: add date"),
-            version: format!("0.1.0"),
+            version: format!("v0.1.0"),
             authors: vec!["0x00face".to_string(), "0xOsiris".to_string()],
         }
     }
@@ -80,13 +185,11 @@ impl Default for ReportPreamble {
 impl From<ReportPreamble> for String {
     fn from(preamble: ReportPreamble) -> Self {
         format!(
-            "# {} \n\n ({})\n\n{}\n\n{}\n\n{}\n\n{}\n\n",
+            "# {} - {} \n\n --- \n ## Authors: {} \n --- \n {}",
             preamble.title,
-            preamble.logo,
-            preamble.description,
-            preamble.date,
             preamble.version,
             preamble.authors.join(", "),
+            preamble.description,
         )
     }
 }
@@ -122,12 +225,12 @@ pub struct TableSection {
 impl From<&TableSection> for String {
     fn from(section: &TableSection) -> Self {
         format!(
-            "# {} \n\n | Classification | Title | Instances | \n |:-------:|:---------:|:-------:| {}",
+            "# {} \n\n | Classification | Title | Instances | \n |:-------:|:---------|:-------:| {}",
             section.title,
             section
                 .subsections
                 .iter()
-                .map(|subsection| String::from(subsection))
+                .map(String::from)
                 .collect::<Vec<String>>()
                 .join("")
         )
@@ -230,6 +333,7 @@ impl Classification {
 
 pub struct OutcomeReport {
     pub file_name: String,
+    pub git_url: Option<String>,
     pub line_numbers: (usize, usize), //if the same line number then we just compile report as one number
     pub snippet: String,
     pub file_path: PathBuf,
@@ -238,35 +342,18 @@ pub struct OutcomeReport {
 impl OutcomeReport {
     pub fn new(
         file_name: String,
+        git_url: Option<String>,
         line_numbers: (usize, usize),
         snippet: String,
         file_path: PathBuf,
     ) -> Self {
         Self {
             file_name,
+            git_url,
             line_numbers,
             snippet,
             file_path,
         }
-    }
-}
-
-impl From<&OutcomeReport> for String {
-    fn from(outcome: &OutcomeReport) -> String {
-        let mut snippet = String::new();
-        snippet.push_str(&format!("\n```solidity\nFile:{} \n", outcome.file_name));
-        if let Ok(lines) = read_lines(outcome.file_path.as_path()) {
-            for (i, line) in lines.enumerate() {
-                if let Ok(l) = line {
-                    if i + 1 >= outcome.line_numbers.0 && i + 1 <= outcome.line_numbers.1 {
-                        snippet.push_str(&format!("{}:{}\n", i, l));
-                    }
-                }
-            }
-        }
-        snippet.push_str(&format!("``` \n\n"));
-
-        snippet
     }
 }
 
@@ -278,12 +365,6 @@ pub struct ReportSummary {
 impl From<ReportSummary> for String {
     fn from(summary: ReportSummary) -> Self {
         format!("# Summary\n\n{}\n\n", summary.charts.join("\n\n"))
-    }
-}
-
-impl From<Report> for ReportOutput {
-    fn from(_value: Report) -> Self {
-        todo!()
     }
 }
 
@@ -350,35 +431,6 @@ impl From<Vec<VulnerabilityOutcome>> for ReportSection {
     }
 }
 
-impl From<ReportSection> for String {
-    fn from(value: ReportSection) -> Self {
-        let mut fragment: String = String::new();
-        fragment.push_str(&format!(
-            "\n <details open> \n <summary> \n <h3>{} - Instances: {} </h3> \n </summary>",
-            value.title,
-            value.outcomes.len()
-        ));
-        fragment.push_str(&format!(
-            " \n {} 
-\n",
-            value.description
-        ));
-
-        fragment.push_str(
-            &value
-                .outcomes
-                .iter()
-                .map(String::from)
-                .collect::<Vec<String>>()
-                .join("\n"),
-        );
-
-        fragment.push_str(" \n </details>");
-
-        fragment
-    }
-}
-
 impl From<&ReportSection> for TableSection {
     fn from(value: &ReportSection) -> Self {
         TableSection {
@@ -390,76 +442,6 @@ impl From<&ReportSection> for TableSection {
                 .map(|outcome| TableFragment::from(&outcome))
                 .collect::<Vec<TableFragment>>(),
         }
-    }
-}
-
-//Report Fragment Formatting
-impl From<ReportSectionFragment> for String {
-    fn from(value: ReportSectionFragment) -> String {
-        let mut fragment: String = String::new();
-        if let Some(identifier) = value.identifier {
-            let identifier: String = format!(
-                "[{}-{}]",
-                identifier.classification.identifier(),
-                identifier.nonce
-            );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h4> {} - Instances: {} </h4> \n </summary>",identifier,identifier,value.title,value.instances));
-        } else {
-            fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <h4> {} - Instances: {} </h4>\n </summary>",
-                value.title, value.instances,
-            ));
-        }
-
-        fragment.push_str(&format!(" \n &nbsp; {} \n", value.description));
-        fragment.push_str("\n &nbsp;");
-        fragment.push_str(
-            &value
-                .outcomes
-                .iter()
-                .map(String::from)
-                .collect::<Vec<String>>()
-                .join("\n &nbsp;"),
-        );
-
-        fragment.push_str(" \n </details>");
-
-        fragment
-    }
-}
-
-//Report Fragment Formatting
-impl From<&ReportSectionFragment> for String {
-    fn from(value: &ReportSectionFragment) -> String {
-        let mut fragment: String = String::new();
-        if let Some(identifier) = value.identifier {
-            let identifier: String = format!(
-                "[{}-{}]",
-                identifier.classification.identifier(),
-                identifier.nonce
-            );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,value.title,value.instances));
-        } else {
-            fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
-                value.title, value.instances,
-            ));
-        }
-
-        fragment.push_str(&format!("\n {} \n", value.description));
-
-        fragment.push_str(
-            &value
-                .outcomes
-                .iter()
-                .map(String::from)
-                .collect::<Vec<String>>()
-                .join("\n"),
-        );
-
-        fragment.push_str(" \n </details>");
-
-        fragment
     }
 }
 

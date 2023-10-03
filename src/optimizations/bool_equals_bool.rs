@@ -134,13 +134,6 @@ mod test {
 
         assert_eq!(optimization_locations.len(), 8);
 
-        let report: Option<ReportSectionFragment> = optimization_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/optimization_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
         Ok(())
     }
 }

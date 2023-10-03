@@ -96,13 +96,7 @@ mod test {
         let mut source = MockSource::new().add_source("cache_array_length.sol", file_contents);
         let optimization_locations = CacheArrayLength::find(&mut source.source)?;
         assert_eq!(optimization_locations.len(), 2);
-        let report: Option<ReportSectionFragment> = optimization_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/optimization_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
+
         Ok(())
     }
 }

@@ -24,6 +24,7 @@ fn main() -> eyre::Result<()> {
 
     let mut engine = Engine::new(
         &opts.path,
+        opts.git,
         opts.vulnerabilities,
         opts.optimizations,
         opts.qa,
@@ -58,6 +59,8 @@ pub struct Args {
         help = "Path to the directory to write the report to. The default directory is `./`"
     )]
     pub output: Option<String>,
+    #[clap(short, long, help = "Github repository link")]
+    pub git: Option<String>,
     #[clap(
         short,
         long,
@@ -70,6 +73,7 @@ pub struct Args {
 pub struct Opts {
     pub path: String,
     pub output: String,
+    pub git: Option<String>,
     vulnerabilities: Vec<VulnerabilityTarget>,
     optimizations: Vec<OptimizationTarget>,
     qa: Vec<QualityAssuranceTarget>,
@@ -129,6 +133,8 @@ impl Opts {
         } else {
             "".into()
         };
+        //Github repo link to the root
+        let git = args.git;
 
         let path = if let Some(path) = args.path {
             path
@@ -151,6 +157,7 @@ To fix this, either add a `./contracts` directory or provide `--path <path_to_co
         Opts {
             path,
             output,
+            git,
             optimizations,
             vulnerabilities,
             qa,

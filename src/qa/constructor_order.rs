@@ -99,13 +99,6 @@ mod tests {
             MockSource::new().add_source("constructor_order_qa.sol", file_contents);
         let qa_locations = ConstructorOrder::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 1);
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
 
         Ok(())
     }

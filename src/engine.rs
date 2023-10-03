@@ -44,6 +44,7 @@ pub enum EngineError {
 #[derive(Default)]
 pub struct Engine {
     pub source: HashMap<PathBuf, SourceUnit>,
+    pub git_url: Option<String>,
     pub optimizations: OptimizationModule,
     pub vulnerabilities: VulnerabilityModule,
     pub qa: QualityAssuranceModule,
@@ -51,6 +52,7 @@ pub struct Engine {
 impl Engine {
     pub fn new(
         path: &str,
+        git_url: Option<String>,
         vulnerabilities: Vec<VulnerabilityTarget>,
         optimizations: Vec<OptimizationTarget>,
         qa: Vec<QualityAssuranceTarget>,
@@ -60,6 +62,7 @@ impl Engine {
         utils::extract_source(path, &mut source).unwrap();
         Engine {
             source,
+            git_url,
             optimizations: OptimizationModule {
                 targets: optimizations,
                 outcomes: vec![],
@@ -104,7 +107,8 @@ impl From<Engine> for Report {
         report.vulnerability_report = ReportSection::from(engine.vulnerabilities.outcomes);
         report.optimization_report = ReportSection::from(engine.optimizations.outcomes);
         report.qa_report = ReportSection::from(engine.qa.outcomes);
-
+        //Set the github url for the repo
+        report.git_url = engine.git_url;
         let table_sections = vec![
             TableSection::from(&report.vulnerability_report),
             TableSection::from(&report.optimization_report),

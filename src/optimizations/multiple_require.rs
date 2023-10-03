@@ -82,13 +82,7 @@ mod test {
         let optimization_locations = MultipleRequire::find(&mut source.source)?;
 
         assert_eq!(optimization_locations.len(), 2);
-        let report: Option<ReportSectionFragment> = optimization_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/optimization_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
+
         Ok(())
     }
 }

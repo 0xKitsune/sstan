@@ -103,13 +103,6 @@ mod test {
         let mut mock_source = MockSource::new().add_source("address_zero.sol", file_contents);
         let qa_locations = AddressZero::find(&mut mock_source.source).unwrap();
         assert_eq!(qa_locations.len(), 4);
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/optimization_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
 
         Ok(())
     }

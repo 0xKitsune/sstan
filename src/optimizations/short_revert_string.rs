@@ -95,13 +95,7 @@ mod test {
         source = MockSource::new().add_source("short_revert_string_1.sol", invalid_version_content);
         let optimization_locations = ShortRevertString::find(&mut source.source)?;
         assert_eq!(optimization_locations.len(), 0);
-        let report: Option<ReportSectionFragment> = optimization_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("mocks/optimization_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
+
         Ok(())
     }
 }

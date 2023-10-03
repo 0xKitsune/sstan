@@ -63,13 +63,5 @@ fn test_floating_pragma_vulnerability() -> eyre::Result<()> {
     let vuln_locations = FloatingPragma::find(&mut mock_source.source)?;
     assert_eq!(vuln_locations.len(), 1);
 
-    let report: Option<ReportSectionFragment> = vuln_locations.into();
-    if let Some(report) = report {
-        let mut f = File::options()
-            .append(true)
-            .open("mocks/vulnerability_report_sections.md")?;
-        writeln!(&mut f, "{}", &String::from(report))?;
-    }
-
     Ok(())
 }
