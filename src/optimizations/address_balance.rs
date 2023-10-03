@@ -45,13 +45,9 @@ impl OptimizationPattern for AddressBalance {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{AddressBalance, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_address_balance_optimization() -> eyre::Result<()> {

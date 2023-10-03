@@ -55,13 +55,9 @@ impl OptimizationPattern for StringError {
 }
 
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, StringError},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_string_error_optimization() -> eyre::Result<()> {

@@ -35,12 +35,10 @@ impl QAPattern for InterfaceNamespace {
 }
 #[cfg(test)]
 mod tests {
-    use super::*;
 
-    use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
-    use std::fs::File;
-    use std::io::Write;
+
+    use super::*;
     #[test]
     fn test_interface_namespace() -> eyre::Result<()> {
         let file_contents = r#"

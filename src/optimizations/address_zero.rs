@@ -67,13 +67,9 @@ fn check_for_address_zero(box_expression: pt::Expression) -> bool {
     address_zero
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{AddressZero, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_address_zero_optimization() -> eyre::Result<()> {

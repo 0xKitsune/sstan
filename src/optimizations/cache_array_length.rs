@@ -51,13 +51,9 @@ impl OptimizationPattern for CacheArrayLength {
 }
 mod test {
 
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{CacheArrayLength, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_cache_array_length_optimization() -> eyre::Result<()> {

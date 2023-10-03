@@ -38,12 +38,9 @@ impl QAPattern for StorageVariableNamespace {
 #[cfg(test)]
 mod test {
 
-    use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
 
     use super::*;
-    use std::fs::File;
-    use std::io::Write;
     #[test]
     fn test_storage_variable_namespace() -> eyre::Result<()> {
         let file_contents_1 = r#"

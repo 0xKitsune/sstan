@@ -259,13 +259,9 @@ fn is_a_non_value_type(assigned_value: pt::Expression) -> bool {
     false
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{ImmutableVariable, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_immutable_variables_optimization() -> eyre::Result<()> {

@@ -63,12 +63,9 @@ impl QAPattern for UnusedReturns {
 #[cfg(test)]
 mod test {
 
-    use std::fs::File;
-    use std::io::Write;
-
-    use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
-    use crate::{qa::QAPattern, qa::UnusedReturns};
+
+    use super::*;
     #[test]
     fn test_unused_returns() -> eyre::Result<()> {
         let file_contents_1 = r#"

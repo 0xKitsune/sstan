@@ -50,13 +50,9 @@ impl OptimizationPattern for ShortRevertString {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, ShortRevertString},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_short_revert_string() -> eyre::Result<()> {

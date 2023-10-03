@@ -175,13 +175,9 @@ impl OptimizationPattern for ConstantVariable {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{ConstantVariable, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_constant_variable_optimization() -> eyre::Result<()> {

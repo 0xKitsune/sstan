@@ -47,10 +47,9 @@ impl QAPattern for LargeMultiplesOfTen {
 }
 #[cfg(test)]
 mod test {
-    use crate::{report::ReportSectionFragment, utils::MockSource};
+    use crate::utils::MockSource;
 
     use super::*;
-    use std::{fs::File, io::Write};
 
     #[test]
     fn test_large_multiples_of_ten() -> eyre::Result<()> {

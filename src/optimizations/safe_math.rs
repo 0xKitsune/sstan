@@ -107,14 +107,9 @@ fn parse_contract_for_safe_math_functions(
 }
 
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, SafeMathPost080, SafeMathPre080},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
-
+    use super::*;
     #[test]
     fn test_analyze_for_safe_math_pre_080() -> eyre::Result<()> {
         let file_contents = r#"

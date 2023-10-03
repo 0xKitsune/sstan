@@ -179,12 +179,9 @@ impl OptimizationPattern for AssignUpdateArrayValue {
     }
 }
 mod test {
-    use crate::{
-        optimizations::{AssignUpdateArrayValue, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
+
+    use super::*;
 
     #[test]
     fn test_assign_update_array_optimization() -> eyre::Result<()> {

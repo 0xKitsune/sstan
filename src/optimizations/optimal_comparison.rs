@@ -1,8 +1,8 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 use super::{OptimalComparison, OptimizationOutcome, OptimizationPattern};
-use solang_parser::pt::{self, CodeLocation, Loc};
+use solang_parser::pt::{self, CodeLocation};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
@@ -37,13 +37,9 @@ impl OptimizationPattern for OptimalComparison {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimalComparison, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_optimal_comparison_optimization() -> eyre::Result<()> {

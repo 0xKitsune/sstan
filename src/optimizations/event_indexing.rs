@@ -45,13 +45,9 @@ impl OptimizationPattern for EventIndexing {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{EventIndexing, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_immutable_variables_optimization() -> eyre::Result<()> {

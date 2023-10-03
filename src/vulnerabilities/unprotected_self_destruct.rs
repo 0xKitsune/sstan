@@ -1,31 +1,19 @@
-use std::collections::{HashMap, HashSet};
-use std::fs::File;
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 use solang_parser::pt::{
-    self, Base, Expression, FunctionAttribute, FunctionDefinition, FunctionTy, Identifier,
-    IdentifierPath, Loc, Visibility,
+    Base, Expression, FunctionAttribute, FunctionDefinition, FunctionTy, Identifier,
+    IdentifierPath, Visibility,
 };
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::engine::{EngineError, Outcome, Pushable, Snippet};
-use crate::extractors::compound::{
-    ContractExtractor, ContractPartFunctionExtractor, MutableStorageVariableExtractor,
-    YulShiftExtractor,
-};
-use crate::extractors::primitive::{FunctionCallExtractor, FunctionExtractor, VariableExtractor};
-use crate::extractors::{
-    primitive::{AssignmentExtractor, UrnaryOpteratorExtractor},
-    Extractor,
-};
-use crate::report::ReportSectionFragment;
-use crate::utils::MockSource;
-use std::io::Write;
+use crate::engine::{EngineError, Outcome, Pushable};
+use crate::extractors::compound::ContractPartFunctionExtractor;
 
-use super::{
-    DivideBeforeMultiply, IncorrectShiftMath, UninitializedStorageVariable,
-    UnprotectedSelfDestruct, VulnerabilityOutcome, VulnerabilityPattern,
-};
+use crate::extractors::primitive::FunctionCallExtractor;
+use crate::extractors::Extractor;
+
+use super::{UnprotectedSelfDestruct, VulnerabilityOutcome, VulnerabilityPattern};
 
 pub const SELF_DESTRUCT: &str = "selfdestruct";
 pub const SUICIDE: &str = "suicide";
@@ -212,10 +200,13 @@ fn contains_msg_sender_conditions(
 
     Ok(false)
 }
+mod test {
+    use crate::utils::MockSource;
 
-#[test]
-fn test_unprotected_self_destruct() -> eyre::Result<()> {
-    let file_contents = r#"
+    use super::*;
+    #[test]
+    fn test_unprotected_self_destruct() -> eyre::Result<()> {
+        let file_contents = r#"
     
     contract Contract0 {
         // unsafe
@@ -246,10 +237,11 @@ fn test_unprotected_self_destruct() -> eyre::Result<()> {
     }
     "#;
 
-    let mut mock_source =
-        MockSource::new().add_source("unprotected_self_destruct.sol", file_contents);
-    let vuln_locations = UnprotectedSelfDestruct::find(&mut mock_source.source)?;
-    assert_eq!(vuln_locations.len(), 2);
+        let mut mock_source =
+            MockSource::new().add_source("unprotected_self_destruct.sol", file_contents);
+        let vuln_locations = UnprotectedSelfDestruct::find(&mut mock_source.source)?;
+        assert_eq!(vuln_locations.len(), 2);
 
-    Ok(())
+        Ok(())
+    }
 }

@@ -1,11 +1,9 @@
-use core::fmt;
 use std::{
     collections::{HashMap, HashSet},
-    fmt::Display,
     path::PathBuf,
 };
 
-use solang_parser::pt::{CodeLocation, Expression, SourceUnit, Statement};
+use solang_parser::pt::{CodeLocation, Expression, SourceUnit};
 
 use crate::extractors::{
     compound::MutableStorageVariableExtractor,
@@ -52,13 +50,9 @@ impl OptimizationPattern for ReadStorageInForLoop {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, ReadStorageInForLoop},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_read_from_storage_in_for_loop() -> eyre::Result<()> {

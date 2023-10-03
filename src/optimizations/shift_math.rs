@@ -70,13 +70,9 @@ fn check_if_inputs_are_power_of_two(
     is_even
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, ShiftMath},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_shift_math_optimization() -> eyre::Result<()> {

@@ -38,12 +38,9 @@ impl QAPattern for ConstantImmutableNamespace {
 #[cfg(test)]
 mod test {
 
-    use crate::report::{ReportSectionFragment, TableFragment};
     use crate::utils::MockSource;
 
     use super::*;
-    use std::fs::File;
-    use std::io::Write;
     #[test]
     fn test_constant_immutable_namespace() -> eyre::Result<()> {
         let file_contents = r#"

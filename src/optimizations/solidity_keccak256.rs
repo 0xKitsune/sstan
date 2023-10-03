@@ -34,14 +34,9 @@ impl OptimizationPattern for SolidityKeccak256 {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, SolidityKeccak256},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
-
+    use super::*;
     #[test]
     fn test_template_optimization() -> eyre::Result<()> {
         let file_contents = r#"

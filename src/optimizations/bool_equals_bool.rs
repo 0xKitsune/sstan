@@ -62,12 +62,9 @@ fn check_for_bool_equals_bool(
 }
 mod test {
 
-    use crate::{
-        optimizations::{BoolEqualsBool, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
+
+    use super::*;
 
     #[test]
     fn test_analyze_for_if_bool_equals_bool_optimization() -> eyre::Result<()> {

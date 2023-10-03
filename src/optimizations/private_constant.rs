@@ -38,13 +38,9 @@ impl OptimizationPattern for PrivateConstant {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, PrivateConstant},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_private_constant_optimization() -> eyre::Result<()> {

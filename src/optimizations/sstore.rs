@@ -39,13 +39,9 @@ impl OptimizationPattern for Sstore {
 }
 
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, SolidityMath, Sstore},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
     #[test]
     fn test_sstore_optimization() -> eyre::Result<()> {
         let file_contents = r#"

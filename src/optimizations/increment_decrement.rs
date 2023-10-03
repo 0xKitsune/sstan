@@ -93,13 +93,9 @@ pub fn extract_pre_increment_pre_decrement(node: &mut pt::Statement) -> HashSet<
     locations
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{IncrementDecrement, OptimizationPattern},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_increment_optimization() -> eyre::Result<()> {

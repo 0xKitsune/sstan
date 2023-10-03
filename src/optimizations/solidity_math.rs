@@ -37,13 +37,9 @@ impl OptimizationPattern for SolidityMath {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, SolidityMath},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
+    use super::*;
 
     #[test]
     fn test_analyze_for_math_optimization() -> eyre::Result<()> {

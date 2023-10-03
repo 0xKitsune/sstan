@@ -1,19 +1,12 @@
-use std::collections::{HashMap, HashSet};
-use std::fs::File;
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, Expression, Loc};
+use solang_parser::pt::{self};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::PragmaDirectiveExtractor;
-use crate::extractors::{
-    primitive::{AssignmentExtractor, UrnaryOpteratorExtractor},
-    Extractor,
-};
-use crate::report::ReportSectionFragment;
-use crate::utils::MockSource;
-use std::io::Write;
+use crate::extractors::Extractor;
 
 use super::{FloatingPragma, VulnerabilityOutcome, VulnerabilityPattern};
 
@@ -47,10 +40,13 @@ impl VulnerabilityPattern for FloatingPragma {
         ))
     }
 }
+mod test {
+    use crate::utils::MockSource;
 
-#[test]
-fn test_floating_pragma_vulnerability() -> eyre::Result<()> {
-    let file_contents = r#"
+    use super::*;
+    #[test]
+    fn test_floating_pragma_vulnerability() -> eyre::Result<()> {
+        let file_contents = r#"
 
     pragma solidity ^0.8.16;
 
@@ -59,9 +55,10 @@ fn test_floating_pragma_vulnerability() -> eyre::Result<()> {
     }
     "#;
 
-    let mut mock_source = MockSource::new().add_source("floating_pragma.sol", file_contents);
-    let vuln_locations = FloatingPragma::find(&mut mock_source.source)?;
-    assert_eq!(vuln_locations.len(), 1);
+        let mut mock_source = MockSource::new().add_source("floating_pragma.sol", file_contents);
+        let vuln_locations = FloatingPragma::find(&mut mock_source.source)?;
+        assert_eq!(vuln_locations.len(), 1);
 
-    Ok(())
+        Ok(())
+    }
 }

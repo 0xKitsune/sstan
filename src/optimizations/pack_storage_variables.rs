@@ -40,14 +40,9 @@ impl OptimizationPattern for PackStorageVariables {
     }
 }
 mod test {
-    use std::{fs::File, io::Write};
+    use crate::utils::MockSource;
 
-    use crate::{
-        optimizations::{OptimizationPattern, PackStorageVariables},
-        report::ReportSectionFragment,
-        utils::MockSource,
-    };
-
+    use super::*;
     #[test]
     fn test_pack_storage_variables_optimization() -> eyre::Result<()> {
         // Optimal packing
