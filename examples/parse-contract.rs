@@ -5,6 +5,7 @@ fn main() {
 
         contract SimpleStore {
             uint x;
+            event IsOptimized(bytes[] byteArray);
 
             function set(uint newValue) {
                 x = newValue;

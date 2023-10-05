@@ -1,6 +1,6 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{self, CodeLocation, SourceUnit};
+use solang_parser::pt::{self, CodeLocation, EventDefinition, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
@@ -13,7 +13,7 @@ impl OptimizationPattern for EventIndexing {
     fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
         let mut outcome = Outcome::new();
         for (path_buf, source_unit) in source {
-            let events = EventExtractor::extract(source_unit)?;
+            let events: Vec<EventDefinition> = EventExtractor::extract(source_unit)?;
 
             //Accumulate the number of indexed events, and the number of non-array indexed parameters.
             for event in events.iter() {
@@ -25,7 +25,7 @@ impl OptimizationPattern for EventIndexing {
                         indexed_events_count += 1;
                     }
 
-                    if !matches!(event_parameter.ty, pt::Expression::ArraySlice(..)) {
+                    if !matches!(event_parameter.ty, pt::Expression::ArraySubscript(..)) {
                         non_array_indexed_parameter_count += 1;
                     }
                 }
@@ -57,6 +57,7 @@ mod test {
         event IsNotOptimized(address addr1, address indexed addr2);
         event IsOptimized(address indexed addr1, address indexed addr2, address indexed addr3);
         event AlsoIsNotOptimized(address addr1, address indexed addr2, address indexed addr3);
+        event IsOptimized(bytes[] byteArray);
         
     }
  
