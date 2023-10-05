@@ -10,6 +10,7 @@ pub mod unused_functions;
 pub mod unused_returns;
 // pub mod unused_returns;
 pub mod interface_namespace;
+pub mod public_functions;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Identifier;
@@ -188,5 +189,7 @@ quality_assurance!(
         "Storage variables should be named with camel case",
         "Consider renaming to follow convention"
     ),
-    (UnusedReturns, "Remove any unused returns", "") //TODO: update this
+    (UnusedReturns, "Remove any unused returns", ""), //TODO: update this
+    (PublicFunctions,"Consider marking public function External", "If a public function is never called internally. It is best practice to mark it as external."
+    )
 );
