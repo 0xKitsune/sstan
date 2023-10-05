@@ -63,9 +63,9 @@ fn check_for_bool_equals_bool(
 mod test {
 
     #[allow(unused)]
-    use crate::utils::MockSource;
-    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
     #[test]
     fn test_analyze_for_if_bool_equals_bool_optimization() -> eyre::Result<()> {
         let file_contents = r#"

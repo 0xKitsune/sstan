@@ -96,9 +96,9 @@ impl VulnerabilityPattern for DivideBeforeMultiply {
 }
 mod test {
     #[allow(unused)]
-    use crate::utils::MockSource;
-    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
     #[test]
     fn test_divide_before_multiply_vulnerability() -> eyre::Result<()> {
         let file_contents = r#"

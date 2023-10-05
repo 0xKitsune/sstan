@@ -38,9 +38,9 @@ impl OptimizationPattern for OptimalComparison {
 }
 mod test {
     #[allow(unused)]
-    use crate::utils::MockSource;
-    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_optimal_comparison_optimization() -> eyre::Result<()> {

@@ -1,10 +1,7 @@
 use std::path::PathBuf;
 
-
 use crate::{
-    optimizations::OptimizationOutcome,
-    qa::QualityAssuranceOutcome,
-    utils::read_lines,
+    optimizations::OptimizationOutcome, qa::QualityAssuranceOutcome, utils::read_lines,
     vulnerabilities::VulnerabilityOutcome,
 };
 #[derive(Default, Clone)]
@@ -12,9 +9,7 @@ pub struct ReportOutput {
     pub file_name: PathBuf,
     pub file_contents: String,
 }
-#[derive(Clone)]
-
-#[derive(Default)]
+#[derive(Clone, Default)]
 pub struct Report {
     pub preamble: ReportPreamble,
     pub git_url: Option<String>,
@@ -25,8 +20,6 @@ pub struct Report {
     pub optimization_report: ReportSection,
     pub qa_report: ReportSection,
 }
-
-
 
 impl Report {
     //Converts a report section into a string
@@ -112,9 +105,7 @@ impl Report {
         if let Ok(lines) = read_lines(report_outcome.file_path.as_path()) {
             for (i, line) in lines.enumerate() {
                 if let Ok(l) = line {
-                    if i + 1 >= report_outcome.line_numbers.0
-                        && i < report_outcome.line_numbers.1
-                    {
+                    if i + 1 >= report_outcome.line_numbers.0 && i < report_outcome.line_numbers.1 {
                         snippet.push_str(&format!("{}:{}\n", i, l));
                     }
                 }

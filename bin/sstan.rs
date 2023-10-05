@@ -8,10 +8,7 @@ use std::{fs, io::Write, process};
 use clap::Parser;
 
 use sstan::{
-    engine::Engine,
-    optimizations::{OptimizationTarget},
-    qa::{QualityAssuranceTarget},
-    report::Report,
+    engine::Engine, optimizations::OptimizationTarget, qa::QualityAssuranceTarget, report::Report,
     vulnerabilities::VulnerabilityTarget,
 };
 

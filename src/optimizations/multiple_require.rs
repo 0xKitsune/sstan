@@ -49,9 +49,9 @@ impl OptimizationPattern for MultipleRequire {
 }
 mod test {
     #[allow(unused)]
-    use crate::utils::MockSource;
-    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_multiple_require_optimization() -> eyre::Result<()> {
