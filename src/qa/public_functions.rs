@@ -73,7 +73,9 @@ fn extract_names(
     Ok(function_identifiers)
 }
 mod test {
+    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
     use crate::utils::MockSource;
 
     #[test]

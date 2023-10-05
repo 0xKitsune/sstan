@@ -183,13 +183,13 @@ quality_assurance!(
         "Consider using scientific notation for large multiples of 10",
         "For example 100000 can be written as 1e5"
     ),
-    (UnusedFunctions, "Remove any unused functions", ""), //TODO: update this
+    (UnusedFunctions, "Remove any unused functions", "Any functions not used should be removed as best practice."), 
     (
         StorageVariableNamespace,
         "Storage variables should be named with camel case",
         "Consider renaming to follow convention"
     ),
-    (UnusedReturns, "Remove any unused returns", ""), //TODO: update this
+    (UnusedReturns, "Remove any unused returns", "Either remove the return parameter names, or use them as the returns of the function."), 
     (PublicFunctions,"Consider marking public function External", "If a public function is never called internally. It is best practice to mark it as external."
     )
 );
