@@ -25,7 +25,7 @@ impl QAPattern for LargeMultiplesOfTen {
                     if let pt::Expression::NumberLiteral(_loc, number, _value, _ident) =
                         number_literal
                     {
-                        let number = Uint::<256, 4>::from_str(&number).unwrap();
+                        let number = Uint::<256, 4>::from_str(number).unwrap();
                         let ten = Uint::<256, 4>::from(10);
                         let one_million = Uint::<256, 4>::from(1000000);
                         let zero = Uint::<256, 4>::from(0);

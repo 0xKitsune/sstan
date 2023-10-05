@@ -14,6 +14,7 @@ pub struct ReportOutput {
 }
 #[derive(Clone)]
 
+#[derive(Default)]
 pub struct Report {
     pub preamble: ReportPreamble,
     pub git_url: Option<String>,
@@ -25,20 +26,7 @@ pub struct Report {
     pub qa_report: ReportSection,
 }
 
-impl Default for Report {
-    fn default() -> Self {
-        Self {
-            preamble: ReportPreamble::default(),
-            git_url: None,
-            description: String::default(),
-            summary: ReportSummary::default(),
-            table_of_contents: TableOfContents::default(),
-            vulnerability_report: ReportSection::default(),
-            optimization_report: ReportSection::default(),
-            qa_report: ReportSection::default(),
-        }
-    }
-}
+
 
 impl Report {
     //Converts a report section into a string
@@ -120,19 +108,19 @@ impl Report {
                 report_outcome.file_name, report_outcome.line_numbers.0
             ));
         }
-        snippet.push_str(&format!("```solidity\n"));
+        snippet.push_str("```solidity\n");
         if let Ok(lines) = read_lines(report_outcome.file_path.as_path()) {
             for (i, line) in lines.enumerate() {
                 if let Ok(l) = line {
                     if i + 1 >= report_outcome.line_numbers.0
-                        && i + 1 <= report_outcome.line_numbers.1
+                        && i < report_outcome.line_numbers.1
                     {
                         snippet.push_str(&format!("{}:{}\n", i, l));
                     }
                 }
             }
         }
-        snippet.push_str(&"``` \n\n".to_string());
+        snippet.push_str("``` \n\n");
 
         snippet
     }
@@ -204,7 +192,7 @@ impl From<TableOfContents> for String {
     fn from(toc: TableOfContents) -> Self {
         toc.table_sections
             .iter()
-            .map(|section| String::from(section))
+            .map(String::from)
             .collect::<Vec<String>>()
             .join("\n")
     }

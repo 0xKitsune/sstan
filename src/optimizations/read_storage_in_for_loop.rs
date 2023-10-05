@@ -37,7 +37,7 @@ impl OptimizationPattern for ReadStorageInForLoop {
                             if variable_names.contains(&identifier.name) {
                                 outcome.push_or_insert(
                                     path_buf.clone(),
-                                    for_loop.loc().clone(),
+                                    for_loop.loc(),
                                     format!("{}", for_loop),
                                 )
                             }
