@@ -3,15 +3,12 @@
 // use sstan::report;
 // use std::{fs, process};
 
-use std::{collections::HashMap, fs, io::Write, path::PathBuf, process};
+use std::{fs, io::Write, process};
 
 use clap::Parser;
-use solang_parser::pt::SourceUnit;
+
 use sstan::{
-    engine::Engine,
-    optimizations::{self, OptimizationTarget},
-    qa::{self, QualityAssuranceTarget},
-    report::Report,
+    engine::Engine, optimizations::OptimizationTarget, qa::QualityAssuranceTarget, report::Report,
     vulnerabilities::VulnerabilityTarget,
 };
 
@@ -91,7 +88,7 @@ impl Opts {
     pub fn new() -> Opts {
         let args = Args::parse();
 
-        let (optimizations, vulnerabilities, qa) = if let Some(toml_path) = args.toml {
+        let (optimizations, vulnerabilities, qa) = if let Some(_toml_path) = args.toml {
             // let toml_str =
             // fs::read_to_string(toml_path).expect("Could not read toml file to string");
 

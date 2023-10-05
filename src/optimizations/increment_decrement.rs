@@ -1,4 +1,4 @@
-use solang_parser::pt::{self, CodeLocation, Expression, Loc};
+use solang_parser::pt::{self, Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
@@ -93,9 +93,10 @@ pub fn extract_pre_increment_pre_decrement(node: &mut pt::Statement) -> HashSet<
     locations
 }
 mod test {
-    use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_increment_optimization() -> eyre::Result<()> {

@@ -37,7 +37,7 @@ impl OptimizationPattern for ReadStorageInForLoop {
                             if variable_names.contains(&identifier.name) {
                                 outcome.push_or_insert(
                                     path_buf.clone(),
-                                    for_loop.loc().clone(),
+                                    for_loop.loc(),
                                     format!("{}", for_loop),
                                 )
                             }
@@ -50,9 +50,10 @@ impl OptimizationPattern for ReadStorageInForLoop {
     }
 }
 mod test {
-    use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_read_from_storage_in_for_loop() -> eyre::Result<()> {

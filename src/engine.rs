@@ -1,15 +1,12 @@
-use std::{collections::HashMap, fs, ops::Deref, path::PathBuf, vec};
-// use crate::analyzer::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
 use solang_parser::pt::{Loc, SourceUnit};
+use std::{collections::HashMap, path::PathBuf, vec};
 use thiserror::Error;
 
 use crate::{
-    extractors::{ExtractionError, Target},
+    extractors::ExtractionError,
     optimizations::{OptimizationOutcome, OptimizationTarget},
     qa::{QualityAssuranceOutcome, QualityAssuranceTarget},
-    report::{
-        Report, ReportSection, ReportSectionFragment, TableFragment, TableOfContents, TableSection,
-    },
+    report::{Report, ReportSection, TableOfContents, TableSection},
     utils,
     vulnerabilities::{VulnerabilityOutcome, VulnerabilityTarget},
 };

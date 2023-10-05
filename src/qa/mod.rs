@@ -10,16 +10,16 @@ pub mod unused_functions;
 pub mod unused_returns;
 // pub mod unused_returns;
 pub mod interface_namespace;
+pub mod public_functions;
 use super::engine::Outcome;
 use crate::engine::EngineError;
+use crate::report::Identifier;
 use crate::report::{Classification, OutcomeReport, ReportSectionFragment};
 use crate::utils;
 use solang_parser::pt::{Loc, SourceUnit};
 use std::collections::HashMap;
 use std::path::PathBuf;
-//TODO: we could have something here that creates the OptimizationOutcome enum
 
-//TODO: this is what we would use for each individual pattern and then we just implement the find method instead of the function
 pub trait QAPattern {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
@@ -88,7 +88,7 @@ macro_rules! quality_assurance {
 
         impl From<QualityAssuranceOutcome> for Option<ReportSectionFragment> {
             fn from(value: QualityAssuranceOutcome) -> Self {
-                match value {
+                match &value {
                     $(
                         QualityAssuranceOutcome::$name(outcome) => {
                             if outcome.is_empty() {
@@ -99,7 +99,7 @@ macro_rules! quality_assurance {
 
                             let mut report_fragment = ReportSectionFragment::new(
                                 $report_title.to_string(),
-                                None,
+                                Identifier::new(value.classification(), 0),
                                 $description.to_string(),
                                 length,
                             );
@@ -116,7 +116,6 @@ macro_rules! quality_assurance {
                                         let end_line = utils::get_line_number(*end, &file_contents);
                                         outcome_reports.push(OutcomeReport::new(
                                             file_name.to_string(),
-                                            None,
                                             (start_line, end_line),
                                             snippet.to_string(),
                                             path.clone(),
@@ -182,11 +181,13 @@ quality_assurance!(
         "Consider using scientific notation for large multiples of 10",
         "For example 100000 can be written as 1e5"
     ),
-    (UnusedFunctions, "Remove any unused functions", ""), //TODO: update this
+    (UnusedFunctions, "Remove any unused functions", "Any functions not used should be removed as best practice."), 
     (
         StorageVariableNamespace,
         "Storage variables should be named with camel case",
         "Consider renaming to follow convention"
     ),
-    (UnusedReturns, "Remove any unused returns", "") //TODO: update this
+    (UnusedReturns, "Remove any unused returns", "Either remove the return parameter names, or use them as the returns of the function."), 
+    (PublicFunctions,"Consider marking public function External", "If a public function is never called internally. It is best practice to mark it as external."
+    )
 );

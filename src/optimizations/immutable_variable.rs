@@ -259,9 +259,10 @@ fn is_a_non_value_type(assigned_value: pt::Expression) -> bool {
     false
 }
 mod test {
-    use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_immutable_variables_optimization() -> eyre::Result<()> {

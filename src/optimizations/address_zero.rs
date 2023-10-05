@@ -67,9 +67,10 @@ fn check_for_address_zero(box_expression: pt::Expression) -> bool {
     address_zero
 }
 mod test {
-    use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_address_zero_optimization() -> eyre::Result<()> {

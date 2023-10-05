@@ -51,9 +51,10 @@ impl OptimizationPattern for CacheArrayLength {
 }
 mod test {
 
-    use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_cache_array_length_optimization() -> eyre::Result<()> {

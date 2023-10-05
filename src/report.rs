@@ -1,12 +1,7 @@
-use std::{ops::Deref, os::unix::raw::gid_t, path::PathBuf};
-
-use toml::value::Date;
+use std::path::PathBuf;
 
 use crate::{
-    engine::{Engine, OptimizationModule, QualityAssuranceModule, Snippet, VulnerabilityModule},
-    optimizations::OptimizationOutcome,
-    qa::QualityAssuranceOutcome,
-    utils::read_lines,
+    optimizations::OptimizationOutcome, qa::QualityAssuranceOutcome, utils::read_lines,
     vulnerabilities::VulnerabilityOutcome,
 };
 #[derive(Default, Clone)]
@@ -14,8 +9,7 @@ pub struct ReportOutput {
     pub file_name: PathBuf,
     pub file_contents: String,
 }
-#[derive(Clone)]
-
+#[derive(Clone, Default)]
 pub struct Report {
     pub preamble: ReportPreamble,
     pub git_url: Option<String>,
@@ -25,21 +19,6 @@ pub struct Report {
     pub vulnerability_report: ReportSection,
     pub optimization_report: ReportSection,
     pub qa_report: ReportSection,
-}
-
-impl Default for Report {
-    fn default() -> Self {
-        Self {
-            preamble: ReportPreamble::default(),
-            git_url: None,
-            description: String::default(),
-            summary: ReportSummary::default(),
-            table_of_contents: TableOfContents::default(),
-            vulnerability_report: ReportSection::default(),
-            optimization_report: ReportSection::default(),
-            qa_report: ReportSection::default(),
-        }
-    }
 }
 
 impl Report {
@@ -72,19 +51,15 @@ impl Report {
         report_section_fragment: &ReportSectionFragment,
     ) -> String {
         let mut fragment: String = String::new();
-        if let Some(identifier) = report_section_fragment.identifier {
-            let identifier: String = format!(
-                "[{}-{}]",
-                identifier.classification.identifier(),
-                identifier.nonce
-            );
-            fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,report_section_fragment.title,report_section_fragment.instances));
-        } else {
-            fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
-                report_section_fragment.title, report_section_fragment.instances,
-            ));
-        }
+        let identifier: String = format!(
+            "[{}-{}]",
+            report_section_fragment
+                .identifier
+                .classification
+                .identifier(),
+            report_section_fragment.identifier.nonce
+        );
+        fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,report_section_fragment.title,report_section_fragment.instances));
 
         fragment.push_str(&format!("\n {} \n", report_section_fragment.description));
 
@@ -126,19 +101,17 @@ impl Report {
                 report_outcome.file_name, report_outcome.line_numbers.0
             ));
         }
-        snippet.push_str(&format!("```solidity\n"));
+        snippet.push_str("```solidity\n");
         if let Ok(lines) = read_lines(report_outcome.file_path.as_path()) {
             for (i, line) in lines.enumerate() {
                 if let Ok(l) = line {
-                    if i + 1 >= report_outcome.line_numbers.0
-                        && i + 1 <= report_outcome.line_numbers.1
-                    {
+                    if i + 1 >= report_outcome.line_numbers.0 && i < report_outcome.line_numbers.1 {
                         snippet.push_str(&format!("{}:{}\n", i, l));
                     }
                 }
             }
         }
-        snippet.push_str(&format!("``` \n\n"));
+        snippet.push_str("``` \n\n");
 
         snippet
     }
@@ -172,11 +145,11 @@ pub struct ReportPreamble {
 impl Default for ReportPreamble {
     fn default() -> Self {
         Self {
-            title: format!("Sstan"),
+            title: "Sstan".to_string(),
             logo: String::default(),
-            description: format!("TODO: add description"),
-            date: format!("TODO: add date"),
-            version: format!("v0.1.0"),
+            description: "TODO: add description".to_string(),
+            date: "TODO: add date".to_string(),
+            version: "v0.1.0".to_string(),
             authors: vec!["0x00face".to_string(), "0xOsiris".to_string()],
         }
     }
@@ -210,7 +183,7 @@ impl From<TableOfContents> for String {
     fn from(toc: TableOfContents) -> Self {
         toc.table_sections
             .iter()
-            .map(|section| String::from(section))
+            .map(String::from)
             .collect::<Vec<String>>()
             .join("\n")
     }
@@ -277,7 +250,7 @@ pub struct ReportSection {
 
 #[derive(Default, Clone)]
 pub struct ReportSectionFragment {
-    pub identifier: Option<Identifier>, //TODO: this would be something that would define the item like [G-0], [G-1], etc
+    pub identifier: Identifier, //TODO: this would be something that would define the item like [G-0], [G-1], etc
     pub instances: usize,
     pub title: String,
     pub description: String,
@@ -287,7 +260,7 @@ pub struct ReportSectionFragment {
 impl ReportSectionFragment {
     pub fn new(
         title: String,
-        identifier: Option<Identifier>,
+        identifier: Identifier,
         description: String,
         instances: usize,
     ) -> Self {
@@ -333,7 +306,6 @@ impl Classification {
 
 pub struct OutcomeReport {
     pub file_name: String,
-    pub git_url: Option<String>,
     pub line_numbers: (usize, usize), //if the same line number then we just compile report as one number
     pub snippet: String,
     pub file_path: PathBuf,
@@ -342,14 +314,12 @@ pub struct OutcomeReport {
 impl OutcomeReport {
     pub fn new(
         file_name: String,
-        git_url: Option<String>,
         line_numbers: (usize, usize),
         snippet: String,
         file_path: PathBuf,
     ) -> Self {
         Self {
             file_name,
-            git_url,
             line_numbers,
             snippet,
             file_path,
@@ -380,7 +350,7 @@ impl From<Vec<QualityAssuranceOutcome>> for ReportSection {
                 .enumerate()
                 .map(
                     |(nonce, (classification, fragment))| ReportSectionFragment {
-                        identifier: Some(Identifier::new(classification, nonce)),
+                        identifier: Identifier::new(classification, nonce),
                         ..fragment.unwrap()
                     },
                 )
@@ -401,7 +371,7 @@ impl From<Vec<OptimizationOutcome>> for ReportSection {
                 .enumerate()
                 .map(
                     |(nonce, (classification, fragment))| ReportSectionFragment {
-                        identifier: Some(Identifier::new(classification, nonce)),
+                        identifier: Identifier::new(classification, nonce),
                         ..fragment.unwrap()
                     },
                 )
@@ -422,7 +392,7 @@ impl From<Vec<VulnerabilityOutcome>> for ReportSection {
                 .enumerate()
                 .map(
                     |(nonce, (classification, fragment))| ReportSectionFragment {
-                        identifier: Some(Identifier::new(classification, nonce)),
+                        identifier: Identifier::new(classification, nonce),
                         ..fragment.unwrap()
                     },
                 )
@@ -447,18 +417,14 @@ impl From<&ReportSection> for TableSection {
 
 impl From<&ReportSectionFragment> for TableFragment {
     fn from(value: &ReportSectionFragment) -> TableFragment {
-        if let Some(ident) = &value.identifier {
-            TableFragment::new(
-                value.title.to_string(),
-                Some(Identifier {
-                    classification: ident.classification,
-                    nonce: ident.nonce,
-                }),
-                value.instances,
-            )
-        } else {
-            TableFragment::new(value.title.to_string(), None, value.instances)
-        }
+        TableFragment::new(
+            value.title.to_string(),
+            Some(Identifier {
+                classification: value.identifier.classification,
+                nonce: value.identifier.nonce,
+            }),
+            value.instances,
+        )
     }
 }
 

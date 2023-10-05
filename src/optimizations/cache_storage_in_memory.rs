@@ -65,9 +65,10 @@ impl OptimizationPattern for CacheStorageInMemory {
 }
 mod test {
 
-    use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_public_function_optimization() -> eyre::Result<()> {

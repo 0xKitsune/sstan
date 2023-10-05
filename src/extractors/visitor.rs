@@ -1,5 +1,4 @@
-use solang_parser::pt::{self, *};
-
+use solang_parser::pt::*;
 /// Macro to implmement expression visitor methods
 macro_rules! visit_exprs {
     ($func_name:ident, 1) => {
@@ -1161,7 +1160,6 @@ pub trait Visitor {
         self.extract_continue(_loc, _semicolon)?;
         Ok(())
     }
-
     #[allow(clippy::type_complexity)]
     fn visit_try(
         &mut self,
