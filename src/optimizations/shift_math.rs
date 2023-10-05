@@ -70,8 +70,9 @@ fn check_if_inputs_are_power_of_two(
     is_even
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
 
     #[test]

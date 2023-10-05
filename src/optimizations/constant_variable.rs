@@ -175,8 +175,9 @@ impl OptimizationPattern for ConstantVariable {
     }
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
 
     #[test]

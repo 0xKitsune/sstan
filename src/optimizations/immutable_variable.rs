@@ -259,8 +259,9 @@ fn is_a_non_value_type(assigned_value: pt::Expression) -> bool {
     false
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
 
     #[test]

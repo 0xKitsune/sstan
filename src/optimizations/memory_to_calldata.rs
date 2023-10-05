@@ -92,8 +92,9 @@ fn get_function_definition_memory_args(
 }
 
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
 
     #[test]

@@ -39,8 +39,9 @@ impl OptimizationPattern for Sstore {
 }
 
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
     #[test]
     fn test_sstore_optimization() -> eyre::Result<()> {

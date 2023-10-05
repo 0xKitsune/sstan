@@ -179,8 +179,9 @@ impl OptimizationPattern for AssignUpdateArrayValue {
     }
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
 
     #[test]

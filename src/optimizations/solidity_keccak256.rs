@@ -34,8 +34,9 @@ impl OptimizationPattern for SolidityKeccak256 {
     }
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
     #[test]
     fn test_template_optimization() -> eyre::Result<()> {

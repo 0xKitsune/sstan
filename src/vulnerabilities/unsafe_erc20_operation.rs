@@ -47,8 +47,9 @@ impl VulnerabilityPattern for UnsafeErc20Operation {
     }
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
     #[test]
     fn test_unsafe_erc20_operation() -> eyre::Result<()> {

@@ -66,8 +66,9 @@ impl VulnerabilityPattern for UninitializedStorageVariable {
     }
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
     #[test]
     fn test_uninitialized_storage_variable() -> eyre::Result<()> {

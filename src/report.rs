@@ -1,9 +1,7 @@
-use std::{ops::Deref, os::unix::raw::gid_t, path::PathBuf};
+use std::path::PathBuf;
 
-use toml::value::Date;
 
 use crate::{
-    engine::{Engine, OptimizationModule, QualityAssuranceModule, Snippet, VulnerabilityModule},
     optimizations::OptimizationOutcome,
     qa::QualityAssuranceOutcome,
     utils::read_lines,
@@ -134,7 +132,7 @@ impl Report {
                 }
             }
         }
-        snippet.push_str(&format!("``` \n\n"));
+        snippet.push_str(&"``` \n\n".to_string());
 
         snippet
     }
@@ -168,11 +166,11 @@ pub struct ReportPreamble {
 impl Default for ReportPreamble {
     fn default() -> Self {
         Self {
-            title: format!("Sstan"),
+            title: "Sstan".to_string(),
             logo: String::default(),
-            description: format!("TODO: add description"),
-            date: format!("TODO: add date"),
-            version: format!("v0.1.0"),
+            description: "TODO: add description".to_string(),
+            date: "TODO: add date".to_string(),
+            version: "v0.1.0".to_string(),
             authors: vec!["0x00face".to_string(), "0xOsiris".to_string()],
         }
     }

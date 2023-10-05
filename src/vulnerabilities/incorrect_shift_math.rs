@@ -52,8 +52,9 @@ impl VulnerabilityPattern for IncorrectShiftMath {
     }
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
     #[test]
     fn test_incorrect_shift_math() -> eyre::Result<()> {

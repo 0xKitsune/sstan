@@ -37,8 +37,9 @@ impl OptimizationPattern for OptimalComparison {
     }
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
 
     #[test]

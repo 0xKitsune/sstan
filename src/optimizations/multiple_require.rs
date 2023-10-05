@@ -48,8 +48,9 @@ impl OptimizationPattern for MultipleRequire {
     }
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
 
     #[test]

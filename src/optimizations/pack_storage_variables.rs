@@ -40,8 +40,9 @@ impl OptimizationPattern for PackStorageVariables {
     }
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
     #[test]
     fn test_pack_storage_variables_optimization() -> eyre::Result<()> {

@@ -201,8 +201,9 @@ fn contains_msg_sender_conditions(
     Ok(false)
 }
 mod test {
+    #[allow(unused)]
     use crate::utils::MockSource;
-
+    #[allow(unused)]
     use super::*;
     #[test]
     fn test_unprotected_self_destruct() -> eyre::Result<()> {
