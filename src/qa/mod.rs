@@ -19,9 +19,7 @@ use crate::utils;
 use solang_parser::pt::{Loc, SourceUnit};
 use std::collections::HashMap;
 use std::path::PathBuf;
-//TODO: we could have something here that creates the OptimizationOutcome enum
 
-//TODO: this is what we would use for each individual pattern and then we just implement the find method instead of the function
 pub trait QAPattern {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
