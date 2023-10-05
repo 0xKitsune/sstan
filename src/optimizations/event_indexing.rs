@@ -30,12 +30,9 @@ impl OptimizationPattern for EventIndexing {
                     }
                 }
                 //If there are more than 3 non-array indexed parameters, and less than 3 indexed events, then the event is not optimized.
-                if non_array_indexed_parameter_count >= 3 && indexed_events_count < 3 {
-                    outcome.push_or_insert(path_buf.clone(), event.loc(), event.to_string());
-
-                //If there are less than 3 non-array indexed parameters, and the number of indexed events is not equal to the number of non-array indexed parameters, then the event is not optimized.
-                } else if non_array_indexed_parameter_count < 3
-                    && indexed_events_count != non_array_indexed_parameter_count
+                if non_array_indexed_parameter_count >= 3 && indexed_events_count < 3
+                    || non_array_indexed_parameter_count < 3
+                        && indexed_events_count != non_array_indexed_parameter_count
                 {
                     outcome.push_or_insert(path_buf.clone(), event.loc(), event.to_string());
                 }
@@ -46,9 +43,9 @@ impl OptimizationPattern for EventIndexing {
 }
 mod test {
     #[allow(unused)]
-    use crate::utils::MockSource;
-    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_immutable_variables_optimization() -> eyre::Result<()> {

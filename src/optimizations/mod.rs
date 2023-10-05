@@ -89,6 +89,14 @@ macro_rules! optimization {
                 }
             }
 
+            pub fn is_empty(&self) -> bool {
+                match self {
+                    $(
+                        OptimizationOutcome::$name(outcome) => outcome.is_empty(),
+                    )+
+                }
+            }
+
             pub fn gas_saved(&self) -> usize {
                 match self {
                     $(
