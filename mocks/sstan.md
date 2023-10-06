@@ -15,7 +15,7 @@
 
  | Classification | Title | Instances | 
  |:-------:|:---------|:-------:| 
- | [[H-0]](#[H-0]) | <Strong>Uninitialized storage variables</Strong> | 2 |
+ | [H-0](#[H-0]) | <Strong>Uninitialized storage variables</Strong> | 2 |
  | [[L-1]](#[L-1]) | <Strong>Use a locked pragma version instead of a floating pragma version</Strong> | 56 |
  | [[L-2]](#[L-2]) | <Strong>Unsafe ERC20 Operation</Strong> | 31 |
 # 
