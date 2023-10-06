@@ -63,6 +63,8 @@ impl Report {
 
         fragment.push_str(&format!("\n {} \n", report_section_fragment.description));
 
+        fragment.push_str("--- \n");
+
         fragment.push_str(
             &report_section_fragment
                 .outcomes
