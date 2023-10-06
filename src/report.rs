@@ -75,7 +75,7 @@ impl Report {
                 .iter()
                 .map(|o| self.string_from_report_outcome(o))
                 .collect::<Vec<String>>()
-                .join("\n\n"),
+                .join("\n<br>\n"),
         );
 
         fragment.push_str("\n\n --- \n");
@@ -410,7 +410,7 @@ impl From<Vec<VulnerabilityOutcome>> for ReportSection {
 impl From<&ReportSection> for TableSection {
     fn from(value: &ReportSection) -> Self {
         TableSection {
-            title: format!("<h3>{}</h3>", value.title.clone()),
+            title: format!("\n## {} - Total: {}", value.title.clone(), value.outcomes.len()),
             subsections: value
                 .outcomes
                 .clone()
