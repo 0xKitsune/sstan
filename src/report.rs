@@ -75,7 +75,7 @@ impl Report {
                 .iter()
                 .map(|o| self.string_from_report_outcome(o))
                 .collect::<Vec<String>>()
-                .join("\n"),
+                .join("\n\n"),
         );
 
         fragment.push_str("\n\n --- \n");
