@@ -1160,7 +1160,6 @@ pub trait Visitor {
         self.extract_continue(_loc, _semicolon)?;
         Ok(())
     }
-    #[allow(clippy::type_complexity)]
     fn visit_try(
         &mut self,
         _loc: Loc,
