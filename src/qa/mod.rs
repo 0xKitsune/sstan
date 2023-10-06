@@ -147,45 +147,56 @@ quality_assurance!(
     (
         ConstructorOrder,
         "Constructor should be listed before any other function",
-        "Description of the qa pattern goes here"
+        "
+> Description of the qa pattern goes here"
     ),
     (
         PrivateVariablesLeadingUnderscore,
         "Private variables should contain a leading underscore",
-        "Description of the qa pattern goes here"
+        "
+> Description of the qa pattern goes here"
     ),
     (
         ConstructorVarInitialization,
         "Constructor should initialize all variables",
-        "Description of the qa pattern goes here"
+        "
+> Description of the qa pattern goes here"
     ),
     (
         ImportIdentifiers,
         "Consider importing specific identifiers instead of the whole file",
-        "This will minimize compiled code size and help with readability"
+        "
+> This will minimize compiled code size and help with readability"
     ),
     (
         InterfaceNamespace,
         "Interface names should start with an I",
-        "Consider renaming for consistency"
+        "
+> Consider renaming for consistency"
     ),
     (
         ConstantImmutableNamespace,
         "Constants & Immutables should be named with screaming snake case",
-        "Consider renaming to follow convention"
+        "
+> Consider renaming to follow convention"
     ),
     (
         LargeMultiplesOfTen,
         "Consider using scientific notation for large multiples of 10",
-        "For example 100000 can be written as 1e5"
+        "
+> For example 100000 can be written as 1e5"
     ),
-    (UnusedFunctions, "Remove any unused functions", "Any functions not used should be removed as best practice."), 
+    (UnusedFunctions, "Remove any unused functions", "
+> Any functions not used should be removed as best practice."), 
     (
         StorageVariableNamespace,
         "Storage variables should be named with camel case",
-        "Consider renaming to follow convention"
+        "
+> Consider renaming to follow convention"
     ),
-    (UnusedReturns, "Remove any unused returns", "Either remove the return parameter names, or use them as the returns of the function."), 
-    (PublicFunctions,"Consider marking public function External", "If a public function is never called internally. It is best practice to mark it as external."
+    (UnusedReturns, "Remove any unused returns", "
+> Either remove the return parameter names, or use them as the returns of the function."), 
+    (PublicFunctions,"Consider marking public function External", "
+> If a public function is never called internally. It is best practice to mark it as external."
     )
 );
