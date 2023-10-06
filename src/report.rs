@@ -26,11 +26,11 @@ impl Report {
     pub fn string_from_report_section(&self, report_section: ReportSection) -> String {
         let mut fragment: String = String::new();
         fragment.push_str(&format!(
-            "\n <details open> \n <summary> \n <h3>{} - Instances: {} </h3> \n </summary>",
+            "\n## {} - Total: {}",
             report_section.title,
             report_section.outcomes.len()
         ));
-        fragment.push_str(&format!(" \n {} \n", report_section.description));
+        fragment.push_str(&format!(" \n{}\n", report_section.description));
 
         fragment.push_str(
             &report_section
@@ -41,7 +41,7 @@ impl Report {
                 .join("\n"),
         );
 
-        fragment.push_str(" \n </details>");
+        fragment.push_str("\n");
 
         fragment
     }
@@ -59,7 +59,7 @@ impl Report {
                 .identifier(),
             report_section_fragment.identifier.nonce
         );
-        fragment.push_str(&format!("\n <details open> \n <summary> \n <a name={}></a> {} \n <h3> {} - Instances: {} </h3> \n </summary>",identifier,identifier,report_section_fragment.title,report_section_fragment.instances));
+        fragment.push_str(&format!("\n ### <a name={}></a> {} {} - Instances: {} \n",identifier,identifier,report_section_fragment.title,report_section_fragment.instances));
 
         fragment.push_str(&format!("\n {} \n", report_section_fragment.description));
 
@@ -72,7 +72,7 @@ impl Report {
                 .join("\n"),
         );
 
-        fragment.push_str(" \n </details>");
+        fragment.push_str("\n\n --- \n");
 
         fragment
     }
