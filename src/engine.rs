@@ -100,8 +100,14 @@ pub trait EngineModule<T> {
 }
 impl From<Engine> for Report {
     fn from(engine: Engine) -> Report {
-        let mut report = Report { vulnerability_report: ReportSection::from(engine.vulnerabilities.outcomes), optimization_report: ReportSection::from(engine.optimizations.outcomes), qa_report: ReportSection::from(engine.qa.outcomes), git_url: engine.git_url, ..Default::default() };
-      
+        let mut report = Report {
+            vulnerability_report: ReportSection::from(engine.vulnerabilities.outcomes),
+            optimization_report: ReportSection::from(engine.optimizations.outcomes),
+            qa_report: ReportSection::from(engine.qa.outcomes),
+            git_url: engine.git_url,
+            ..Default::default()
+        };
+
         let table_sections = vec![
             TableSection::from(&report.vulnerability_report),
             TableSection::from(&report.optimization_report),

@@ -9,7 +9,9 @@ default_extractor!(MemberAccessExtractor, Expression);
 impl Visitor for MemberAccessExtractor {
     type Error = ExtractionError;
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
-        if let Expression::MemberAccess(_, _, _) = expr { self.targets.push(expr.clone()) }
+        if let Expression::MemberAccess(_, _, _) = expr {
+            self.targets.push(expr.clone())
+        }
         Ok(())
     }
 }
@@ -19,7 +21,9 @@ default_extractor!(ForExtractor, Statement);
 impl Visitor for ForExtractor {
     type Error = ExtractionError;
     fn extract_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
-        if let Statement::For(_, _, _, _, _) = statement { self.targets.push(statement.clone()) }
+        if let Statement::For(_, _, _, _, _) = statement {
+            self.targets.push(statement.clone())
+        }
         Ok(())
     }
 }
@@ -32,7 +36,9 @@ impl Visitor for PlainImportExtractor {
         &mut self,
         import: &mut solang_parser::pt::Import,
     ) -> Result<(), Self::Error> {
-        if let Import::Plain(_, _) = import { self.targets.push(import.clone()) }
+        if let Import::Plain(_, _) = import {
+            self.targets.push(import.clone())
+        }
         Ok(())
     }
 }
@@ -59,7 +65,9 @@ impl EqualityExtractor {
     pub fn extract_not_equal(exprs: Vec<Expression>) -> Vec<Expression> {
         let mut extracted = Vec::new();
         for expr in exprs {
-            if let Expression::NotEqual(_, _, _) = expr { extracted.push(expr) }
+            if let Expression::NotEqual(_, _, _) = expr {
+                extracted.push(expr)
+            }
         }
         extracted
     }
@@ -67,7 +75,9 @@ impl EqualityExtractor {
     pub fn extract_equal(exprs: Vec<Expression>) -> Vec<Expression> {
         let mut extracted = Vec::new();
         for expr in exprs {
-            if let Expression::Equal(_, _, _) = expr { extracted.push(expr) }
+            if let Expression::Equal(_, _, _) = expr {
+                extracted.push(expr)
+            }
         }
         extracted
     }
