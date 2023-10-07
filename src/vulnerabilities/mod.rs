@@ -155,7 +155,11 @@ vulnerability!(
         "Unprotected selfdestruct",
         "
 > Unprotected call to a function executing `selfdestruct` or `suicide`.
-        
+
+<details>
+<summary>Expand Example</summary>
+
+```js
 #### Exploit scenario
 
 ```js
@@ -191,6 +195,7 @@ function kill() public {
     require(msg.sender == owner);
     selfdestruct(msg.sender);
 }
+</details>
 ```
         ",
         Classification::VulnerabilityHigh
@@ -208,6 +213,8 @@ function kill() public {
         "Division before multiplication",
         "
 > Consider ordering multiplication before division to avoid loss of precision because integer division might truncate. Loss of precision in Solidity can lead to vulnerabilities because it can result in unexpected behavior in smart contracts. This can be particularly problematic in financial applications, where even small errors in calculations can have significant consequences. For example, if a contract uses integer division to calculate a result and the division operation truncates the fractional part of the result, it could lead to incorrect pricing or loss of funds due to miscalculated balances.
+<details>
+<summary>Expand Example</summary>
 
 #### Unsafe Division
 
@@ -219,6 +226,8 @@ function kill() public {
 ```js
     n = 5 * 4 / 2; // n = 10
 ```
+
+</details>
         ",
         Classification::VulnerabilityMedium
     ),
@@ -226,7 +235,12 @@ function kill() public {
         IncorrectShiftMath, // TODO: we should change this to be more descriptive since its only in assembly blocks, something like IncorrectShiftOperation
         "Incorrect order of operations when using `shl` or `shr` in an assembly block",
         "
+
 > Incorrect assembly shift math
+
+<details>
+<summary>Expand Example</summary>
+
 #### Ex. x << 5.
 #### Incorrect
         
@@ -243,7 +257,7 @@ function kill() public {
         shl(5,x)
     }
 ```
-        
+</details>  
 ",
         Classification::VulnerabilityMedium
     ),
@@ -251,9 +265,9 @@ function kill() public {
         FloatingPragma,
         "Use a locked pragma version instead of a floating pragma version",
         "
-> Floating pragma is a vulnerability in smart contract code that can cause unexpected behavior by allowing the compiler to use a specified range of versions. This can lead to issues such as using an older compiler version with known vulnerabilities, using a newer compiler version with undiscovered vulnerabilities, inconsistency across files using different versions, or unpredictable behavior because the compiler can use any version within the specified range. It is recommended to use a locked pragma version in order to avoid these potential vulnerabilities.
-
-> In some cases it may be acceptable to use a floating pragma, such as when a contract is intended for consumption by other developers and needs to be compatible with a range of compiler versions.
+> Floating pragma is a vulnerability in smart contract code that can cause unexpected behavior by allowing the compiler to use a specified range of versions. This can lead to issues such as using an older compiler version with known vulnerabilities, using a newer compiler version with undiscovered vulnerabilities, inconsistency across files using different versions, or unpredictable behavior because the compiler can use any version within the specified range. It is recommended to use a locked pragma version in order to avoid these potential vulnerabilities. In some cases it may be acceptable to use a floating pragma, such as when a contract is intended for consumption by other developers and needs to be compatible with a range of compiler versions.
+<details>
+<summary>Expand Example</summary>
 
 #### Bad
 
@@ -266,7 +280,7 @@ function kill() public {
 ```js
     pragma solidity 0.8.15;
 ```
-
+</details>
 ",
         Classification::VulnerabilityLow
     ),
@@ -276,7 +290,9 @@ function kill() public {
         "
 > ERC20 operations can be unsafe due to different implementations and vulnerabilities in the standard. To account for this, either use OpenZeppelin's SafeERC20 library or wrap each operation in a require statement.
 > Additionally, ERC20's approve functions have a known race-condition vulnerability. To account for this, use OpenZeppelin's SafeERC20 library's `safeIncrease` or `safeDecrease` Allowance functions.
-        
+<details>
+<summary>Expand Example</summary>
+
 #### Unsafe Transfer
 
 ```js
@@ -320,6 +336,8 @@ IERC20(token).safeTransferFrom(msg.sender, address(this), amount);
 bool success = IERC20(token).transferFrom(msg.sender, address(this), amount);
 require(success, \"ERC20 transfer failed\");
 ```
+
+</details>
         
         ",
         Classification::VulnerabilityLow
