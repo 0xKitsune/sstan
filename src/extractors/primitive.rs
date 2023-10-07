@@ -9,10 +9,7 @@ default_extractor!(MemberAccessExtractor, Expression);
 impl Visitor for MemberAccessExtractor {
     type Error = ExtractionError;
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
-        match expr {
-            Expression::MemberAccess(_, _, _) => self.targets.push(expr.clone()),
-            _ => {}
-        }
+        if let Expression::MemberAccess(_, _, _) = expr { self.targets.push(expr.clone()) }
         Ok(())
     }
 }
@@ -22,10 +19,7 @@ default_extractor!(ForExtractor, Statement);
 impl Visitor for ForExtractor {
     type Error = ExtractionError;
     fn extract_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
-        match statement {
-            Statement::For(_, _, _, _, _) => self.targets.push(statement.clone()),
-            _ => {}
-        }
+        if let Statement::For(_, _, _, _, _) = statement { self.targets.push(statement.clone()) }
         Ok(())
     }
 }
@@ -38,10 +32,7 @@ impl Visitor for PlainImportExtractor {
         &mut self,
         import: &mut solang_parser::pt::Import,
     ) -> Result<(), Self::Error> {
-        match import {
-            Import::Plain(_, _) => self.targets.push(import.clone()),
-            _ => {}
-        }
+        if let Import::Plain(_, _) = import { self.targets.push(import.clone()) }
         Ok(())
     }
 }
@@ -68,10 +59,7 @@ impl EqualityExtractor {
     pub fn extract_not_equal(exprs: Vec<Expression>) -> Vec<Expression> {
         let mut extracted = Vec::new();
         for expr in exprs {
-            match expr {
-                Expression::NotEqual(_, _, _) => extracted.push(expr),
-                _ => {}
-            }
+            if let Expression::NotEqual(_, _, _) = expr { extracted.push(expr) }
         }
         extracted
     }
@@ -79,10 +67,7 @@ impl EqualityExtractor {
     pub fn extract_equal(exprs: Vec<Expression>) -> Vec<Expression> {
         let mut extracted = Vec::new();
         for expr in exprs {
-            match expr {
-                Expression::Equal(_, _, _) => extracted.push(expr),
-                _ => {}
-            }
+            if let Expression::Equal(_, _, _) = expr { extracted.push(expr) }
         }
         extracted
     }
@@ -116,9 +101,8 @@ default_extractor!(NumberLiteralExtractor, Expression);
 impl Visitor for NumberLiteralExtractor {
     type Error = ExtractionError;
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
-        match expr {
-            Expression::NumberLiteral(_, _, _, _) => self.targets.push(expr.clone()),
-            _ => {}
+        if let Expression::NumberLiteral(_, _, _, _) = expr {
+            self.targets.push(expr.clone())
         }
         Ok(())
     }
@@ -145,9 +129,8 @@ default_extractor!(FunctionCallExtractor, Expression);
 impl Visitor for FunctionCallExtractor {
     type Error = ExtractionError;
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
-        match expr {
-            Expression::FunctionCall(_, _, _) => self.targets.push(expr.clone()),
-            _ => {}
+        if let Expression::FunctionCall(_, _, _) = expr {
+            self.targets.push(expr.clone())
         }
         Ok(())
     }
@@ -158,13 +141,13 @@ default_extractor!(BlockExtractor, Statement);
 impl Visitor for BlockExtractor {
     type Error = ExtractionError;
     fn extract_statement(&mut self, statement: &mut Statement) -> Result<(), Self::Error> {
-        match statement {
-            Statement::Block {
-                loc: _,
-                unchecked: _,
-                statements: _,
-            } => self.targets.push(statement.clone()),
-            _ => {}
+        if let Statement::Block {
+            loc: _,
+            unchecked: _,
+            statements: _,
+        } = statement
+        {
+            self.targets.push(statement.clone())
         }
         Ok(())
     }
@@ -270,9 +253,8 @@ default_extractor!(VariableExtractor, Expression);
 impl Visitor for VariableExtractor {
     type Error = ExtractionError;
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
-        match expr {
-            Expression::Variable(_) => self.targets.push(expr.clone()),
-            _ => {}
+        if let Expression::Variable(_) = expr {
+            self.targets.push(expr.clone())
         }
         Ok(())
     }

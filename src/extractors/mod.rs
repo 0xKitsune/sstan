@@ -114,6 +114,12 @@ macro_rules! default_extractor {
             }
         }
 
+        impl Default for $extractor_name {
+            fn default() -> Self {
+                Self::new()
+            }
+        }
+
         impl<V: Visitable> Extractor<V, $target_type> for $extractor_name {
             fn extract(v: &mut V) -> Result<Vec<$target_type>, ExtractionError> {
                 let mut extractor_instance = Self::new();
