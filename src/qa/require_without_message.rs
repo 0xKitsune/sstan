@@ -10,15 +10,14 @@ use std::{collections::HashMap, path::PathBuf};
 
 use solang_parser::{
     helpers::CodeLocation,
-    pt::{Expression, FunctionDefinition, SourceUnit},
+    pt::{Expression, SourceUnit},
 };
 
-use super::{PublicFunctions, QAPattern, QualityAssuranceOutcome, RequireWithoutMessage};
+use super::{QAPattern, QualityAssuranceOutcome, RequireWithoutMessage};
 use crate::engine::Pushable;
 use crate::engine::{EngineError, Outcome};
 use crate::extractors::{
-    compound::PublicFunctionExtractor,
-    primitive::{ContractDefinitionExtractor, FunctionCallExtractor},
+    primitive::{FunctionCallExtractor},
     Extractor,
 };
 
