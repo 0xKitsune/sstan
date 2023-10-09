@@ -22,7 +22,7 @@ pub trait Pushable {
 
 impl Pushable for Outcome {
     fn push_or_insert(&mut self, path: PathBuf, loc: Loc, snippet: Snippet) {
-        let entry = self.entry(path).or_insert(vec![]);
+        let entry = self.entry(path).or_default();
         entry.push((loc, snippet));
     }
 }
@@ -100,12 +100,14 @@ pub trait EngineModule<T> {
 }
 impl From<Engine> for Report {
     fn from(engine: Engine) -> Report {
-        let mut report = Report::default();
-        report.vulnerability_report = ReportSection::from(engine.vulnerabilities.outcomes);
-        report.optimization_report = ReportSection::from(engine.optimizations.outcomes);
-        report.qa_report = ReportSection::from(engine.qa.outcomes);
-        //Set the github url for the repo
-        report.git_url = engine.git_url;
+        let mut report = Report {
+            vulnerability_report: ReportSection::from(engine.vulnerabilities.outcomes),
+            optimization_report: ReportSection::from(engine.optimizations.outcomes),
+            qa_report: ReportSection::from(engine.qa.outcomes),
+            git_url: engine.git_url,
+            ..Default::default()
+        };
+
         let table_sections = vec![
             TableSection::from(&report.vulnerability_report),
             TableSection::from(&report.optimization_report),

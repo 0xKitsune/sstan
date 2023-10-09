@@ -41,7 +41,7 @@ impl Report {
                 .join("\n"),
         );
 
-        fragment.push_str("\n");
+        fragment.push('\n');
 
         fragment
     }
@@ -59,7 +59,13 @@ impl Report {
                 .identifier(),
             report_section_fragment.identifier.nonce
         );
-        fragment.push_str(&format!("\n ### <a name={}></a> {} {} - Instances: {} \n",identifier,identifier,report_section_fragment.title,report_section_fragment.instances));
+        fragment.push_str(&format!(
+            "\n ### <a name={}></a> {} {} - Instances: {} \n",
+            identifier,
+            identifier,
+            report_section_fragment.title,
+            report_section_fragment.instances
+        ));
 
         fragment.push_str(&format!("\n {} \n", report_section_fragment.description));
 

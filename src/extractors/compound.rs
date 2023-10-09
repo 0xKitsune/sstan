@@ -128,7 +128,7 @@ impl<V: Visitable> Extractor<V, ContractDefinition> for LibraryExtractor {
 }
 
 compound_extractor!(ConstructorExtractor, FunctionDefinition);
-
+#[allow(clippy::unnecessary_filter_map)]
 impl<V: Visitable> Extractor<V, FunctionDefinition> for ConstructorExtractor {
     fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
         let functions = FunctionExtractor::extract(v)?;
