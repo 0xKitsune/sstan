@@ -26,9 +26,9 @@ impl Report {
     pub fn string_from_report_section(&self, report_section: ReportSection) -> String {
         let mut fragment: String = String::new();
         fragment.push_str(&format!(
-            "\n# {} - Total: {}",
+            "\n## {} - Total: {}",
             report_section.title,
-            report_section.outcomes.len()
+            report_section.outcomes.iter().map(|f| f.instances).sum::<usize>()
         ));
         fragment.push_str(&format!(" \n{}\n", report_section.description));
 
@@ -60,7 +60,7 @@ impl Report {
             report_section_fragment.identifier.nonce
         );
         fragment.push_str(&format!(
-            "\n <h3><a name={}></a> {} {} - Instances: {} </h3>\n",
+            "<a name={}></a>\n### {} {} - Instances: {} \n",
             identifier,
             identifier,
             report_section_fragment.title,
@@ -69,7 +69,7 @@ impl Report {
 
         fragment.push_str(&format!("\n {} \n", report_section_fragment.description));
 
-        fragment.push_str("--- \n");
+        fragment.push_str("\n --- \n");
 
         fragment.push_str(
             &report_section_fragment
@@ -206,7 +206,7 @@ pub struct TableSection {
 impl From<&TableSection> for String {
     fn from(section: &TableSection) -> Self {
         format!(
-            "# {} \n\n | Classification | Title | Instances | \n |:-------:|:---------|:-------:| {}",
+            "{} \n\n | Classification | Title | Instances | \n |:-------:|:---------|:-------:| {}",
             section.title,
             section
                 .subsections
@@ -446,7 +446,7 @@ impl From<&TableFragment> for String {
                 identifier.nonce
             );
             fragment.push_str(&format!(
-                "\n | [{}](#{}) | <Strong>{}</Strong> | {} |",
+                "\n | [{}](#{}) | {} | {} |",
                 identifier, identifier, value.title, value.instances
             ));
         } 
