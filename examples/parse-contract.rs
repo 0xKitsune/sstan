@@ -1,20 +1,10 @@
 fn main() {
     let file_contents = r#"
-    
-        pragma solidity ^0.8.16;
 
-        contract SimpleStore {
-            uint x;
-            event IsOptimized(bytes[] byteArray);
-
-            function set(uint newValue) {
-                x = newValue;
-            }
-            
-            function get() returns (uint) {
-                return x;
-            }
-        }
+    contract contract0 {
+        uint128 constant doubleCast = uint128(uint256(1));
+        
+    }
     "#;
 
     let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;

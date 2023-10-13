@@ -15,6 +15,7 @@ use crate::{
 };
 
 use super::{QAPattern, QualityAssuranceOutcome, UnusedReturns};
+
 impl QAPattern for UnusedReturns {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,

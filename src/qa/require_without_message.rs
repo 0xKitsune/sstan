@@ -35,7 +35,6 @@ impl QAPattern for RequireWithoutMessage {
                 {
                     //if the function call identifier is a variable
                     if let Expression::Variable(identifier) = *function_identifier {
-                        dbg!(identifier.name.clone());
                         //if the identifier name is "require"
                         if identifier.name == "require" || identifier.name == "revert" {
                             //if the last expression is not a string literal

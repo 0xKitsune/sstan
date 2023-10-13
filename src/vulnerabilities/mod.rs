@@ -1,4 +1,5 @@
 pub mod divide_before_multiply;
+pub mod double_casting;
 pub mod floating_pragma;
 pub mod incorrect_shift_math;
 pub mod uninitialized_storage_variable;
@@ -203,7 +204,6 @@ function kill() public {
     (
         UninitializedStorageVariable,
         "Uninitialized storage variables",
-        //TODO: update this description it is only a place holder
         "
 > A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value.",
         Classification::VulnerabilityHigh
@@ -341,5 +341,21 @@ require(success, \"ERC20 transfer failed\");
         
         ",
         Classification::VulnerabilityLow
-    )
+    ),
+    (
+        DoubleCasting,
+        "Double Casting",
+        "
+> Avoid double casting as it may introduce unexpected truncations/rounding errors among other issues.
+        ",
+        Classification::VulnerabilityLow
+    ),
+//     (
+//         VulnerableLibraries,
+//         "This project is using a vulnerable version of the openzeppelin libraries",
+//         "
+// > Mitigation Steps: Update to the latest version of the openzeppelin libraries. Ref: https://security.snyk.io/package/npm/@openzeppelin%2Fcontracts
+//         ",
+//         Classification::VulnerabilityLow
+//     )
 );

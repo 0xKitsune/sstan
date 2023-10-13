@@ -39,6 +39,24 @@ pub fn extract_source(path: &str, source: &mut HashMap<PathBuf, SourceUnit>) -> 
     Ok(())
 }
 
+// Check if a string is camelCase
+pub fn is_camel_case(s: &str) -> bool {
+    let re = Regex::new(r"^[a-z][a-zA-Z]*$").unwrap();
+    re.is_match(s) && s.chars().any(|c| c.is_uppercase())
+}
+
+// Check if a string is PascalCase
+pub fn is_pascal_case(s: &str) -> bool {
+    let re = Regex::new(r"^[A-Z][a-zA-Z]*$").unwrap();
+    re.is_match(s)
+}
+
+// Check if a string is SCREAMING_SNAKE_CASE
+pub fn is_screaming_snake_case(s: &str) -> bool {
+    let re = Regex::new(r"^[A-Z][A-Z0-9_]*$").unwrap();
+    re.is_match(s) && s.contains('_')
+}
+
 //TODO: outcome should be updated to be code blocks, etc
 
 // This is used as the initial string when parsing a solidity version
