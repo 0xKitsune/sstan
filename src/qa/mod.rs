@@ -17,6 +17,7 @@ pub mod require_without_message;
 pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
+pub mod variable_initialized_with_default_value;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Identifier;
@@ -256,5 +257,12 @@ quality_assurance!(
     "
 > Consider adding parameters to the error to provide more context when a transaction fails
 "
+),
+(
+    VariableInitializedWithDefault,
+    "This variables default value is the same as the value it is initialized with",
+    "
+> This is unnecessary and will have some overhead on Gas
+    "
 )
 );

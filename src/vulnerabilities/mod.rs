@@ -5,7 +5,6 @@ pub mod incorrect_shift_math;
 pub mod uninitialized_storage_variable;
 pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
-
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Identifier;
@@ -350,5 +349,13 @@ require(success, \"ERC20 transfer failed\");
 > Avoid double casting as it may introduce unexpected truncations/rounding errors among other issues.
         ",
         Classification::VulnerabilityLow
-    )
+    ),
+//     (
+//         VulnerableLibraries,
+//         "This project is using a vulnerable version of the openzeppelin libraries",
+//         "
+// > Mitigation Steps: Update to the latest version of the openzeppelin libraries. Ref: https://security.snyk.io/package/npm/@openzeppelin%2Fcontracts
+//         ",
+//         Classification::VulnerabilityLow
+//     )
 );
