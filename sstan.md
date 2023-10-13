@@ -14,7 +14,7 @@
 
  | Classification | Title | Instances | 
  |:-------:|:---------|:-------:| 
- | [[H-0]](#[H-0]) | <Strong>Uninitialized storage variables</Strong> | 1 |
+ | [H-0](#H-0) | <Strong>Uninitialized storage variables</Strong> | 1 |
  | [[M-1]](#[M-1]) | <Strong>Division before multiplication</Strong> | 9 |
  | [[L-2]](#[L-2]) | <Strong>Use a locked pragma version instead of a floating pragma version</Strong> | 2 |
  | [[L-3]](#[L-3]) | <Strong>Unsafe ERC20 Operation</Strong> | 12 |
@@ -57,12 +57,10 @@
 
 # Vulnerabilities - Total: 4 
 
-<h3>
+
  
- <a name=[H-0]></a> [H-0]
- Uninitialized storage variables - Instances: 1
  
-</h3>
+## <a name="H-0"></a> [H-0] Uninitialized storage variables - Instances: 1
 
  
 > A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value. 
