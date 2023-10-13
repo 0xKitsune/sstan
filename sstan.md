@@ -57,10 +57,10 @@
 
 # Vulnerabilities - Total: 4 
 
-<a name=[H-0]></a> [H-0]
 
 
-## Uninitialized storage variables - Instances: 1 
+
+##<a name=[H-0]></a> [H-0] Uninitialized storage variables - Instances: 1 
 
  
 > A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value. 
