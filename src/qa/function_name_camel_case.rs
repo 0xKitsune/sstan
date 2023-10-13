@@ -1,23 +1,14 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{self, Expression, Loc, SourceUnit};
+use solang_parser::pt::{Loc, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{
-        compound::ContractExtractor,
-        primitive::{
-            EventExtractor, FunctionCallExtractor, FunctionExtractor, PlainImportExtractor,
-        },
-        Extractor,
-    },
-    utils::{is_camel_case, is_pascal_case},
+    extractors::{primitive::FunctionExtractor, Extractor},
+    utils::is_camel_case,
 };
 
-use super::{
-    EventNamePascalCase, FunctionNameCamelCase, ImportIdentifiers, OneContractPerFile, QAPattern,
-    QualityAssuranceOutcome, RemoveConsole,
-};
+use super::{FunctionNameCamelCase, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for FunctionNameCamelCase {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
@@ -39,19 +30,18 @@ impl QAPattern for FunctionNameCamelCase {
             }
         }
 
-        Ok(QualityAssuranceOutcome::ImportIdentifiers(outcome))
+        Ok(QualityAssuranceOutcome::FunctionNameCamelCase(outcome))
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::File, io::Write};
 
-    use crate::{report::ReportSectionFragment, utils::MockSource};
+    use crate::utils::MockSource;
 
     use super::*;
     #[test]
-    fn test_import_identifiers() -> eyre::Result<()> {
+    fn test_function_name_camel_case() -> eyre::Result<()> {
         let file_contents = r#"
     import "filename.sol";
     contract Contract0 {
@@ -65,10 +55,10 @@ mod tests {
 
         let mut mock_source =
             MockSource::new().add_source("function_name_camel_case.sol", file_contents);
-        let qa_locations = ImportIdentifiers::find(&mut mock_source.source)?;
+        let qa_locations = FunctionNameCamelCase::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 2);
-    
+
         Ok(())
     }
 }

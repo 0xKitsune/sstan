@@ -1,20 +1,20 @@
+pub mod constant_immutable_name_screaming_snake_case;
 pub mod constructor_order;
 pub mod constructor_var_initialization;
-pub mod import_identifiers;
-pub mod interface_namespace;
-pub mod large_multiples_of_ten;
-pub mod private_vars_leading_underscore;
-pub mod constant_immutable_name_screaming_snake_case;
 pub mod contract_name_pascal_case;
 pub mod event_name_pascalcase;
 pub mod function_name_camel_case;
+pub mod import_identifiers;
+pub mod interface_namespace;
+pub mod large_multiples_of_ten;
 pub mod one_contract_per_file;
+pub mod private_vars_leading_underscore;
+pub mod public_functions;
 pub mod remove_console;
+pub mod require_without_message;
 pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
-pub mod public_functions;
-pub mod require_without_message;
 
 use super::engine::Outcome;
 use crate::engine::EngineError;

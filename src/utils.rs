@@ -54,7 +54,7 @@ pub fn is_pascal_case(s: &str) -> bool {
 // Check if a string is SCREAMING_SNAKE_CASE
 pub fn is_screaming_snake_case(s: &str) -> bool {
     let re = Regex::new(r"^[A-Z][A-Z0-9_]*$").unwrap();
-    re.is_match(s) && s.contains("_")
+    re.is_match(s) && s.contains('_')
 }
 
 //TODO: outcome should be updated to be code blocks, etc

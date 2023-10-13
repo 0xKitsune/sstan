@@ -4,17 +4,11 @@ use solang_parser::pt::{Loc, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{
-        primitive::ContractDefinitionExtractor,
-        Extractor,
-    },
+    extractors::{primitive::ContractDefinitionExtractor, Extractor},
     utils::is_pascal_case,
 };
 
-use super::{
-    ContractNamePascalCase,  QAPattern,
-    QualityAssuranceOutcome
-};
+use super::{ContractNamePascalCase, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for ContractNamePascalCase {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
@@ -36,7 +30,7 @@ impl QAPattern for ContractNamePascalCase {
             }
         }
 
-        Ok(QualityAssuranceOutcome::ImportIdentifiers(outcome))
+        Ok(QualityAssuranceOutcome::ContractNamePascalCase(outcome))
     }
 }
 
@@ -47,11 +41,11 @@ mod tests {
     #[allow(unused)]
     use crate::utils::MockSource;
     #[test]
-    fn test_import_identifiers() -> eyre::Result<()> {
+    fn test_contract_pascal_case() -> eyre::Result<()> {
         let file_contents = r#"
     import "filename.sol";
     contract contract0 {}
-    contract Contract1 {}
+    contract Contract {}
     contract Contract_2{}
     "#;
 
@@ -60,7 +54,7 @@ mod tests {
         let qa_locations = ContractNamePascalCase::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 2);
-       
+
         Ok(())
     }
 }

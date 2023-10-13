@@ -1,21 +1,14 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{self, Expression, Loc, SourceUnit};
+use solang_parser::pt::{Loc, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{
-        compound::ContractExtractor,
-        primitive::EventExtractor,
-        Extractor,
-    },
-    utils::{is_camel_case, is_pascal_case},
+    extractors::{primitive::EventExtractor, Extractor},
+    utils::is_pascal_case,
 };
 
-use super::{
-    EventNamePascalCase, ImportIdentifiers, OneContractPerFile, QAPattern, QualityAssuranceOutcome,
-    RemoveConsole,
-};
+use super::{EventNamePascalCase, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for EventNamePascalCase {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
@@ -33,7 +26,7 @@ impl QAPattern for EventNamePascalCase {
             }
         }
 
-        Ok(QualityAssuranceOutcome::ImportIdentifiers(outcome))
+        Ok(QualityAssuranceOutcome::EventNamePascalCase(outcome))
     }
 }
 
@@ -43,11 +36,11 @@ mod tests {
     use crate::utils::MockSource;
 
     #[test]
-    fn test_import_identifiers() -> eyre::Result<()> {
+    fn test_event_name_pascal_case() -> eyre::Result<()> {
         let file_contents = r#"
     import "filename.sol";
     contract Contract0 {
-       event Event1();
+       event Event();
        event event2();
        event eventThree();
        event EventFour_x();
@@ -58,10 +51,10 @@ mod tests {
 
         let mut mock_source =
             MockSource::new().add_source("event_name_pascal_case.sol", file_contents);
-        let qa_locations = ImportIdentifiers::find(&mut mock_source.source)?;
+        let qa_locations = EventNamePascalCase::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 3);
-        
+
         Ok(())
     }
 }

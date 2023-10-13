@@ -5,19 +5,13 @@ use solang_parser::pt::{Loc, SourceUnit};
 use crate::{
     engine::{EngineError, Outcome, Pushable},
     extractors::{
-        compound::{
-            ConstantStorageVariableExtractor, ImmutableStorageVariableExtractor,
-        },
-
+        compound::{ConstantStorageVariableExtractor, ImmutableStorageVariableExtractor},
         Extractor,
     },
     utils::is_screaming_snake_case,
 };
 
-use super::{
-    ConstantImmutableNameScreamingSnakeCase,
-    QAPattern, QualityAssuranceOutcome
-};
+use super::{ConstantImmutableNameScreamingSnakeCase, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for ConstantImmutableNameScreamingSnakeCase {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
@@ -45,7 +39,7 @@ impl QAPattern for ConstantImmutableNameScreamingSnakeCase {
             }
         }
 
-        Ok(QualityAssuranceOutcome::ImportIdentifiers(outcome))
+        Ok(QualityAssuranceOutcome::ConstantImmutableNameScreamingSnakeCase(outcome))
     }
 }
 
@@ -56,7 +50,7 @@ mod tests {
     #[allow(unused)]
     use crate::utils::MockSource;
     #[test]
-    fn test_import_identifiers() -> eyre::Result<()> {
+    fn test_constant_immutable_screaming_snake() -> eyre::Result<()> {
         let file_contents = r#"
     import "filename.sol";
     contract contract0 {
@@ -78,7 +72,7 @@ mod tests {
         let qa_locations = ConstantImmutableNameScreamingSnakeCase::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 4);
-       
+
         Ok(())
     }
 }
