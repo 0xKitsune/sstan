@@ -1,20 +1,25 @@
 fn main() {
     let file_contents = r#"
     
-        pragma solidity ^0.8.16;
+    import "Errors.sol";
 
-        contract SimpleStore {
-            uint x;
-            event IsOptimized(bytes[] byteArray);
+    error HasNoParameters();
+    error HasParameters(uint256 a, uint256 b);
 
-            function set(uint newValue) {
-                x = newValue;
-            }
-            
-            function get() returns (uint) {
-                return x;
-            }
+    contract contract0 {
+        function test() public {
+            revert HasNoParameters();
         }
+
+        function test2() public {
+            revert ImportedErrorWithoutParameters();
+        }
+
+        function test3() public {
+            revert HasParameters(1, 2);
+        }
+        
+    }
     "#;
 
     let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;

@@ -16,7 +16,7 @@ pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
 pub mod explicit_visibility;
-
+pub mod error_without_parameters;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Identifier;
@@ -248,6 +248,13 @@ quality_assurance!(
     "Storage variables should not have implicit visibility",
     "
 > Consider explicitly specifying the visibility of storage variables for readability
+"
+),
+(
+    ErrorWithoutParams,
+    "This error has no parameters, the state of the contract when the revert occured will not be available",
+    "
+> Consider adding parameters to the error to provide more context when a transaction fails
 "
 )
 );

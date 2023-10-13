@@ -2,7 +2,7 @@ use std::{collections::HashMap, path::PathBuf};
 
 use solang_parser::{
     helpers::CodeLocation,
-    pt::{Loc, SourceUnit, VariableAttribute, VariableDefinition, Visibility},
+    pt::{Loc, SourceUnit, VariableAttribute},
 };
 
 use crate::{
