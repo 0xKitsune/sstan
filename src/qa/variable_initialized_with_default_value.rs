@@ -7,9 +7,7 @@ use solang_parser::{
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{
-        primitive::VariableDefinitionExtractor, Extractor,
-    },
+    extractors::{primitive::VariableDefinitionExtractor, Extractor},
 };
 
 use super::{QAPattern, QualityAssuranceOutcome, VariableInitializedWithDefault};
@@ -53,7 +51,7 @@ impl QAPattern for VariableInitializedWithDefault {
                             if variable.initializer.is_some() {
                                 let initializer = variable.clone().initializer.unwrap();
                                 if let Expression::BoolLiteral(_, val) = &initializer {
-                                    if *val == false {
+                                    if !(*val) {
                                         outcome.push_or_insert(
                                             path_buf.clone(),
                                             variable.clone().loc(),
@@ -67,8 +65,7 @@ impl QAPattern for VariableInitializedWithDefault {
                         Type::Address => {
                             if variable.initializer.is_some() {
                                 let initializer = variable.clone().initializer.unwrap();
-                                if let Expression::FunctionCall(_, _, attrs) = initializer.clone()
-                                {
+                                if let Expression::FunctionCall(_, _, attrs) = initializer.clone() {
                                     for attr in attrs {
                                         match attr {
                                             Expression::NumberLiteral(_, val, _, _) => {
