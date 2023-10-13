@@ -15,6 +15,7 @@ pub mod require_without_message;
 pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
+pub mod explicit_visibility;
 
 use super::engine::Outcome;
 use crate::engine::EngineError;
@@ -241,5 +242,12 @@ quality_assurance!(
         "Consider adding a message with require and revert statements", 
         "
 > Adding a message to accompany require statements will provide more context when a transaction fails."
+),
+(
+    ExplicitVisibility,
+    "Storage variables should not have implicit visibility",
+    "
+> Consider explicitly specifying the visibility of storage variables for readability
+"
 )
 );
