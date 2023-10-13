@@ -57,12 +57,9 @@ impl QAPattern for PrivateVariablesLeadingUnderscore {
 
 #[cfg(test)]
 mod tests {
-    use std::fs::File;
-    use std::io::Write;
-
-    use crate::qa::{PrivateVariablesLeadingUnderscore, QAPattern};
-    use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
+
+    use super::*;
 
     #[test]
     fn test_private_vars_leading_underscore() -> eyre::Result<()> {
@@ -80,14 +77,6 @@ mod tests {
         let mut mock_source = MockSource::new().add_source("private_vars.sol", file_contents);
         let qa_locations = PrivateVariablesLeadingUnderscore::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 3);
-
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
 
         Ok(())
     }

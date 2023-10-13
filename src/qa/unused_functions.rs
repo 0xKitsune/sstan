@@ -61,13 +61,9 @@ impl QAPattern for UnusedFunctions {
 }
 #[cfg(test)]
 mod test {
-    use std::fs::File;
-    use std::io::Write;
-
-    use crate::qa::QAPattern;
-    use crate::qa::UnusedFunctions;
-    use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
+
+    use super::*;
     #[test]
     fn test_unused_functions() -> eyre::Result<()> {
         let file_contents_1 = r#"
@@ -91,14 +87,6 @@ mod test {
         let mut mock_source = MockSource::new().add_source("unused_functions.sol", file_contents_1);
         let qa_locations = UnusedFunctions::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 1);
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
 
         Ok(())
     }

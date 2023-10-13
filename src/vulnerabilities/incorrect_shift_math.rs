@@ -1,19 +1,12 @@
-use std::collections::{HashMap, HashSet};
-use std::fs::File;
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, Expression, Loc};
+use solang_parser::pt::{self};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::compound::YulShiftExtractor;
-use crate::extractors::{
-    primitive::{AssignmentExtractor, UrnaryOpteratorExtractor},
-    Extractor,
-};
-use crate::report::ReportSectionFragment;
-use crate::utils::MockSource;
-use std::io::Write;
+use crate::extractors::Extractor;
 
 use super::{IncorrectShiftMath, VulnerabilityOutcome, VulnerabilityPattern};
 
@@ -53,15 +46,19 @@ impl VulnerabilityPattern for IncorrectShiftMath {
             }
         }
 
-        Ok(VulnerabilityOutcome::DivideBeforeMultiply(
+        Ok(VulnerabilityOutcome::IncorrectShiftMath(
             vulnerability_locations,
         ))
     }
 }
-
-#[test]
-fn test_incorrect_shift_math() -> eyre::Result<()> {
-    let file_contents = r#"
+mod test {
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
+    #[test]
+    fn test_incorrect_shift_math() -> eyre::Result<()> {
+        let file_contents = r#"
     
     contract Contract0 {
         function incorrectShiftMath() public returns (uint256 x) {
@@ -79,17 +76,11 @@ fn test_incorrect_shift_math() -> eyre::Result<()> {
         }
     }
     "#;
-    let mut mock_source = MockSource::new().add_source("incorrect_shift_math.sol", file_contents);
-    let vuln_locations = IncorrectShiftMath::find(&mut mock_source.source)?;
-    assert_eq!(vuln_locations.len(), 2);
+        let mut mock_source =
+            MockSource::new().add_source("incorrect_shift_math.sol", file_contents);
+        let vuln_locations = IncorrectShiftMath::find(&mut mock_source.source)?;
+        assert_eq!(vuln_locations.len(), 2);
 
-    let report: Option<ReportSectionFragment> = vuln_locations.into();
-    if let Some(report) = report {
-        let mut f = File::options()
-            .append(true)
-            .open("vulnerability_report_sections.md")?;
-        writeln!(&mut f, "{}", &String::from(report))?;
+        Ok(())
     }
-
-    Ok(())
 }

@@ -68,11 +68,7 @@ mod tests {
         let qa_locations = ImportIdentifiers::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 2);
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options().append(true).open("qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
+    
         Ok(())
     }
 }

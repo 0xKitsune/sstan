@@ -75,7 +75,7 @@ impl Visitable for SourceUnitPart {
         match self {
             SourceUnitPart::ContractDefinition(contract) => v.visit_contract(contract),
             SourceUnitPart::PragmaDirective(loc, ident, str) => v.visit_pragma(*loc, ident, str),
-            SourceUnitPart::ImportDirective(import) => import.visit(v),
+            SourceUnitPart::ImportDirective(import) => v.visit_import(import),
             SourceUnitPart::EnumDefinition(enumeration) => v.visit_enum(enumeration),
             SourceUnitPart::StructDefinition(structure) => v.visit_struct(structure),
             SourceUnitPart::EventDefinition(event) => v.visit_event(event),

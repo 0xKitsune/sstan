@@ -35,12 +35,10 @@ impl QAPattern for InterfaceNamespace {
 }
 #[cfg(test)]
 mod tests {
-    use super::*;
 
-    use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
-    use std::fs::File;
-    use std::io::Write;
+
+    use super::*;
     #[test]
     fn test_interface_namespace() -> eyre::Result<()> {
         let file_contents = r#"
@@ -55,13 +53,6 @@ mod tests {
         let qa_locations = InterfaceNamespace::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 1);
 
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
         Ok(())
     }
 }

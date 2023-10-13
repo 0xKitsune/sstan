@@ -1,6 +1,6 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{self, CodeLocation, SourceUnit};
+use solang_parser::pt::{self, CodeLocation, EventDefinition, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
@@ -13,7 +13,7 @@ impl OptimizationPattern for EventIndexing {
     fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
         let mut outcome = Outcome::new();
         for (path_buf, source_unit) in source {
-            let events = EventExtractor::extract(source_unit)?;
+            let events: Vec<EventDefinition> = EventExtractor::extract(source_unit)?;
 
             //Accumulate the number of indexed events, and the number of non-array indexed parameters.
             for event in events.iter() {
@@ -25,17 +25,14 @@ impl OptimizationPattern for EventIndexing {
                         indexed_events_count += 1;
                     }
 
-                    if !matches!(event_parameter.ty, pt::Expression::ArraySlice(..)) {
+                    if !matches!(event_parameter.ty, pt::Expression::ArraySubscript(..)) {
                         non_array_indexed_parameter_count += 1;
                     }
                 }
                 //If there are more than 3 non-array indexed parameters, and less than 3 indexed events, then the event is not optimized.
-                if non_array_indexed_parameter_count >= 3 && indexed_events_count < 3 {
-                    outcome.push_or_insert(path_buf.clone(), event.loc(), event.to_string());
-
-                //If there are less than 3 non-array indexed parameters, and the number of indexed events is not equal to the number of non-array indexed parameters, then the event is not optimized.
-                } else if non_array_indexed_parameter_count < 3
-                    && indexed_events_count != non_array_indexed_parameter_count
+                if non_array_indexed_parameter_count >= 3 && indexed_events_count < 3
+                    || non_array_indexed_parameter_count < 3
+                        && indexed_events_count != non_array_indexed_parameter_count
                 {
                     outcome.push_or_insert(path_buf.clone(), event.loc(), event.to_string());
                 }
@@ -45,10 +42,10 @@ impl OptimizationPattern for EventIndexing {
     }
 }
 mod test {
-    use crate::{
-        optimizations::{EventIndexing, OptimizationPattern},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_immutable_variables_optimization() -> eyre::Result<()> {
@@ -60,6 +57,7 @@ mod test {
         event IsNotOptimized(address addr1, address indexed addr2);
         event IsOptimized(address indexed addr1, address indexed addr2, address indexed addr3);
         event AlsoIsNotOptimized(address addr1, address indexed addr2, address indexed addr3);
+        event IsOptimized(bytes[] byteArray);
         
     }
  

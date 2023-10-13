@@ -1,8 +1,7 @@
-use std::collections::{HashMap, HashSet};
-use std::fs::File;
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, Expression, Loc};
+use solang_parser::pt::{self, Expression};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
@@ -10,9 +9,6 @@ use crate::extractors::{
     primitive::{AssignmentExtractor, UrnaryOpteratorExtractor},
     Extractor,
 };
-use crate::report::ReportSectionFragment;
-use crate::utils::MockSource;
-use std::io::Write;
 
 use super::{DivideBeforeMultiply, VulnerabilityOutcome, VulnerabilityPattern};
 
@@ -98,10 +94,14 @@ impl VulnerabilityPattern for DivideBeforeMultiply {
         ))
     }
 }
-
-#[test]
-fn test_divide_before_multiply_vulnerability() -> eyre::Result<()> {
-    let file_contents = r#"
+mod test {
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
+    #[test]
+    fn test_divide_before_multiply_vulnerability() -> eyre::Result<()> {
+        let file_contents = r#"
 
     contract Contract0 {
 
@@ -156,17 +156,11 @@ fn test_divide_before_multiply_vulnerability() -> eyre::Result<()> {
     }
     "#;
 
-    let mut mock_source = MockSource::new().add_source("divide_before_multiply.sol", file_contents);
-    let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
-    assert_eq!(vuln_locations.len(), 22);
+        let mut mock_source =
+            MockSource::new().add_source("divide_before_multiply.sol", file_contents);
+        let vuln_locations = DivideBeforeMultiply::find(&mut mock_source.source)?;
+        assert_eq!(vuln_locations.len(), 22);
 
-    let report: Option<ReportSectionFragment> = vuln_locations.into();
-    if let Some(report) = report {
-        let mut f = File::options()
-            .append(true)
-            .open("vulnerability_report_sections.md")?;
-        writeln!(&mut f, "{}", &String::from(report))?;
+        Ok(())
     }
-
-    Ok(())
 }

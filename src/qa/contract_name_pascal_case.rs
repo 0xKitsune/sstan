@@ -1,23 +1,19 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{self, Expression, Loc, SourceUnit};
+use solang_parser::pt::{Loc, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
     extractors::{
-        compound::ContractExtractor,
-        primitive::{
-            ContractDefinitionExtractor, EventExtractor, FunctionCallExtractor,
-            PlainImportExtractor,
-        },
+        primitive::ContractDefinitionExtractor,
         Extractor,
     },
-    utils::{is_camel_case, is_pascal_case},
+    utils::is_pascal_case,
 };
 
 use super::{
-    ContractNamePascalCase, EventNamePascalCase, ImportIdentifiers, OneContractPerFile, QAPattern,
-    QualityAssuranceOutcome, RemoveConsole,
+    ContractNamePascalCase,  QAPattern,
+    QualityAssuranceOutcome
 };
 impl QAPattern for ContractNamePascalCase {
     fn find(
@@ -46,11 +42,10 @@ impl QAPattern for ContractNamePascalCase {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::File, io::Write};
-
-    use crate::{report::ReportSectionFragment, utils::MockSource};
-
+    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
     #[test]
     fn test_import_identifiers() -> eyre::Result<()> {
         let file_contents = r#"
@@ -62,14 +57,10 @@ mod tests {
 
         let mut mock_source =
             MockSource::new().add_source("contract_name_pascal_case.sol", file_contents);
-        let qa_locations = ImportIdentifiers::find(&mut mock_source.source)?;
+        let qa_locations = ContractNamePascalCase::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 2);
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options().append(true).open("qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
+       
         Ok(())
     }
 }

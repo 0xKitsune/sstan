@@ -37,10 +37,10 @@ impl OptimizationPattern for SolidityMath {
     }
 }
 mod test {
-    use crate::{
-        optimizations::{OptimizationPattern, SolidityMath},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_analyze_for_math_optimization() -> eyre::Result<()> {

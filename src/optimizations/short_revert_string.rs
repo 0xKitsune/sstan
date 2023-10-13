@@ -50,10 +50,10 @@ impl OptimizationPattern for ShortRevertString {
     }
 }
 mod test {
-    use crate::{
-        optimizations::{OptimizationPattern, ShortRevertString},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_short_revert_string() -> eyre::Result<()> {

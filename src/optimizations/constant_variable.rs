@@ -175,10 +175,10 @@ impl OptimizationPattern for ConstantVariable {
     }
 }
 mod test {
-    use crate::{
-        optimizations::{ConstantVariable, OptimizationPattern},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_constant_variable_optimization() -> eyre::Result<()> {

@@ -45,10 +45,10 @@ impl OptimizationPattern for AddressBalance {
     }
 }
 mod test {
-    use crate::{
-        optimizations::{AddressBalance, OptimizationPattern},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_address_balance_optimization() -> eyre::Result<()> {

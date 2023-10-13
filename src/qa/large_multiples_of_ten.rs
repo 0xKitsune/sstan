@@ -1,4 +1,4 @@
-use std::{collections::HashMap, path::PathBuf};
+use std::{collections::HashMap, path::PathBuf, str::FromStr};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
@@ -7,6 +7,7 @@ use crate::{
         Extractor,
     },
 };
+use ruint::Uint;
 use solang_parser::pt::{self, CodeLocation, Loc, SourceUnit};
 
 use super::{LargeMultiplesOfTen, QAPattern, QualityAssuranceOutcome};
@@ -24,8 +25,12 @@ impl QAPattern for LargeMultiplesOfTen {
                     if let pt::Expression::NumberLiteral(_loc, number, _value, _ident) =
                         number_literal
                     {
-                        let number = number.parse::<u128>().unwrap();
-                        if number % 10 == 0 && number > 1000000 {
+                        let number = Uint::<256, 4>::from_str(number).unwrap();
+                        let ten = Uint::<256, 4>::from(10);
+                        let one_million = Uint::<256, 4>::from(1000000);
+                        let zero = Uint::<256, 4>::from(0);
+
+                        if number % ten == zero && number > one_million {
                             outcome.push_or_insert(
                                 path_buf.clone(),
                                 variable.loc(),
@@ -42,10 +47,9 @@ impl QAPattern for LargeMultiplesOfTen {
 }
 #[cfg(test)]
 mod test {
-    use crate::{report::ReportSectionFragment, utils::MockSource};
+    use crate::utils::MockSource;
 
     use super::*;
-    use std::{fs::File, io::Write};
 
     #[test]
     fn test_large_multiples_of_ten() -> eyre::Result<()> {
@@ -73,13 +77,6 @@ mod test {
         let qa_locations = LargeMultiplesOfTen::find(&mut mock_source.source)?;
         assert_eq!(qa_locations.len(), 1);
 
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options()
-                .append(true)
-                .open("qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
         Ok(())
     }
 }

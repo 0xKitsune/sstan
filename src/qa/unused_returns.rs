@@ -15,6 +15,7 @@ use crate::{
 };
 
 use super::{QAPattern, QualityAssuranceOutcome, UnusedReturns};
+
 impl QAPattern for UnusedReturns {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
@@ -63,12 +64,9 @@ impl QAPattern for UnusedReturns {
 #[cfg(test)]
 mod test {
 
-    use std::fs::File;
-    use std::io::Write;
-
-    use crate::report::ReportSectionFragment;
     use crate::utils::MockSource;
-    use crate::{qa::QAPattern, qa::UnusedReturns};
+
+    use super::*;
     #[test]
     fn test_unused_returns() -> eyre::Result<()> {
         let file_contents_1 = r#"
@@ -94,12 +92,6 @@ mod test {
         let qa_locations = UnusedReturns::find(&mut mock_source.source).unwrap();
 
         assert_eq!(qa_locations.len(), 1);
-
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options().append(true).open("qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
 
         Ok(())
     }

@@ -259,10 +259,10 @@ fn is_a_non_value_type(assigned_value: pt::Expression) -> bool {
     false
 }
 mod test {
-    use crate::{
-        optimizations::{ImmutableVariable, OptimizationPattern},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_immutable_variables_optimization() -> eyre::Result<()> {
@@ -305,6 +305,7 @@ mod test {
         let mut source = MockSource::new().add_source("immutable_variables.sol", file_contents);
         let optimization_locations = ImmutableVariable::find(&mut source.source)?;
         assert_eq!(optimization_locations.len(), 2);
+
         Ok(())
     }
 }

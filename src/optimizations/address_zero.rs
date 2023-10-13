@@ -67,13 +67,13 @@ fn check_for_address_zero(box_expression: pt::Expression) -> bool {
     address_zero
 }
 mod test {
-    use crate::{
-        optimizations::{AddressZero, OptimizationPattern},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
-    fn test_address_zero_optimization() {
+    fn test_address_zero_optimization() -> eyre::Result<()> {
         let file_contents = r#"
     
     contract Contract0 {
@@ -99,6 +99,8 @@ mod test {
 
         let mut mock_source = MockSource::new().add_source("address_zero.sol", file_contents);
         let qa_locations = AddressZero::find(&mut mock_source.source).unwrap();
-        assert_eq!(qa_locations.len(), 4)
+        assert_eq!(qa_locations.len(), 4);
+
+        Ok(())
     }
 }

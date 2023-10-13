@@ -92,10 +92,10 @@ fn get_function_definition_memory_args(
 }
 
 mod test {
-    use crate::{
-        optimizations::{MemoryToCalldata, OptimizationPattern},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_memory_to_calldata_optimization() -> eyre::Result<()> {

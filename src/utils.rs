@@ -1,14 +1,43 @@
 use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 use regex::Regex;
-use solang_parser::pt::{self, ContractPart, Loc};
+use solang_parser::pt::{self, ContractPart, Loc, SourceUnit};
 use std::collections::HashMap;
 
-use std::fs::File;
-use std::io::Write;
-use std::path::PathBuf;
+use std::fs::{self, File};
+use std::io::{self, BufRead, Write};
+use std::path::{Path, PathBuf};
 
 pub type LineNumber = i32;
 pub type Outcome = (PathBuf, Loc);
+pub fn remove_first_character(s: &str) -> &str {
+    &s[1..]
+}
+//TODO: propagate these errors, dont unwrap
+pub fn extract_source(path: &str, source: &mut HashMap<PathBuf, SourceUnit>) -> eyre::Result<()> {
+    let mut counter = 0;
+    for entry in fs::read_dir(path)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.is_dir() {
+            extract_source(path.to_str().unwrap(), source)?;
+        } else {
+            let file_name = path
+                .file_name()
+                .expect("Could not unwrap file name to OsStr")
+                .to_str()
+                .expect("Could not convert file name from OsStr to &str")
+                .to_string();
+
+            if file_name.ends_with(".sol") && !file_name.to_lowercase().contains(".t.sol") {
+                let file_contents = fs::read_to_string(&path).expect("Unable to read file");
+                let source_unit = solang_parser::parse(&file_contents, counter).unwrap().0;
+                source.insert(path, source_unit);
+                counter += 1;
+            }
+        }
+    }
+    Ok(())
+}
 
 // Check if a string is camelCase
 pub fn is_camel_case(s: &str) -> bool {
@@ -97,6 +126,13 @@ pub fn storage_slots_used(variables: Vec<u16>) -> u32 {
     slots_used
 }
 
+pub fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+where
+    P: AsRef<Path>,
+{
+    let file = File::open(filename)?;
+    Ok(io::BufReader::new(file).lines())
+}
 //TODO: move this to a compound extractor
 pub fn get_32_byte_storage_variables(
     source_unit: &mut pt::SourceUnit,

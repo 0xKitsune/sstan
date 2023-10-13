@@ -6,7 +6,7 @@ fn main() {
         contract SimpleStore {
            
             address hardcoded = 0xCF93bC53DA6D3543ec2B39EB9Fb3eb1472502afA;
-
+            
             function foo() public {
                 if (msg.sender != address(0)) {
                 uint256 balance = address(this).balance;

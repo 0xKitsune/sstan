@@ -1,13 +1,13 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{self, Loc, SourceUnit};
+use solang_parser::pt::{ Loc, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{compound::ContractExtractor, primitive::PlainImportExtractor, Extractor},
+    extractors::{compound::ContractExtractor,Extractor},
 };
 
-use super::{ImportIdentifiers, OneContractPerFile, QAPattern, QualityAssuranceOutcome};
+use super::{OneContractPerFile, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for OneContractPerFile {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
@@ -57,11 +57,7 @@ mod tests {
         let qa_locations = ImportIdentifiers::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 3);
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options().append(true).open("qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
+     
         Ok(())
     }
 }

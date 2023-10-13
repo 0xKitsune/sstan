@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 use super::{OptimizationOutcome, OptimizationPattern, PackStructVariables};
@@ -42,11 +42,10 @@ fn struct_can_be_packed(struct_definition: StructDefinition) -> bool {
     utils::storage_slots_used(unordered_variable_sizes) > utils::storage_slots_used(variable_sizes)
 }
 mod test {
-    use crate::{
-        optimizations::{OptimizationPattern, PackStructVariables},
-        utils::MockSource,
-    };
-
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
     #[test]
     fn test_pack_struct_variables_optimization() -> eyre::Result<()> {
         let file_contents = r#"

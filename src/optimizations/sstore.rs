@@ -39,10 +39,10 @@ impl OptimizationPattern for Sstore {
 }
 
 mod test {
-    use crate::{
-        optimizations::{OptimizationPattern, SolidityMath, Sstore},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
     #[test]
     fn test_sstore_optimization() -> eyre::Result<()> {
         let file_contents = r#"
@@ -70,6 +70,7 @@ mod test {
         let optimization_locations = Sstore::find(&mut source.source)?;
 
         assert_eq!(optimization_locations.len(), 3);
+
         Ok(())
     }
 }

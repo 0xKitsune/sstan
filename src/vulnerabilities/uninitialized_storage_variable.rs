@@ -1,27 +1,15 @@
 use std::collections::{HashMap, HashSet};
-use std::fs::File;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, Expression, Loc};
+use solang_parser::pt::{self, Loc};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable, Snippet};
-use crate::extractors::compound::{
-    ContractExtractor, MutableStorageVariableExtractor, YulShiftExtractor,
-};
+use crate::extractors::compound::{ContractExtractor, MutableStorageVariableExtractor};
 use crate::extractors::primitive::{FunctionExtractor, VariableExtractor};
-use crate::extractors::{
-    primitive::{AssignmentExtractor, UrnaryOpteratorExtractor},
-    Extractor,
-};
-use crate::report::ReportSectionFragment;
-use crate::utils::MockSource;
-use std::io::Write;
+use crate::extractors::Extractor;
 
-use super::{
-    DivideBeforeMultiply, IncorrectShiftMath, UninitializedStorageVariable, VulnerabilityOutcome,
-    VulnerabilityPattern,
-};
+use super::{UninitializedStorageVariable, VulnerabilityOutcome, VulnerabilityPattern};
 
 impl VulnerabilityPattern for UninitializedStorageVariable {
     fn find(
@@ -72,15 +60,19 @@ impl VulnerabilityPattern for UninitializedStorageVariable {
             }
         }
 
-        Ok(VulnerabilityOutcome::DivideBeforeMultiply(
+        Ok(VulnerabilityOutcome::UninitializedStorageVariable(
             vulnerability_locations,
         ))
     }
 }
-
-#[test]
-fn test_uninitialized_storage_variable() -> eyre::Result<()> {
-    let file_contents = r#"
+mod test {
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
+    #[test]
+    fn test_uninitialized_storage_variable() -> eyre::Result<()> {
+        let file_contents = r#"
     
     contract Contract0 {
         address owner;
@@ -93,18 +85,11 @@ fn test_uninitialized_storage_variable() -> eyre::Result<()> {
         
     }
     "#;
-    let mut mock_source =
-        MockSource::new().add_source("uninitialized_storage_variable.sol", file_contents);
-    let vuln_locations = UninitializedStorageVariable::find(&mut mock_source.source)?;
-    assert_eq!(vuln_locations.len(), 2);
+        let mut mock_source =
+            MockSource::new().add_source("uninitialized_storage_variable.sol", file_contents);
+        let vuln_locations = UninitializedStorageVariable::find(&mut mock_source.source)?;
+        assert_eq!(vuln_locations.len(), 2);
 
-    let report: Option<ReportSectionFragment> = vuln_locations.into();
-    if let Some(report) = report {
-        let mut f = File::options()
-            .append(true)
-            .open("vulnerability_report_sections.md")?;
-        writeln!(&mut f, "{}", &String::from(report))?;
+        Ok(())
     }
-
-    Ok(())
 }

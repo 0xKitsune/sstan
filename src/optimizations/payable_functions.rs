@@ -1,14 +1,14 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
+
 use std::path::PathBuf;
 
 use super::{OptimizationOutcome, OptimizationPattern, PayableFunctions};
-use solang_parser::pt::{self, CodeLocation, Loc};
+use solang_parser::pt::{self, CodeLocation};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
 use crate::extractors::primitive::FunctionExtractor;
 use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
-use crate::utils::MockSource;
 
 impl OptimizationPattern for PayableFunctions {
     fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
@@ -59,10 +59,14 @@ impl OptimizationPattern for PayableFunctions {
         Ok(OptimizationOutcome::PayableFunctions(outcome))
     }
 }
-
-#[test]
-fn test_payable_function_optimization() -> eyre::Result<()> {
-    let file_contents = r#"
+mod test {
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
+    #[test]
+    fn test_payable_function_optimization() -> eyre::Result<()> {
+        let file_contents = r#"
     
 
     contract Contract0 {
@@ -77,8 +81,10 @@ fn test_payable_function_optimization() -> eyre::Result<()> {
     }
     "#;
 
-    let mut source = MockSource::new().add_source("payable_functions.sol", file_contents);
-    let optimization_locations = PayableFunctions::find(&mut source.source)?;
-    assert_eq!(optimization_locations.len(), 2);
-    Ok(())
+        let mut source = MockSource::new().add_source("payable_functions.sol", file_contents);
+        let optimization_locations = PayableFunctions::find(&mut source.source)?;
+        assert_eq!(optimization_locations.len(), 2);
+
+        Ok(())
+    }
 }

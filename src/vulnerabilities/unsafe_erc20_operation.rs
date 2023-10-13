@@ -1,27 +1,15 @@
-use std::collections::{HashMap, HashSet};
-use std::fs::File;
+use std::collections::HashMap;
 use std::path::PathBuf;
 
-use solang_parser::pt::{self, Expression, Loc};
+use solang_parser::pt::{self};
 use solang_parser::{self, pt::SourceUnit};
 
-use crate::engine::{EngineError, Outcome, Pushable, Snippet};
-use crate::extractors::compound::{
-    ContractExtractor, MutableStorageVariableExtractor, YulShiftExtractor,
-};
-use crate::extractors::primitive::{FunctionExtractor, MemberAccessExtractor, VariableExtractor};
-use crate::extractors::{
-    primitive::{AssignmentExtractor, UrnaryOpteratorExtractor},
-    Extractor,
-};
-use crate::report::ReportSectionFragment;
-use crate::utils::MockSource;
-use std::io::Write;
+use crate::engine::{EngineError, Outcome, Pushable};
 
-use super::{
-    DivideBeforeMultiply, IncorrectShiftMath, UninitializedStorageVariable, UnsafeErc20Operation,
-    VulnerabilityOutcome, VulnerabilityPattern,
-};
+use crate::extractors::primitive::MemberAccessExtractor;
+use crate::extractors::Extractor;
+
+use super::{UnsafeErc20Operation, VulnerabilityOutcome, VulnerabilityPattern};
 
 impl VulnerabilityPattern for UnsafeErc20Operation {
     fn find(
@@ -53,15 +41,19 @@ impl VulnerabilityPattern for UnsafeErc20Operation {
             }
         }
 
-        Ok(VulnerabilityOutcome::DivideBeforeMultiply(
+        Ok(VulnerabilityOutcome::UnsafeErc20Operation(
             vulnerability_locations,
         ))
     }
 }
-
-#[test]
-fn test_unsafe_erc20_operation() -> eyre::Result<()> {
-    let file_contents = r#"
+mod test {
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
+    #[test]
+    fn test_unsafe_erc20_operation() -> eyre::Result<()> {
+        let file_contents = r#"
     
     contract Contract0 {
         IERC20 e;
@@ -78,17 +70,11 @@ fn test_unsafe_erc20_operation() -> eyre::Result<()> {
 
     }
     "#;
-    let mut mock_source = MockSource::new().add_source("unsafe_erc20_operation.sol", file_contents);
-    let vuln_locations = UnsafeErc20Operation::find(&mut mock_source.source)?;
-    assert_eq!(vuln_locations.len(), 3);
+        let mut mock_source =
+            MockSource::new().add_source("unsafe_erc20_operation.sol", file_contents);
+        let vuln_locations = UnsafeErc20Operation::find(&mut mock_source.source)?;
+        assert_eq!(vuln_locations.len(), 3);
 
-    let report: Option<ReportSectionFragment> = vuln_locations.into();
-    if let Some(report) = report {
-        let mut f = File::options()
-            .append(true)
-            .open("vulnerability_report_sections.md")?;
-        writeln!(&mut f, "{}", &String::from(report))?;
+        Ok(())
     }
-
-    Ok(())
 }

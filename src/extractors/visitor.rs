@@ -1,5 +1,4 @@
 use solang_parser::pt::*;
-
 /// Macro to implmement expression visitor methods
 macro_rules! visit_exprs {
     ($func_name:ident, 1) => {
@@ -409,21 +408,21 @@ pub trait Visitor {
     fn visit_import_plain(
         &mut self,
         _loc: Loc,
-        _import: &mut StringLiteral,
+        _import: &mut ImportPath,
     ) -> Result<(), Self::Error> {
         self.extract_import_plain(_loc, _import)?;
-        self.visit_string_literal(_import)?;
+        // self.visit_string_literal(_import)?;
         Ok(())
     }
     fn visit_import_global(
         &mut self,
         _loc: Loc,
-        _global: &mut StringLiteral,
+        _global: &mut ImportPath,
         _alias: &mut Identifier,
     ) -> Result<(), Self::Error> {
         self.extract_import_global(_loc, _global, _alias)?;
-        self.visit_string_literal(_global)?;
-        self.visit_ident(_alias.loc, _alias)?;
+        // self.visit_string_literal(_global)?;
+        // self.visit_ident(_alias.loc, _alias)?;
         Ok(())
     }
 
@@ -431,10 +430,10 @@ pub trait Visitor {
         &mut self,
         _loc: Loc,
         _imports: &mut [(Identifier, Option<Identifier>)],
-        _from: &mut StringLiteral,
+        _from: &mut ImportPath,
     ) -> Result<(), Self::Error> {
         self.extract_import_renames(_loc, _imports, _from)?;
-        self.visit_string_literal(_from)?;
+        // self.visit_string_literal(_from)?;
         for (ident_0, ident_1) in _imports {
             self.visit_ident(ident_0.loc, ident_0)?;
             if let Some(ident) = ident_1 {
@@ -1161,8 +1160,6 @@ pub trait Visitor {
         self.extract_continue(_loc, _semicolon)?;
         Ok(())
     }
-
-    #[allow(clippy::type_complexity)]
     fn visit_try(
         &mut self,
         _loc: Loc,
@@ -1792,9 +1789,9 @@ pub trait Visitor {
     extract!(extract_enum, _enum_definition: &mut Box<EnumDefinition>);
     extract!(extract_annotation, _annotation: &mut Annotation);
     extract!(extract_pragma, _loc: Loc, _ident: &mut Option<Identifier>, _str: &mut Option<StringLiteral>);
-    extract!(extract_import_plain, _loc: Loc, _import: &mut StringLiteral);
-    extract!(extract_import_global, _loc: Loc, _global: &mut StringLiteral, _alias: &mut Identifier);
-    extract!(extract_import_renames, _loc: Loc, _imports: &mut [(Identifier, Option<Identifier>)], _from: &mut StringLiteral);
+    extract!(extract_import_plain, _loc: Loc, _import: &mut ImportPath);
+    extract!(extract_import_global, _loc: Loc, _global: &mut ImportPath, _alias: &mut Identifier);
+    extract!(extract_import_renames, _loc: Loc, _imports: &mut [(Identifier, Option<Identifier>)], _from: &mut ImportPath);
     extract!(extract_assembly, _loc: Loc, _dialect: &mut Option<StringLiteral>, _block: &mut YulBlock, _flags: &mut Option<Vec<StringLiteral>>);
     extract!(extract_block, _loc: Loc, _unchecked: bool, _statements: &mut Vec<Statement>);
     extract!(extract_args, _loc: Loc, _args: &mut Vec<NamedArgument>);

@@ -1,4 +1,4 @@
-use solang_parser::pt::{self, CodeLocation, Expression, Loc};
+use solang_parser::pt::{self, Expression, Loc};
 use solang_parser::{self, pt::SourceUnit};
 use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
@@ -17,12 +17,12 @@ impl OptimizationPattern for IncrementDecrement {
             //Get all increment/decrement expressions in unchecked blocks so that the analyzer does not mark these as optimization targets
             let block_nodes = BlockExtractor::extract(source_unit)?;
             let mut unchecked_locations: HashSet<Loc> = HashSet::new();
-            for node in block_nodes {
+            for statement in block_nodes {
                 if let pt::Statement::Block {
                     loc: _,
                     unchecked,
                     mut statements,
-                } = node
+                } = statement
                 {
                     if unchecked {
                         for statement in statements.iter_mut() {
@@ -38,7 +38,7 @@ impl OptimizationPattern for IncrementDecrement {
 
             for node in nodes {
                 if !unchecked_locations.contains(&node.0) {
-                    outcome.push_or_insert(path_buf.clone(), node.1.loc(), node.1.to_string());
+                    outcome.push_or_insert(path_buf.clone(), node.0, node.1.to_string());
                 }
             }
         }
@@ -93,10 +93,10 @@ pub fn extract_pre_increment_pre_decrement(node: &mut pt::Statement) -> HashSet<
     locations
 }
 mod test {
-    use crate::{
-        optimizations::{IncrementDecrement, OptimizationPattern},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_increment_optimization() -> eyre::Result<()> {
@@ -131,8 +131,8 @@ mod test {
 
         let mut source = MockSource::new().add_source("increment_decrement.sol", file_contents);
         let optimization_locations = IncrementDecrement::find(&mut source.source)?;
-
         assert_eq!(optimization_locations.len(), 3);
+
         Ok(())
     }
 }

@@ -34,11 +34,10 @@ impl OptimizationPattern for SolidityKeccak256 {
     }
 }
 mod test {
-    use crate::{
-        optimizations::{OptimizationPattern, SolidityKeccak256},
-        utils::MockSource,
-    };
-
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
     #[test]
     fn test_template_optimization() -> eyre::Result<()> {
         let file_contents = r#"
@@ -71,6 +70,7 @@ contract Contract0 {
         let optimization_locations = SolidityKeccak256::find(&mut source.source)?;
 
         assert_eq!(optimization_locations.len(), 2);
+
         Ok(())
     }
 }

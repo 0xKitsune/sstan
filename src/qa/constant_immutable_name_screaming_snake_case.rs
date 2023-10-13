@@ -1,25 +1,22 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{self, Expression, Loc, SourceUnit};
+use solang_parser::pt::{Loc, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
     extractors::{
         compound::{
-            ConstantStorageVariableExtractor, ContractExtractor, ImmutableStorageVariableExtractor,
+            ConstantStorageVariableExtractor, ImmutableStorageVariableExtractor,
         },
-        primitive::{
-            ContractDefinitionExtractor, EventExtractor, FunctionCallExtractor,
-            PlainImportExtractor,
-        },
+
         Extractor,
     },
-    utils::{is_camel_case, is_pascal_case, is_screaming_snake_case},
+    utils::is_screaming_snake_case,
 };
 
 use super::{
-    ConstantImmutableNameScreamingSnakeCase, ContractNamePascalCase, EventNamePascalCase,
-    ImportIdentifiers, OneContractPerFile, QAPattern, QualityAssuranceOutcome, RemoveConsole,
+    ConstantImmutableNameScreamingSnakeCase,
+    QAPattern, QualityAssuranceOutcome
 };
 impl QAPattern for ConstantImmutableNameScreamingSnakeCase {
     fn find(
@@ -54,11 +51,10 @@ impl QAPattern for ConstantImmutableNameScreamingSnakeCase {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::File, io::Write};
-
-    use crate::{report::ReportSectionFragment, utils::MockSource};
-
+    #[allow(unused)]
     use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
     #[test]
     fn test_import_identifiers() -> eyre::Result<()> {
         let file_contents = r#"
@@ -79,14 +75,10 @@ mod tests {
             "constant_immutable_name_screaming_snake_case.sol",
             file_contents,
         );
-        let qa_locations = ImportIdentifiers::find(&mut mock_source.source)?;
+        let qa_locations = ConstantImmutableNameScreamingSnakeCase::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 4);
-        let report: Option<ReportSectionFragment> = qa_locations.into();
-        if let Some(report) = report {
-            let mut f = File::options().append(true).open("qa_report_sections.md")?;
-            writeln!(&mut f, "{}", &String::from(report))?;
-        }
+       
         Ok(())
     }
 }

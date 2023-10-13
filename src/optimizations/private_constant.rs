@@ -38,10 +38,10 @@ impl OptimizationPattern for PrivateConstant {
     }
 }
 mod test {
-    use crate::{
-        optimizations::{OptimizationPattern, PrivateConstant},
-        utils::MockSource,
-    };
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
 
     #[test]
     fn test_private_constant_optimization() -> eyre::Result<()> {
@@ -68,6 +68,7 @@ contract Contract0 {
         let mut source = MockSource::new().add_source("private_constant.sol", file_contents);
         let optimization_locations = PrivateConstant::find(&mut source.source)?;
         assert_eq!(optimization_locations.len(), 2);
+
         Ok(())
     }
 }

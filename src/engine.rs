@@ -1,14 +1,17 @@
-use std::{collections::HashMap, path::PathBuf};
-// use crate::analyzer::qa::{QualityAssuranceOutcome, QualityAssuranceTarget};
 use solang_parser::pt::{Loc, SourceUnit};
+use std::{collections::HashMap, path::PathBuf, vec};
 use thiserror::Error;
 
 use crate::{
     extractors::ExtractionError,
+    optimizations::{OptimizationOutcome, OptimizationTarget},
     qa::{QualityAssuranceOutcome, QualityAssuranceTarget},
+    report::{Report, ReportSection, TableOfContents, TableSection},
+    utils,
+    vulnerabilities::{VulnerabilityOutcome, VulnerabilityTarget},
 };
 
-pub type Report = String;
+// pub type Report = String;
 pub type Snippet = String;
 pub type Outcome = HashMap<PathBuf, Vec<(Loc, Snippet)>>;
 
@@ -19,7 +22,7 @@ pub trait Pushable {
 
 impl Pushable for Outcome {
     fn push_or_insert(&mut self, path: PathBuf, loc: Loc, snippet: Snippet) {
-        let entry = self.entry(path).or_insert(vec![]);
+        let entry = self.entry(path).or_default();
         entry.push((loc, snippet));
     }
 }
@@ -37,55 +40,143 @@ pub enum EngineError {
 
 #[derive(Default)]
 pub struct Engine {
-    //TODO: pass in dir or file to analyze, or a default dir if none is passed in
-    // pub optimizations: Option<OptimizationModule>,
-    // pub vulnerabilities: Option<VulnerabilityModule>,
-    pub qa: Option<QualityAssuranceModule>,
-    //TODO: where to output options, etc maybe just make EngineOpts
+    pub source: HashMap<PathBuf, SourceUnit>,
+    pub git_url: Option<String>,
+    pub optimizations: OptimizationModule,
+    pub vulnerabilities: VulnerabilityModule,
+    pub qa: QualityAssuranceModule,
 }
-
-//TODO: FIXME: revisit in the am, but the goal is to just be able to do engine.run().into_report() and have it generate a report for each module recursively
-
 impl Engine {
-    pub fn new() -> Self {
-        Engine::default()
+    pub fn new(
+        path: &str,
+        git_url: Option<String>,
+        vulnerabilities: Vec<VulnerabilityTarget>,
+        optimizations: Vec<OptimizationTarget>,
+        qa: Vec<QualityAssuranceTarget>,
+    ) -> Self {
+        let mut source = HashMap::new();
+        //write logic to parse all source unitis from the path and extract
+        utils::extract_source(path, &mut source).unwrap();
+        Engine {
+            source,
+            git_url,
+            optimizations: OptimizationModule {
+                targets: optimizations,
+                outcomes: vec![],
+            },
+            vulnerabilities: VulnerabilityModule {
+                targets: vulnerabilities,
+                outcomes: vec![],
+            },
+            qa: QualityAssuranceModule {
+                targets: qa,
+                outcomes: vec![],
+            },
+        }
     }
 
-    pub fn run(&self) {}
+    pub fn run(&mut self) -> Result<(), EngineError> {
+        //Run the vulnerability module
+        if !self.vulnerabilities.targets.is_empty() {
+            self.vulnerabilities.outcomes = self.vulnerabilities.run(&mut self.source)?;
+        }
+        //Run the optimization module
+        if !self.optimizations.targets.is_empty() {
+            self.optimizations.outcomes = self.optimizations.run(&mut self.source)?;
+        }
+        //Run the QA module
+        if !self.qa.targets.is_empty() {
+            self.qa.outcomes = self.qa.run(&mut self.source)?;
+        }
+        Ok(())
+    }
 }
 
 //TODO: also have trait for GPTReportSection or something
 
 //TODO: FIXME: we can have the appendix generated for specific outcomes, have a trait that can get implemented to generate appendix
 pub trait EngineModule<T> {
-    fn run(&mut self, source: &mut HashMap<PathBuf, SourceUnit>) -> Vec<T>;
+    fn run(&mut self, source: &mut HashMap<PathBuf, SourceUnit>) -> Result<T, EngineError>;
+}
+impl From<Engine> for Report {
+    fn from(engine: Engine) -> Report {
+        let mut report = Report {
+            vulnerability_report: ReportSection::from(engine.vulnerabilities.outcomes),
+            optimization_report: ReportSection::from(engine.optimizations.outcomes),
+            qa_report: ReportSection::from(engine.qa.outcomes),
+            git_url: engine.git_url,
+            ..Default::default()
+        };
+
+        let table_sections = vec![
+            TableSection::from(&report.vulnerability_report),
+            TableSection::from(&report.optimization_report),
+            TableSection::from(&report.qa_report),
+        ];
+
+        report.table_of_contents = TableOfContents::new(table_sections);
+
+        report
+    }
 }
 
 //TODO: impl EngineModule for all modules
-// pub struct OptimizationModule {
-//     pub targets: Vec<QualityAssuranceTarget>,
-//     pub outcomes: Vec<OptimzationOutcome>,
-// }
-
-// pub struct VulnerabilityModule {
-//     pub targets: Vec<QualityAssuranceTarget>,
-//     pub outcomes: Vec<VulnerabilityOutcome>,
-// }
-
+#[derive(Default)]
+pub struct OptimizationModule {
+    pub targets: Vec<OptimizationTarget>,
+    pub outcomes: Vec<OptimizationOutcome>,
+}
+#[derive(Default)]
+pub struct VulnerabilityModule {
+    pub targets: Vec<VulnerabilityTarget>,
+    pub outcomes: Vec<VulnerabilityOutcome>,
+}
+#[derive(Default)]
 pub struct QualityAssuranceModule {
     pub targets: Vec<QualityAssuranceTarget>,
     pub outcomes: Vec<QualityAssuranceOutcome>,
 }
 
-// impl EngineModule<QualityAssuranceOutcome> for QualityAssuranceModule {
-//     fn run(&mut self, source: HashMap<PathBuf, &mut SourceUnit>) -> Vec<QualityAssuranceOutcome> {
-//         for target in self.targets.iter() {
-//             let x = target.find(source);
-//         }
+impl EngineModule<Vec<QualityAssuranceOutcome>> for QualityAssuranceModule {
+    fn run(
+        &mut self,
+        source: &mut HashMap<PathBuf, SourceUnit>,
+    ) -> Result<Vec<QualityAssuranceOutcome>, EngineError> {
+        let mut outcomes = vec![];
+        for target in self.targets.iter() {
+            outcomes.push(target.find(source)?);
+        }
 
-//         todo!()
-//     }
-// }
+        Ok(outcomes)
+    }
+}
+
+impl EngineModule<Vec<OptimizationOutcome>> for OptimizationModule {
+    fn run(
+        &mut self,
+        source: &mut HashMap<PathBuf, SourceUnit>,
+    ) -> Result<Vec<OptimizationOutcome>, EngineError> {
+        let mut outcomes = vec![];
+        for target in self.targets.iter() {
+            outcomes.push(target.find(source)?);
+        }
+
+        Ok(outcomes)
+    }
+}
+
+impl EngineModule<Vec<VulnerabilityOutcome>> for VulnerabilityModule {
+    fn run(
+        &mut self,
+        source: &mut HashMap<PathBuf, SourceUnit>,
+    ) -> Result<Vec<VulnerabilityOutcome>, EngineError> {
+        let mut outcomes = vec![];
+        for target in self.targets.iter() {
+            outcomes.push(target.find(source)?);
+        }
+        Ok(outcomes)
+    }
+}
 
 // pub struct TestAnalysisModule {
 //     //TODO: right now we can just run forge coverage. generate outcomes and call into report
