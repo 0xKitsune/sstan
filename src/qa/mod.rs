@@ -6,9 +6,11 @@ pub mod interface_namespace;
 pub mod large_multiples_of_ten;
 pub mod private_vars_leading_underscore;
 pub mod public_functions;
+pub mod require_without_message;
 pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
+
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Identifier;
@@ -187,5 +189,8 @@ quality_assurance!(
     ),
     (UnusedReturns, "Remove any unused returns", "Either remove the return parameter names, or use them as the returns of the function."), 
     (PublicFunctions,"Consider marking public function External", "If a public function is never called internally. It is best practice to mark it as external."
-    )
+    ),
+
+    (RequireWithoutMessage,"Consider adding a message with require and revert statements", "Adding a message to accompany require statements will provide more context when a transaction fails."
+)
 );
