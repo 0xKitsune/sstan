@@ -21,13 +21,10 @@ impl QAPattern for ExplicitVisibility {
             let storage_variables = StorageVariableExtractor::extract(source_unit)?;
 
             for var in storage_variables {
-                let has_visibility_attribute = var.attrs.iter().any(|attr| {
-                    if let VariableAttribute::Visibility(_) = attr {
-                        true
-                    } else {
-                        false
-                    }
-                });
+                let has_visibility_attribute = var
+                    .attrs
+                    .iter()
+                    .any(|attr| matches!(attr, VariableAttribute::Visibility(_)));
 
                 if !has_visibility_attribute {
                     outcome.push_or_insert(path_buf.clone(), var.loc(), var.to_string());
@@ -61,10 +58,8 @@ mod tests {
  
     "#;
 
-        let mut mock_source = MockSource::new().add_source(
-            "explicit_visibility.sol",
-            file_contents,
-        );
+        let mut mock_source =
+            MockSource::new().add_source("explicit_visibility.sol", file_contents);
         let qa_locations = ExplicitVisibility::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 2);

@@ -2,10 +2,9 @@ use std::{collections::HashMap, path::PathBuf};
 
 use solang_parser::pt::{Loc, SourceUnit};
 
-
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{Extractor, primitive::ErrorExtractor},
+    extractors::{primitive::ErrorExtractor, Extractor},
 };
 
 use super::{ErrorWithoutParams, QAPattern, QualityAssuranceOutcome};
@@ -19,11 +18,7 @@ impl QAPattern for ErrorWithoutParams {
             let errors = ErrorExtractor::extract(source_unit)?;
             for error in errors {
                 if error.fields.is_empty() {
-                    outcome.push_or_insert(
-                        path_buf.clone(),
-                        error.loc,
-                        error.to_string(),
-                    );
+                    outcome.push_or_insert(path_buf.clone(), error.loc, error.to_string());
                 }
             }
         }
@@ -62,10 +57,8 @@ mod tests {
  
     "#;
 
-        let mut mock_source = MockSource::new().add_source(
-            "error_without_parameters.sol",
-            file_contents,
-        );
+        let mut mock_source =
+            MockSource::new().add_source("error_without_parameters.sol", file_contents);
         let qa_locations = ErrorWithoutParams::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 1);

@@ -2,11 +2,10 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 use solang_parser::helpers::CodeLocation;
-use solang_parser::pt::{self, Expression, Type};
+use solang_parser::pt::{Expression, Type};
 use solang_parser::{self, pt::SourceUnit};
 
 use crate::engine::{EngineError, Outcome, Pushable};
-use crate::extractors::compound::YulShiftExtractor;
 use crate::extractors::primitive::FunctionCallExtractor;
 use crate::extractors::Extractor;
 
@@ -86,8 +85,7 @@ mod test {
         }
     }
     "#;
-        let mut mock_source =
-            MockSource::new().add_source("double_cast.sol", file_contents);
+        let mut mock_source = MockSource::new().add_source("double_cast.sol", file_contents);
         let vuln_locations = DoubleCasting::find(&mut mock_source.source)?;
         assert_eq!(vuln_locations.len(), 4);
 

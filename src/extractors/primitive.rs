@@ -138,7 +138,7 @@ default_extractor!(ErrorExtractor, ErrorDefinition);
 
 impl Visitor for ErrorExtractor {
     type Error = ExtractionError;
-    fn extract_error(&mut self,_error: &mut ErrorDefinition ) -> Result<(),Self::Error> {
+    fn extract_error(&mut self, _error: &mut ErrorDefinition) -> Result<(), Self::Error> {
         self.targets.push(_error.clone());
         Ok(())
     }

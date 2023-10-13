@@ -28,7 +28,11 @@ impl Report {
         fragment.push_str(&format!(
             "\n## {} - Total: {}",
             report_section.title,
-            report_section.outcomes.iter().map(|f| f.instances).sum::<usize>()
+            report_section
+                .outcomes
+                .iter()
+                .map(|f| f.instances)
+                .sum::<usize>()
         ));
         fragment.push_str(&format!(" \n{}\n", report_section.description));
 
@@ -449,7 +453,7 @@ impl From<&TableFragment> for String {
                 "\n | [{}](#{}) | {} | {} |",
                 identifier, identifier, value.title, value.instances
             ));
-        } 
+        }
         fragment
     }
 }

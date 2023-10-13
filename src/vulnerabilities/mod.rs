@@ -1,10 +1,10 @@
 pub mod divide_before_multiply;
+pub mod double_casting;
 pub mod floating_pragma;
 pub mod incorrect_shift_math;
 pub mod uninitialized_storage_variable;
 pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
-pub mod double_casting;
 
 use super::engine::Outcome;
 use crate::engine::EngineError;
@@ -205,7 +205,6 @@ function kill() public {
     (
         UninitializedStorageVariable,
         "Uninitialized storage variables",
-        //TODO: update this description it is only a place holder
         "
 > A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value.",
         Classification::VulnerabilityHigh
