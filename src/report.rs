@@ -26,7 +26,7 @@ impl Report {
     pub fn string_from_report_section(&self, report_section: ReportSection) -> String {
         let mut fragment: String = String::new();
         fragment.push_str(&format!(
-            "\n## {} - Total: {}",
+            "\n# {} - Total: {}",
             report_section.title,
             report_section.outcomes.len()
         ));
@@ -60,7 +60,7 @@ impl Report {
             report_section_fragment.identifier.nonce
         );
         fragment.push_str(&format!(
-            "\n ### <a name={}></a> {} {} - Instances: {} \n",
+            "\n <h3><a name={}></a> {} {} - Instances: {} </h3>\n",
             identifier,
             identifier,
             report_section_fragment.title,
@@ -412,7 +412,7 @@ impl From<Vec<VulnerabilityOutcome>> for ReportSection {
 impl From<&ReportSection> for TableSection {
     fn from(value: &ReportSection) -> Self {
         TableSection {
-            title: format!("<h3>{}</h3>", value.title.clone()),
+            title: format!("## {}", value.title.clone()),
             subsections: value
                 .outcomes
                 .clone()
@@ -449,12 +449,7 @@ impl From<&TableFragment> for String {
                 "\n | [{}](#{}) | <Strong>{}</Strong> | {} |",
                 identifier, identifier, value.title, value.instances
             ));
-        } else {
-            fragment.push_str(&format!(
-                "\n <details open> \n <summary> \n <Strong>{}</Strong> - Instances: {} \n </summary>",
-                value.title, value.instances,
-            ));
-        }
+        } 
         fragment
     }
 }
