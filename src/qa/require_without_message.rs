@@ -16,10 +16,7 @@ use solang_parser::{
 use super::{QAPattern, QualityAssuranceOutcome, RequireWithoutMessage};
 use crate::engine::Pushable;
 use crate::engine::{EngineError, Outcome};
-use crate::extractors::{
-    primitive::{FunctionCallExtractor},
-    Extractor,
-};
+use crate::extractors::{primitive::FunctionCallExtractor, Extractor};
 
 impl QAPattern for RequireWithoutMessage {
     fn find(
