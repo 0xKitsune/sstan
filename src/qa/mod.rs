@@ -5,6 +5,7 @@ pub mod contract_name_pascal_case;
 pub mod error_without_parameters;
 pub mod event_name_pascalcase;
 pub mod explicit_visibility;
+pub mod missing_underscores_for_large_numeric_literals;
 pub mod function_name_camel_case;
 pub mod import_identifiers;
 pub mod interface_namespace;
@@ -263,6 +264,14 @@ quality_assurance!(
     "This variables default value is the same as the value it is initialized with",
     "
 > This is unnecessary and will have some overhead on Gas
+    "
+),
+
+(
+    MissingUnderscoresForLargeNumericLiterals,
+    "Misssing underscores on large numeric literals",
+    "
+> Consider adding underscores to large numeric literals for readability. Preferrably every 3rd digit
     "
 )
 );
