@@ -2,14 +2,15 @@ pub mod constant_immutable_name_screaming_snake_case;
 pub mod constructor_order;
 pub mod constructor_var_initialization;
 pub mod contract_name_pascal_case;
+pub mod contracts_should_inherit_interface;
 pub mod error_without_parameters;
 pub mod event_name_pascalcase;
 pub mod explicit_visibility;
-pub mod missing_underscores_for_large_numeric_literals;
 pub mod function_name_camel_case;
 pub mod import_identifiers;
 pub mod interface_namespace;
 pub mod large_multiples_of_ten;
+pub mod missing_underscores_for_large_numeric_literals;
 pub mod one_contract_per_file;
 pub mod private_vars_leading_underscore;
 pub mod public_functions;
@@ -273,5 +274,12 @@ quality_assurance!(
     "
 > Consider adding underscores to large numeric literals for readability. Preferrably every 3rd digit
     "
+),
+(
+    ContractsShouldInheritInterface,
+    "Large contracts with many external functions should inherit an interface",
+    "
+> Consider inheriting the interface to ensure the interface matches the contract spec
+"
 )
 );

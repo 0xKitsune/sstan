@@ -54,6 +54,8 @@
  | [[NC-6]](#[NC-6]) | Remove any unused returns | 11 |
  | [[NC-7]](#[NC-7]) | Consider marking public function External | 3 |
  | [[NC-8]](#[NC-8]) | Consider adding a message with require and revert statements | 53 |
+ | [[NC-9]](#[NC-9]) | Storage variables should not have implicit visibility | 1 |
+ | [[NC-10]](#[NC-10]) | This variables default value is the same as the value it is initialized with | 3 |
 
 ## Vulnerabilities - Total: 24 
 
@@ -98,6 +100,27 @@ File:Voter.sol#L19
 
  --- 
 
+File:Minter.sol#L59
+```solidity
+58:        active_period = (block.timestamp + (2*week)) / week * week;
+``` 
+
+
+
+File:Minter.sol#L78
+```solidity
+77:        active_period = block.timestamp / week * week; // 
+``` 
+
+
+
+File:Minter.sol#L125
+```solidity
+124:            _period = block.timestamp / week * week;
+``` 
+
+
+
 File:SwapPair.sol#L392
 ```solidity
 391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
@@ -140,27 +163,6 @@ File:Voter.sol#L429
 
 
 
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L78
-```solidity
-77:        active_period = block.timestamp / week * week; // 
-``` 
-
-
-
-File:Minter.sol#L125
-```solidity
-124:            _period = block.timestamp / week * week;
-``` 
-
-
-
  --- 
 
 <a name=[L-2]></a>
@@ -187,14 +189,14 @@ File:Minter.sol#L125
 
  --- 
 
-File:SwapFactory.sol#L2
+File:SwapPair.sol#L2
 ```solidity
 1:pragma solidity ^0.8.11;
 ``` 
 
 
 
-File:SwapPair.sol#L2
+File:SwapFactory.sol#L2
 ```solidity
 1:pragma solidity ^0.8.11;
 ``` 
@@ -262,34 +264,6 @@ require(success, "ERC20 transfer failed");
 
  --- 
 
-File:Multiswap.sol#L55
-```solidity
-54:            (bool transferFromSuccess) = IERC20(_token).transferFrom(msg.sender, address(this), _amount);
-``` 
-
-
-
-File:Multiswap.sol#L57
-```solidity
-56:            IERC20(_token).approve(router, _amount);
-``` 
-
-
-
-File:Bribe.sol#L456
-```solidity
-455:        token.call(abi.encodeWithSelector(IERC20.transfer.selector, to, value));
-``` 
-
-
-
-File:Bribe.sol#L463
-```solidity
-462:        token.call(abi.encodeWithSelector(IERC20.transferFrom.selector, from, to, value));
-``` 
-
-
-
 File:Minter.sol#L136
 ```solidity
 135:            require(_token.transfer(address(_ve_dist), _growth), "growth transfer failed");
@@ -335,6 +309,34 @@ File:Gauge.sol#L576
 File:Gauge.sol#L583
 ```solidity
 582:        token.call(abi.encodeWithSelector(IERC20.approve.selector, spender, value));
+``` 
+
+
+
+File:Bribe.sol#L456
+```solidity
+455:        token.call(abi.encodeWithSelector(IERC20.transfer.selector, to, value));
+``` 
+
+
+
+File:Bribe.sol#L463
+```solidity
+462:        token.call(abi.encodeWithSelector(IERC20.transferFrom.selector, from, to, value));
+``` 
+
+
+
+File:Multiswap.sol#L55
+```solidity
+54:            (bool transferFromSuccess) = IERC20(_token).transferFrom(msg.sender, address(this), _amount);
+``` 
+
+
+
+File:Multiswap.sol#L57
+```solidity
+56:            IERC20(_token).approve(router, _amount);
 ``` 
 
 
@@ -781,216 +783,92 @@ File:Bribe.sol#L373
 
 
 
-File:Gauge.sol#L299
+File:SwapPair.sol#L287
 ```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
+286:        for (; i < length; i+=window) {
+287:            nextIndex = i + window;
+288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
+289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
+290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
+291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
+292:            index = index + 1;
+293:        }
+294:        return _prices;
 ``` 
 
 
 
-File:Gauge.sol#L299
+File:SwapPair.sol#L287
 ```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
+286:        for (; i < length; i+=window) {
+287:            nextIndex = i + window;
+288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
+289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
+290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
+291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
+292:            index = index + 1;
+293:        }
+294:        return _prices;
 ``` 
 
 
 
-File:Gauge.sol#L299
+File:SwapPair.sol#L287
 ```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
+286:        for (; i < length; i+=window) {
+287:            nextIndex = i + window;
+288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
+289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
+290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
+291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
+292:            index = index + 1;
+293:        }
+294:        return _prices;
 ``` 
 
 
 
-File:Gauge.sol#L299
+File:SwapPair.sol#L287
 ```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
+286:        for (; i < length; i+=window) {
+287:            nextIndex = i + window;
+288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
+289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
+290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
+291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
+292:            index = index + 1;
+293:        }
+294:        return _prices;
 ``` 
 
 
 
-File:Gauge.sol#L299
+File:SwapPair.sol#L287
 ```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
+286:        for (; i < length; i+=window) {
+287:            nextIndex = i + window;
+288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
+289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
+290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
+291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
+292:            index = index + 1;
+293:        }
+294:        return _prices;
 ``` 
 
 
 
-File:Gauge.sol#L351
+File:SwapPair.sol#L287
 ```solidity
-350:        for (uint i = _startIndex; i < _endIndex; i++) {
-351:            SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-352:            if (sp0.supply > 0) {
-353:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-354:                (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-355:                reward += _reward;
-356:                _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-357:                _startTimestamp = _endTime;
-358:            }
-359:        }
-360:
-``` 
-
-
-
-File:Gauge.sol#L351
-```solidity
-350:        for (uint i = _startIndex; i < _endIndex; i++) {
-351:            SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-352:            if (sp0.supply > 0) {
-353:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-354:                (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-355:                reward += _reward;
-356:                _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-357:                _startTimestamp = _endTime;
-358:            }
-359:        }
-360:
-``` 
-
-
-
-File:Gauge.sol#L378
-```solidity
-377:        for (uint i; i < length; i++) {
-378:            address token = rewards[i];
-379:            (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
-380:        }
-381:    }
-``` 
-
-
-
-File:Gauge.sol#L378
-```solidity
-377:        for (uint i; i < length; i++) {
-378:            address token = rewards[i];
-379:            (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
-380:        }
-381:    }
-``` 
-
-
-
-File:Gauge.sol#L378
-```solidity
-377:        for (uint i; i < length; i++) {
-378:            address token = rewards[i];
-379:            (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
-380:        }
-381:    }
-``` 
-
-
-
-File:Gauge.sol#L400
-```solidity
-399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-400:                SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-401:                if (sp0.supply > 0) {
-402:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-403:                    (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-404:                    reward += _reward;
-405:                    _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-406:                    _startTimestamp = _endTime;
-407:                }
-408:            }
-409:        }
-``` 
-
-
-
-File:Gauge.sol#L400
-```solidity
-399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-400:                SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-401:                if (sp0.supply > 0) {
-402:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-403:                    (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-404:                    reward += _reward;
-405:                    _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-406:                    _startTimestamp = _endTime;
-407:                }
-408:            }
-409:        }
-``` 
-
-
-
-File:Gauge.sol#L437
-```solidity
-436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
-437:                Checkpoint memory cp0 = checkpoints[account][i];
-438:                Checkpoint memory cp1 = checkpoints[account][i+1];
-439:                (uint _rewardPerTokenStored0,) = getPriorRewardPerToken(token, cp0.timestamp);
-440:                (uint _rewardPerTokenStored1,) = getPriorRewardPerToken(token, cp1.timestamp);
-441:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
-442:            }
-443:        }
-``` 
-
-
-
-File:Gauge.sol#L437
-```solidity
-436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
-437:                Checkpoint memory cp0 = checkpoints[account][i];
-438:                Checkpoint memory cp1 = checkpoints[account][i+1];
-439:                (uint _rewardPerTokenStored0,) = getPriorRewardPerToken(token, cp0.timestamp);
-440:                (uint _rewardPerTokenStored1,) = getPriorRewardPerToken(token, cp1.timestamp);
-441:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
-442:            }
-443:        }
+286:        for (; i < length; i+=window) {
+287:            nextIndex = i + window;
+288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
+289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
+290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
+291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
+292:            index = index + 1;
+293:        }
+294:        return _prices;
 ``` 
 
 
@@ -1267,92 +1145,216 @@ File:Voter.sol#L409
 
 
 
-File:SwapPair.sol#L287
+File:Gauge.sol#L299
 ```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
+298:        for (uint i = 0; i < tokens.length; i++) {
+299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
+300:
+301:            uint _reward = earned(tokens[i], account);
+302:            lastEarn[tokens[i]][account] = block.timestamp;
+303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
+304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
+305:
+306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
+307:        }
+308:
 ``` 
 
 
 
-File:SwapPair.sol#L287
+File:Gauge.sol#L299
 ```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
+298:        for (uint i = 0; i < tokens.length; i++) {
+299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
+300:
+301:            uint _reward = earned(tokens[i], account);
+302:            lastEarn[tokens[i]][account] = block.timestamp;
+303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
+304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
+305:
+306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
+307:        }
+308:
 ``` 
 
 
 
-File:SwapPair.sol#L287
+File:Gauge.sol#L299
 ```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
+298:        for (uint i = 0; i < tokens.length; i++) {
+299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
+300:
+301:            uint _reward = earned(tokens[i], account);
+302:            lastEarn[tokens[i]][account] = block.timestamp;
+303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
+304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
+305:
+306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
+307:        }
+308:
 ``` 
 
 
 
-File:SwapPair.sol#L287
+File:Gauge.sol#L299
 ```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
+298:        for (uint i = 0; i < tokens.length; i++) {
+299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
+300:
+301:            uint _reward = earned(tokens[i], account);
+302:            lastEarn[tokens[i]][account] = block.timestamp;
+303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
+304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
+305:
+306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
+307:        }
+308:
 ``` 
 
 
 
-File:SwapPair.sol#L287
+File:Gauge.sol#L299
 ```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
+298:        for (uint i = 0; i < tokens.length; i++) {
+299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
+300:
+301:            uint _reward = earned(tokens[i], account);
+302:            lastEarn[tokens[i]][account] = block.timestamp;
+303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
+304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
+305:
+306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
+307:        }
+308:
 ``` 
 
 
 
-File:SwapPair.sol#L287
+File:Gauge.sol#L351
 ```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
+350:        for (uint i = _startIndex; i < _endIndex; i++) {
+351:            SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
+352:            if (sp0.supply > 0) {
+353:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
+354:                (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
+355:                reward += _reward;
+356:                _writeRewardPerTokenCheckpoint(token, reward, _endTime);
+357:                _startTimestamp = _endTime;
+358:            }
+359:        }
+360:
+``` 
+
+
+
+File:Gauge.sol#L351
+```solidity
+350:        for (uint i = _startIndex; i < _endIndex; i++) {
+351:            SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
+352:            if (sp0.supply > 0) {
+353:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
+354:                (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
+355:                reward += _reward;
+356:                _writeRewardPerTokenCheckpoint(token, reward, _endTime);
+357:                _startTimestamp = _endTime;
+358:            }
+359:        }
+360:
+``` 
+
+
+
+File:Gauge.sol#L378
+```solidity
+377:        for (uint i; i < length; i++) {
+378:            address token = rewards[i];
+379:            (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
+380:        }
+381:    }
+``` 
+
+
+
+File:Gauge.sol#L378
+```solidity
+377:        for (uint i; i < length; i++) {
+378:            address token = rewards[i];
+379:            (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
+380:        }
+381:    }
+``` 
+
+
+
+File:Gauge.sol#L378
+```solidity
+377:        for (uint i; i < length; i++) {
+378:            address token = rewards[i];
+379:            (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
+380:        }
+381:    }
+``` 
+
+
+
+File:Gauge.sol#L400
+```solidity
+399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
+400:                SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
+401:                if (sp0.supply > 0) {
+402:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
+403:                    (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
+404:                    reward += _reward;
+405:                    _writeRewardPerTokenCheckpoint(token, reward, _endTime);
+406:                    _startTimestamp = _endTime;
+407:                }
+408:            }
+409:        }
+``` 
+
+
+
+File:Gauge.sol#L400
+```solidity
+399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
+400:                SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
+401:                if (sp0.supply > 0) {
+402:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
+403:                    (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
+404:                    reward += _reward;
+405:                    _writeRewardPerTokenCheckpoint(token, reward, _endTime);
+406:                    _startTimestamp = _endTime;
+407:                }
+408:            }
+409:        }
+``` 
+
+
+
+File:Gauge.sol#L437
+```solidity
+436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
+437:                Checkpoint memory cp0 = checkpoints[account][i];
+438:                Checkpoint memory cp1 = checkpoints[account][i+1];
+439:                (uint _rewardPerTokenStored0,) = getPriorRewardPerToken(token, cp0.timestamp);
+440:                (uint _rewardPerTokenStored1,) = getPriorRewardPerToken(token, cp1.timestamp);
+441:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
+442:            }
+443:        }
+``` 
+
+
+
+File:Gauge.sol#L437
+```solidity
+436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
+437:                Checkpoint memory cp0 = checkpoints[account][i];
+438:                Checkpoint memory cp1 = checkpoints[account][i+1];
+439:                (uint _rewardPerTokenStored0,) = getPriorRewardPerToken(token, cp0.timestamp);
+440:                (uint _rewardPerTokenStored1,) = getPriorRewardPerToken(token, cp1.timestamp);
+441:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
+442:            }
+443:        }
 ``` 
 
 
@@ -1471,16 +1473,16 @@ contract Contract1 {
 
  --- 
 
-File:SwapPair.sol#L35
+File:SwapPair.sol#L34
 ```solidity
-34:    address public immutable token1;
+33:    address public immutable token0;
 ``` 
 
 
 
-File:SwapPair.sol#L38
+File:SwapPair.sol#L35
 ```solidity
-37:    uint public immutable fee;
+34:    address public immutable token1;
 ``` 
 
 
@@ -1492,16 +1494,9 @@ File:SwapPair.sol#L20
 
 
 
-File:SwapPair.sol#L34
+File:SwapPair.sol#L38
 ```solidity
-33:    address public immutable token0;
-``` 
-
-
-
-File:Voter.sol#L19
-```solidity
-18:    address public convenience;
+37:    uint public immutable fee;
 ``` 
 
 
@@ -1520,6 +1515,13 @@ File:SwapFactory.sol#L21
 
 
 
+File:SwapFactory.sol#L19
+```solidity
+18:    address internal _temp0;
+``` 
+
+
+
 File:SwapFactory.sol#L22
 ```solidity
 21:    uint internal _temp3;
@@ -1527,9 +1529,9 @@ File:SwapFactory.sol#L22
 
 
 
-File:SwapFactory.sol#L19
+File:Voter.sol#L19
 ```solidity
-18:    address internal _temp0;
+18:    address public convenience;
 ``` 
 
 
@@ -1656,16 +1658,16 @@ File:Minter.sol#L30
 
 
 
-File:SwapPair.sol#L15
+File:SwapPair.sol#L16
 ```solidity
-14:    string public name;
+15:    string public symbol;
 ``` 
 
 
 
-File:SwapPair.sol#L16
+File:SwapPair.sol#L15
 ```solidity
-15:    string public symbol;
+14:    string public name;
 ``` 
 
 
@@ -1859,44 +1861,9 @@ contract Contract4 {
 
  --- 
 
-File:Gauge.sol#L400
+File:Bribe.sol#L235
 ```solidity
-399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-``` 
-
-
-
-File:Gauge.sol#L299
-```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-``` 
-
-
-
-File:Gauge.sol#L437
-```solidity
-436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
-``` 
-
-
-
-File:Gauge.sol#L351
-```solidity
-350:        for (uint i = _startIndex; i < _endIndex; i++) {
-``` 
-
-
-
-File:Gauge.sol#L378
-```solidity
-377:        for (uint i; i < length; i++) {
-``` 
-
-
-
-File:Bribe.sol#L289
-```solidity
-288:        for (uint i = _startIndex; i < _endIndex; i++) {
+234:        for (uint i = 0; i < tokens.length; i++) {
 ``` 
 
 
@@ -1904,13 +1871,6 @@ File:Bribe.sol#L289
 File:Bribe.sol#L314
 ```solidity
 313:      for (uint i; i < length; i++) {
-``` 
-
-
-
-File:Bribe.sol#L235
-```solidity
-234:        for (uint i = 0; i < tokens.length; i++) {
 ``` 
 
 
@@ -1936,37 +1896,9 @@ File:Bribe.sol#L251
 
 
 
-File:Multiswap.sol#L45
+File:Bribe.sol#L289
 ```solidity
-44:            for (uint i = 0; i < length; ++i) { 
-``` 
-
-
-
-File:Multiswap.sol#L58
-```solidity
-57:            for (uint i = 0; i < length; ++i) {
-``` 
-
-
-
-File:Multiswap.sol#L75
-```solidity
-74:        for (uint i = 0; i < length; ++i) {
-``` 
-
-
-
-File:Voter.sol#L150
-```solidity
-149:        for (uint i = 0; i < _gaugeVoteCnt; i++) {
-``` 
-
-
-
-File:Voter.sol#L194
-```solidity
-193:        for (uint i = 0; i < _gaugeCnt; i++) {
+288:        for (uint i = _startIndex; i < _endIndex; i++) {
 ``` 
 
 
@@ -1978,34 +1910,6 @@ File:Voter.sol#L352
 
 
 
-File:Voter.sol#L315
-```solidity
-314:        for (uint i = start; i < end; i++) {
-``` 
-
-
-
-File:Voter.sol#L198
-```solidity
-197:        for (uint i = 0; i < _gaugeCnt; i++) {
-``` 
-
-
-
-File:Voter.sol#L309
-```solidity
-308:        for (uint i = 0; i < _gauges.length; i++) {
-``` 
-
-
-
-File:Voter.sol#L179
-```solidity
-178:        for (uint i = 0; i < _gaugeCnt; i++) {
-``` 
-
-
-
 File:Voter.sol#L363
 ```solidity
 362:        for (uint i = 0; i < _bribes.length; i++) {
@@ -2013,9 +1917,23 @@ File:Voter.sol#L363
 
 
 
+File:Voter.sol#L150
+```solidity
+149:        for (uint i = 0; i < _gaugeVoteCnt; i++) {
+``` 
+
+
+
 File:Voter.sol#L374
 ```solidity
 373:        for (uint i = 0; i < _fees.length; i++) {
+``` 
+
+
+
+File:Voter.sol#L309
+```solidity
+308:        for (uint i = 0; i < _gauges.length; i++) {
 ``` 
 
 
@@ -2041,6 +1959,34 @@ File:Voter.sol#L415
 
 
 
+File:Voter.sol#L194
+```solidity
+193:        for (uint i = 0; i < _gaugeCnt; i++) {
+``` 
+
+
+
+File:Voter.sol#L198
+```solidity
+197:        for (uint i = 0; i < _gaugeCnt; i++) {
+``` 
+
+
+
+File:Voter.sol#L315
+```solidity
+314:        for (uint i = start; i < end; i++) {
+``` 
+
+
+
+File:Voter.sol#L179
+```solidity
+178:        for (uint i = 0; i < _gaugeCnt; i++) {
+``` 
+
+
+
 File:SwapPair.sol#L497
 ```solidity
 496:                keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
@@ -2062,6 +2008,62 @@ File:SwapPair.sol#L268
 
 
 
+File:Multiswap.sol#L45
+```solidity
+44:            for (uint i = 0; i < length; ++i) { 
+``` 
+
+
+
+File:Multiswap.sol#L58
+```solidity
+57:            for (uint i = 0; i < length; ++i) {
+``` 
+
+
+
+File:Multiswap.sol#L75
+```solidity
+74:        for (uint i = 0; i < length; ++i) {
+``` 
+
+
+
+File:Gauge.sol#L378
+```solidity
+377:        for (uint i; i < length; i++) {
+``` 
+
+
+
+File:Gauge.sol#L437
+```solidity
+436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
+``` 
+
+
+
+File:Gauge.sol#L299
+```solidity
+298:        for (uint i = 0; i < tokens.length; i++) {
+``` 
+
+
+
+File:Gauge.sol#L351
+```solidity
+350:        for (uint i = _startIndex; i < _endIndex; i++) {
+``` 
+
+
+
+File:Gauge.sol#L400
+```solidity
+399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
+``` 
+
+
+
  --- 
 
 <a name=[G-5]></a>
@@ -2079,254 +2081,44 @@ File:SwapPair.sol#L268
 
  --- 
 
-File:Minter.sol#L77
+File:SwapFactory.sol#L38
 ```solidity
-76:        initializer = address(0);
+37:        fee[false] = 2700; // 0.27% for vaiable swaps (hundredth of a basis point / 2700/1000000)
 ``` 
 
 
 
-File:Minter.sol#L87
+File:SwapFactory.sol#L54
 ```solidity
-86:        last_epoch = block.timestamp + 26 weeks;
+53:        pauser = pendingPauser;
 ``` 
 
 
 
-File:Minter.sol#L126
+File:SwapFactory.sol#L69
 ```solidity
-125:            active_period = _period;
+68:        admin = _admin;
 ``` 
 
 
 
-File:Minter.sol#L129
+File:SwapFactory.sol#L88
 ```solidity
-128:            uint _growth = calculate_growth(weekly);
+87:        getPair[token0][token1][stable] = pair;
 ``` 
 
 
 
-File:Minter.sol#L130
+File:SwapFactory.sol#L89
 ```solidity
-129:            uint _required = _growth + weekly;
+88:        getPair[token1][token0][stable] = pair; // populate mapping in the reverse direction
 ``` 
 
 
 
-File:Minter.sol#L141
+File:SwapFactory.sol#L92
 ```solidity
-140:            _token.approve(address(_voter), weekly);
-``` 
-
-
-
-File:Minter.sol#L142
-```solidity
-141:            _voter.notifyRewardAmount(weekly);
-``` 
-
-
-
-File:Minter.sol#L144
-```solidity
-143:            emit Mint(msg.sender, weekly, circulating_supply(), circulating_emission());
-``` 
-
-
-
-File:SwapPair.sol#L101
-```solidity
-100:            name = string(abi.encodePacked("Variable Pair - ", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
-``` 
-
-
-
-File:SwapPair.sol#L102
-```solidity
-101:            symbol = string(abi.encodePacked("vAMM-", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
-``` 
-
-
-
-File:SwapPair.sol#L115
-```solidity
-114:        _unlocked = 2;
-``` 
-
-
-
-File:SwapPair.sol#L117
-```solidity
-116:        _unlocked = 1;
-``` 
-
-
-
-File:SwapPair.sol#L125
-```solidity
-124:        return observations[observations.length-1];
-``` 
-
-
-
-File:SwapPair.sol#L144
-```solidity
-143:            claimable0[msg.sender] = 0;
-``` 
-
-
-
-File:SwapPair.sol#L145
-```solidity
-144:            claimable1[msg.sender] = 0;
-``` 
-
-
-
-File:SwapPair.sol#L190
-```solidity
-189:            supplyIndex0[recipient] = _index0; // update user current position to global position
-``` 
-
-
-
-File:SwapPair.sol#L191
-```solidity
-190:            supplyIndex1[recipient] = _index1;
-``` 
-
-
-
-File:SwapPair.sol#L203
-```solidity
-202:            supplyIndex0[recipient] = index0; // new users are set to the default global state
-``` 
-
-
-
-File:SwapPair.sol#L203
-```solidity
-202:            supplyIndex0[recipient] = index0; // new users are set to the default global state
-``` 
-
-
-
-File:SwapPair.sol#L204
-```solidity
-203:            supplyIndex1[recipient] = index1;
-``` 
-
-
-
-File:SwapPair.sol#L204
-```solidity
-203:            supplyIndex1[recipient] = index1;
-``` 
-
-
-
-File:SwapPair.sol#L226
-```solidity
-225:            observations.push(Observation(blockTimestamp, reserve0CumulativeLast, reserve1CumulativeLast));
-``` 
-
-
-
-File:SwapPair.sol#L226
-```solidity
-225:            observations.push(Observation(blockTimestamp, reserve0CumulativeLast, reserve1CumulativeLast));
-``` 
-
-
-
-File:SwapPair.sol#L230
-```solidity
-229:        blockTimestampLast = blockTimestamp;
-``` 
-
-
-
-File:SwapPair.sol#L231
-```solidity
-230:        emit Sync(reserve0, reserve1);
-``` 
-
-
-
-File:SwapPair.sol#L231
-```solidity
-230:        emit Sync(reserve0, reserve1);
-``` 
-
-
-
-File:SwapPair.sol#L255
-```solidity
-254:            _observation = observations[observations.length-2];
-``` 
-
-
-
-File:SwapPair.sol#L289
-```solidity
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-``` 
-
-
-
-File:SwapPair.sol#L289
-```solidity
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-``` 
-
-
-
-File:SwapPair.sol#L290
-```solidity
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L290
-```solidity
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L291
-```solidity
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L291
-```solidity
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L496
-```solidity
-495:                DOMAIN_SEPARATOR,
-``` 
-
-
-
-File:SwapPair.sol#L518
-```solidity
-517:            allowance[src][spender] = newAllowance;
-``` 
-
-
-
-File:SwapPair.sol#L532
-```solidity
-531:        balanceOf[dst] += amount;
+91:        emit PairCreated(token0, token1, stable, pair, allPairs.length);
 ``` 
 
 
@@ -2912,48 +2704,6 @@ File:Gauge.sol#L561
 
 
 
-File:SwapFactory.sol#L38
-```solidity
-37:        fee[false] = 2700; // 0.27% for vaiable swaps (hundredth of a basis point / 2700/1000000)
-``` 
-
-
-
-File:SwapFactory.sol#L54
-```solidity
-53:        pauser = pendingPauser;
-``` 
-
-
-
-File:SwapFactory.sol#L69
-```solidity
-68:        admin = _admin;
-``` 
-
-
-
-File:SwapFactory.sol#L88
-```solidity
-87:        getPair[token0][token1][stable] = pair;
-``` 
-
-
-
-File:SwapFactory.sol#L89
-```solidity
-88:        getPair[token1][token0][stable] = pair; // populate mapping in the reverse direction
-``` 
-
-
-
-File:SwapFactory.sol#L92
-```solidity
-91:        emit PairCreated(token0, token1, stable, pair, allPairs.length);
-``` 
-
-
-
 File:Bribe.sol#L80
 ```solidity
 79:        _unlocked = 2;
@@ -3290,6 +3040,258 @@ File:Bribe.sol#L448
 
 
 
+File:Minter.sol#L77
+```solidity
+76:        initializer = address(0);
+``` 
+
+
+
+File:Minter.sol#L87
+```solidity
+86:        last_epoch = block.timestamp + 26 weeks;
+``` 
+
+
+
+File:Minter.sol#L126
+```solidity
+125:            active_period = _period;
+``` 
+
+
+
+File:Minter.sol#L129
+```solidity
+128:            uint _growth = calculate_growth(weekly);
+``` 
+
+
+
+File:Minter.sol#L130
+```solidity
+129:            uint _required = _growth + weekly;
+``` 
+
+
+
+File:Minter.sol#L141
+```solidity
+140:            _token.approve(address(_voter), weekly);
+``` 
+
+
+
+File:Minter.sol#L142
+```solidity
+141:            _voter.notifyRewardAmount(weekly);
+``` 
+
+
+
+File:Minter.sol#L144
+```solidity
+143:            emit Mint(msg.sender, weekly, circulating_supply(), circulating_emission());
+``` 
+
+
+
+File:SwapPair.sol#L101
+```solidity
+100:            name = string(abi.encodePacked("Variable Pair - ", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
+``` 
+
+
+
+File:SwapPair.sol#L102
+```solidity
+101:            symbol = string(abi.encodePacked("vAMM-", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
+``` 
+
+
+
+File:SwapPair.sol#L115
+```solidity
+114:        _unlocked = 2;
+``` 
+
+
+
+File:SwapPair.sol#L117
+```solidity
+116:        _unlocked = 1;
+``` 
+
+
+
+File:SwapPair.sol#L125
+```solidity
+124:        return observations[observations.length-1];
+``` 
+
+
+
+File:SwapPair.sol#L144
+```solidity
+143:            claimable0[msg.sender] = 0;
+``` 
+
+
+
+File:SwapPair.sol#L145
+```solidity
+144:            claimable1[msg.sender] = 0;
+``` 
+
+
+
+File:SwapPair.sol#L190
+```solidity
+189:            supplyIndex0[recipient] = _index0; // update user current position to global position
+``` 
+
+
+
+File:SwapPair.sol#L191
+```solidity
+190:            supplyIndex1[recipient] = _index1;
+``` 
+
+
+
+File:SwapPair.sol#L203
+```solidity
+202:            supplyIndex0[recipient] = index0; // new users are set to the default global state
+``` 
+
+
+
+File:SwapPair.sol#L203
+```solidity
+202:            supplyIndex0[recipient] = index0; // new users are set to the default global state
+``` 
+
+
+
+File:SwapPair.sol#L204
+```solidity
+203:            supplyIndex1[recipient] = index1;
+``` 
+
+
+
+File:SwapPair.sol#L204
+```solidity
+203:            supplyIndex1[recipient] = index1;
+``` 
+
+
+
+File:SwapPair.sol#L226
+```solidity
+225:            observations.push(Observation(blockTimestamp, reserve0CumulativeLast, reserve1CumulativeLast));
+``` 
+
+
+
+File:SwapPair.sol#L226
+```solidity
+225:            observations.push(Observation(blockTimestamp, reserve0CumulativeLast, reserve1CumulativeLast));
+``` 
+
+
+
+File:SwapPair.sol#L230
+```solidity
+229:        blockTimestampLast = blockTimestamp;
+``` 
+
+
+
+File:SwapPair.sol#L231
+```solidity
+230:        emit Sync(reserve0, reserve1);
+``` 
+
+
+
+File:SwapPair.sol#L231
+```solidity
+230:        emit Sync(reserve0, reserve1);
+``` 
+
+
+
+File:SwapPair.sol#L255
+```solidity
+254:            _observation = observations[observations.length-2];
+``` 
+
+
+
+File:SwapPair.sol#L289
+```solidity
+288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
+``` 
+
+
+
+File:SwapPair.sol#L289
+```solidity
+288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
+``` 
+
+
+
+File:SwapPair.sol#L290
+```solidity
+289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
+``` 
+
+
+
+File:SwapPair.sol#L290
+```solidity
+289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
+``` 
+
+
+
+File:SwapPair.sol#L291
+```solidity
+290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
+``` 
+
+
+
+File:SwapPair.sol#L291
+```solidity
+290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
+``` 
+
+
+
+File:SwapPair.sol#L496
+```solidity
+495:                DOMAIN_SEPARATOR,
+``` 
+
+
+
+File:SwapPair.sol#L518
+```solidity
+517:            allowance[src][spender] = newAllowance;
+``` 
+
+
+
+File:SwapPair.sol#L532
+```solidity
+531:        balanceOf[dst] += amount;
+``` 
+
+
+
  --- 
 
 <a name=[G-6]></a>
@@ -3422,6 +3424,13 @@ contract Contract3 {
 
  --- 
 
+File:Gauge.sol#L293
+```solidity
+292:    function getReward(address account, address[] memory tokens) external lock {
+``` 
+
+
+
 File:Multiswap.sol#L32
 ```solidity
 31:        bytes[] memory _swapData,
@@ -3439,13 +3448,6 @@ File:Bribe.sol#L233
 File:Bribe.sol#L248
 ```solidity
 247:    function getRewardForOwner(uint tokenId, address[] memory tokens) external lock  {
-``` 
-
-
-
-File:Gauge.sol#L293
-```solidity
-292:    function getReward(address account, address[] memory tokens) external lock {
 ``` 
 
 
@@ -3612,20 +3614,6 @@ contract Contract1 {
 
  --- 
 
-File:SwapFactory.sol#L73
-```solidity
-72:        return keccak256(type(SwapPair).creationCode);
-``` 
-
-
-
-File:SwapFactory.sol#L85
-```solidity
-84:        bytes32 salt = keccak256(abi.encodePacked(token0, token1, stable)); // notice salt includes stable as well, 3 parameters
-``` 
-
-
-
 File:SwapPair.sol#L484
 ```solidity
 483:        DOMAIN_SEPARATOR = keccak256(
@@ -3679,6 +3667,20 @@ File:SwapPair.sol#L497
 ```solidity
 496:                keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
 497:            )
+``` 
+
+
+
+File:SwapFactory.sol#L73
+```solidity
+72:        return keccak256(type(SwapPair).creationCode);
+``` 
+
+
+
+File:SwapFactory.sol#L85
+```solidity
+84:        bytes32 salt = keccak256(abi.encodePacked(token0, token1, stable)); // notice salt includes stable as well, 3 parameters
 ``` 
 
 
@@ -3769,6 +3771,40 @@ contract Contract1 {
 
  --- 
 
+File:Gauge.sol#L85
+```solidity
+84:        require(
+85:            _stake != address(0) &&
+86:            _bribe != address(0) &&
+87:            __ve != address(0) &&
+88:            _voter != address(0),
+89:            "Gauge: zero address provided in constructor"
+90:        );
+``` 
+
+
+
+File:Gauge.sol#L539
+```solidity
+538:            require(IVoter(voter).isReward(address(this), token), "rewards tokens must be whitelisted");
+``` 
+
+
+
+File:Gauge.sol#L540
+```solidity
+539:            require(rewards.length < MAX_REWARD_TOKENS, "too many rewards tokens");
+``` 
+
+
+
+File:Gauge.sol#L560
+```solidity
+559:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
+``` 
+
+
+
 File:SwapFactory.sol#L27
 ```solidity
 26:        require(msg.sender == admin, "Voter: only admin");
@@ -3817,6 +3853,27 @@ File:SwapFactory.sol#L83
 File:SwapFactory.sol#L84
 ```solidity
 83:        require(getPair[token0][token1][stable] == address(0), 'PE'); // BaseV1: PAIR_EXISTS - single check is sufficient
+``` 
+
+
+
+File:Bribe.sol#L426
+```solidity
+425:            require(IVoter(voter).isBribe(address(this), token), "rewards tokens must be whitelisted");
+``` 
+
+
+
+File:Bribe.sol#L427
+```solidity
+426:            require(rewards.length < MAX_REWARD_TOKENS, "too many rewards tokens");
+``` 
+
+
+
+File:Bribe.sol#L447
+```solidity
+446:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
 ``` 
 
 
@@ -3901,40 +3958,6 @@ File:SwapPair.sol#L501
 
 
 
-File:Gauge.sol#L85
-```solidity
-84:        require(
-85:            _stake != address(0) &&
-86:            _bribe != address(0) &&
-87:            __ve != address(0) &&
-88:            _voter != address(0),
-89:            "Gauge: zero address provided in constructor"
-90:        );
-``` 
-
-
-
-File:Gauge.sol#L539
-```solidity
-538:            require(IVoter(voter).isReward(address(this), token), "rewards tokens must be whitelisted");
-``` 
-
-
-
-File:Gauge.sol#L540
-```solidity
-539:            require(rewards.length < MAX_REWARD_TOKENS, "too many rewards tokens");
-``` 
-
-
-
-File:Gauge.sol#L560
-```solidity
-559:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
-``` 
-
-
-
 File:Minter.sol#L47
 ```solidity
 46:        require(
@@ -3962,23 +3985,47 @@ File:Minter.sol#L136
 
 
 
-File:Bribe.sol#L426
+File:Multiswap.sol#L12
 ```solidity
-425:            require(IVoter(voter).isBribe(address(this), token), "rewards tokens must be whitelisted");
+11:        require(
+12:            _router != address(0),
+13:            "Multiswap: zero address provided in constructor"
+14:        );
 ``` 
 
 
 
-File:Bribe.sol#L427
+File:Multiswap.sol#L37
 ```solidity
-426:            require(rewards.length < MAX_REWARD_TOKENS, "too many rewards tokens");
+36:        require(length > 1 && length <= 5 && _weights.length == length, "length");
 ``` 
 
 
 
-File:Bribe.sol#L447
+File:Multiswap.sol#L38
 ```solidity
-446:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
+37:        require(_assertWeights(_weights), "wrong weights");
+``` 
+
+
+
+File:Multiswap.sol#L44
+```solidity
+43:            require(msg.value > 0, "no ETH sent");
+``` 
+
+
+
+File:Multiswap.sol#L54
+```solidity
+53:            require(_amount > 0, "no tokens sent");
+``` 
+
+
+
+File:Multiswap.sol#L56
+```solidity
+55:            require(transferFromSuccess, "transferFrom failed");
 ``` 
 
 
@@ -4062,51 +4109,6 @@ File:Voter.sol#L249
 File:Voter.sol#L251
 ```solidity
 250:        require(isWhitelisted[_tokenA] && isWhitelisted[_tokenB], "!whitelisted");
-``` 
-
-
-
-File:Multiswap.sol#L12
-```solidity
-11:        require(
-12:            _router != address(0),
-13:            "Multiswap: zero address provided in constructor"
-14:        );
-``` 
-
-
-
-File:Multiswap.sol#L37
-```solidity
-36:        require(length > 1 && length <= 5 && _weights.length == length, "length");
-``` 
-
-
-
-File:Multiswap.sol#L38
-```solidity
-37:        require(_assertWeights(_weights), "wrong weights");
-``` 
-
-
-
-File:Multiswap.sol#L44
-```solidity
-43:            require(msg.value > 0, "no ETH sent");
-``` 
-
-
-
-File:Multiswap.sol#L54
-```solidity
-53:            require(_amount > 0, "no tokens sent");
-``` 
-
-
-
-File:Multiswap.sol#L56
-```solidity
-55:            require(transferFromSuccess, "transferFrom failed");
 ``` 
 
 
@@ -4346,195 +4348,6 @@ contract Contract7 {
  
 
  --- 
-
-File:Minter.sol#L14
-```solidity
-13:    uint internal constant week = 86400 * 7; // allows minting once per week (reset every Thursday 00:00 UTC)
-``` 
-
-
-
-File:Minter.sol#L27
-```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
-``` 
-
-
-
-File:Minter.sol#L27
-```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
-``` 
-
-
-
-File:Minter.sol#L27
-```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L78
-```solidity
-77:        active_period = block.timestamp / week * week; // 
-``` 
-
-
-
-File:Minter.sol#L78
-```solidity
-77:        active_period = block.timestamp / week * week; // 
-``` 
-
-
-
-File:Minter.sol#L84
-```solidity
-83:        require(block.timestamp >= last_epoch + 26 weeks, "must wait next period");
-``` 
-
-
-
-File:Minter.sol#L87
-```solidity
-86:        last_epoch = block.timestamp + 26 weeks;
-``` 
-
-
-
-File:Minter.sol#L92
-```solidity
-91:        return _token.totalSupply() - _ve.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L97
-```solidity
-96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L97
-```solidity
-96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L97
-```solidity
-96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L97
-```solidity
-96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L103
-```solidity
-102:        return _emission + boost;
-``` 
-
-
-
-File:Minter.sol#L113
-```solidity
-112:        return circulating_supply() * tail_emission / tail_base;
-``` 
-
-
-
-File:Minter.sol#L113
-```solidity
-112:        return circulating_supply() * tail_emission / tail_base;
-``` 
-
-
-
-File:Minter.sol#L118
-```solidity
-117:        return _ve.totalSupply() * _minted / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L118
-```solidity
-117:        return _ve.totalSupply() * _minted / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L124
-```solidity
-123:        if (block.timestamp >= _period + week && initializer == address(0)) { // only trigger if new week
-``` 
-
-
-
-File:Minter.sol#L125
-```solidity
-124:            _period = block.timestamp / week * week;
-``` 
-
-
-
-File:Minter.sol#L125
-```solidity
-124:            _period = block.timestamp / week * week;
-``` 
-
-
-
-File:Minter.sol#L130
-```solidity
-129:            uint _required = _growth + weekly;
-``` 
-
-
-
-File:Minter.sol#L133
-```solidity
-132:                _token.mint(address(this), _required-_balanceOf);
-``` 
-
-
 
 File:Bribe.sol#L99
 ```solidity
@@ -4977,111 +4790,6 @@ File:Bribe.sol#L448
 
 
 
-File:Voter.sol#L108
-```solidity
-107:        return (IERC20(base).totalSupply() - IERC20(_ve).totalSupply()) / 10000;
-``` 
-
-
-
-File:Voter.sol#L108
-```solidity
-107:        return (IERC20(base).totalSupply() - IERC20(_ve).totalSupply()) / 10000;
-``` 
-
-
-
-File:Voter.sol#L201
-```solidity
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-``` 
-
-
-
-File:Voter.sol#L201
-```solidity
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-``` 
-
-
-
-File:Voter.sol#L301
-```solidity
-300:        uint256 _ratio = _amount * 1e18 / totalWeight; // 1e18 adjustment is removed during claim
-``` 
-
-
-
-File:Voter.sol#L301
-```solidity
-300:        uint256 _ratio = _amount * 1e18 / totalWeight; // 1e18 adjustment is removed during claim
-``` 
-
-
-
-File:Voter.sol#L336
-```solidity
-335:            uint _delta = _index - _supplyIndex; // see if there is any difference that need to be accrued
-``` 
-
-
-
-File:Voter.sol#L338
-```solidity
-337:                uint _share = uint(_supplied) * _delta / 1e18; // add accrued difference for each supplied token
-``` 
-
-
-
-File:Voter.sol#L338
-```solidity
-337:                uint _share = uint(_supplied) * _delta / 1e18; // add accrued difference for each supplied token
-``` 
-
-
-
-File:Voter.sol#L393
-```solidity
-392:        if (_claimable > IGauge(_gauge).left(base) && _claimable / DURATION > 0) {
-``` 
-
-
-
-File:Voter.sol#L423
-```solidity
-422:        activePeriod = block.timestamp / DURATION * DURATION;
-``` 
-
-
-
-File:Voter.sol#L423
-```solidity
-422:        activePeriod = block.timestamp / DURATION * DURATION;
-``` 
-
-
-
-File:Voter.sol#L429
-```solidity
-428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
-``` 
-
-
-
-File:Voter.sol#L429
-```solidity
-428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
-``` 
-
-
-
-File:Voter.sol#L429
-```solidity
-428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
-``` 
-
-
-
 File:Multiswap.sol#L46
 ```solidity
 45:                uint amount_ = msg.value * _weights[i] / 10000;
@@ -5106,6 +4814,195 @@ File:Multiswap.sol#L50
 File:Multiswap.sol#L62
 ```solidity
 61:                amountsOut[i] = out[out.length - 1];
+``` 
+
+
+
+File:Minter.sol#L14
+```solidity
+13:    uint internal constant week = 86400 * 7; // allows minting once per week (reset every Thursday 00:00 UTC)
+``` 
+
+
+
+File:Minter.sol#L27
+```solidity
+26:    uint internal constant lock = 86400 * 7 * 52 * 4;
+``` 
+
+
+
+File:Minter.sol#L27
+```solidity
+26:    uint internal constant lock = 86400 * 7 * 52 * 4;
+``` 
+
+
+
+File:Minter.sol#L27
+```solidity
+26:    uint internal constant lock = 86400 * 7 * 52 * 4;
+``` 
+
+
+
+File:Minter.sol#L59
+```solidity
+58:        active_period = (block.timestamp + (2*week)) / week * week;
+``` 
+
+
+
+File:Minter.sol#L59
+```solidity
+58:        active_period = (block.timestamp + (2*week)) / week * week;
+``` 
+
+
+
+File:Minter.sol#L59
+```solidity
+58:        active_period = (block.timestamp + (2*week)) / week * week;
+``` 
+
+
+
+File:Minter.sol#L59
+```solidity
+58:        active_period = (block.timestamp + (2*week)) / week * week;
+``` 
+
+
+
+File:Minter.sol#L78
+```solidity
+77:        active_period = block.timestamp / week * week; // 
+``` 
+
+
+
+File:Minter.sol#L78
+```solidity
+77:        active_period = block.timestamp / week * week; // 
+``` 
+
+
+
+File:Minter.sol#L84
+```solidity
+83:        require(block.timestamp >= last_epoch + 26 weeks, "must wait next period");
+``` 
+
+
+
+File:Minter.sol#L87
+```solidity
+86:        last_epoch = block.timestamp + 26 weeks;
+``` 
+
+
+
+File:Minter.sol#L92
+```solidity
+91:        return _token.totalSupply() - _ve.totalSupply();
+``` 
+
+
+
+File:Minter.sol#L97
+```solidity
+96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
+``` 
+
+
+
+File:Minter.sol#L97
+```solidity
+96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
+``` 
+
+
+
+File:Minter.sol#L97
+```solidity
+96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
+``` 
+
+
+
+File:Minter.sol#L97
+```solidity
+96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
+``` 
+
+
+
+File:Minter.sol#L103
+```solidity
+102:        return _emission + boost;
+``` 
+
+
+
+File:Minter.sol#L113
+```solidity
+112:        return circulating_supply() * tail_emission / tail_base;
+``` 
+
+
+
+File:Minter.sol#L113
+```solidity
+112:        return circulating_supply() * tail_emission / tail_base;
+``` 
+
+
+
+File:Minter.sol#L118
+```solidity
+117:        return _ve.totalSupply() * _minted / _token.totalSupply();
+``` 
+
+
+
+File:Minter.sol#L118
+```solidity
+117:        return _ve.totalSupply() * _minted / _token.totalSupply();
+``` 
+
+
+
+File:Minter.sol#L124
+```solidity
+123:        if (block.timestamp >= _period + week && initializer == address(0)) { // only trigger if new week
+``` 
+
+
+
+File:Minter.sol#L125
+```solidity
+124:            _period = block.timestamp / week * week;
+``` 
+
+
+
+File:Minter.sol#L125
+```solidity
+124:            _period = block.timestamp / week * week;
+``` 
+
+
+
+File:Minter.sol#L130
+```solidity
+129:            uint _required = _growth + weekly;
+``` 
+
+
+
+File:Minter.sol#L133
+```solidity
+132:                _token.mint(address(this), _required-_balanceOf);
 ``` 
 
 
@@ -6006,6 +5903,111 @@ File:SwapPair.sol#L517
 
 
 
+File:Voter.sol#L108
+```solidity
+107:        return (IERC20(base).totalSupply() - IERC20(_ve).totalSupply()) / 10000;
+``` 
+
+
+
+File:Voter.sol#L108
+```solidity
+107:        return (IERC20(base).totalSupply() - IERC20(_ve).totalSupply()) / 10000;
+``` 
+
+
+
+File:Voter.sol#L201
+```solidity
+200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
+``` 
+
+
+
+File:Voter.sol#L201
+```solidity
+200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
+``` 
+
+
+
+File:Voter.sol#L301
+```solidity
+300:        uint256 _ratio = _amount * 1e18 / totalWeight; // 1e18 adjustment is removed during claim
+``` 
+
+
+
+File:Voter.sol#L301
+```solidity
+300:        uint256 _ratio = _amount * 1e18 / totalWeight; // 1e18 adjustment is removed during claim
+``` 
+
+
+
+File:Voter.sol#L336
+```solidity
+335:            uint _delta = _index - _supplyIndex; // see if there is any difference that need to be accrued
+``` 
+
+
+
+File:Voter.sol#L338
+```solidity
+337:                uint _share = uint(_supplied) * _delta / 1e18; // add accrued difference for each supplied token
+``` 
+
+
+
+File:Voter.sol#L338
+```solidity
+337:                uint _share = uint(_supplied) * _delta / 1e18; // add accrued difference for each supplied token
+``` 
+
+
+
+File:Voter.sol#L393
+```solidity
+392:        if (_claimable > IGauge(_gauge).left(base) && _claimable / DURATION > 0) {
+``` 
+
+
+
+File:Voter.sol#L423
+```solidity
+422:        activePeriod = block.timestamp / DURATION * DURATION;
+``` 
+
+
+
+File:Voter.sol#L423
+```solidity
+422:        activePeriod = block.timestamp / DURATION * DURATION;
+``` 
+
+
+
+File:Voter.sol#L429
+```solidity
+428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
+``` 
+
+
+
+File:Voter.sol#L429
+```solidity
+428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
+``` 
+
+
+
+File:Voter.sol#L429
+```solidity
+428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
+``` 
+
+
+
 File:Gauge.sol#L117
 ```solidity
 116:            uint _fees0 = fees0 + claimed0;
@@ -6559,139 +6561,6 @@ contract Contract1 {
 
  --- 
 
-File:Gauge.sol#L102
-```solidity
-101:        _unlocked = 2;
-``` 
-
-
-
-File:Gauge.sol#L104
-```solidity
-103:        _unlocked = 1;
-``` 
-
-
-
-File:Gauge.sol#L121
-```solidity
-120:                fees0 = 0;
-``` 
-
-
-
-File:Gauge.sol#L125
-```solidity
-124:                fees0 = _fees0;
-``` 
-
-
-
-File:Gauge.sol#L128
-```solidity
-127:                fees1 = 0;
-``` 
-
-
-
-File:Gauge.sol#L132
-```solidity
-131:                fees1 = _fees1;
-``` 
-
-
-
-File:Gauge.sol#L273
-```solidity
-272:            supplyNumCheckpoints = _nCheckPoints + 1;
-``` 
-
-
-
-File:Gauge.sol#L295
-```solidity
-294:        _unlocked = 1;
-``` 
-
-
-
-File:Gauge.sol#L297
-```solidity
-296:        _unlocked = 2;
-``` 
-
-
-
-File:Bribe.sol#L80
-```solidity
-79:        _unlocked = 2;
-``` 
-
-
-
-File:Bribe.sol#L82
-```solidity
-81:        _unlocked = 1;
-``` 
-
-
-
-File:Bribe.sol#L219
-```solidity
-218:            supplyNumCheckpoints = _nCheckPoints + 1;
-``` 
-
-
-
-File:Voter.sol#L79
-```solidity
-78:        gaugeFactory = _gauges;
-``` 
-
-
-
-File:Voter.sol#L81
-```solidity
-80:        minter = msg.sender;
-``` 
-
-
-
-File:Voter.sol#L82
-```solidity
-81:        admin = msg.sender;
-``` 
-
-
-
-File:Voter.sol#L89
-```solidity
-88:        _unlocked = 2;
-``` 
-
-
-
-File:Voter.sol#L91
-```solidity
-90:        _unlocked = 1;
-``` 
-
-
-
-File:Voter.sol#L102
-```solidity
-101:        minter = _minter;
-``` 
-
-
-
-File:Voter.sol#L113
-```solidity
-112:        admin = _admin;
-``` 
-
-
-
 File:SwapPair.sol#L98
 ```solidity
 97:            name = string(abi.encodePacked("Stable Pair - ", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
@@ -6770,44 +6639,51 @@ File:SwapPair.sol#L484
 
 
 
-File:SwapFactory.sol#L36
+File:Voter.sol#L79
 ```solidity
-35:        pauser = msg.sender;
+78:        gaugeFactory = _gauges;
 ``` 
 
 
 
-File:SwapFactory.sol#L40
+File:Voter.sol#L81
 ```solidity
-39:        admin = msg.sender;
+80:        minter = msg.sender;
 ``` 
 
 
 
-File:SwapFactory.sol#L49
+File:Voter.sol#L82
 ```solidity
-48:        pendingPauser = _pauser;
+81:        admin = msg.sender;
 ``` 
 
 
 
-File:SwapFactory.sol#L54
+File:Voter.sol#L89
 ```solidity
-53:        pauser = pendingPauser;
+88:        _unlocked = 2;
 ``` 
 
 
 
-File:SwapFactory.sol#L59
+File:Voter.sol#L91
 ```solidity
-58:        isPaused = _state;
+90:        _unlocked = 1;
 ``` 
 
 
 
-File:SwapFactory.sol#L69
+File:Voter.sol#L102
 ```solidity
-68:        admin = _admin;
+101:        minter = _minter;
+``` 
+
+
+
+File:Voter.sol#L113
+```solidity
+112:        admin = _admin;
 ``` 
 
 
@@ -6903,6 +6779,132 @@ File:Minter.sol#L127
 
 
 
+File:Gauge.sol#L102
+```solidity
+101:        _unlocked = 2;
+``` 
+
+
+
+File:Gauge.sol#L104
+```solidity
+103:        _unlocked = 1;
+``` 
+
+
+
+File:Gauge.sol#L121
+```solidity
+120:                fees0 = 0;
+``` 
+
+
+
+File:Gauge.sol#L125
+```solidity
+124:                fees0 = _fees0;
+``` 
+
+
+
+File:Gauge.sol#L128
+```solidity
+127:                fees1 = 0;
+``` 
+
+
+
+File:Gauge.sol#L132
+```solidity
+131:                fees1 = _fees1;
+``` 
+
+
+
+File:Gauge.sol#L273
+```solidity
+272:            supplyNumCheckpoints = _nCheckPoints + 1;
+``` 
+
+
+
+File:Gauge.sol#L295
+```solidity
+294:        _unlocked = 1;
+``` 
+
+
+
+File:Gauge.sol#L297
+```solidity
+296:        _unlocked = 2;
+``` 
+
+
+
+File:Bribe.sol#L80
+```solidity
+79:        _unlocked = 2;
+``` 
+
+
+
+File:Bribe.sol#L82
+```solidity
+81:        _unlocked = 1;
+``` 
+
+
+
+File:Bribe.sol#L219
+```solidity
+218:            supplyNumCheckpoints = _nCheckPoints + 1;
+``` 
+
+
+
+File:SwapFactory.sol#L36
+```solidity
+35:        pauser = msg.sender;
+``` 
+
+
+
+File:SwapFactory.sol#L40
+```solidity
+39:        admin = msg.sender;
+``` 
+
+
+
+File:SwapFactory.sol#L49
+```solidity
+48:        pendingPauser = _pauser;
+``` 
+
+
+
+File:SwapFactory.sol#L54
+```solidity
+53:        pauser = pendingPauser;
+``` 
+
+
+
+File:SwapFactory.sol#L59
+```solidity
+58:        isPaused = _state;
+``` 
+
+
+
+File:SwapFactory.sol#L69
+```solidity
+68:        admin = _admin;
+``` 
+
+
+
  --- 
 
 <a name=[G-11]></a>
@@ -6921,6 +6923,104 @@ File:Minter.sol#L127
  
 
  --- 
+
+File:Bribe.sol#L65
+```solidity
+64:    event Deposit(address indexed from, uint tokenId, uint amount);
+``` 
+
+
+
+File:Bribe.sol#L66
+```solidity
+65:    event Withdraw(address indexed from, uint tokenId, uint amount);
+``` 
+
+
+
+File:Bribe.sol#L67
+```solidity
+66:    event NotifyReward(address indexed from, address indexed reward, uint amount);
+``` 
+
+
+
+File:Bribe.sol#L68
+```solidity
+67:    event ClaimRewards(address indexed from, address indexed reward, uint amount);
+``` 
+
+
+
+File:Voter.sol#L51
+```solidity
+50:    event Voted(address indexed voter, uint tokenId, uint256 weight);
+``` 
+
+
+
+File:Voter.sol#L52
+```solidity
+51:    event Abstained(uint tokenId, uint256 weight);
+``` 
+
+
+
+File:Voter.sol#L53
+```solidity
+52:    event Deposit(address indexed lp, address indexed gauge, uint tokenId, uint amount);
+``` 
+
+
+
+File:Voter.sol#L54
+```solidity
+53:    event Withdraw(address indexed lp, address indexed gauge, uint tokenId, uint amount);
+``` 
+
+
+
+File:Voter.sol#L55
+```solidity
+54:    event NotifyReward(address indexed sender, address indexed reward, uint amount);
+``` 
+
+
+
+File:Voter.sol#L56
+```solidity
+55:    event DistributeReward(address indexed sender, address indexed gauge, uint amount);
+``` 
+
+
+
+File:Voter.sol#L57
+```solidity
+56:    event Attach(address indexed owner, address indexed gauge, uint tokenId);
+``` 
+
+
+
+File:Voter.sol#L58
+```solidity
+57:    event Detach(address indexed owner, address indexed gauge, uint tokenId);
+``` 
+
+
+
+File:SwapFactory.sol#L24
+```solidity
+23:    event PairCreated(address indexed token0, address indexed token1, bool stable, address pair, uint);
+``` 
+
+
+
+File:Minter.sol#L32
+```solidity
+31:    event Mint(address indexed sender, uint weekly, uint circulating_supply, uint circulating_emission);
+``` 
+
+
 
 File:SwapPair.sol#L75
 ```solidity
@@ -6985,44 +7085,9 @@ File:SwapPair.sol#L90
 
 
 
-File:SwapFactory.sol#L24
+File:Multiswap.sol#L21
 ```solidity
-23:    event PairCreated(address indexed token0, address indexed token1, bool stable, address pair, uint);
-``` 
-
-
-
-File:Bribe.sol#L65
-```solidity
-64:    event Deposit(address indexed from, uint tokenId, uint amount);
-``` 
-
-
-
-File:Bribe.sol#L66
-```solidity
-65:    event Withdraw(address indexed from, uint tokenId, uint amount);
-``` 
-
-
-
-File:Bribe.sol#L67
-```solidity
-66:    event NotifyReward(address indexed from, address indexed reward, uint amount);
-``` 
-
-
-
-File:Bribe.sol#L68
-```solidity
-67:    event ClaimRewards(address indexed from, address indexed reward, uint amount);
-``` 
-
-
-
-File:Minter.sol#L32
-```solidity
-31:    event Mint(address indexed sender, uint weekly, uint circulating_supply, uint circulating_emission);
+20:    event Multiswapped(address indexed _token, uint _amountIn, uint[] amountsOut);
 ``` 
 
 
@@ -7058,69 +7123,6 @@ File:Gauge.sol#L81
 File:Gauge.sol#L82
 ```solidity
 81:    event ClaimRewards(address indexed from, address indexed reward, uint amount);
-``` 
-
-
-
-File:Voter.sol#L51
-```solidity
-50:    event Voted(address indexed voter, uint tokenId, uint256 weight);
-``` 
-
-
-
-File:Voter.sol#L52
-```solidity
-51:    event Abstained(uint tokenId, uint256 weight);
-``` 
-
-
-
-File:Voter.sol#L53
-```solidity
-52:    event Deposit(address indexed lp, address indexed gauge, uint tokenId, uint amount);
-``` 
-
-
-
-File:Voter.sol#L54
-```solidity
-53:    event Withdraw(address indexed lp, address indexed gauge, uint tokenId, uint amount);
-``` 
-
-
-
-File:Voter.sol#L55
-```solidity
-54:    event NotifyReward(address indexed sender, address indexed reward, uint amount);
-``` 
-
-
-
-File:Voter.sol#L56
-```solidity
-55:    event DistributeReward(address indexed sender, address indexed gauge, uint amount);
-``` 
-
-
-
-File:Voter.sol#L57
-```solidity
-56:    event Attach(address indexed owner, address indexed gauge, uint tokenId);
-``` 
-
-
-
-File:Voter.sol#L58
-```solidity
-57:    event Detach(address indexed owner, address indexed gauge, uint tokenId);
-``` 
-
-
-
-File:Multiswap.sol#L21
-```solidity
-20:    event Multiswapped(address indexed _token, uint _amountIn, uint[] amountsOut);
 ``` 
 
 
@@ -7254,62 +7256,6 @@ contract Contract3 {
  
 
  --- 
-
-File:Bribe.sol#L111
-```solidity
-110:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Bribe.sol#L143
-```solidity
-142:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Bribe.sol#L175
-```solidity
-174:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Voter.sol#L301
-```solidity
-300:        uint256 _ratio = _amount * 1e18 / totalWeight; // 1e18 adjustment is removed during claim
-``` 
-
-
-
-File:Voter.sol#L338
-```solidity
-337:                uint _share = uint(_supplied) * _delta / 1e18; // add accrued difference for each supplied token
-``` 
-
-
-
-File:Gauge.sol#L165
-```solidity
-164:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L197
-```solidity
-196:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L229
-```solidity
-228:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
 
 File:SwapPair.sol#L160
 ```solidity
@@ -7521,6 +7467,27 @@ File:SwapPair.sol#L450
 
 
 
+File:Gauge.sol#L165
+```solidity
+164:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+``` 
+
+
+
+File:Gauge.sol#L197
+```solidity
+196:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+``` 
+
+
+
+File:Gauge.sol#L229
+```solidity
+228:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+``` 
+
+
+
 File:Minter.sol#L27
 ```solidity
 26:    uint internal constant lock = 86400 * 7 * 52 * 4;
@@ -7531,6 +7498,41 @@ File:Minter.sol#L27
 File:Minter.sol#L59
 ```solidity
 58:        active_period = (block.timestamp + (2*week)) / week * week;
+``` 
+
+
+
+File:Bribe.sol#L111
+```solidity
+110:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+``` 
+
+
+
+File:Bribe.sol#L143
+```solidity
+142:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+``` 
+
+
+
+File:Bribe.sol#L175
+```solidity
+174:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+``` 
+
+
+
+File:Voter.sol#L301
+```solidity
+300:        uint256 _ratio = _amount * 1e18 / totalWeight; // 1e18 adjustment is removed during claim
+``` 
+
+
+
+File:Voter.sol#L338
+```solidity
+337:                uint _share = uint(_supplied) * _delta / 1e18; // add accrued difference for each supplied token
 ``` 
 
 
@@ -7616,50 +7618,9 @@ contract Contract1 {
 
  --- 
 
-File:Voter.sol#L69
+File:SwapFactory.sol#L68
 ```solidity
-68:        require(
-69:            __ve != address(0) &&
-70:            _factory != address(0) &&
-71:            _gauges != address(0) &&
-72:            _bribes != address(0),
-73:            "Voter: zero address provided in constructor"
-74:        );
-``` 
-
-
-
-File:Voter.sol#L251
-```solidity
-250:        require(isWhitelisted[_tokenA] && isWhitelisted[_tokenB], "!whitelisted");
-``` 
-
-
-
-File:Voter.sol#L437
-```solidity
-436:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Bribe.sol#L457
-```solidity
-456:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Bribe.sol#L464
-```solidity
-463:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Multiswap.sol#L37
-```solidity
-36:        require(length > 1 && length <= 5 && _weights.length == length, "length");
+67:        require(msg.sender == admin && _admin != address(0), "SwapFactory; wrong input parameters");
 ``` 
 
 
@@ -7694,19 +7655,6 @@ File:Gauge.sol#L577
 File:Gauge.sol#L584
 ```solidity
 583:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Minter.sol#L47
-```solidity
-46:        require(
-47:            __voter != address(0) &&
-48:            __ve != address(0) &&
-49:            __ve_dist != address(0) &&
-50:            _admin != address(0),
-51:            "Minter: zero address provided in constructor"
-52:        );
 ``` 
 
 
@@ -7746,9 +7694,63 @@ File:SwapPair.sol#L541
 
 
 
-File:SwapFactory.sol#L68
+File:Minter.sol#L47
 ```solidity
-67:        require(msg.sender == admin && _admin != address(0), "SwapFactory; wrong input parameters");
+46:        require(
+47:            __voter != address(0) &&
+48:            __ve != address(0) &&
+49:            __ve_dist != address(0) &&
+50:            _admin != address(0),
+51:            "Minter: zero address provided in constructor"
+52:        );
+``` 
+
+
+
+File:Multiswap.sol#L37
+```solidity
+36:        require(length > 1 && length <= 5 && _weights.length == length, "length");
+``` 
+
+
+
+File:Voter.sol#L69
+```solidity
+68:        require(
+69:            __ve != address(0) &&
+70:            _factory != address(0) &&
+71:            _gauges != address(0) &&
+72:            _bribes != address(0),
+73:            "Voter: zero address provided in constructor"
+74:        );
+``` 
+
+
+
+File:Voter.sol#L251
+```solidity
+250:        require(isWhitelisted[_tokenA] && isWhitelisted[_tokenB], "!whitelisted");
+``` 
+
+
+
+File:Voter.sol#L437
+```solidity
+436:        require(success && (data.length == 0 || abi.decode(data, (bool))));
+``` 
+
+
+
+File:Bribe.sol#L457
+```solidity
+456:        require(success && (data.length == 0 || abi.decode(data, (bool))));
+``` 
+
+
+
+File:Bribe.sol#L464
+```solidity
+463:        require(success && (data.length == 0 || abi.decode(data, (bool))));
 ``` 
 
 
@@ -7928,6 +7930,27 @@ File:Bribe.sol#L447
 
 
 
+File:Minter.sol#L84
+```solidity
+83:        require(block.timestamp >= last_epoch + 26 weeks, "must wait next period");
+``` 
+
+
+
+File:Minter.sol#L124
+```solidity
+123:        if (block.timestamp >= _period + week && initializer == address(0)) { // only trigger if new week
+``` 
+
+
+
+File:Multiswap.sol#L37
+```solidity
+36:        require(length > 1 && length <= 5 && _weights.length == length, "length");
+``` 
+
+
+
 File:Gauge.sol#L153
 ```solidity
 152:        if (checkpoints[account][nCheckpoints - 1].timestamp <= timestamp) {
@@ -7984,20 +8007,6 @@ File:Gauge.sol#L560
 
 
 
-File:Minter.sol#L84
-```solidity
-83:        require(block.timestamp >= last_epoch + 26 weeks, "must wait next period");
-``` 
-
-
-
-File:Minter.sol#L124
-```solidity
-123:        if (block.timestamp >= _period + week && initializer == address(0)) { // only trigger if new week
-``` 
-
-
-
 File:SwapPair.sol#L372
 ```solidity
 371:        require(_k(_balance0, _balance1) >= _k(_reserve0, _reserve1), 'K'); // SwapPair: K
@@ -8022,13 +8031,6 @@ File:SwapPair.sol#L415
 File:SwapPair.sol#L478
 ```solidity
 477:        require(deadline >= block.timestamp, 'SwapPair: EXPIRED');
-``` 
-
-
-
-File:Multiswap.sol#L37
-```solidity
-36:        require(length > 1 && length <= 5 && _weights.length == length, "length");
 ``` 
 
 
@@ -8113,107 +8115,62 @@ contract Contract1 {
 
  --- 
 
-File:Bribe.sol#L92
+File:Minter.sol#L66
 ```solidity
-91:    function getPriorBalanceIndex(uint tokenId, uint timestamp) public view returns (uint) {
+65:    function initialize(
+66:        // address[] memory claimants,
+67:        // uint[] memory amounts,
+68:        // uint max // sum amounts / max = % ownership of top protocols, so if initial 20m is distributed, and target is 25% protocol ownership, then max - 4 x 20m = 80m
+69:    ) external {
 ``` 
 
 
 
-File:Bribe.sol#L124
+File:Minter.sol#L83
 ```solidity
-123:    function getPriorSupplyIndex(uint timestamp) public view returns (uint) {
+82:    function setEmissions(uint _decay, uint _boost) public onlyAdmin {
 ``` 
 
 
 
-File:Bribe.sol#L156
+File:Minter.sol#L91
 ```solidity
-155:    function getPriorRewardPerToken(address token, uint timestamp) public view returns (uint, uint) {
+90:    function circulating_supply() public view returns (uint) {
 ``` 
 
 
 
-File:Bribe.sol#L223
+File:Minter.sol#L101
 ```solidity
-222:    function rewardsListLength() external view returns (uint) {
+100:    function calculate_emission() public view returns (uint) {
 ``` 
 
 
 
-File:Bribe.sol#L228
+File:Minter.sol#L107
 ```solidity
-227:    function lastTimeRewardApplicable(address token) public view returns (uint) {
+106:    function weekly_emission() public view returns (uint) {
 ``` 
 
 
 
-File:Bribe.sol#L233
+File:Minter.sol#L112
 ```solidity
-232:    function getReward(uint tokenId, address[] memory tokens) external lock  {
+111:    function circulating_emission() public view returns (uint) {
 ``` 
 
 
 
-File:Bribe.sol#L248
+File:Minter.sol#L117
 ```solidity
-247:    function getRewardForOwner(uint tokenId, address[] memory tokens) external lock  {
+116:    function calculate_growth(uint _minted) public view returns (uint) {
 ``` 
 
 
 
-File:Bribe.sol#L263
+File:Minter.sol#L122
 ```solidity
-262:    function rewardPerToken(address token) public view returns (uint) {
-``` 
-
-
-
-File:Bribe.sol#L270
-```solidity
-269:    function batchRewardPerToken(address token, uint maxRuns) external {
-``` 
-
-
-
-File:Bribe.sol#L308
-```solidity
-307:    function batchUpdateRewardPerToken(address token, uint maxRuns) external {
-``` 
-
-
-
-File:Bribe.sol#L361
-```solidity
-360:    function earned(address token, uint tokenId) public view returns (uint) {
-``` 
-
-
-
-File:Bribe.sol#L390
-```solidity
-389:    function _deposit(uint amount, uint tokenId) external {
-``` 
-
-
-
-File:Bribe.sol#L403
-```solidity
-402:    function _withdraw(uint amount, uint tokenId) external {
-``` 
-
-
-
-File:Bribe.sol#L416
-```solidity
-415:    function left(address token) external view returns (uint) {
-``` 
-
-
-
-File:Bribe.sol#L423
-```solidity
-422:    function notifyRewardAmount(address token, uint amount) external lock {
+121:    function update_period() external returns (uint) {
 ``` 
 
 
@@ -8365,258 +8322,107 @@ File:SwapPair.sol#L512
 
 
 
-File:Minter.sol#L66
+File:Bribe.sol#L92
 ```solidity
-65:    function initialize(
-66:        // address[] memory claimants,
-67:        // uint[] memory amounts,
-68:        // uint max // sum amounts / max = % ownership of top protocols, so if initial 20m is distributed, and target is 25% protocol ownership, then max - 4 x 20m = 80m
-69:    ) external {
+91:    function getPriorBalanceIndex(uint tokenId, uint timestamp) public view returns (uint) {
 ``` 
 
 
 
-File:Minter.sol#L83
+File:Bribe.sol#L124
 ```solidity
-82:    function setEmissions(uint _decay, uint _boost) public onlyAdmin {
+123:    function getPriorSupplyIndex(uint timestamp) public view returns (uint) {
 ``` 
 
 
 
-File:Minter.sol#L91
+File:Bribe.sol#L156
 ```solidity
-90:    function circulating_supply() public view returns (uint) {
+155:    function getPriorRewardPerToken(address token, uint timestamp) public view returns (uint, uint) {
 ``` 
 
 
 
-File:Minter.sol#L101
+File:Bribe.sol#L223
 ```solidity
-100:    function calculate_emission() public view returns (uint) {
+222:    function rewardsListLength() external view returns (uint) {
 ``` 
 
 
 
-File:Minter.sol#L107
+File:Bribe.sol#L228
 ```solidity
-106:    function weekly_emission() public view returns (uint) {
+227:    function lastTimeRewardApplicable(address token) public view returns (uint) {
 ``` 
 
 
 
-File:Minter.sol#L112
+File:Bribe.sol#L233
 ```solidity
-111:    function circulating_emission() public view returns (uint) {
+232:    function getReward(uint tokenId, address[] memory tokens) external lock  {
 ``` 
 
 
 
-File:Minter.sol#L117
+File:Bribe.sol#L248
 ```solidity
-116:    function calculate_growth(uint _minted) public view returns (uint) {
+247:    function getRewardForOwner(uint tokenId, address[] memory tokens) external lock  {
 ``` 
 
 
 
-File:Minter.sol#L122
+File:Bribe.sol#L263
 ```solidity
-121:    function update_period() external returns (uint) {
+262:    function rewardPerToken(address token) public view returns (uint) {
 ``` 
 
 
 
-File:SwapFactory.sol#L43
+File:Bribe.sol#L270
 ```solidity
-42:    function allPairsLength() external view returns (uint) {
+269:    function batchRewardPerToken(address token, uint maxRuns) external {
 ``` 
 
 
 
-File:SwapFactory.sol#L47
+File:Bribe.sol#L308
 ```solidity
-46:    function setPauser(address _pauser) external {
+307:    function batchUpdateRewardPerToken(address token, uint maxRuns) external {
 ``` 
 
 
 
-File:SwapFactory.sol#L52
+File:Bribe.sol#L361
 ```solidity
-51:    function acceptPauser() external {
+360:    function earned(address token, uint tokenId) public view returns (uint) {
 ``` 
 
 
 
-File:SwapFactory.sol#L57
+File:Bribe.sol#L390
 ```solidity
-56:    function setPause(bool _state) external {
+389:    function _deposit(uint amount, uint tokenId) external {
 ``` 
 
 
 
-File:SwapFactory.sol#L62
+File:Bribe.sol#L403
 ```solidity
-61:    function setFeeTier(bool _stable, uint _fee) external {
+402:    function _withdraw(uint amount, uint tokenId) external {
 ``` 
 
 
 
-File:SwapFactory.sol#L67
+File:Bribe.sol#L416
 ```solidity
-66:    function setAdmin(address _admin) external {
+415:    function left(address token) external view returns (uint) {
 ``` 
 
 
 
-File:SwapFactory.sol#L72
+File:Bribe.sol#L423
 ```solidity
-71:    function pairCodeHash() external pure returns (bytes32) {
-``` 
-
-
-
-File:SwapFactory.sol#L76
-```solidity
-75:    function getInitializable() external view returns (address, address, bool, uint) {
-``` 
-
-
-
-File:SwapFactory.sol#L80
-```solidity
-79:    function createPair(address tokenA, address tokenB, bool stable) external returns (address pair) {
-``` 
-
-
-
-File:Gauge.sol#L110
-```solidity
-109:    function claimFees() external lock returns (uint claimed0, uint claimed1) {
-``` 
-
-
-
-File:Gauge.sol#L146
-```solidity
-145:    function getPriorBalanceIndex(address account, uint timestamp) public view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L178
-```solidity
-177:    function getPriorSupplyIndex(uint timestamp) public view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L210
-```solidity
-209:    function getPriorRewardPerToken(address token, uint timestamp) public view returns (uint, uint) {
-``` 
-
-
-
-File:Gauge.sol#L277
-```solidity
-276:    function rewardsListLength() external view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L284
-```solidity
-283:    function lastTimeRewardApplicable(address token) public view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L293
-```solidity
-292:    function getReward(address account, address[] memory tokens) external lock {
-``` 
-
-
-
-File:Gauge.sol#L321
-```solidity
-320:    function rewardPerToken(address token) public view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L328
-```solidity
-327:    function derivedBalance(address account) public view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L332
-```solidity
-331:    function batchRewardPerToken(address token, uint maxRuns) external {
-``` 
-
-
-
-File:Gauge.sol#L372
-```solidity
-371:    function batchUpdateRewardPerToken(address token, uint maxRuns) external {
-``` 
-
-
-
-File:Gauge.sol#L425
-```solidity
-424:    function earned(address token, address account) public view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L453
-```solidity
-452:    function depositAll(uint tokenId) external {
-``` 
-
-
-
-File:Gauge.sol#L457
-```solidity
-456:    function deposit(uint amount, uint tokenId) public lock {
-``` 
-
-
-
-File:Gauge.sol#L489
-```solidity
-488:    function withdrawAll() external {
-``` 
-
-
-
-File:Gauge.sol#L493
-```solidity
-492:    function withdraw(uint amount) public {
-``` 
-
-
-
-File:Gauge.sol#L501
-```solidity
-500:    function withdrawToken(uint amount, uint tokenId) public lock {
-``` 
-
-
-
-File:Gauge.sol#L529
-```solidity
-528:    function left(address token) external view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L535
-```solidity
-534:    function notifyRewardAmount(address token, uint amount) external lock {
+422:    function notifyRewardAmount(address token, uint amount) external lock {
 ``` 
 
 
@@ -8838,6 +8644,202 @@ File:Voter.sol#L414
 
 
 
+File:SwapFactory.sol#L43
+```solidity
+42:    function allPairsLength() external view returns (uint) {
+``` 
+
+
+
+File:SwapFactory.sol#L47
+```solidity
+46:    function setPauser(address _pauser) external {
+``` 
+
+
+
+File:SwapFactory.sol#L52
+```solidity
+51:    function acceptPauser() external {
+``` 
+
+
+
+File:SwapFactory.sol#L57
+```solidity
+56:    function setPause(bool _state) external {
+``` 
+
+
+
+File:SwapFactory.sol#L62
+```solidity
+61:    function setFeeTier(bool _stable, uint _fee) external {
+``` 
+
+
+
+File:SwapFactory.sol#L67
+```solidity
+66:    function setAdmin(address _admin) external {
+``` 
+
+
+
+File:SwapFactory.sol#L72
+```solidity
+71:    function pairCodeHash() external pure returns (bytes32) {
+``` 
+
+
+
+File:SwapFactory.sol#L76
+```solidity
+75:    function getInitializable() external view returns (address, address, bool, uint) {
+``` 
+
+
+
+File:SwapFactory.sol#L80
+```solidity
+79:    function createPair(address tokenA, address tokenB, bool stable) external returns (address pair) {
+``` 
+
+
+
+File:Gauge.sol#L110
+```solidity
+109:    function claimFees() external lock returns (uint claimed0, uint claimed1) {
+``` 
+
+
+
+File:Gauge.sol#L146
+```solidity
+145:    function getPriorBalanceIndex(address account, uint timestamp) public view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L178
+```solidity
+177:    function getPriorSupplyIndex(uint timestamp) public view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L210
+```solidity
+209:    function getPriorRewardPerToken(address token, uint timestamp) public view returns (uint, uint) {
+``` 
+
+
+
+File:Gauge.sol#L277
+```solidity
+276:    function rewardsListLength() external view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L284
+```solidity
+283:    function lastTimeRewardApplicable(address token) public view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L293
+```solidity
+292:    function getReward(address account, address[] memory tokens) external lock {
+``` 
+
+
+
+File:Gauge.sol#L321
+```solidity
+320:    function rewardPerToken(address token) public view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L328
+```solidity
+327:    function derivedBalance(address account) public view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L332
+```solidity
+331:    function batchRewardPerToken(address token, uint maxRuns) external {
+``` 
+
+
+
+File:Gauge.sol#L372
+```solidity
+371:    function batchUpdateRewardPerToken(address token, uint maxRuns) external {
+``` 
+
+
+
+File:Gauge.sol#L425
+```solidity
+424:    function earned(address token, address account) public view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L453
+```solidity
+452:    function depositAll(uint tokenId) external {
+``` 
+
+
+
+File:Gauge.sol#L457
+```solidity
+456:    function deposit(uint amount, uint tokenId) public lock {
+``` 
+
+
+
+File:Gauge.sol#L489
+```solidity
+488:    function withdrawAll() external {
+``` 
+
+
+
+File:Gauge.sol#L493
+```solidity
+492:    function withdraw(uint amount) public {
+``` 
+
+
+
+File:Gauge.sol#L501
+```solidity
+500:    function withdrawToken(uint amount, uint tokenId) public lock {
+``` 
+
+
+
+File:Gauge.sol#L529
+```solidity
+528:    function left(address token) external view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L535
+```solidity
+534:    function notifyRewardAmount(address token, uint amount) external lock {
+``` 
+
+
+
  --- 
 
 <a name=[G-16]></a>
@@ -8921,30 +8923,9 @@ contract Contract1 {
 
  --- 
 
-File:SwapPair.sol#L17
+File:Voter.sol#L23
 ```solidity
-16:    uint8 public constant decimals = 18;
-``` 
-
-
-
-File:SwapPair.sol#L29
-```solidity
-28:    bytes32 internal constant PERMIT_TYPEHASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
-``` 
-
-
-
-File:SwapPair.sol#L32
-```solidity
-31:    uint internal constant MINIMUM_LIQUIDITY = 10**3;
-``` 
-
-
-
-File:SwapPair.sol#L48
-```solidity
-47:    uint constant periodSize = 1800;
+22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
 ``` 
 
 
@@ -9026,9 +9007,30 @@ File:Minter.sol#L27
 
 
 
-File:Voter.sol#L23
+File:SwapPair.sol#L17
 ```solidity
-22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
+16:    uint8 public constant decimals = 18;
+``` 
+
+
+
+File:SwapPair.sol#L29
+```solidity
+28:    bytes32 internal constant PERMIT_TYPEHASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
+``` 
+
+
+
+File:SwapPair.sol#L32
+```solidity
+31:    uint internal constant MINIMUM_LIQUIDITY = 10**3;
+``` 
+
+
+
+File:SwapPair.sol#L48
+```solidity
+47:    uint constant periodSize = 1800;
 ``` 
 
 
@@ -9114,6 +9116,97 @@ contract Contract1 {
 
  --- 
 
+File:Minter.sol#L48
+```solidity
+47:            __voter != address(0) &&
+``` 
+
+
+
+File:Minter.sol#L49
+```solidity
+48:            __ve != address(0) &&
+``` 
+
+
+
+File:Minter.sol#L50
+```solidity
+49:            __ve_dist != address(0) &&
+``` 
+
+
+
+File:Minter.sol#L51
+```solidity
+50:            _admin != address(0),
+``` 
+
+
+
+File:Minter.sol#L124
+```solidity
+123:        if (block.timestamp >= _period + week && initializer == address(0)) { // only trigger if new week
+``` 
+
+
+
+File:Gauge.sol#L86
+```solidity
+85:            _stake != address(0) &&
+``` 
+
+
+
+File:Gauge.sol#L87
+```solidity
+86:            _bribe != address(0) &&
+``` 
+
+
+
+File:Gauge.sol#L88
+```solidity
+87:            __ve != address(0) &&
+``` 
+
+
+
+File:Gauge.sol#L89
+```solidity
+88:            _voter != address(0),
+``` 
+
+
+
+File:SwapFactory.sol#L33
+```solidity
+32:            _feeCollector != address(0),
+``` 
+
+
+
+File:SwapFactory.sol#L68
+```solidity
+67:        require(msg.sender == admin && _admin != address(0), "SwapFactory; wrong input parameters");
+``` 
+
+
+
+File:SwapFactory.sol#L83
+```solidity
+82:        require(token0 != address(0), 'ZA'); // BaseV1: ZERO_ADDRESS
+``` 
+
+
+
+File:SwapFactory.sol#L84
+```solidity
+83:        require(getPair[token0][token1][stable] == address(0), 'PE'); // BaseV1: PAIR_EXISTS - single check is sufficient
+``` 
+
+
+
 File:Multiswap.sol#L13
 ```solidity
 12:            _router != address(0),
@@ -9124,13 +9217,6 @@ File:Multiswap.sol#L13
 File:Multiswap.sol#L42
 ```solidity
 41:        if (eth = (_token == address(0))) {
-``` 
-
-
-
-File:SwapPair.sol#L501
-```solidity
-500:        require(recoveredAddress != address(0) && recoveredAddress == owner, 'SwapPair: INVALID_SIGNATURE');
 ``` 
 
 
@@ -9170,93 +9256,9 @@ File:Voter.sol#L112
 
 
 
-File:SwapFactory.sol#L33
+File:SwapPair.sol#L501
 ```solidity
-32:            _feeCollector != address(0),
-``` 
-
-
-
-File:SwapFactory.sol#L68
-```solidity
-67:        require(msg.sender == admin && _admin != address(0), "SwapFactory; wrong input parameters");
-``` 
-
-
-
-File:SwapFactory.sol#L83
-```solidity
-82:        require(token0 != address(0), 'ZA'); // BaseV1: ZERO_ADDRESS
-``` 
-
-
-
-File:SwapFactory.sol#L84
-```solidity
-83:        require(getPair[token0][token1][stable] == address(0), 'PE'); // BaseV1: PAIR_EXISTS - single check is sufficient
-``` 
-
-
-
-File:Gauge.sol#L86
-```solidity
-85:            _stake != address(0) &&
-``` 
-
-
-
-File:Gauge.sol#L87
-```solidity
-86:            _bribe != address(0) &&
-``` 
-
-
-
-File:Gauge.sol#L88
-```solidity
-87:            __ve != address(0) &&
-``` 
-
-
-
-File:Gauge.sol#L89
-```solidity
-88:            _voter != address(0),
-``` 
-
-
-
-File:Minter.sol#L48
-```solidity
-47:            __voter != address(0) &&
-``` 
-
-
-
-File:Minter.sol#L49
-```solidity
-48:            __ve != address(0) &&
-``` 
-
-
-
-File:Minter.sol#L50
-```solidity
-49:            __ve_dist != address(0) &&
-``` 
-
-
-
-File:Minter.sol#L51
-```solidity
-50:            _admin != address(0),
-``` 
-
-
-
-File:Minter.sol#L124
-```solidity
-123:        if (block.timestamp >= _period + week && initializer == address(0)) { // only trigger if new week
+500:        require(recoveredAddress != address(0) && recoveredAddress == owner, 'SwapPair: INVALID_SIGNATURE');
 ``` 
 
 
@@ -9450,6 +9452,13 @@ File:SwapPair.sol#L268
 
 
 
+File:Gauge.sol#L299
+```solidity
+298:        for (uint i = 0; i < tokens.length; i++) {
+``` 
+
+
+
 File:Bribe.sol#L235
 ```solidity
 234:        for (uint i = 0; i < tokens.length; i++) {
@@ -9464,18 +9473,11 @@ File:Bribe.sol#L251
 
 
 
-File:Gauge.sol#L299
-```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-``` 
-
-
-
  --- 
 
 
 
-## Quality Assurance - Total: 239 
+## Quality Assurance - Total: 243 
 
 <a name=[NC-0]></a>
 ### [NC-0] Private variables should contain a leading underscore - Instances: 11 
@@ -9485,30 +9487,9 @@ File:Gauge.sol#L299
 
  --- 
 
-File:Voter.sol#L46
+File:Minter.sol#L30
 ```solidity
-45:    uint internal index;
-``` 
-
-
-
-File:Voter.sol#L17
-```solidity
-16:    address public immutable _ve;
-``` 
-
-
-
-File:Voter.sol#L20
-```solidity
-19:    address internal immutable base;
-``` 
-
-
-
-File:Bribe.sol#L13
-```solidity
-12:    address public immutable _ve;
+29:    address internal admin;
 ``` 
 
 
@@ -9527,9 +9508,37 @@ File:Minter.sol#L29
 
 
 
-File:Minter.sol#L30
+File:Voter.sol#L20
 ```solidity
-29:    address internal admin;
+19:    address internal immutable base;
+``` 
+
+
+
+File:Voter.sol#L46
+```solidity
+45:    uint internal index;
+``` 
+
+
+
+File:Voter.sol#L17
+```solidity
+16:    address public immutable _ve;
+``` 
+
+
+
+File:Bribe.sol#L13
+```solidity
+12:    address public immutable _ve;
+``` 
+
+
+
+File:Gauge.sol#L16
+```solidity
+15:    address public immutable _ve; // the ve token used for gauges
 ``` 
 
 
@@ -9541,13 +9550,6 @@ File:SwapPair.sol#L52
 
 
 
-File:SwapPair.sol#L53
-```solidity
-52:    uint internal immutable decimals1;
-``` 
-
-
-
 File:SwapPair.sol#L27
 ```solidity
 26:    bytes32 internal DOMAIN_SEPARATOR;
@@ -9555,9 +9557,9 @@ File:SwapPair.sol#L27
 
 
 
-File:Gauge.sol#L16
+File:SwapPair.sol#L53
 ```solidity
-15:    address public immutable _ve; // the ve token used for gauges
+52:    uint internal immutable decimals1;
 ``` 
 
 
@@ -9570,41 +9572,6 @@ File:Gauge.sol#L16
  > Consider adding a require statement to check that all parameters are not 0 in the constructor 
 
  --- 
-
-File:Bribe.sol#L70
-```solidity
-69:    constructor(address _voter) {
-``` 
-
-
-
-File:SwapPair.sol#L92
-```solidity
-91:    constructor() {
-``` 
-
-
-
-File:SwapPair.sol#L92
-```solidity
-91:    constructor() {
-``` 
-
-
-
-File:SwapPair.sol#L92
-```solidity
-91:    constructor() {
-``` 
-
-
-
-File:SwapPair.sol#L92
-```solidity
-91:    constructor() {
-``` 
-
-
 
 File:Minter.sol#L39
 ```solidity
@@ -9619,6 +9586,41 @@ File:Minter.sol#L39
 
 
 
+File:SwapPair.sol#L92
+```solidity
+91:    constructor() {
+``` 
+
+
+
+File:SwapPair.sol#L92
+```solidity
+91:    constructor() {
+``` 
+
+
+
+File:SwapPair.sol#L92
+```solidity
+91:    constructor() {
+``` 
+
+
+
+File:SwapPair.sol#L92
+```solidity
+91:    constructor() {
+``` 
+
+
+
+File:Bribe.sol#L70
+```solidity
+69:    constructor(address _voter) {
+``` 
+
+
+
  --- 
 
 <a name=[NC-2]></a>
@@ -9628,83 +9630,6 @@ File:Minter.sol#L39
 > This will minimize compiled code size and help with readability 
 
  --- 
-
-File:Bribe.sol#L4
-```solidity
-3:import "./libraries/Math.sol";
-``` 
-
-
-
-File:Bribe.sol#L5
-```solidity
-4:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-``` 
-
-
-
-File:Bribe.sol#L6
-```solidity
-5:import "./interfaces/IVotingEscrow.sol";
-``` 
-
-
-
-File:SwapPair.sol#L4
-```solidity
-3:import "./SwapFactory.sol";
-``` 
-
-
-
-File:SwapPair.sol#L5
-```solidity
-4:import "./SwapFees.sol";
-``` 
-
-
-
-File:SwapPair.sol#L6
-```solidity
-5:import "./libraries/Math.sol";
-``` 
-
-
-
-File:SwapPair.sol#L7
-```solidity
-6:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-``` 
-
-
-
-File:SwapPair.sol#L9
-```solidity
-8:import "./interfaces/callback/ISwapCallee.sol";
-``` 
-
-
-
-File:SwapPair.sol#L10
-```solidity
-9:import "./interfaces/ISwapFactory.sol";
-``` 
-
-
-
-File:SwapFactory.sol#L4
-```solidity
-3:import "./SwapPair.sol";
-``` 
-
-
-
-File:Multiswap.sol#L5
-```solidity
-4:import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-``` 
-
-
 
 File:Minter.sol#L4
 ```solidity
@@ -9730,48 +9655,6 @@ File:Minter.sol#L6
 File:Minter.sol#L8
 ```solidity
 7:import "./interfaces/IVotingDist.sol";
-``` 
-
-
-
-File:Gauge.sol#L4
-```solidity
-3:import "./libraries/Math.sol";
-``` 
-
-
-
-File:Gauge.sol#L5
-```solidity
-4:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-``` 
-
-
-
-File:Gauge.sol#L6
-```solidity
-5:import "./interfaces/IVotingEscrow.sol";
-``` 
-
-
-
-File:Gauge.sol#L8
-```solidity
-7:import "../core/interfaces/ISwapFactory.sol";
-``` 
-
-
-
-File:Gauge.sol#L9
-```solidity
-8:import "../core/interfaces/ISwapPair.sol";
-``` 
-
-
-
-File:Gauge.sol#L10
-```solidity
-9:import "./interfaces/IBribe.sol";
 ``` 
 
 
@@ -9839,6 +9722,125 @@ File:Voter.sol#L12
 
 
 
+File:Gauge.sol#L4
+```solidity
+3:import "./libraries/Math.sol";
+``` 
+
+
+
+File:Gauge.sol#L5
+```solidity
+4:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+``` 
+
+
+
+File:Gauge.sol#L6
+```solidity
+5:import "./interfaces/IVotingEscrow.sol";
+``` 
+
+
+
+File:Gauge.sol#L8
+```solidity
+7:import "../core/interfaces/ISwapFactory.sol";
+``` 
+
+
+
+File:Gauge.sol#L9
+```solidity
+8:import "../core/interfaces/ISwapPair.sol";
+``` 
+
+
+
+File:Gauge.sol#L10
+```solidity
+9:import "./interfaces/IBribe.sol";
+``` 
+
+
+
+File:Multiswap.sol#L5
+```solidity
+4:import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+``` 
+
+
+
+File:SwapPair.sol#L4
+```solidity
+3:import "./SwapFactory.sol";
+``` 
+
+
+
+File:SwapPair.sol#L5
+```solidity
+4:import "./SwapFees.sol";
+``` 
+
+
+
+File:SwapPair.sol#L6
+```solidity
+5:import "./libraries/Math.sol";
+``` 
+
+
+
+File:SwapPair.sol#L7
+```solidity
+6:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+``` 
+
+
+
+File:SwapPair.sol#L9
+```solidity
+8:import "./interfaces/callback/ISwapCallee.sol";
+``` 
+
+
+
+File:SwapPair.sol#L10
+```solidity
+9:import "./interfaces/ISwapFactory.sol";
+``` 
+
+
+
+File:SwapFactory.sol#L4
+```solidity
+3:import "./SwapPair.sol";
+``` 
+
+
+
+File:Bribe.sol#L4
+```solidity
+3:import "./libraries/Math.sol";
+``` 
+
+
+
+File:Bribe.sol#L5
+```solidity
+4:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+``` 
+
+
+
+File:Bribe.sol#L6
+```solidity
+5:import "./interfaces/IVotingEscrow.sol";
+``` 
+
+
+
  --- 
 
 <a name=[NC-3]></a>
@@ -9865,6 +9867,137 @@ File:SwapPair.sol#L27
 > Ensure that function definitions are declared using camelCase 
 
  --- 
+
+File:Multiswap.sol#L29
+```solidity
+28:    function multiswap(
+29:        address _token,
+30:        uint _amount,
+31:        bytes[] memory _swapData,
+32:        uint[] calldata _weights
+33:    ) external payable returns (uint[] memory) {
+``` 
+
+
+
+File:Multiswap.sol#L71
+```solidity
+70:    function _assertWeights(uint[] calldata _weights) internal pure returns (bool) {
+``` 
+
+
+
+File:Gauge.sol#L100
+```solidity
+99:    modifier lock() {
+``` 
+
+
+
+File:Gauge.sol#L114
+```solidity
+113:    function _claimFees() internal returns (uint claimed0, uint claimed1) {
+``` 
+
+
+
+File:Gauge.sol#L242
+```solidity
+241:    function _writeCheckpoint(address account, uint balance) internal {
+``` 
+
+
+
+File:Gauge.sol#L254
+```solidity
+253:    function _writeRewardPerTokenCheckpoint(address token, uint reward, uint timestamp) internal {
+``` 
+
+
+
+File:Gauge.sol#L265
+```solidity
+264:    function _writeSupplyCheckpoint() internal {
+``` 
+
+
+
+File:Gauge.sol#L336
+```solidity
+335:    function _batchRewardPerToken(address token, uint maxRuns) internal returns (uint, uint) {
+``` 
+
+
+
+File:Gauge.sol#L365
+```solidity
+364:    function _calcRewardPerToken(address token, uint timestamp1, uint timestamp0, uint supply, uint startTimestamp) internal view returns (uint, uint) {
+``` 
+
+
+
+File:Gauge.sol#L376
+```solidity
+375:    function _updateRewardForAllTokens() internal {
+``` 
+
+
+
+File:Gauge.sol#L384
+```solidity
+383:    function _updateRewardPerToken(address token, uint maxRuns, bool actualLast) internal returns (uint, uint) {
+``` 
+
+
+
+File:Gauge.sol#L425
+```solidity
+424:    function earned(address token, address account) public view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L457
+```solidity
+456:    function deposit(uint amount, uint tokenId) public lock {
+``` 
+
+
+
+File:Gauge.sol#L493
+```solidity
+492:    function withdraw(uint amount) public {
+``` 
+
+
+
+File:Gauge.sol#L529
+```solidity
+528:    function left(address token) external view returns (uint) {
+``` 
+
+
+
+File:Gauge.sol#L566
+```solidity
+565:    function _safeTransfer(address token, address to, uint256 value) internal {
+``` 
+
+
+
+File:Gauge.sol#L573
+```solidity
+572:    function _safeTransferFrom(address token, address from, address to, uint256 value) internal {
+``` 
+
+
+
+File:Gauge.sol#L580
+```solidity
+579:    function _safeApprove(address token, address spender, uint256 value) internal {
+``` 
+
+
 
 File:Voter.sol#L87
 ```solidity
@@ -10002,85 +10135,6 @@ File:Voter.sol#L428
 File:Voter.sol#L433
 ```solidity
 432:    function _safeTransferFrom(address token, address from, address to, uint256 value) internal {
-``` 
-
-
-
-File:Minter.sol#L66
-```solidity
-65:    function initialize(
-66:        // address[] memory claimants,
-67:        // uint[] memory amounts,
-68:        // uint max // sum amounts / max = % ownership of top protocols, so if initial 20m is distributed, and target is 25% protocol ownership, then max - 4 x 20m = 80m
-69:    ) external {
-``` 
-
-
-
-File:Minter.sol#L91
-```solidity
-90:    function circulating_supply() public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L96
-```solidity
-95:    function _calculate_emission() private view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L101
-```solidity
-100:    function calculate_emission() public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L107
-```solidity
-106:    function weekly_emission() public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L112
-```solidity
-111:    function circulating_emission() public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L117
-```solidity
-116:    function calculate_growth(uint _minted) public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L122
-```solidity
-121:    function update_period() external returns (uint) {
-``` 
-
-
-
-File:Multiswap.sol#L29
-```solidity
-28:    function multiswap(
-29:        address _token,
-30:        uint _amount,
-31:        bytes[] memory _swapData,
-32:        uint[] calldata _weights
-33:    ) external payable returns (uint[] memory) {
-``` 
-
-
-
-File:Multiswap.sol#L71
-```solidity
-70:    function _assertWeights(uint[] calldata _weights) internal pure returns (bool) {
 ``` 
 
 
@@ -10281,118 +10335,6 @@ File:SwapPair.sol#L537
 
 
 
-File:Gauge.sol#L100
-```solidity
-99:    modifier lock() {
-``` 
-
-
-
-File:Gauge.sol#L114
-```solidity
-113:    function _claimFees() internal returns (uint claimed0, uint claimed1) {
-``` 
-
-
-
-File:Gauge.sol#L242
-```solidity
-241:    function _writeCheckpoint(address account, uint balance) internal {
-``` 
-
-
-
-File:Gauge.sol#L254
-```solidity
-253:    function _writeRewardPerTokenCheckpoint(address token, uint reward, uint timestamp) internal {
-``` 
-
-
-
-File:Gauge.sol#L265
-```solidity
-264:    function _writeSupplyCheckpoint() internal {
-``` 
-
-
-
-File:Gauge.sol#L336
-```solidity
-335:    function _batchRewardPerToken(address token, uint maxRuns) internal returns (uint, uint) {
-``` 
-
-
-
-File:Gauge.sol#L365
-```solidity
-364:    function _calcRewardPerToken(address token, uint timestamp1, uint timestamp0, uint supply, uint startTimestamp) internal view returns (uint, uint) {
-``` 
-
-
-
-File:Gauge.sol#L376
-```solidity
-375:    function _updateRewardForAllTokens() internal {
-``` 
-
-
-
-File:Gauge.sol#L384
-```solidity
-383:    function _updateRewardPerToken(address token, uint maxRuns, bool actualLast) internal returns (uint, uint) {
-``` 
-
-
-
-File:Gauge.sol#L425
-```solidity
-424:    function earned(address token, address account) public view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L457
-```solidity
-456:    function deposit(uint amount, uint tokenId) public lock {
-``` 
-
-
-
-File:Gauge.sol#L493
-```solidity
-492:    function withdraw(uint amount) public {
-``` 
-
-
-
-File:Gauge.sol#L529
-```solidity
-528:    function left(address token) external view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L566
-```solidity
-565:    function _safeTransfer(address token, address to, uint256 value) internal {
-``` 
-
-
-
-File:Gauge.sol#L573
-```solidity
-572:    function _safeTransferFrom(address token, address from, address to, uint256 value) internal {
-``` 
-
-
-
-File:Gauge.sol#L580
-```solidity
-579:    function _safeApprove(address token, address spender, uint256 value) internal {
-``` 
-
-
-
 File:Bribe.sol#L78
 ```solidity
 77:    modifier lock() {
@@ -10491,6 +10433,66 @@ File:Bribe.sol#L460
 
 
 
+File:Minter.sol#L66
+```solidity
+65:    function initialize(
+66:        // address[] memory claimants,
+67:        // uint[] memory amounts,
+68:        // uint max // sum amounts / max = % ownership of top protocols, so if initial 20m is distributed, and target is 25% protocol ownership, then max - 4 x 20m = 80m
+69:    ) external {
+``` 
+
+
+
+File:Minter.sol#L91
+```solidity
+90:    function circulating_supply() public view returns (uint) {
+``` 
+
+
+
+File:Minter.sol#L96
+```solidity
+95:    function _calculate_emission() private view returns (uint) {
+``` 
+
+
+
+File:Minter.sol#L101
+```solidity
+100:    function calculate_emission() public view returns (uint) {
+``` 
+
+
+
+File:Minter.sol#L107
+```solidity
+106:    function weekly_emission() public view returns (uint) {
+``` 
+
+
+
+File:Minter.sol#L112
+```solidity
+111:    function circulating_emission() public view returns (uint) {
+``` 
+
+
+
+File:Minter.sol#L117
+```solidity
+116:    function calculate_growth(uint _minted) public view returns (uint) {
+``` 
+
+
+
+File:Minter.sol#L122
+```solidity
+121:    function update_period() external returns (uint) {
+``` 
+
+
+
  --- 
 
 <a name=[NC-5]></a>
@@ -10501,142 +10503,30 @@ File:Bribe.sol#L460
 
  --- 
 
-File:Minter.sol#L14
+File:Bribe.sol#L15
 ```solidity
-13:    uint internal constant week = 86400 * 7; // allows minting once per week (reset every Thursday 00:00 UTC)
+14:    uint public constant DURATION = 7 days; // rewards are released over 7 days
 ``` 
 
 
 
-File:Minter.sol#L16
+File:Bribe.sol#L16
 ```solidity
-15:    uint internal constant target_base = 10000; // 2% per week target emission
+15:    uint public constant PRECISION = 10 ** 18;
 ``` 
 
 
 
-File:Minter.sol#L17
+File:Bribe.sol#L12
 ```solidity
-16:    uint internal constant tail_emission = 3; // 0.03% per week tail emission
+11:    address public immutable voter; // only voter can modify balances (since it only happens on vote())
 ``` 
 
 
 
-File:Minter.sol#L18
+File:Bribe.sol#L13
 ```solidity
-17:    uint internal constant tail_base = 1000; // 0.2% per week target emission
-``` 
-
-
-
-File:Minter.sol#L27
-```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
-``` 
-
-
-
-File:Minter.sol#L19
-```solidity
-18:    underlying public immutable _token;
-``` 
-
-
-
-File:Minter.sol#L20
-```solidity
-19:    IVoter public immutable _voter;
-``` 
-
-
-
-File:Minter.sol#L21
-```solidity
-20:    IVotingEscrow public immutable _ve;
-``` 
-
-
-
-File:Minter.sol#L22
-```solidity
-21:    IVotingDist public immutable _ve_dist;
-``` 
-
-
-
-File:Gauge.sol#L23
-```solidity
-22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
-``` 
-
-
-
-File:Gauge.sol#L24
-```solidity
-23:    uint internal constant PRECISION = 10 ** 18;
-``` 
-
-
-
-File:Gauge.sol#L15
-```solidity
-14:    address public immutable stake; // the LP token that needs to be staked for rewards
-``` 
-
-
-
-File:Gauge.sol#L16
-```solidity
-15:    address public immutable _ve; // the ve token used for gauges
-``` 
-
-
-
-File:Gauge.sol#L17
-```solidity
-16:    address public immutable bribe;
-``` 
-
-
-
-File:Gauge.sol#L18
-```solidity
-17:    address public immutable voter;
-``` 
-
-
-
-File:Voter.sol#L23
-```solidity
-22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
-``` 
-
-
-
-File:Voter.sol#L17
-```solidity
-16:    address public immutable _ve;
-``` 
-
-
-
-File:Voter.sol#L18
-```solidity
-17:    address public immutable factory;
-``` 
-
-
-
-File:Voter.sol#L20
-```solidity
-19:    address internal immutable base;
-``` 
-
-
-
-File:Voter.sol#L22
-```solidity
-21:    address public immutable bribeFactory;
+12:    address public immutable _ve;
 ``` 
 
 
@@ -10711,30 +10601,142 @@ File:SwapPair.sol#L53
 
 
 
-File:Bribe.sol#L15
+File:Voter.sol#L23
 ```solidity
-14:    uint public constant DURATION = 7 days; // rewards are released over 7 days
+22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
 ``` 
 
 
 
-File:Bribe.sol#L16
+File:Voter.sol#L17
 ```solidity
-15:    uint public constant PRECISION = 10 ** 18;
+16:    address public immutable _ve;
 ``` 
 
 
 
-File:Bribe.sol#L12
+File:Voter.sol#L18
 ```solidity
-11:    address public immutable voter; // only voter can modify balances (since it only happens on vote())
+17:    address public immutable factory;
 ``` 
 
 
 
-File:Bribe.sol#L13
+File:Voter.sol#L20
 ```solidity
-12:    address public immutable _ve;
+19:    address internal immutable base;
+``` 
+
+
+
+File:Voter.sol#L22
+```solidity
+21:    address public immutable bribeFactory;
+``` 
+
+
+
+File:Gauge.sol#L23
+```solidity
+22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
+``` 
+
+
+
+File:Gauge.sol#L24
+```solidity
+23:    uint internal constant PRECISION = 10 ** 18;
+``` 
+
+
+
+File:Gauge.sol#L15
+```solidity
+14:    address public immutable stake; // the LP token that needs to be staked for rewards
+``` 
+
+
+
+File:Gauge.sol#L16
+```solidity
+15:    address public immutable _ve; // the ve token used for gauges
+``` 
+
+
+
+File:Gauge.sol#L17
+```solidity
+16:    address public immutable bribe;
+``` 
+
+
+
+File:Gauge.sol#L18
+```solidity
+17:    address public immutable voter;
+``` 
+
+
+
+File:Minter.sol#L14
+```solidity
+13:    uint internal constant week = 86400 * 7; // allows minting once per week (reset every Thursday 00:00 UTC)
+``` 
+
+
+
+File:Minter.sol#L16
+```solidity
+15:    uint internal constant target_base = 10000; // 2% per week target emission
+``` 
+
+
+
+File:Minter.sol#L17
+```solidity
+16:    uint internal constant tail_emission = 3; // 0.03% per week tail emission
+``` 
+
+
+
+File:Minter.sol#L18
+```solidity
+17:    uint internal constant tail_base = 1000; // 0.2% per week target emission
+``` 
+
+
+
+File:Minter.sol#L27
+```solidity
+26:    uint internal constant lock = 86400 * 7 * 52 * 4;
+``` 
+
+
+
+File:Minter.sol#L19
+```solidity
+18:    underlying public immutable _token;
+``` 
+
+
+
+File:Minter.sol#L20
+```solidity
+19:    IVoter public immutable _voter;
+``` 
+
+
+
+File:Minter.sol#L21
+```solidity
+20:    IVotingEscrow public immutable _ve;
+``` 
+
+
+
+File:Minter.sol#L22
+```solidity
+21:    IVotingDist public immutable _ve_dist;
 ``` 
 
 
@@ -10762,6 +10764,20 @@ File:Multiswap.sol#L9
 > Either remove the return parameter names, or use them as the returns of the function. 
 
  --- 
+
+File:Gauge.sol#L110
+```solidity
+109:    function claimFees() external lock returns (uint claimed0, uint claimed1) {
+``` 
+
+
+
+File:Gauge.sol#L110
+```solidity
+109:    function claimFees() external lock returns (uint claimed0, uint claimed1) {
+``` 
+
+
 
 File:SwapPair.sol#L128
 ```solidity
@@ -10826,20 +10842,6 @@ File:Voter.sol#L247
 
 
 
-File:Gauge.sol#L110
-```solidity
-109:    function claimFees() external lock returns (uint claimed0, uint claimed1) {
-``` 
-
-
-
-File:Gauge.sol#L110
-```solidity
-109:    function claimFees() external lock returns (uint claimed0, uint claimed1) {
-``` 
-
-
-
  --- 
 
 <a name=[NC-7]></a>
@@ -10850,16 +10852,16 @@ File:Gauge.sol#L110
 
  --- 
 
-File:Voter.sol#L235
+File:Voter.sol#L107
 ```solidity
-234:    function whitelist(address _token) public onlyAdmin {
+106:    function listing_fee() public view returns (uint) {
 ``` 
 
 
 
-File:Voter.sol#L107
+File:Voter.sol#L235
 ```solidity
-106:    function listing_fee() public view returns (uint) {
+234:    function whitelist(address _token) public onlyAdmin {
 ``` 
 
 
@@ -10961,6 +10963,55 @@ File:Bribe.sol#L461
 File:Bribe.sol#L464
 ```solidity
 463:        require(success && (data.length == 0 || abi.decode(data, (bool))));
+``` 
+
+
+
+File:SwapPair.sol#L114
+```solidity
+113:        require(_unlocked == 1);
+``` 
+
+
+
+File:SwapPair.sol#L346
+```solidity
+345:        require(!SwapFactory(factory).isPaused());
+``` 
+
+
+
+File:SwapPair.sol#L538
+```solidity
+537:        require(token.code.length > 0);
+``` 
+
+
+
+File:SwapPair.sol#L541
+```solidity
+540:        require(success && (data.length == 0 || abi.decode(data, (bool))));
+``` 
+
+
+
+File:SwapFactory.sol#L48
+```solidity
+47:        require(msg.sender == pauser);
+``` 
+
+
+
+File:SwapFactory.sol#L53
+```solidity
+52:        require(msg.sender == pendingPauser);
+``` 
+
+
+
+File:SwapFactory.sol#L58
+```solidity
+57:        require(msg.sender == pauser);
 ``` 
 
 
@@ -11073,27 +11124,6 @@ File:Gauge.sol#L581
 File:Gauge.sol#L584
 ```solidity
 583:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:SwapFactory.sol#L48
-```solidity
-47:        require(msg.sender == pauser);
-``` 
-
-
-
-File:SwapFactory.sol#L53
-```solidity
-52:        require(msg.sender == pendingPauser);
-``` 
-
-
-
-File:SwapFactory.sol#L58
-```solidity
-57:        require(msg.sender == pauser);
 ``` 
 
 
@@ -11224,30 +11254,52 @@ File:Voter.sol#L437
 
 
 
-File:SwapPair.sol#L114
+ --- 
+
+<a name=[NC-9]></a>
+### [NC-9] Storage variables should not have implicit visibility - Instances: 1 
+
+ 
+> Consider explicitly specifying the visibility of storage variables for readability
+ 
+
+ --- 
+
+File:SwapPair.sol#L48
 ```solidity
-113:        require(_unlocked == 1);
+47:    uint constant periodSize = 1800;
 ``` 
 
 
 
-File:SwapPair.sol#L346
+ --- 
+
+<a name=[NC-10]></a>
+### [NC-10] This variables default value is the same as the value it is initialized with - Instances: 3 
+
+ 
+> This is unnecessary and will have some overhead on Gas
+     
+
+ --- 
+
+File:SwapPair.sol#L22
 ```solidity
-345:        require(!SwapFactory(factory).isPaused());
+21:    uint public totalSupply = 0;
 ``` 
 
 
 
-File:SwapPair.sol#L538
+File:SwapPair.sol#L64
 ```solidity
-537:        require(token.code.length > 0);
+63:    uint public index0 = 0;
 ``` 
 
 
 
-File:SwapPair.sol#L541
+File:SwapPair.sol#L65
 ```solidity
-540:        require(success && (data.length == 0 || abi.decode(data, (bool))));
+64:    uint public index1 = 0;
 ``` 
 
 

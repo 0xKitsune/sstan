@@ -1,7 +1,7 @@
 use std::{
     collections::HashMap,
     fs::{self, File},
-    io::{BufRead, BufReader, Read},
+    io::{BufRead, BufReader},
     path::PathBuf,
     str::FromStr,
 };
@@ -27,7 +27,6 @@ impl QAPattern for MissingUnderscoresForLargeNumericLiterals {
         for (path_buf, source_unit) in source {
             let mut variable_defs = VariableDefinitionExtractor::extract(source_unit)?;
             for mut variable in variable_defs.iter_mut() {
-                dbg!(variable.to_string());
                 let mut number_literals = NumberLiteralExtractor::extract(&mut variable)?;
                 for number_literal in number_literals.iter_mut() {
                     if let pt::Expression::NumberLiteral(_loc, number, _value, _ident) =
@@ -47,9 +46,9 @@ impl QAPattern for MissingUnderscoresForLargeNumericLiterals {
                             if let Some(ident) = &variable.name {
                                 let node = line_contents.split(&ident.name).collect::<Vec<&str>>()
                                     [1]
-                                .split("=")
+                                .split('=')
                                 .collect::<Vec<&str>>()[1];
-                                if !node.contains("_") {
+                                if !node.contains('_') {
                                     outcome.push_or_insert(
                                         path_buf.clone(),
                                         variable.loc(),
