@@ -1,4 +1,4 @@
-# Sstan - v0.1.0 
+# Sstan - v0.1.1
 
  --- 
  ## Authors: 0x00face, 0xOsiris 
