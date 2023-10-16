@@ -195,7 +195,7 @@ require(success, "ERC20 transfer failed");
 
  
   
-  - Savings: ~0 
+  -  
  <details>  
  <summary>  
   </summary> 
@@ -680,7 +680,7 @@ contract Contract4 {
 
  
   
- Cache Array Length - Gas Report - Savings: ~0 
+ Cache Array Length - Gas Report -  
  <details>  
  <summary>  
   </summary> 
@@ -2121,7 +2121,7 @@ contract Contract1 {
  
 > When possible, always include a minimum of 3 indexed event topics to save gas 
  
-#### Gas Report - Savings: ~0 
+#### Gas Report -  
  <details>  
  <summary>  
   </summary> 
