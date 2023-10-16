@@ -14,159 +14,50 @@
 
  | Classification | Title | Instances | 
  |:-------:|:---------|:-------:| 
- | [[H-0]](#[H-0]) | Uninitialized storage variables | 1 |
- | [[M-1]](#[M-1]) | Division before multiplication | 9 |
- | [[L-2]](#[L-2]) | Use a locked pragma version instead of a floating pragma version | 2 |
- | [[L-3]](#[L-3]) | Unsafe ERC20 Operation | 12 |
+ | [[L-0]](#[L-0]) | Use a locked pragma version instead of a floating pragma version | 2 |
+ | [[L-1]](#[L-1]) | Unsafe ERC20 Operation | 1 |
+ | [[L-2]](#[L-2]) | Double Casting | 3 |
 ## Optimizations 
 
  | Classification | Title | Instances | 
  |:-------:|:---------|:-------:| 
  | [[G-0]](#[G-0]) | Tightly pack storage variables | 1 |
- | [[G-1]](#[G-1]) | Avoid Reading From Storage in a for loop | 4 |
+ | [[G-1]](#[G-1]) | Avoid Reading From Storage in a for loop | 3 |
  | [[G-2]](#[G-2]) | Mark storage variables as `constant` if they never change. | 3 |
- | [[G-3]](#[G-3]) | Mark storage variables as `immutable` if they never change after contract initialization. | 3 |
- | [[G-4]](#[G-4]) | `unchecked{++i}` instead of `i++` (or use assembly when applicable) | 5 |
- | [[G-5]](#[G-5]) | Cache Storage Variables in Memory | 6 |
- | [[G-6]](#[G-6]) | Use `calldata` instead of `memory` for function arguments that do not get mutated. | 4 |
+ | [[G-3]](#[G-3]) | Mark storage variables as `immutable` if they never change after contract initialization. | 1 |
+ | [[G-4]](#[G-4]) | `unchecked{++i}` instead of `i++` (or use assembly when applicable) | 4 |
+ | [[G-5]](#[G-5]) | Cache Storage Variables in Memory | 4 |
+ | [[G-6]](#[G-6]) | Use `calldata` instead of `memory` for function arguments that do not get mutated. | 7 |
  | [[G-7]](#[G-7]) | Use assembly to hash instead of Solidity | 2 |
- | [[G-8]](#[G-8]) | Use custom errors instead of string error messages | 7 |
- | [[G-9]](#[G-9]) | Use assembly for math (add, sub, mul, div) | 6 |
- | [[G-10]](#[G-10]) | Use assembly to write storage values | 6 |
- | [[G-11]](#[G-11]) | Event is not properly indexed. | 7 |
- | [[G-12]](#[G-12]) | Right shift or Left shift instead of dividing or multiplying by powers of two | 5 |
- | [[G-13]](#[G-13]) | Use multiple require() statments insted of require(expression && expression && ...) | 7 |
- | [[G-14]](#[G-14]) | Optimal Comparison | 5 |
- | [[G-15]](#[G-15]) | Mark functions as payable (with discretion) | 6 |
- | [[G-16]](#[G-16]) | Consider marking constants as private | 5 |
- | [[G-17]](#[G-17]) | Use assembly to check for address(0) | 6 |
- | [[G-18]](#[G-18]) | Cache array length during for loop definition. | 4 |
+ | [[G-8]](#[G-8]) | Use assembly for math (add, sub, mul, div) | 13 |
+ | [[G-9]](#[G-9]) | Use assembly to write storage values | 3 |
+ | [[G-10]](#[G-10]) | Event is not properly indexed. | 8 |
+ | [[G-11]](#[G-11]) | Right shift or Left shift instead of dividing or multiplying by powers of two | 1 |
+ | [[G-12]](#[G-12]) | Optimal Comparison | 1 |
+ | [[G-13]](#[G-13]) | Mark functions as payable (with discretion) | 10 |
+ | [[G-14]](#[G-14]) | Consider marking constants as private | 2 |
+ | [[G-15]](#[G-15]) | Use assembly to check for address(0) | 3 |
+ | [[G-16]](#[G-16]) | Cache array length during for loop definition. | 1 |
 ## Quality Assurance 
 
  | Classification | Title | Instances | 
  |:-------:|:---------|:-------:| 
- | [[NC-0]](#[NC-0]) | Private variables should contain a leading underscore | 11 |
- | [[NC-1]](#[NC-1]) | Constructor should check that all parameters are not 0 | 6 |
- | [[NC-2]](#[NC-2]) | Consider importing specific identifiers instead of the whole file | 30 |
- | [[NC-3]](#[NC-3]) | Storage variables should be named with camel case | 1 |
- | [[NC-4]](#[NC-4]) | Function names should be in camelCase | 88 |
- | [[NC-5]](#[NC-5]) | Constant and immutable variable names should be in SCREAMING_SNAKE_CASE | 36 |
- | [[NC-6]](#[NC-6]) | Remove any unused returns | 11 |
- | [[NC-7]](#[NC-7]) | Consider marking public function External | 3 |
- | [[NC-8]](#[NC-8]) | Consider adding a message with require and revert statements | 53 |
- | [[NC-9]](#[NC-9]) | Storage variables should not have implicit visibility | 1 |
- | [[NC-10]](#[NC-10]) | This variables default value is the same as the value it is initialized with | 3 |
+ | [[NC-0]](#[NC-0]) | Private variables should contain a leading underscore | 23 |
+ | [[NC-1]](#[NC-1]) | Constructor should check that all parameters are not 0 | 5 |
+ | [[NC-2]](#[NC-2]) | Consider importing specific identifiers instead of the whole file | 54 |
+ | [[NC-3]](#[NC-3]) | Remove any unused functions | 75 |
+ | [[NC-4]](#[NC-4]) | Contract names should be in PascalCase | 2 |
+ | [[NC-5]](#[NC-5]) | Function names should be in camelCase | 89 |
+ | [[NC-6]](#[NC-6]) | Constant and immutable variable names should be in SCREAMING_SNAKE_CASE | 54 |
+ | [[NC-7]](#[NC-7]) | Remove any unused returns | 6 |
+ | [[NC-8]](#[NC-8]) | Consider marking public function External | 9 |
+ | [[NC-9]](#[NC-9]) | This error has no parameters, the state of the contract when the revert occured will not be available | 72 |
+ | [[NC-10]](#[NC-10]) | Large contracts with many external functions should inherit an interface | 3 |
 
-## Vulnerabilities - Total: 24 
+## Vulnerabilities - Total: 6 
 
-<a name=[H-0]></a>
-### [H-0] Uninitialized storage variables - Instances: 1 
-
- 
-> A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value. 
-
- --- 
-
-File:Voter.sol#L19
-```solidity
-18:    address public convenience;
-``` 
-
-
-
- --- 
-
-<a name=[M-1]></a>
-### [M-1] Division before multiplication - Instances: 9 
-
- 
-> Consider ordering multiplication before division to avoid loss of precision because integer division might truncate. Loss of precision in Solidity can lead to vulnerabilities because it can result in unexpected behavior in smart contracts. This can be particularly problematic in financial applications, where even small errors in calculations can have significant consequences. For example, if a contract uses integer division to calculate a result and the division operation truncates the fractional part of the result, it could lead to incorrect pricing or loss of funds due to miscalculated balances.
-<details>
-<summary>Expand Example</summary>
-
-#### Unsafe Division
-
-```js
-    n = 5 / 2 * 4; // n = 8 because 5 / 2 == 2 since division truncates.
-```
-
-#### Safe Division
-```js
-    n = 5 * 4 / 2; // n = 10
-```
-
-</details>
-         
-
- --- 
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L78
-```solidity
-77:        active_period = block.timestamp / week * week; // 
-``` 
-
-
-
-File:Minter.sol#L125
-```solidity
-124:            _period = block.timestamp / week * week;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:Voter.sol#L423
-```solidity
-422:        activePeriod = block.timestamp / DURATION * DURATION;
-``` 
-
-
-
-File:Voter.sol#L429
-```solidity
-428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
-``` 
-
-
-
- --- 
-
-<a name=[L-2]></a>
-### [L-2] Use a locked pragma version instead of a floating pragma version - Instances: 2 
+<a name=[L-0]></a>
+### [L-0] Use a locked pragma version instead of a floating pragma version - Instances: 2 
 
  
 > Floating pragma is a vulnerability in smart contract code that can cause unexpected behavior by allowing the compiler to use a specified range of versions. This can lead to issues such as using an older compiler version with known vulnerabilities, using a newer compiler version with undiscovered vulnerabilities, inconsistency across files using different versions, or unpredictable behavior because the compiler can use any version within the specified range. It is recommended to use a locked pragma version in order to avoid these potential vulnerabilities. In some cases it may be acceptable to use a floating pragma, such as when a contract is intended for consumption by other developers and needs to be compatible with a range of compiler versions.
@@ -189,24 +80,24 @@ File:Voter.sol#L429
 
  --- 
 
-File:SwapPair.sol#L2
+[File:Chainalysis.sol#L2](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Chainalysis.sol#L2) 
 ```solidity
-1:pragma solidity ^0.8.11;
+1:pragma solidity ^0.8.20;
 ``` 
 
 
 
-File:SwapFactory.sol#L2
+[File:IWildcatArchController.sol#L2](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L2) 
 ```solidity
-1:pragma solidity ^0.8.11;
+1:pragma solidity ^0.8.20;
 ``` 
 
 
 
  --- 
 
-<a name=[L-3]></a>
-### [L-3] Unsafe ERC20 Operation - Instances: 12 
+<a name=[L-1]></a>
+### [L-1] Unsafe ERC20 Operation - Instances: 1 
 
  
 > ERC20 operations can be unsafe due to different implementations and vulnerabilities in the standard. To account for this, either use OpenZeppelin's SafeERC20 library or wrap each operation in a require statement.
@@ -264,86 +155,53 @@ require(success, "ERC20 transfer failed");
 
  --- 
 
-File:Minter.sol#L136
+[File:WildcatSanctionsEscrow.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L38) 
 ```solidity
-135:            require(_token.transfer(address(_ve_dist), _growth), "growth transfer failed");
+37:    IERC20(asset).transfer(account, amount);
 ``` 
 
 
 
-File:Minter.sol#L141
+ --- 
+
+<a name=[L-2]></a>
+### [L-2] Double Casting - Instances: 3 
+
+ 
+> Avoid double casting as it may introduce unexpected truncations/rounding errors among other issues.
+         
+
+ --- 
+
+[File:WildcatSanctionsSentinel.sol#L72](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L72) 
 ```solidity
-140:            _token.approve(address(_voter), weekly);
+71:        uint160(
+72:          uint256(
+73:            keccak256(
+74:              abi.encodePacked(
+75:                bytes1(0xff),
+76:                address(this),
+77:                keccak256(abi.encode(borrower, account, asset)),
+78:                WildcatSanctionsEscrowInitcodeHash
+79:              )
+80:            )
+81:          )
+82:        )
+83:      );
 ``` 
 
 
 
-File:Voter.sol#L254
+[File:WildcatMarketControllerFactory.sol#L288](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L288) 
 ```solidity
-253:        IERC20(base).approve(_gauge, type(uint).max);
+287:    bytes32 salt = bytes32(uint256(uint160(msg.sender)));
 ``` 
 
 
 
-File:Voter.sol#L436
+[File:WildcatMarketControllerFactory.sol#L344](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L344) 
 ```solidity
-435:        token.call(abi.encodeWithSelector(IERC20.transferFrom.selector, from, to, value));
-``` 
-
-
-
-File:Gauge.sol#L569
-```solidity
-568:        token.call(abi.encodeWithSelector(IERC20.transfer.selector, to, value));
-``` 
-
-
-
-File:Gauge.sol#L576
-```solidity
-575:        token.call(abi.encodeWithSelector(IERC20.transferFrom.selector, from, to, value));
-``` 
-
-
-
-File:Gauge.sol#L583
-```solidity
-582:        token.call(abi.encodeWithSelector(IERC20.approve.selector, spender, value));
-``` 
-
-
-
-File:Bribe.sol#L456
-```solidity
-455:        token.call(abi.encodeWithSelector(IERC20.transfer.selector, to, value));
-``` 
-
-
-
-File:Bribe.sol#L463
-```solidity
-462:        token.call(abi.encodeWithSelector(IERC20.transferFrom.selector, from, to, value));
-``` 
-
-
-
-File:Multiswap.sol#L55
-```solidity
-54:            (bool transferFromSuccess) = IERC20(_token).transferFrom(msg.sender, address(this), _amount);
-``` 
-
-
-
-File:Multiswap.sol#L57
-```solidity
-56:            IERC20(_token).approve(router, _amount);
-``` 
-
-
-
-File:SwapPair.sol#L540
-```solidity
-539:        token.call(abi.encodeWithSelector(IERC20.transfer.selector, to, value));
+343:    bytes32 salt = bytes32(uint256(uint160(borrower)));
 ``` 
 
 
@@ -352,7 +210,7 @@ File:SwapPair.sol#L540
 
 
 
-## Optimizations - Total: 92 
+## Optimizations - Total: 67 
 
 <a name=[G-0]></a>
 ### [G-0] Tightly pack storage variables - Instances: 1 
@@ -460,9 +318,9 @@ contract Contract1 {
 
  --- 
 
-File:SwapPair.sol#L15
+[File:WildcatMarketBase.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L24) 
 ```solidity
-14:    string public name;
+23:  string public constant version = '1.0';
 ``` 
 
 
@@ -470,7 +328,7 @@ File:SwapPair.sol#L15
  --- 
 
 <a name=[G-1]></a>
-### [G-1] Avoid Reading From Storage in a for loop - Instances: 4 
+### [G-1] Avoid Reading From Storage in a for loop - Instances: 3 
 
  
   
@@ -484,877 +342,126 @@ File:SwapPair.sol#L15
 
  --- 
 
-File:Bribe.sol#L235
+[File:WildcatArchController.sol#L93](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L93) 
 ```solidity
-234:        for (uint i = 0; i < tokens.length; i++) {
-235:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-236:
-237:            uint _reward = earned(tokens[i], tokenId);
-238:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-239:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-240:            if (_reward > 0) _safeTransfer(tokens[i], msg.sender, _reward);
-241:
-242:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-243:        }
-244:    }
+92:    for (uint256 i = 0; i < count; i++) {
+93:      arr[i] = _borrowers.at(start + i);
+94:    }
+95:  }
 ``` 
 
 
 
-File:Bribe.sol#L235
+[File:WildcatArchController.sol#L136](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L136) 
 ```solidity
-234:        for (uint i = 0; i < tokens.length; i++) {
-235:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-236:
-237:            uint _reward = earned(tokens[i], tokenId);
-238:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-239:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-240:            if (_reward > 0) _safeTransfer(tokens[i], msg.sender, _reward);
-241:
-242:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-243:        }
-244:    }
+135:    for (uint256 i = 0; i < count; i++) {
+136:      arr[i] = _controllerFactories.at(start + i);
+137:    }
+138:  }
 ``` 
 
 
 
-File:Bribe.sol#L235
+[File:WildcatArchController.sol#L179](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L179) 
 ```solidity
-234:        for (uint i = 0; i < tokens.length; i++) {
-235:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-236:
-237:            uint _reward = earned(tokens[i], tokenId);
-238:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-239:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-240:            if (_reward > 0) _safeTransfer(tokens[i], msg.sender, _reward);
-241:
-242:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-243:        }
-244:    }
+178:    for (uint256 i = 0; i < count; i++) {
+179:      arr[i] = _controllers.at(start + i);
+180:    }
+181:  }
 ``` 
 
 
 
-File:Bribe.sol#L235
+[File:WildcatArchController.sol#L222](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L222) 
 ```solidity
-234:        for (uint i = 0; i < tokens.length; i++) {
-235:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-236:
-237:            uint _reward = earned(tokens[i], tokenId);
-238:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-239:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-240:            if (_reward > 0) _safeTransfer(tokens[i], msg.sender, _reward);
-241:
-242:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-243:        }
-244:    }
+221:    for (uint256 i = 0; i < count; i++) {
+222:      arr[i] = _markets.at(start + i);
+223:    }
+224:  }
 ``` 
 
 
 
-File:Bribe.sol#L235
+[File:WildcatMarketController.sol#L133](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L133) 
 ```solidity
-234:        for (uint i = 0; i < tokens.length; i++) {
-235:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-236:
-237:            uint _reward = earned(tokens[i], tokenId);
-238:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-239:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-240:            if (_reward > 0) _safeTransfer(tokens[i], msg.sender, _reward);
-241:
-242:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-243:        }
-244:    }
+132:    for (uint256 i = 0; i < count; i++) {
+133:      arr[i] = _authorizedLenders.at(start + i);
+134:    }
+135:  }
 ``` 
 
 
 
-File:Bribe.sol#L251
+[File:WildcatMarketController.sol#L154](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L154) 
 ```solidity
-250:        for (uint i = 0; i < tokens.length; i++) {
-251:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-252:
-253:            uint _reward = earned(tokens[i], tokenId);
-254:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-255:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-256:            if (_reward > 0) _safeTransfer(tokens[i], _owner, _reward);
-257:
-258:            emit ClaimRewards(_owner, tokens[i], _reward);
-259:        }
-260:    }
+153:    for (uint256 i = 0; i < lenders.length; i++) {
+154:      address lender = lenders[i];
+155:      if (_authorizedLenders.add(lender)) {
+156:        emit LenderAuthorized(lender);
+157:      }
+158:    }
+159:  }
 ``` 
 
 
 
-File:Bribe.sol#L251
+[File:WildcatMarketController.sol#L170](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L170) 
 ```solidity
-250:        for (uint i = 0; i < tokens.length; i++) {
-251:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-252:
-253:            uint _reward = earned(tokens[i], tokenId);
-254:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-255:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-256:            if (_reward > 0) _safeTransfer(tokens[i], _owner, _reward);
-257:
-258:            emit ClaimRewards(_owner, tokens[i], _reward);
-259:        }
-260:    }
+169:    for (uint256 i = 0; i < lenders.length; i++) {
+170:      address lender = lenders[i];
+171:      if (_authorizedLenders.remove(lender)) {
+172:        emit LenderDeauthorized(lender);
+173:      }
+174:    }
+175:  }
 ``` 
 
 
 
-File:Bribe.sol#L251
+[File:WildcatMarketController.sol#L183](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L183) 
 ```solidity
-250:        for (uint i = 0; i < tokens.length; i++) {
-251:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-252:
-253:            uint _reward = earned(tokens[i], tokenId);
-254:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-255:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-256:            if (_reward > 0) _safeTransfer(tokens[i], _owner, _reward);
-257:
-258:            emit ClaimRewards(_owner, tokens[i], _reward);
-259:        }
-260:    }
+182:    for (uint256 i; i < markets.length; i++) {
+183:      address market = markets[i];
+184:      if (!_controlledMarkets.contains(market)) {
+185:        revert NotControlledMarket();
+186:      }
+187:      WildcatMarket(market).updateAccountAuthorization(lender, _authorizedLenders.contains(lender));
+188:    }
+189:  }
 ``` 
 
 
 
-File:Bribe.sol#L251
+[File:WildcatMarketController.sol#L183](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L183) 
 ```solidity
-250:        for (uint i = 0; i < tokens.length; i++) {
-251:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-252:
-253:            uint _reward = earned(tokens[i], tokenId);
-254:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-255:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-256:            if (_reward > 0) _safeTransfer(tokens[i], _owner, _reward);
-257:
-258:            emit ClaimRewards(_owner, tokens[i], _reward);
-259:        }
-260:    }
+182:    for (uint256 i; i < markets.length; i++) {
+183:      address market = markets[i];
+184:      if (!_controlledMarkets.contains(market)) {
+185:        revert NotControlledMarket();
+186:      }
+187:      WildcatMarket(market).updateAccountAuthorization(lender, _authorizedLenders.contains(lender));
+188:    }
+189:  }
 ``` 
 
 
 
-File:Bribe.sol#L251
+[File:WildcatMarketController.sol#L212](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L212) 
 ```solidity
-250:        for (uint i = 0; i < tokens.length; i++) {
-251:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-252:
-253:            uint _reward = earned(tokens[i], tokenId);
-254:            lastEarn[tokens[i]][tokenId] = block.timestamp;
-255:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-256:            if (_reward > 0) _safeTransfer(tokens[i], _owner, _reward);
-257:
-258:            emit ClaimRewards(_owner, tokens[i], _reward);
-259:        }
-260:    }
+211:    for (uint256 i = 0; i < count; i++) {
+212:      arr[i] = _controlledMarkets.at(start + i);
+213:    }
+214:  }
 ``` 
 
 
 
-File:Bribe.sol#L289
+[File:WildcatMarketControllerFactory.sol#L146](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L146) 
 ```solidity
-288:        for (uint i = _startIndex; i < _endIndex; i++) {
-289:            SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-290:            if (sp0.supply > 0) {
-291:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-292:                (uint _reward, uint endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-293:                reward += _reward;
-294:                _writeRewardPerTokenCheckpoint(token, reward, endTime);
-295:                _startTimestamp = endTime;
-296:            }
-297:        }
-298:
-``` 
-
-
-
-File:Bribe.sol#L289
-```solidity
-288:        for (uint i = _startIndex; i < _endIndex; i++) {
-289:            SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-290:            if (sp0.supply > 0) {
-291:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-292:                (uint _reward, uint endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-293:                reward += _reward;
-294:                _writeRewardPerTokenCheckpoint(token, reward, endTime);
-295:                _startTimestamp = endTime;
-296:            }
-297:        }
-298:
-``` 
-
-
-
-File:Bribe.sol#L314
-```solidity
-313:      for (uint i; i < length; i++) {
-314:        address token = rewards[i];
-315:        (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
-316:      }
-317:    }
-``` 
-
-
-
-File:Bribe.sol#L314
-```solidity
-313:      for (uint i; i < length; i++) {
-314:        address token = rewards[i];
-315:        (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
-316:      }
-317:    }
-``` 
-
-
-
-File:Bribe.sol#L314
-```solidity
-313:      for (uint i; i < length; i++) {
-314:        address token = rewards[i];
-315:        (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
-316:      }
-317:    }
-``` 
-
-
-
-File:Bribe.sol#L336
-```solidity
-335:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-336:                SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-337:                if (sp0.supply > 0) {
-338:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-339:                    (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-340:                    reward += _reward;
-341:                    _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-342:                    _startTimestamp = _endTime;
-343:                }
-344:            }
-345:        }
-``` 
-
-
-
-File:Bribe.sol#L336
-```solidity
-335:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-336:                SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-337:                if (sp0.supply > 0) {
-338:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-339:                    (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-340:                    reward += _reward;
-341:                    _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-342:                    _startTimestamp = _endTime;
-343:                }
-344:            }
-345:        }
-``` 
-
-
-
-File:Bribe.sol#L373
-```solidity
-372:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-373:                Checkpoint memory cp0 = checkpoints[tokenId][i];
-374:                Checkpoint memory cp1 = checkpoints[tokenId][i+1];
-375:                (uint _rewardPerTokenStored0,) = getPriorRewardPerToken(token, cp0.timestamp);
-376:                (uint _rewardPerTokenStored1,) = getPriorRewardPerToken(token, cp1.timestamp);
-377:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
-378:            }
-379:        }
-``` 
-
-
-
-File:Bribe.sol#L373
-```solidity
-372:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-373:                Checkpoint memory cp0 = checkpoints[tokenId][i];
-374:                Checkpoint memory cp1 = checkpoints[tokenId][i+1];
-375:                (uint _rewardPerTokenStored0,) = getPriorRewardPerToken(token, cp0.timestamp);
-376:                (uint _rewardPerTokenStored1,) = getPriorRewardPerToken(token, cp1.timestamp);
-377:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
-378:            }
-379:        }
-``` 
-
-
-
-File:SwapPair.sol#L287
-```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
-``` 
-
-
-
-File:SwapPair.sol#L287
-```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
-``` 
-
-
-
-File:SwapPair.sol#L287
-```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
-``` 
-
-
-
-File:SwapPair.sol#L287
-```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
-``` 
-
-
-
-File:SwapPair.sol#L287
-```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
-``` 
-
-
-
-File:SwapPair.sol#L287
-```solidity
-286:        for (; i < length; i+=window) {
-287:            nextIndex = i + window;
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-291:            _prices[index] = _getAmountOut(amountIn, tokenIn, _reserve0, _reserve1);
-292:            index = index + 1;
-293:        }
-294:        return _prices;
-``` 
-
-
-
-File:Voter.sol#L150
-```solidity
-149:        for (uint i = 0; i < _gaugeVoteCnt; i++) {
-150:            address _gauge = _gaugeVote[i];
-151:            uint256 _votes = votes[_tokenId][_gauge];
-152:                if (_votes != 0) {
-153:                        _updateFor(_gauge);
-154:                        weights[_gauge] -= _votes;
-155:                        votes[_tokenId][_gauge] -= _votes;
-156:                        if (_votes > 0) {
-157:                            IBribe(bribes[_gauge])._withdraw(uint256(_votes), _tokenId);
-158:                            _totalWeight += _votes;
-159:                        } else {
-160:                            _totalWeight -= _votes;
-161:                        }
-162:                    emit Abstained(_tokenId, _votes);
-163:                }
-164:            }
-165:        totalWeight -= uint256(_totalWeight);
-``` 
-
-
-
-File:Voter.sol#L150
-```solidity
-149:        for (uint i = 0; i < _gaugeVoteCnt; i++) {
-150:            address _gauge = _gaugeVote[i];
-151:            uint256 _votes = votes[_tokenId][_gauge];
-152:                if (_votes != 0) {
-153:                        _updateFor(_gauge);
-154:                        weights[_gauge] -= _votes;
-155:                        votes[_tokenId][_gauge] -= _votes;
-156:                        if (_votes > 0) {
-157:                            IBribe(bribes[_gauge])._withdraw(uint256(_votes), _tokenId);
-158:                            _totalWeight += _votes;
-159:                        } else {
-160:                            _totalWeight -= _votes;
-161:                        }
-162:                    emit Abstained(_tokenId, _votes);
-163:                }
-164:            }
-165:        totalWeight -= uint256(_totalWeight);
-``` 
-
-
-
-File:Voter.sol#L150
-```solidity
-149:        for (uint i = 0; i < _gaugeVoteCnt; i++) {
-150:            address _gauge = _gaugeVote[i];
-151:            uint256 _votes = votes[_tokenId][_gauge];
-152:                if (_votes != 0) {
-153:                        _updateFor(_gauge);
-154:                        weights[_gauge] -= _votes;
-155:                        votes[_tokenId][_gauge] -= _votes;
-156:                        if (_votes > 0) {
-157:                            IBribe(bribes[_gauge])._withdraw(uint256(_votes), _tokenId);
-158:                            _totalWeight += _votes;
-159:                        } else {
-160:                            _totalWeight -= _votes;
-161:                        }
-162:                    emit Abstained(_tokenId, _votes);
-163:                }
-164:            }
-165:        totalWeight -= uint256(_totalWeight);
-``` 
-
-
-
-File:Voter.sol#L150
-```solidity
-149:        for (uint i = 0; i < _gaugeVoteCnt; i++) {
-150:            address _gauge = _gaugeVote[i];
-151:            uint256 _votes = votes[_tokenId][_gauge];
-152:                if (_votes != 0) {
-153:                        _updateFor(_gauge);
-154:                        weights[_gauge] -= _votes;
-155:                        votes[_tokenId][_gauge] -= _votes;
-156:                        if (_votes > 0) {
-157:                            IBribe(bribes[_gauge])._withdraw(uint256(_votes), _tokenId);
-158:                            _totalWeight += _votes;
-159:                        } else {
-160:                            _totalWeight -= _votes;
-161:                        }
-162:                    emit Abstained(_tokenId, _votes);
-163:                }
-164:            }
-165:        totalWeight -= uint256(_totalWeight);
-``` 
-
-
-
-File:Voter.sol#L179
-```solidity
-178:        for (uint i = 0; i < _gaugeCnt; i++) {
-179:            _weights[i] = votes[_tokenId][_gaugeVote[i]];
-180:        }
-181:
-``` 
-
-
-
-File:Voter.sol#L198
-```solidity
-197:        for (uint i = 0; i < _gaugeCnt; i++) {
-198:            address _gauge = _gaugeVote[i];
-199:            if (isGauge[_gauge]) {
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-201:                require(votes[_tokenId][_gauge] == 0);
-202:                require(_gaugeWeight != 0);
-203:                _updateFor(_gauge);
-204:
-205:                gaugeVote[_tokenId].push(_gauge);
-206:
-207:                weights[_gauge] += _gaugeWeight;
-208:                votes[_tokenId][_gauge] += _gaugeWeight;
-209:                IBribe(bribes[_gauge])._deposit(_gaugeWeight, _tokenId);
-210:                _usedWeight += _gaugeWeight;
-211:                _totalWeight += _gaugeWeight;
-212:                emit Voted(msg.sender, _tokenId, _gaugeWeight);
-213:            }
-214:        }
-215:        if (_usedWeight > 0) IVotingEscrow(_ve).voting(_tokenId);
-``` 
-
-
-
-File:Voter.sol#L198
-```solidity
-197:        for (uint i = 0; i < _gaugeCnt; i++) {
-198:            address _gauge = _gaugeVote[i];
-199:            if (isGauge[_gauge]) {
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-201:                require(votes[_tokenId][_gauge] == 0);
-202:                require(_gaugeWeight != 0);
-203:                _updateFor(_gauge);
-204:
-205:                gaugeVote[_tokenId].push(_gauge);
-206:
-207:                weights[_gauge] += _gaugeWeight;
-208:                votes[_tokenId][_gauge] += _gaugeWeight;
-209:                IBribe(bribes[_gauge])._deposit(_gaugeWeight, _tokenId);
-210:                _usedWeight += _gaugeWeight;
-211:                _totalWeight += _gaugeWeight;
-212:                emit Voted(msg.sender, _tokenId, _gaugeWeight);
-213:            }
-214:        }
-215:        if (_usedWeight > 0) IVotingEscrow(_ve).voting(_tokenId);
-``` 
-
-
-
-File:Voter.sol#L198
-```solidity
-197:        for (uint i = 0; i < _gaugeCnt; i++) {
-198:            address _gauge = _gaugeVote[i];
-199:            if (isGauge[_gauge]) {
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-201:                require(votes[_tokenId][_gauge] == 0);
-202:                require(_gaugeWeight != 0);
-203:                _updateFor(_gauge);
-204:
-205:                gaugeVote[_tokenId].push(_gauge);
-206:
-207:                weights[_gauge] += _gaugeWeight;
-208:                votes[_tokenId][_gauge] += _gaugeWeight;
-209:                IBribe(bribes[_gauge])._deposit(_gaugeWeight, _tokenId);
-210:                _usedWeight += _gaugeWeight;
-211:                _totalWeight += _gaugeWeight;
-212:                emit Voted(msg.sender, _tokenId, _gaugeWeight);
-213:            }
-214:        }
-215:        if (_usedWeight > 0) IVotingEscrow(_ve).voting(_tokenId);
-``` 
-
-
-
-File:Voter.sol#L198
-```solidity
-197:        for (uint i = 0; i < _gaugeCnt; i++) {
-198:            address _gauge = _gaugeVote[i];
-199:            if (isGauge[_gauge]) {
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-201:                require(votes[_tokenId][_gauge] == 0);
-202:                require(_gaugeWeight != 0);
-203:                _updateFor(_gauge);
-204:
-205:                gaugeVote[_tokenId].push(_gauge);
-206:
-207:                weights[_gauge] += _gaugeWeight;
-208:                votes[_tokenId][_gauge] += _gaugeWeight;
-209:                IBribe(bribes[_gauge])._deposit(_gaugeWeight, _tokenId);
-210:                _usedWeight += _gaugeWeight;
-211:                _totalWeight += _gaugeWeight;
-212:                emit Voted(msg.sender, _tokenId, _gaugeWeight);
-213:            }
-214:        }
-215:        if (_usedWeight > 0) IVotingEscrow(_ve).voting(_tokenId);
-``` 
-
-
-
-File:Voter.sol#L198
-```solidity
-197:        for (uint i = 0; i < _gaugeCnt; i++) {
-198:            address _gauge = _gaugeVote[i];
-199:            if (isGauge[_gauge]) {
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-201:                require(votes[_tokenId][_gauge] == 0);
-202:                require(_gaugeWeight != 0);
-203:                _updateFor(_gauge);
-204:
-205:                gaugeVote[_tokenId].push(_gauge);
-206:
-207:                weights[_gauge] += _gaugeWeight;
-208:                votes[_tokenId][_gauge] += _gaugeWeight;
-209:                IBribe(bribes[_gauge])._deposit(_gaugeWeight, _tokenId);
-210:                _usedWeight += _gaugeWeight;
-211:                _totalWeight += _gaugeWeight;
-212:                emit Voted(msg.sender, _tokenId, _gaugeWeight);
-213:            }
-214:        }
-215:        if (_usedWeight > 0) IVotingEscrow(_ve).voting(_tokenId);
-``` 
-
-
-
-File:Voter.sol#L198
-```solidity
-197:        for (uint i = 0; i < _gaugeCnt; i++) {
-198:            address _gauge = _gaugeVote[i];
-199:            if (isGauge[_gauge]) {
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-201:                require(votes[_tokenId][_gauge] == 0);
-202:                require(_gaugeWeight != 0);
-203:                _updateFor(_gauge);
-204:
-205:                gaugeVote[_tokenId].push(_gauge);
-206:
-207:                weights[_gauge] += _gaugeWeight;
-208:                votes[_tokenId][_gauge] += _gaugeWeight;
-209:                IBribe(bribes[_gauge])._deposit(_gaugeWeight, _tokenId);
-210:                _usedWeight += _gaugeWeight;
-211:                _totalWeight += _gaugeWeight;
-212:                emit Voted(msg.sender, _tokenId, _gaugeWeight);
-213:            }
-214:        }
-215:        if (_usedWeight > 0) IVotingEscrow(_ve).voting(_tokenId);
-``` 
-
-
-
-File:Voter.sol#L315
-```solidity
-314:        for (uint i = start; i < end; i++) {
-315:            _updateFor(allGauges[i]);
-316:        }
-317:    }
-``` 
-
-
-
-File:Voter.sol#L409
-```solidity
-408:        for (uint x = start; x < finish; x++) {
-409:            distribute(allGauges[x]);
-410:        }
-411:    }
-``` 
-
-
-
-File:Gauge.sol#L299
-```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
-``` 
-
-
-
-File:Gauge.sol#L299
-```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
-``` 
-
-
-
-File:Gauge.sol#L299
-```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
-``` 
-
-
-
-File:Gauge.sol#L299
-```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
-``` 
-
-
-
-File:Gauge.sol#L299
-```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-299:            (rewardPerTokenStored[tokens[i]], lastUpdateTime[tokens[i]]) = _updateRewardPerToken(tokens[i], type(uint).max, true);
-300:
-301:            uint _reward = earned(tokens[i], account);
-302:            lastEarn[tokens[i]][account] = block.timestamp;
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-304:            if (_reward > 0) _safeTransfer(tokens[i], account, _reward);
-305:
-306:            emit ClaimRewards(msg.sender, tokens[i], _reward);
-307:        }
-308:
-``` 
-
-
-
-File:Gauge.sol#L351
-```solidity
-350:        for (uint i = _startIndex; i < _endIndex; i++) {
-351:            SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-352:            if (sp0.supply > 0) {
-353:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-354:                (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-355:                reward += _reward;
-356:                _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-357:                _startTimestamp = _endTime;
-358:            }
-359:        }
-360:
-``` 
-
-
-
-File:Gauge.sol#L351
-```solidity
-350:        for (uint i = _startIndex; i < _endIndex; i++) {
-351:            SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-352:            if (sp0.supply > 0) {
-353:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-354:                (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-355:                reward += _reward;
-356:                _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-357:                _startTimestamp = _endTime;
-358:            }
-359:        }
-360:
-``` 
-
-
-
-File:Gauge.sol#L378
-```solidity
-377:        for (uint i; i < length; i++) {
-378:            address token = rewards[i];
-379:            (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
-380:        }
-381:    }
-``` 
-
-
-
-File:Gauge.sol#L378
-```solidity
-377:        for (uint i; i < length; i++) {
-378:            address token = rewards[i];
-379:            (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
-380:        }
-381:    }
-``` 
-
-
-
-File:Gauge.sol#L378
-```solidity
-377:        for (uint i; i < length; i++) {
-378:            address token = rewards[i];
-379:            (rewardPerTokenStored[token], lastUpdateTime[token]) = _updateRewardPerToken(token, type(uint).max, true);
-380:        }
-381:    }
-``` 
-
-
-
-File:Gauge.sol#L400
-```solidity
-399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-400:                SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-401:                if (sp0.supply > 0) {
-402:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-403:                    (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-404:                    reward += _reward;
-405:                    _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-406:                    _startTimestamp = _endTime;
-407:                }
-408:            }
-409:        }
-``` 
-
-
-
-File:Gauge.sol#L400
-```solidity
-399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-400:                SupplyCheckpoint memory sp0 = supplyCheckpoints[i];
-401:                if (sp0.supply > 0) {
-402:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-403:                    (uint _reward, uint _endTime) = _calcRewardPerToken(token, sp1.timestamp, sp0.timestamp, sp0.supply, _startTimestamp);
-404:                    reward += _reward;
-405:                    _writeRewardPerTokenCheckpoint(token, reward, _endTime);
-406:                    _startTimestamp = _endTime;
-407:                }
-408:            }
-409:        }
-``` 
-
-
-
-File:Gauge.sol#L437
-```solidity
-436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
-437:                Checkpoint memory cp0 = checkpoints[account][i];
-438:                Checkpoint memory cp1 = checkpoints[account][i+1];
-439:                (uint _rewardPerTokenStored0,) = getPriorRewardPerToken(token, cp0.timestamp);
-440:                (uint _rewardPerTokenStored1,) = getPriorRewardPerToken(token, cp1.timestamp);
-441:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
-442:            }
-443:        }
-``` 
-
-
-
-File:Gauge.sol#L437
-```solidity
-436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
-437:                Checkpoint memory cp0 = checkpoints[account][i];
-438:                Checkpoint memory cp1 = checkpoints[account][i+1];
-439:                (uint _rewardPerTokenStored0,) = getPriorRewardPerToken(token, cp0.timestamp);
-440:                (uint _rewardPerTokenStored1,) = getPriorRewardPerToken(token, cp1.timestamp);
-441:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
-442:            }
-443:        }
+145:    for (uint256 i = 0; i < count; i++) {
+146:      arr[i] = _deployedControllers.at(start + i);
+147:    }
+148:  }
 ``` 
 
 
@@ -1473,65 +580,65 @@ contract Contract1 {
 
  --- 
 
-File:SwapPair.sol#L34
+[File:WildcatMarketControllerFactory.sol#L42](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L42) 
 ```solidity
-33:    address public immutable token0;
+41:  uint256 public immutable controllerInitCodeHash;
 ``` 
 
 
 
-File:SwapPair.sol#L35
+[File:WildcatMarketControllerFactory.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L38) 
 ```solidity
-34:    address public immutable token1;
+37:  uint256 public immutable marketInitCodeHash;
 ``` 
 
 
 
-File:SwapPair.sol#L20
+[File:WildcatMarketControllerFactory.sol#L44](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L44) 
 ```solidity
-19:    bool public immutable stable;
+43:  uint256 internal immutable ownCreate2Prefix = LibStoredInitCode.getCreate2Prefix(address(this));
 ``` 
 
 
 
-File:SwapPair.sol#L38
+[File:WildcatMarketControllerFactory.sol#L36](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L36) 
 ```solidity
-37:    uint public immutable fee;
+35:  address public immutable marketInitCodeStorage;
 ``` 
 
 
 
-File:SwapFactory.sol#L20
+[File:WildcatMarketControllerFactory.sol#L40](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L40) 
 ```solidity
-19:    address internal _temp1;
+39:  address public immutable controllerInitCodeStorage;
 ``` 
 
 
 
-File:SwapFactory.sol#L21
+[File:WildcatMarketController.sol#L53](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L53) 
 ```solidity
-20:    bool internal _temp2;
+52:  uint256 internal immutable ownCreate2Prefix = LibStoredInitCode.getCreate2Prefix(address(this));
 ``` 
 
 
 
-File:SwapFactory.sol#L19
+[File:WildcatSanctionsEscrow.sol#L14](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L14) 
 ```solidity
-18:    address internal _temp0;
+13:  address internal immutable asset;
 ``` 
 
 
 
-File:SwapFactory.sol#L22
+[File:WildcatSanctionsEscrow.sol#L12](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L12) 
 ```solidity
-21:    uint internal _temp3;
+11:  address public immutable override borrower;
 ``` 
 
 
 
-File:Voter.sol#L19
+[File:WildcatSanctionsEscrow.sol#L13](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L13) 
 ```solidity
-18:    address public convenience;
+12:  address public immutable override account;
 ``` 
 
 
@@ -1539,7 +646,7 @@ File:Voter.sol#L19
  --- 
 
 <a name=[G-3]></a>
-### [G-3] Mark storage variables as `immutable` if they never change after contract initialization. - Instances: 3 
+### [G-3] Mark storage variables as `immutable` if they never change after contract initialization. - Instances: 1 
 
  
  
@@ -1651,30 +758,16 @@ contract Contract2 {
 
  --- 
 
-File:Minter.sol#L30
+[File:WildcatMarketBase.sol#L57](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L57) 
 ```solidity
-29:    address internal admin;
+56:  string public name;
 ``` 
 
 
 
-File:SwapPair.sol#L16
+[File:WildcatMarketBase.sol#L60](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L60) 
 ```solidity
-15:    string public symbol;
-``` 
-
-
-
-File:SwapPair.sol#L15
-```solidity
-14:    string public name;
-``` 
-
-
-
-File:Voter.sol#L21
-```solidity
-20:    address public gaugeFactory;
+59:  string public symbol;
 ``` 
 
 
@@ -1682,7 +775,7 @@ File:Voter.sol#L21
  --- 
 
 <a name=[G-4]></a>
-### [G-4] `unchecked{++i}` instead of `i++` (or use assembly when applicable) - Instances: 5 
+### [G-4] `unchecked{++i}` instead of `i++` (or use assembly when applicable) - Instances: 4 
 
  
  
@@ -1861,205 +954,86 @@ contract Contract4 {
 
  --- 
 
-File:Bribe.sol#L235
+[File:WildcatMarketControllerFactory.sol#L146](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L146) 
 ```solidity
-234:        for (uint i = 0; i < tokens.length; i++) {
+145:    for (uint256 i = 0; i < count; i++) {
 ``` 
 
 
 
-File:Bribe.sol#L314
+[File:FIFOQueue.sol#L75](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L75) 
 ```solidity
-313:      for (uint i; i < length; i++) {
+74:    for (uint256 i = 0; i < n; i++) {
 ``` 
 
 
 
-File:Bribe.sol#L336
+[File:FIFOQueue.sol#L48](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L48) 
 ```solidity
-335:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
+47:    for (uint256 i = 0; i < len; i++) {
 ``` 
 
 
 
-File:Bribe.sol#L373
+[File:WildcatArchController.sol#L136](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L136) 
 ```solidity
-372:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
+135:    for (uint256 i = 0; i < count; i++) {
 ``` 
 
 
 
-File:Bribe.sol#L251
+[File:WildcatArchController.sol#L222](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L222) 
 ```solidity
-250:        for (uint i = 0; i < tokens.length; i++) {
+221:    for (uint256 i = 0; i < count; i++) {
 ``` 
 
 
 
-File:Bribe.sol#L289
+[File:WildcatArchController.sol#L93](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L93) 
 ```solidity
-288:        for (uint i = _startIndex; i < _endIndex; i++) {
+92:    for (uint256 i = 0; i < count; i++) {
 ``` 
 
 
 
-File:Voter.sol#L352
+[File:WildcatArchController.sol#L179](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L179) 
 ```solidity
-351:        for (uint i = 0; i < _gauges.length; i++) {
+178:    for (uint256 i = 0; i < count; i++) {
 ``` 
 
 
 
-File:Voter.sol#L363
+[File:WildcatMarketController.sol#L133](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L133) 
 ```solidity
-362:        for (uint i = 0; i < _bribes.length; i++) {
+132:    for (uint256 i = 0; i < count; i++) {
 ``` 
 
 
 
-File:Voter.sol#L150
+[File:WildcatMarketController.sol#L154](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L154) 
 ```solidity
-149:        for (uint i = 0; i < _gaugeVoteCnt; i++) {
+153:    for (uint256 i = 0; i < lenders.length; i++) {
 ``` 
 
 
 
-File:Voter.sol#L374
+[File:WildcatMarketController.sol#L183](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L183) 
 ```solidity
-373:        for (uint i = 0; i < _fees.length; i++) {
+182:    for (uint256 i; i < markets.length; i++) {
 ``` 
 
 
 
-File:Voter.sol#L309
+[File:WildcatMarketController.sol#L170](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L170) 
 ```solidity
-308:        for (uint i = 0; i < _gauges.length; i++) {
+169:    for (uint256 i = 0; i < lenders.length; i++) {
 ``` 
 
 
 
-File:Voter.sol#L382
+[File:WildcatMarketController.sol#L212](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L212) 
 ```solidity
-381:        for (uint i = 0; i < _gauges.length; i++) {
-``` 
-
-
-
-File:Voter.sol#L409
-```solidity
-408:        for (uint x = start; x < finish; x++) {
-``` 
-
-
-
-File:Voter.sol#L415
-```solidity
-414:        for (uint x = 0; x < _gauges.length; x++) {
-``` 
-
-
-
-File:Voter.sol#L194
-```solidity
-193:        for (uint i = 0; i < _gaugeCnt; i++) {
-``` 
-
-
-
-File:Voter.sol#L198
-```solidity
-197:        for (uint i = 0; i < _gaugeCnt; i++) {
-``` 
-
-
-
-File:Voter.sol#L315
-```solidity
-314:        for (uint i = start; i < end; i++) {
-``` 
-
-
-
-File:Voter.sol#L179
-```solidity
-178:        for (uint i = 0; i < _gaugeCnt; i++) {
-``` 
-
-
-
-File:SwapPair.sol#L497
-```solidity
-496:                keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
-``` 
-
-
-
-File:SwapPair.sol#L400
-```solidity
-399:        for (uint i = 0; i < 255; i++) {
-``` 
-
-
-
-File:SwapPair.sol#L268
-```solidity
-267:        for (uint i = 0; i < _prices.length; i++) {
-``` 
-
-
-
-File:Multiswap.sol#L45
-```solidity
-44:            for (uint i = 0; i < length; ++i) { 
-``` 
-
-
-
-File:Multiswap.sol#L58
-```solidity
-57:            for (uint i = 0; i < length; ++i) {
-``` 
-
-
-
-File:Multiswap.sol#L75
-```solidity
-74:        for (uint i = 0; i < length; ++i) {
-``` 
-
-
-
-File:Gauge.sol#L378
-```solidity
-377:        for (uint i; i < length; i++) {
-``` 
-
-
-
-File:Gauge.sol#L437
-```solidity
-436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
-``` 
-
-
-
-File:Gauge.sol#L299
-```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-``` 
-
-
-
-File:Gauge.sol#L351
-```solidity
-350:        for (uint i = _startIndex; i < _endIndex; i++) {
-``` 
-
-
-
-File:Gauge.sol#L400
-```solidity
-399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
+211:    for (uint256 i = 0; i < count; i++) {
 ``` 
 
 
@@ -2067,7 +1041,7 @@ File:Gauge.sol#L400
  --- 
 
 <a name=[G-5]></a>
-### [G-5] Cache Storage Variables in Memory - Instances: 6 
+### [G-5] Cache Storage Variables in Memory - Instances: 4 
 
  
   
@@ -2081,1213 +1055,254 @@ File:Gauge.sol#L400
 
  --- 
 
-File:SwapFactory.sol#L38
+[File:WildcatArchController.sol#L94](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L94) 
 ```solidity
-37:        fee[false] = 2700; // 0.27% for vaiable swaps (hundredth of a basis point / 2700/1000000)
+93:      arr[i] = _borrowers.at(start + i);
 ``` 
 
 
 
-File:SwapFactory.sol#L54
+[File:WildcatArchController.sol#L137](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L137) 
 ```solidity
-53:        pauser = pendingPauser;
+136:      arr[i] = _controllerFactories.at(start + i);
 ``` 
 
 
 
-File:SwapFactory.sol#L69
+[File:WildcatArchController.sol#L180](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L180) 
 ```solidity
-68:        admin = _admin;
+179:      arr[i] = _controllers.at(start + i);
 ``` 
 
 
 
-File:SwapFactory.sol#L88
+[File:WildcatArchController.sol#L223](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L223) 
 ```solidity
-87:        getPair[token0][token1][stable] = pair;
+222:      arr[i] = _markets.at(start + i);
 ``` 
 
 
 
-File:SwapFactory.sol#L89
+[File:WildcatMarketController.sol#L134](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L134) 
 ```solidity
-88:        getPair[token1][token0][stable] = pair; // populate mapping in the reverse direction
+133:      arr[i] = _authorizedLenders.at(start + i);
 ``` 
 
 
 
-File:SwapFactory.sol#L92
+[File:WildcatMarketController.sol#L213](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L213) 
 ```solidity
-91:        emit PairCreated(token0, token1, stable, pair, allPairs.length);
+212:      arr[i] = _controlledMarkets.at(start + i);
 ``` 
 
 
 
-File:Voter.sol#L89
+[File:WildcatMarketController.sol#L240](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L240) 
 ```solidity
-88:        _unlocked = 2;
+239:    parameters.namePrefix = _tmpMarketParameters.namePrefix;
 ``` 
 
 
 
-File:Voter.sol#L91
+[File:WildcatMarketController.sol#L241](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L241) 
 ```solidity
-90:        _unlocked = 1;
+240:    parameters.symbolPrefix = _tmpMarketParameters.symbolPrefix;
 ``` 
 
 
 
-File:Voter.sol#L102
+[File:WildcatMarketController.sol#L244](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L244) 
 ```solidity
-101:        minter = _minter;
+243:    parameters.feeRecipient = _tmpMarketParameters.feeRecipient;
 ``` 
 
 
 
-File:Voter.sol#L126
+[File:WildcatMarketController.sol#L246](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L246) 
 ```solidity
-125:        isLive[_gauge] = false;
+245:    parameters.maxTotalSupply = _tmpMarketParameters.maxTotalSupply;
 ``` 
 
 
 
-File:Voter.sol#L133
+[File:WildcatMarketController.sol#L247](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L247) 
 ```solidity
-132:        isLive[_gauge] = true;
+246:    parameters.protocolFeeBips = _tmpMarketParameters.protocolFeeBips;
 ``` 
 
 
 
-File:Voter.sol#L141
+[File:WildcatMarketController.sol#L248](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L248) 
 ```solidity
-140:        lastVote[_tokenId] = block.timestamp;
+247:    parameters.annualInterestBips = _tmpMarketParameters.annualInterestBips;
 ``` 
 
 
 
-File:Voter.sol#L156
+[File:WildcatMarketController.sol#L249](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L249) 
 ```solidity
-155:                        votes[_tokenId][_gauge] -= _votes;
+248:    parameters.delinquencyFeeBips = _tmpMarketParameters.delinquencyFeeBips;
 ``` 
 
 
 
-File:Voter.sol#L168
+[File:WildcatMarketController.sol#L250](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L250) 
 ```solidity
-167:        delete gaugeVote[_tokenId];
+249:    parameters.withdrawalBatchDuration = _tmpMarketParameters.withdrawalBatchDuration;
 ``` 
 
 
 
-File:Voter.sol#L209
+[File:WildcatMarketController.sol#L251](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L251) 
 ```solidity
-208:                votes[_tokenId][_gauge] += _gaugeWeight;
+250:    parameters.reserveRatioBips = _tmpMarketParameters.reserveRatioBips;
 ``` 
 
 
 
-File:Voter.sol#L231
+[File:WildcatMarketController.sol#L252](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L252) 
 ```solidity
-230:        lastVote[tokenId] = block.timestamp;
+251:    parameters.delinquencyGracePeriod = _tmpMarketParameters.delinquencyGracePeriod;
 ``` 
 
 
 
-File:Voter.sol#L241
+[File:WildcatMarketController.sol#L257](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L257) 
 ```solidity
-240:        isWhitelisted[_token] = true;
+256:    _tmpMarketParameters.namePrefix = '_';
 ``` 
 
 
 
-File:Voter.sol#L251
+[File:WildcatMarketController.sol#L258](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L258) 
 ```solidity
-250:        require(isWhitelisted[_tokenA] && isWhitelisted[_tokenB], "!whitelisted");
+257:    _tmpMarketParameters.symbolPrefix = '_';
 ``` 
 
 
 
-File:Voter.sol#L256
+[File:WildcatMarketController.sol#L259](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L259) 
 ```solidity
-255:        gauges[_pair] = _gauge;
+258:    _tmpMarketParameters.feeRecipient = address(1);
 ``` 
 
 
 
-File:Voter.sol#L261
+[File:WildcatMarketController.sol#L260](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L260) 
 ```solidity
-260:        isReward[_gauge][_tokenB] = true;
+259:    _tmpMarketParameters.protocolFeeBips = 1;
 ``` 
 
 
 
-File:Voter.sol#L262
+[File:WildcatMarketController.sol#L261](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L261) 
 ```solidity
-261:        isReward[_gauge][base] = true;
+260:    _tmpMarketParameters.maxTotalSupply = 1;
 ``` 
 
 
 
-File:Voter.sol#L264
+[File:WildcatMarketController.sol#L262](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L262) 
 ```solidity
-263:        isBribe[_bribe][_tokenB] = true;
+261:    _tmpMarketParameters.annualInterestBips = 1;
 ``` 
 
 
 
-File:Voter.sol#L335
+[File:WildcatMarketController.sol#L263](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L263) 
 ```solidity
-334:            supplyIndex[_gauge] = _index; // update _gauge current position to global position
+262:    _tmpMarketParameters.delinquencyFeeBips = 1;
 ``` 
 
 
 
-File:Voter.sol#L344
+[File:WildcatMarketController.sol#L264](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L264) 
 ```solidity
-343:            supplyIndex[_gauge] = index; // new users are set to the default global state
+263:    _tmpMarketParameters.withdrawalBatchDuration = 1;
 ``` 
 
 
 
-File:Voter.sol#L344
+[File:WildcatMarketController.sol#L265](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L265) 
 ```solidity
-343:            supplyIndex[_gauge] = index; // new users are set to the default global state
+264:    _tmpMarketParameters.reserveRatioBips = 1;
 ``` 
 
 
 
-File:Voter.sol#L394
+[File:WildcatMarketController.sol#L266](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L266) 
 ```solidity
-393:            claimable[_gauge] = 0;
+265:    _tmpMarketParameters.delinquencyGracePeriod = 1;
 ``` 
 
 
 
-File:Gauge.sol#L102
+[File:WildcatMarketController.sol#L500](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L500) 
 ```solidity
-101:        _unlocked = 2;
+499:    delete temporaryExcessReserveRatio[market];
 ``` 
 
 
 
-File:Gauge.sol#L104
+[File:WildcatMarketBase.sol#L178](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L178) 
 ```solidity
-103:        _unlocked = 1;
+177:        _accounts[escrow].scaledBalance += scaledBalance;
 ``` 
 
 
 
-File:Gauge.sol#L121
+[File:WildcatMarketBase.sol#L185](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L185) 
 ```solidity
-120:                fees0 = 0;
+184:      _accounts[accountAddress] = account;
 ``` 
 
 
 
-File:Gauge.sol#L125
+[File:WildcatMarketBase.sol#L484](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L484) 
 ```solidity
-124:                fees0 = _fees0;
+483:      _withdrawalData.unpaidBatches.push(expiry);
 ``` 
 
 
 
-File:Gauge.sol#L128
+[File:WildcatMarketBase.sol#L491](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L491) 
 ```solidity
-127:                fees1 = 0;
+490:    _withdrawalData.batches[expiry] = batch;
 ``` 
 
 
 
-File:Gauge.sol#L132
+[File:WildcatMarketControllerFactory.sol#L147](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L147) 
 ```solidity
-131:                fees1 = _fees1;
+146:      arr[i] = _deployedControllers.at(start + i);
 ``` 
 
 
 
-File:Gauge.sol#L158
+[File:WildcatMarketControllerFactory.sol#L177](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L177) 
 ```solidity
-157:        if (checkpoints[account][0].timestamp > timestamp) {
+176:      _protocolFeeConfiguration.originationFeeAsset,
 ``` 
 
 
 
-File:Gauge.sol#L166
+[File:WildcatMarketControllerFactory.sol#L178](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L178) 
 ```solidity
-165:            Checkpoint memory cp = checkpoints[account][center];
+177:      _protocolFeeConfiguration.originationFeeAmount,
 ``` 
 
 
 
-File:Gauge.sol#L190
+[File:WildcatMarketControllerFactory.sol#L179](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L179) 
 ```solidity
-189:        if (supplyCheckpoints[0].timestamp > timestamp) {
+178:      _protocolFeeConfiguration.protocolFeeBips
 ``` 
 
 
 
-File:Gauge.sol#L198
+[File:WildcatMarketControllerFactory.sol#L298](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L298) 
 ```solidity
-197:            SupplyCheckpoint memory cp = supplyCheckpoints[center];
-``` 
-
-
-
-File:Gauge.sol#L218
-```solidity
-217:            return (rewardPerTokenCheckpoints[token][nCheckpoints - 1].rewardPerToken, rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp);
-``` 
-
-
-
-File:Gauge.sol#L218
-```solidity
-217:            return (rewardPerTokenCheckpoints[token][nCheckpoints - 1].rewardPerToken, rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp);
-``` 
-
-
-
-File:Gauge.sol#L222
-```solidity
-221:        if (rewardPerTokenCheckpoints[token][0].timestamp > timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L230
-```solidity
-229:            RewardPerTokenCheckpoint memory cp = rewardPerTokenCheckpoints[token][center];
-``` 
-
-
-
-File:Gauge.sol#L239
-```solidity
-238:        return (rewardPerTokenCheckpoints[token][lower].rewardPerToken, rewardPerTokenCheckpoints[token][lower].timestamp);
-``` 
-
-
-
-File:Gauge.sol#L239
-```solidity
-238:        return (rewardPerTokenCheckpoints[token][lower].rewardPerToken, rewardPerTokenCheckpoints[token][lower].timestamp);
-``` 
-
-
-
-File:Gauge.sol#L247
-```solidity
-246:            checkpoints[account][_nCheckPoints - 1].balanceOf = balance;
-``` 
-
-
-
-File:Gauge.sol#L249
-```solidity
-248:            checkpoints[account][_nCheckPoints] = Checkpoint(_timestamp, balance);
-``` 
-
-
-
-File:Gauge.sol#L250
-```solidity
-249:            numCheckpoints[account] = _nCheckPoints + 1;
-``` 
-
-
-
-File:Gauge.sol#L258
-```solidity
-257:            rewardPerTokenCheckpoints[token][_nCheckPoints - 1].rewardPerToken = reward;
-``` 
-
-
-
-File:Gauge.sol#L260
-```solidity
-259:            rewardPerTokenCheckpoints[token][_nCheckPoints] = RewardPerTokenCheckpoint(timestamp, reward);
-``` 
-
-
-
-File:Gauge.sol#L261
-```solidity
-260:            rewardPerTokenNumCheckpoints[token] = _nCheckPoints + 1;
-``` 
-
-
-
-File:Gauge.sol#L270
-```solidity
-269:            supplyCheckpoints[_nCheckPoints - 1].supply = derivedSupply;
-``` 
-
-
-
-File:Gauge.sol#L272
-```solidity
-271:            supplyCheckpoints[_nCheckPoints] = SupplyCheckpoint(_timestamp, derivedSupply);
-``` 
-
-
-
-File:Gauge.sol#L272
-```solidity
-271:            supplyCheckpoints[_nCheckPoints] = SupplyCheckpoint(_timestamp, derivedSupply);
-``` 
-
-
-
-File:Gauge.sol#L273
-```solidity
-272:            supplyNumCheckpoints = _nCheckPoints + 1;
-``` 
-
-
-
-File:Gauge.sol#L297
-```solidity
-296:        _unlocked = 2;
-``` 
-
-
-
-File:Gauge.sol#L304
-```solidity
-303:            userRewardPerTokenStored[tokens[i]][account] = rewardPerTokenStored[tokens[i]];
-``` 
-
-
-
-File:Gauge.sol#L313
-```solidity
-312:        derivedBalances[account] = _derivedBalance;
-``` 
-
-
-
-File:Gauge.sol#L314
-```solidity
-313:        derivedSupply += _derivedBalance;
-``` 
-
-
-
-File:Gauge.sol#L316
-```solidity
-315:        _writeCheckpoint(account, derivedBalances[account]);
-``` 
-
-
-
-File:Gauge.sol#L325
-```solidity
-324:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / derivedSupply);
-``` 
-
-
-
-File:Gauge.sol#L325
-```solidity
-324:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / derivedSupply);
-``` 
-
-
-
-File:Gauge.sol#L349
-```solidity
-348:        uint _endIndex = Math.min(supplyNumCheckpoints-1, maxRuns);
-``` 
-
-
-
-File:Gauge.sol#L354
-```solidity
-353:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-``` 
-
-
-
-File:Gauge.sol#L367
-```solidity
-366:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
-``` 
-
-
-
-File:Gauge.sol#L379
-```solidity
-378:            address token = rewards[i];
-``` 
-
-
-
-File:Gauge.sol#L397
-```solidity
-396:        uint _endIndex = Math.min(supplyNumCheckpoints - 1, maxRuns);
-``` 
-
-
-
-File:Gauge.sol#L403
-```solidity
-402:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-``` 
-
-
-
-File:Gauge.sol#L412
-```solidity
-411:        SupplyCheckpoint memory sp = supplyCheckpoints[_endIndex];
-``` 
-
-
-
-File:Gauge.sol#L432
-```solidity
-431:        uint _endIndex = numCheckpoints[account]-1;
-``` 
-
-
-
-File:Gauge.sol#L439
-```solidity
-438:                Checkpoint memory cp1 = checkpoints[account][i+1];
-``` 
-
-
-
-File:Gauge.sol#L446
-```solidity
-445:        Checkpoint memory cp = checkpoints[account][_endIndex];
-``` 
-
-
-
-File:Gauge.sol#L468
-```solidity
-467:                tokenIds[msg.sender] = tokenId;
-``` 
-
-
-
-File:Gauge.sol#L471
-```solidity
-470:            require(tokenIds[msg.sender] == tokenId);
-``` 
-
-
-
-File:Gauge.sol#L473
-```solidity
-472:            tokenId = tokenIds[msg.sender];
-``` 
-
-
-
-File:Gauge.sol#L479
-```solidity
-478:        derivedBalances[msg.sender] = _derivedBalance;
-``` 
-
-
-
-File:Gauge.sol#L480
-```solidity
-479:        derivedSupply += _derivedBalance;
-``` 
-
-
-
-File:Gauge.sol#L510
-```solidity
-509:            tokenIds[msg.sender] = 0;
-``` 
-
-
-
-File:Gauge.sol#L513
-```solidity
-512:            tokenId = tokenIds[msg.sender];
-``` 
-
-
-
-File:Gauge.sol#L519
-```solidity
-518:        derivedBalances[msg.sender] = _derivedBalance;
-``` 
-
-
-
-File:Gauge.sol#L520
-```solidity
-519:        derivedSupply += _derivedBalance;
-``` 
-
-
-
-File:Gauge.sol#L522
-```solidity
-521:        _writeCheckpoint(msg.sender, derivedBalances[msg.sender]);
-``` 
-
-
-
-File:Gauge.sol#L531
-```solidity
-530:        uint _remaining = periodFinish[token] - block.timestamp;
-``` 
-
-
-
-File:Gauge.sol#L541
-```solidity
-540:            isReward[token] = true; 
-``` 
-
-
-
-File:Gauge.sol#L542
-```solidity
-541:            rewards.push(token);
-``` 
-
-
-
-File:Gauge.sol#L550
-```solidity
-549:            rewardRate[token] = amount / DURATION;
-``` 
-
-
-
-File:Gauge.sol#L552
-```solidity
-551:            uint _remaining = periodFinish[token] - block.timestamp;
-``` 
-
-
-
-File:Gauge.sol#L553
-```solidity
-552:            uint _left = _remaining * rewardRate[token];
-``` 
-
-
-
-File:Gauge.sol#L556
-```solidity
-555:            rewardRate[token] = (amount + _left) / DURATION;
-``` 
-
-
-
-File:Gauge.sol#L558
-```solidity
-557:        require(rewardRate[token] > 0);
-``` 
-
-
-
-File:Gauge.sol#L560
-```solidity
-559:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
-``` 
-
-
-
-File:Gauge.sol#L561
-```solidity
-560:        periodFinish[token] = block.timestamp + DURATION;
-``` 
-
-
-
-File:Bribe.sol#L80
-```solidity
-79:        _unlocked = 2;
-``` 
-
-
-
-File:Bribe.sol#L82
-```solidity
-81:        _unlocked = 1;
-``` 
-
-
-
-File:Bribe.sol#L104
-```solidity
-103:        if (checkpoints[tokenId][0].timestamp > timestamp) {
-``` 
-
-
-
-File:Bribe.sol#L112
-```solidity
-111:            Checkpoint memory cp = checkpoints[tokenId][center];
-``` 
-
-
-
-File:Bribe.sol#L136
-```solidity
-135:        if (supplyCheckpoints[0].timestamp > timestamp) {
-``` 
-
-
-
-File:Bribe.sol#L144
-```solidity
-143:            SupplyCheckpoint memory cp = supplyCheckpoints[center];
-``` 
-
-
-
-File:Bribe.sol#L164
-```solidity
-163:            return (rewardPerTokenCheckpoints[token][nCheckpoints - 1].rewardPerToken, rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp);
-``` 
-
-
-
-File:Bribe.sol#L164
-```solidity
-163:            return (rewardPerTokenCheckpoints[token][nCheckpoints - 1].rewardPerToken, rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp);
-``` 
-
-
-
-File:Bribe.sol#L168
-```solidity
-167:        if (rewardPerTokenCheckpoints[token][0].timestamp > timestamp) {
-``` 
-
-
-
-File:Bribe.sol#L176
-```solidity
-175:            RewardPerTokenCheckpoint memory cp = rewardPerTokenCheckpoints[token][center];
-``` 
-
-
-
-File:Bribe.sol#L185
-```solidity
-184:        return (rewardPerTokenCheckpoints[token][lower].rewardPerToken, rewardPerTokenCheckpoints[token][lower].timestamp);
-``` 
-
-
-
-File:Bribe.sol#L185
-```solidity
-184:        return (rewardPerTokenCheckpoints[token][lower].rewardPerToken, rewardPerTokenCheckpoints[token][lower].timestamp);
-``` 
-
-
-
-File:Bribe.sol#L193
-```solidity
-192:            checkpoints[tokenId][_nCheckPoints - 1].balanceOf = balance;
-``` 
-
-
-
-File:Bribe.sol#L195
-```solidity
-194:            checkpoints[tokenId][_nCheckPoints] = Checkpoint(_timestamp, balance);
-``` 
-
-
-
-File:Bribe.sol#L196
-```solidity
-195:            numCheckpoints[tokenId] = _nCheckPoints + 1;
-``` 
-
-
-
-File:Bribe.sol#L204
-```solidity
-203:            rewardPerTokenCheckpoints[token][_nCheckPoints - 1].rewardPerToken = reward;
-``` 
-
-
-
-File:Bribe.sol#L206
-```solidity
-205:            rewardPerTokenCheckpoints[token][_nCheckPoints] = RewardPerTokenCheckpoint(timestamp, reward);
-``` 
-
-
-
-File:Bribe.sol#L207
-```solidity
-206:            rewardPerTokenNumCheckpoints[token] = _nCheckPoints + 1;
-``` 
-
-
-
-File:Bribe.sol#L216
-```solidity
-215:            supplyCheckpoints[_nCheckPoints - 1].supply = totalSupply;
-``` 
-
-
-
-File:Bribe.sol#L218
-```solidity
-217:            supplyCheckpoints[_nCheckPoints] = SupplyCheckpoint(_timestamp, totalSupply);
-``` 
-
-
-
-File:Bribe.sol#L218
-```solidity
-217:            supplyCheckpoints[_nCheckPoints] = SupplyCheckpoint(_timestamp, totalSupply);
-``` 
-
-
-
-File:Bribe.sol#L219
-```solidity
-218:            supplyNumCheckpoints = _nCheckPoints + 1;
-``` 
-
-
-
-File:Bribe.sol#L240
-```solidity
-239:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-``` 
-
-
-
-File:Bribe.sol#L256
-```solidity
-255:            userRewardPerTokenStored[tokens[i]][tokenId] = rewardPerTokenStored[tokens[i]];
-``` 
-
-
-
-File:Bribe.sol#L267
-```solidity
-266:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / totalSupply);
-``` 
-
-
-
-File:Bribe.sol#L267
-```solidity
-266:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / totalSupply);
-``` 
-
-
-
-File:Bribe.sol#L287
-```solidity
-286:        uint _endIndex = Math.min(supplyNumCheckpoints-1, maxRuns);
-``` 
-
-
-
-File:Bribe.sol#L292
-```solidity
-291:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-``` 
-
-
-
-File:Bribe.sol#L305
-```solidity
-304:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
-``` 
-
-
-
-File:Bribe.sol#L315
-```solidity
-314:        address token = rewards[i];
-``` 
-
-
-
-File:Bribe.sol#L333
-```solidity
-332:        uint _endIndex = Math.min(supplyNumCheckpoints - 1, maxRuns);
-``` 
-
-
-
-File:Bribe.sol#L339
-```solidity
-338:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-``` 
-
-
-
-File:Bribe.sol#L349
-```solidity
-348:            SupplyCheckpoint memory sp = supplyCheckpoints[_endIndex];
-``` 
-
-
-
-File:Bribe.sol#L368
-```solidity
-367:        uint _endIndex = numCheckpoints[tokenId]-1;
-``` 
-
-
-
-File:Bribe.sol#L375
-```solidity
-374:                Checkpoint memory cp1 = checkpoints[tokenId][i+1];
-``` 
-
-
-
-File:Bribe.sol#L382
-```solidity
-381:        Checkpoint memory cp = checkpoints[tokenId][_endIndex];
-``` 
-
-
-
-File:Bribe.sol#L397
-```solidity
-396:        _writeCheckpoint(tokenId, balanceOf[tokenId]);
-``` 
-
-
-
-File:Bribe.sol#L410
-```solidity
-409:        _writeCheckpoint(tokenId, balanceOf[tokenId]);
-``` 
-
-
-
-File:Bribe.sol#L418
-```solidity
-417:        uint _remaining = periodFinish[token] - block.timestamp;
-``` 
-
-
-
-File:Bribe.sol#L428
-```solidity
-427:            isReward[token] = true; 
-``` 
-
-
-
-File:Bribe.sol#L429
-```solidity
-428:            rewards.push(token);
-``` 
-
-
-
-File:Bribe.sol#L437
-```solidity
-436:            rewardRate[token] = amount / DURATION;
-``` 
-
-
-
-File:Bribe.sol#L439
-```solidity
-438:            uint _remaining = periodFinish[token] - block.timestamp;
-``` 
-
-
-
-File:Bribe.sol#L440
-```solidity
-439:            uint _left = _remaining * rewardRate[token];
-``` 
-
-
-
-File:Bribe.sol#L443
-```solidity
-442:            rewardRate[token] = (amount + _left) / DURATION;
-``` 
-
-
-
-File:Bribe.sol#L445
-```solidity
-444:        require(rewardRate[token] > 0);
-``` 
-
-
-
-File:Bribe.sol#L447
-```solidity
-446:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
-``` 
-
-
-
-File:Bribe.sol#L448
-```solidity
-447:        periodFinish[token] = block.timestamp + DURATION;
-``` 
-
-
-
-File:Minter.sol#L77
-```solidity
-76:        initializer = address(0);
-``` 
-
-
-
-File:Minter.sol#L87
-```solidity
-86:        last_epoch = block.timestamp + 26 weeks;
-``` 
-
-
-
-File:Minter.sol#L126
-```solidity
-125:            active_period = _period;
-``` 
-
-
-
-File:Minter.sol#L129
-```solidity
-128:            uint _growth = calculate_growth(weekly);
-``` 
-
-
-
-File:Minter.sol#L130
-```solidity
-129:            uint _required = _growth + weekly;
-``` 
-
-
-
-File:Minter.sol#L141
-```solidity
-140:            _token.approve(address(_voter), weekly);
-``` 
-
-
-
-File:Minter.sol#L142
-```solidity
-141:            _voter.notifyRewardAmount(weekly);
-``` 
-
-
-
-File:Minter.sol#L144
-```solidity
-143:            emit Mint(msg.sender, weekly, circulating_supply(), circulating_emission());
-``` 
-
-
-
-File:SwapPair.sol#L101
-```solidity
-100:            name = string(abi.encodePacked("Variable Pair - ", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
-``` 
-
-
-
-File:SwapPair.sol#L102
-```solidity
-101:            symbol = string(abi.encodePacked("vAMM-", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
-``` 
-
-
-
-File:SwapPair.sol#L115
-```solidity
-114:        _unlocked = 2;
-``` 
-
-
-
-File:SwapPair.sol#L117
-```solidity
-116:        _unlocked = 1;
-``` 
-
-
-
-File:SwapPair.sol#L125
-```solidity
-124:        return observations[observations.length-1];
-``` 
-
-
-
-File:SwapPair.sol#L144
-```solidity
-143:            claimable0[msg.sender] = 0;
-``` 
-
-
-
-File:SwapPair.sol#L145
-```solidity
-144:            claimable1[msg.sender] = 0;
-``` 
-
-
-
-File:SwapPair.sol#L190
-```solidity
-189:            supplyIndex0[recipient] = _index0; // update user current position to global position
-``` 
-
-
-
-File:SwapPair.sol#L191
-```solidity
-190:            supplyIndex1[recipient] = _index1;
-``` 
-
-
-
-File:SwapPair.sol#L203
-```solidity
-202:            supplyIndex0[recipient] = index0; // new users are set to the default global state
-``` 
-
-
-
-File:SwapPair.sol#L203
-```solidity
-202:            supplyIndex0[recipient] = index0; // new users are set to the default global state
-``` 
-
-
-
-File:SwapPair.sol#L204
-```solidity
-203:            supplyIndex1[recipient] = index1;
-``` 
-
-
-
-File:SwapPair.sol#L204
-```solidity
-203:            supplyIndex1[recipient] = index1;
-``` 
-
-
-
-File:SwapPair.sol#L226
-```solidity
-225:            observations.push(Observation(blockTimestamp, reserve0CumulativeLast, reserve1CumulativeLast));
-``` 
-
-
-
-File:SwapPair.sol#L226
-```solidity
-225:            observations.push(Observation(blockTimestamp, reserve0CumulativeLast, reserve1CumulativeLast));
-``` 
-
-
-
-File:SwapPair.sol#L230
-```solidity
-229:        blockTimestampLast = blockTimestamp;
-``` 
-
-
-
-File:SwapPair.sol#L231
-```solidity
-230:        emit Sync(reserve0, reserve1);
-``` 
-
-
-
-File:SwapPair.sol#L231
-```solidity
-230:        emit Sync(reserve0, reserve1);
-``` 
-
-
-
-File:SwapPair.sol#L255
-```solidity
-254:            _observation = observations[observations.length-2];
-``` 
-
-
-
-File:SwapPair.sol#L289
-```solidity
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-``` 
-
-
-
-File:SwapPair.sol#L289
-```solidity
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-``` 
-
-
-
-File:SwapPair.sol#L290
-```solidity
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L290
-```solidity
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L291
-```solidity
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L291
-```solidity
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L496
-```solidity
-495:                DOMAIN_SEPARATOR,
-``` 
-
-
-
-File:SwapPair.sol#L518
-```solidity
-517:            allowance[src][spender] = newAllowance;
-``` 
-
-
-
-File:SwapPair.sol#L532
-```solidity
-531:        balanceOf[dst] += amount;
+297:    _tmpMarketBorrowerParameter = address(1);
 ``` 
 
 
@@ -3295,7 +1310,7 @@ File:SwapPair.sol#L532
  --- 
 
 <a name=[G-6]></a>
-### [G-6] Use `calldata` instead of `memory` for function arguments that do not get mutated. - Instances: 4 
+### [G-6] Use `calldata` instead of `memory` for function arguments that do not get mutated. - Instances: 7 
 
  
  
@@ -3424,107 +1439,271 @@ contract Contract3 {
 
  --- 
 
-File:Gauge.sol#L293
+[File:WildcatMarketController.sol#L153](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L153) 
 ```solidity
-292:    function getReward(address account, address[] memory tokens) external lock {
+152:  function authorizeLenders(address[] memory lenders) external onlyBorrower {
 ``` 
 
 
 
-File:Multiswap.sol#L32
+[File:WildcatMarketController.sol#L169](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L169) 
 ```solidity
-31:        bytes[] memory _swapData,
+168:  function deauthorizeLenders(address[] memory lenders) external onlyBorrower {
 ``` 
 
 
 
-File:Bribe.sol#L233
+[File:WildcatMarketController.sol#L182](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L182) 
 ```solidity
-232:    function getReward(uint tokenId, address[] memory tokens) external lock  {
+181:  function updateLenderAuthorization(address lender, address[] memory markets) external {
 ``` 
 
 
 
-File:Bribe.sol#L248
+[File:WildcatMarketController.sol#L224](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L224) 
 ```solidity
-247:    function getRewardForOwner(uint tokenId, address[] memory tokens) external lock  {
+223:    string memory symbolPrefix
+224:  ) external view returns (address) {
 ``` 
 
 
 
-File:Voter.sol#L186
+[File:WildcatMarketController.sol#L223](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L223) 
 ```solidity
-185:    function _vote(uint _tokenId, address[] memory _gaugeVote, uint256[] memory _weights) internal {
+222:    string memory namePrefix,
 ``` 
 
 
 
-File:Voter.sol#L186
+[File:WildcatMarketController.sol#L293](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L293) 
 ```solidity
-185:    function _vote(uint _tokenId, address[] memory _gaugeVote, uint256[] memory _weights) internal {
+292:    string memory namePrefix,
 ``` 
 
 
 
-File:Voter.sol#L308
+[File:WildcatMarketController.sol#L294](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L294) 
 ```solidity
-307:    function updateFor(address[] memory _gauges) external {
+293:    string memory symbolPrefix,
 ``` 
 
 
 
-File:Voter.sol#L351
+[File:WildcatMarketController.sol#L372](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L372) 
 ```solidity
-350:    function claimRewards(address[] memory _gauges, address[][] memory _tokens) external {
+371:    string memory namePrefix,
 ``` 
 
 
 
-File:Voter.sol#L351
+[File:WildcatMarketController.sol#L373](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L373) 
 ```solidity
-350:    function claimRewards(address[] memory _gauges, address[][] memory _tokens) external {
+372:    string memory symbolPrefix
+373:  ) internal pure returns (bytes32 salt) {
 ``` 
 
 
 
-File:Voter.sol#L361
+[File:WildcatMarketController.sol#L395](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L395) 
 ```solidity
-360:    function claimBribes(address[] memory _bribes, address[][] memory _tokens, uint _tokenId) external {
+394:    string memory namePrefix,
 ``` 
 
 
 
-File:Voter.sol#L361
+[File:WildcatMarketController.sol#L396](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L396) 
 ```solidity
-360:    function claimBribes(address[] memory _bribes, address[][] memory _tokens, uint _tokenId) external {
+395:    string memory symbolPrefix,
 ``` 
 
 
 
-File:Voter.sol#L372
+[File:WildcatMarketControllerFactory.sol#L319](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L319) 
 ```solidity
-371:    function claimFees(address[] memory _fees, address[][] memory _tokens, uint _tokenId) external {
+318:    string memory symbolPrefix,
 ``` 
 
 
 
-File:Voter.sol#L372
+[File:WildcatMarketControllerFactory.sol#L318](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L318) 
 ```solidity
-371:    function claimFees(address[] memory _fees, address[][] memory _tokens, uint _tokenId) external {
+317:    string memory namePrefix,
 ``` 
 
 
 
-File:Voter.sol#L381
+[File:WildcatMarketBase.sol#L163](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L163) 
 ```solidity
-380:    function distributeFees(address[] memory _gauges) external {
+162:  function _blockAccount(MarketState memory state, address accountAddress) internal {
 ``` 
 
 
 
-File:Voter.sol#L414
+[File:WildcatMarketBase.sol#L448](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L448) 
 ```solidity
-413:    function distribute(address[] memory _gauges) external {
+447:  function _writeState(MarketState memory state) internal {
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L466](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L466) 
+```solidity
+465:  function _processExpiredWithdrawalBatch(MarketState memory state) internal {
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L500](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L500) 
+```solidity
+499:    MarketState memory state,
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L499](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L499) 
+```solidity
+498:    WithdrawalBatch memory batch,
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L530](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L530) 
+```solidity
+529:    MarketState memory state,
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L529](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L529) 
+```solidity
+528:    WithdrawalBatch memory batch,
+``` 
+
+
+
+[File:FeeMath.sol#L31](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L31) 
+```solidity
+30:    MarketState memory state,
+``` 
+
+
+
+[File:FeeMath.sol#L41](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L41) 
+```solidity
+40:    MarketState memory state,
+``` 
+
+
+
+[File:FeeMath.sol#L54](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L54) 
+```solidity
+53:    MarketState memory state,
+``` 
+
+
+
+[File:FeeMath.sol#L90](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L90) 
+```solidity
+89:    MarketState memory state,
+``` 
+
+
+
+[File:FeeMath.sol#L143](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L143) 
+```solidity
+142:    MarketState memory state,
+``` 
+
+
+
+[File:Withdrawal.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L38) 
+```solidity
+37:  function scaledOwedAmount(WithdrawalBatch memory batch) internal pure returns (uint104) {
+``` 
+
+
+
+[File:Withdrawal.sol#L48](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L48) 
+```solidity
+47:    WithdrawalBatch memory batch,
+``` 
+
+
+
+[File:Withdrawal.sol#L49](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L49) 
+```solidity
+48:    MarketState memory state,
+``` 
+
+
+
+[File:MarketState.sol#L51](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L51) 
+```solidity
+50:  function totalSupply(MarketState memory state) internal pure returns (uint256) {
+``` 
+
+
+
+[File:MarketState.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L59) 
+```solidity
+58:  function maximumDeposit(MarketState memory state) internal pure returns (uint256) {
+``` 
+
+
+
+[File:MarketState.sol#L67](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L67) 
+```solidity
+66:    MarketState memory state,
+``` 
+
+
+
+[File:MarketState.sol#L76](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L76) 
+```solidity
+75:  function scaleAmount(MarketState memory state, uint256 amount) internal pure returns (uint256) {
+``` 
+
+
+
+[File:MarketState.sol#L88](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L88) 
+```solidity
+87:    MarketState memory state
+88:  ) internal pure returns (uint256 _liquidityRequired) {
+``` 
+
+
+
+[File:MarketState.sol#L106](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L106) 
+```solidity
+105:    MarketState memory state,
+``` 
+
+
+
+[File:MarketState.sol#L124](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L124) 
+```solidity
+123:    MarketState memory state,
+``` 
+
+
+
+[File:MarketState.sol#L130](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L130) 
+```solidity
+129:  function hasPendingExpiredBatch(MarketState memory state) internal view returns (bool result) {
+``` 
+
+
+
+[File:MarketState.sol#L138](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L138) 
+```solidity
+137:  function totalDebts(MarketState memory state) internal pure returns (uint256) {
+``` 
+
+
+
+[File:LibStoredInitCode.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/LibStoredInitCode.sol#L7) 
+```solidity
+6:  function deployInitCode(bytes memory data) internal returns (address initCodeStorage) {
 ``` 
 
 
@@ -3614,73 +1793,52 @@ contract Contract1 {
 
  --- 
 
-File:SwapPair.sol#L484
+[File:WildcatSanctionsSentinel.sol#L12](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L12) 
 ```solidity
-483:        DOMAIN_SEPARATOR = keccak256(
-484:            abi.encode(
-485:                keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)'),
-486:                keccak256(bytes(name)),
-487:                keccak256('1'),
-488:                block.chainid,
-489:                address(this)
-490:            )
-491:        );
+11:    keccak256(type(WildcatSanctionsEscrow).creationCode);
 ``` 
 
 
 
-File:SwapPair.sol#L486
+[File:WildcatSanctionsSentinel.sol#L74](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L74) 
 ```solidity
-485:                keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)'),
+73:            keccak256(
+74:              abi.encodePacked(
+75:                bytes1(0xff),
+76:                address(this),
+77:                keccak256(abi.encode(borrower, account, asset)),
+78:                WildcatSanctionsEscrowInitcodeHash
+79:              )
+80:            )
+81:          )
 ``` 
 
 
 
-File:SwapPair.sol#L487
+[File:WildcatSanctionsSentinel.sol#L78](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L78) 
 ```solidity
-486:                keccak256(bytes(name)),
+77:                keccak256(abi.encode(borrower, account, asset)),
 ``` 
 
 
 
-File:SwapPair.sol#L488
+[File:WildcatSanctionsSentinel.sol#L110](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L110) 
 ```solidity
-487:                keccak256('1'),
+109:    new WildcatSanctionsEscrow{ salt: keccak256(abi.encode(borrower, account, asset)) }();
 ``` 
 
 
 
-File:SwapPair.sol#L493
+[File:WildcatMarketControllerFactory.sol#L112](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L112) 
 ```solidity
-492:        bytes32 digest = keccak256(
-493:            abi.encodePacked(
-494:                '\x19\x01',
-495:                DOMAIN_SEPARATOR,
-496:                keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
-497:            )
-498:        );
+111:    initCodeHash = uint256(keccak256(controllerInitCode));
 ``` 
 
 
 
-File:SwapPair.sol#L497
+[File:WildcatMarketControllerFactory.sol#L122](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L122) 
 ```solidity
-496:                keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
-497:            )
-``` 
-
-
-
-File:SwapFactory.sol#L73
-```solidity
-72:        return keccak256(type(SwapPair).creationCode);
-``` 
-
-
-
-File:SwapFactory.sol#L85
-```solidity
-84:        bytes32 salt = keccak256(abi.encodePacked(token0, token1, stable)); // notice salt includes stable as well, 3 parameters
+121:    initCodeHash = uint256(keccak256(marketInitCode));
 ``` 
 
 
@@ -3688,435 +1846,7 @@ File:SwapFactory.sol#L85
  --- 
 
 <a name=[G-8]></a>
-### [G-8] Use custom errors instead of string error messages - Instances: 7 
-
- 
- 
-> Using custom errors will save you gas, and can be used to provide more information about the error.
-        
-         
- 
-#### Gas Report - Savings: ~57 
- <details>  
- <summary>  
-  </summary> 
- 
-        
-```solidity
-
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-    }
-
-    function testFailGas() public {
-        c0.stringErrorMessage();
-        c1.customErrorMessage();
-    }
-}
-
-contract Contract0 {
-    function stringErrorMessage() public {
-        bool check = false;
-        require(check, "error message");
-    }
-}
-
-contract Contract1 {
-    error CustomError();
-
-    function customErrorMessage() public {
-        bool check = false;
-        if (!check) {
-            revert CustomError();
-        }
-    }
-}
-
-```
-
-
-```solidity
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 34087              ┆ 200             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ stringErrorMessage ┆ 218             ┆ 218 ┆ 218    ┆ 218 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 26881              ┆ 164             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ customErrorMessage ┆ 161             ┆ 161 ┆ 161    ┆ 161 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-```
-
- 
- </details> 
- 
-
- --- 
-
-File:Gauge.sol#L85
-```solidity
-84:        require(
-85:            _stake != address(0) &&
-86:            _bribe != address(0) &&
-87:            __ve != address(0) &&
-88:            _voter != address(0),
-89:            "Gauge: zero address provided in constructor"
-90:        );
-``` 
-
-
-
-File:Gauge.sol#L539
-```solidity
-538:            require(IVoter(voter).isReward(address(this), token), "rewards tokens must be whitelisted");
-``` 
-
-
-
-File:Gauge.sol#L540
-```solidity
-539:            require(rewards.length < MAX_REWARD_TOKENS, "too many rewards tokens");
-``` 
-
-
-
-File:Gauge.sol#L560
-```solidity
-559:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
-``` 
-
-
-
-File:SwapFactory.sol#L27
-```solidity
-26:        require(msg.sender == admin, "Voter: only admin");
-``` 
-
-
-
-File:SwapFactory.sol#L32
-```solidity
-31:        require(
-32:            _feeCollector != address(0),
-33:            "SwapFactory: zero address provided in constructor"
-34:        );
-``` 
-
-
-
-File:SwapFactory.sol#L63
-```solidity
-62:        require(msg.sender == admin, "SwapFactory: only admin");
-``` 
-
-
-
-File:SwapFactory.sol#L68
-```solidity
-67:        require(msg.sender == admin && _admin != address(0), "SwapFactory; wrong input parameters");
-``` 
-
-
-
-File:SwapFactory.sol#L81
-```solidity
-80:        require(tokenA != tokenB, 'IA'); // BaseV1: IDENTICAL_ADDRESSES
-``` 
-
-
-
-File:SwapFactory.sol#L83
-```solidity
-82:        require(token0 != address(0), 'ZA'); // BaseV1: ZERO_ADDRESS
-``` 
-
-
-
-File:SwapFactory.sol#L84
-```solidity
-83:        require(getPair[token0][token1][stable] == address(0), 'PE'); // BaseV1: PAIR_EXISTS - single check is sufficient
-``` 
-
-
-
-File:Bribe.sol#L426
-```solidity
-425:            require(IVoter(voter).isBribe(address(this), token), "rewards tokens must be whitelisted");
-``` 
-
-
-
-File:Bribe.sol#L427
-```solidity
-426:            require(rewards.length < MAX_REWARD_TOKENS, "too many rewards tokens");
-``` 
-
-
-
-File:Bribe.sol#L447
-```solidity
-446:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
-``` 
-
-
-
-File:SwapPair.sol#L314
-```solidity
-313:        require(liquidity > 0, 'ILM'); // SwapPair: INSUFFICIENT_LIQUIDITY_MINTED
-``` 
-
-
-
-File:SwapPair.sol#L333
-```solidity
-332:        require(amount0 > 0 && amount1 > 0, 'ILB'); // SwapPair: INSUFFICIENT_LIQUIDITY_BURNED
-``` 
-
-
-
-File:SwapPair.sol#L347
-```solidity
-346:        require(amount0Out > 0 || amount1Out > 0, 'IOA'); // SwapPair: INSUFFICIENT_OUTPUT_AMOUNT
-``` 
-
-
-
-File:SwapPair.sol#L349
-```solidity
-348:        require(amount0Out < _reserve0 && amount1Out < _reserve1, 'IL'); // SwapPair: INSUFFICIENT_LIQUIDITY
-``` 
-
-
-
-File:SwapPair.sol#L355
-```solidity
-354:        require(to != _token0 && to != _token1, 'IT'); // SwapPair: INVALID_TO
-``` 
-
-
-
-File:SwapPair.sol#L364
-```solidity
-363:        require(amount0In > 0 || amount1In > 0, 'IIA'); // SwapPair: INSUFFICIENT_INPUT_AMOUNT
-``` 
-
-
-
-File:SwapPair.sol#L372
-```solidity
-371:        require(_k(_balance0, _balance1) >= _k(_reserve0, _reserve1), 'K'); // SwapPair: K
-``` 
-
-
-
-File:SwapPair.sol#L478
-```solidity
-477:        require(deadline >= block.timestamp, 'SwapPair: EXPIRED');
-``` 
-
-
-
-File:SwapPair.sol#L479
-```solidity
-478:        require(v == 27 || v == 28, 'SwapPair: INVALID_SIGNATURE');
-``` 
-
-
-
-File:SwapPair.sol#L480
-```solidity
-479:        require(
-480:            s < 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A1,
-481:            'SwapPair: INVALID_SIGNATURE'
-482:        );
-``` 
-
-
-
-File:SwapPair.sol#L501
-```solidity
-500:        require(recoveredAddress != address(0) && recoveredAddress == owner, 'SwapPair: INVALID_SIGNATURE');
-``` 
-
-
-
-File:Minter.sol#L47
-```solidity
-46:        require(
-47:            __voter != address(0) &&
-48:            __ve != address(0) &&
-49:            __ve_dist != address(0) &&
-50:            _admin != address(0),
-51:            "Minter: zero address provided in constructor"
-52:        );
-``` 
-
-
-
-File:Minter.sol#L84
-```solidity
-83:        require(block.timestamp >= last_epoch + 26 weeks, "must wait next period");
-``` 
-
-
-
-File:Minter.sol#L136
-```solidity
-135:            require(_token.transfer(address(_ve_dist), _growth), "growth transfer failed");
-``` 
-
-
-
-File:Multiswap.sol#L12
-```solidity
-11:        require(
-12:            _router != address(0),
-13:            "Multiswap: zero address provided in constructor"
-14:        );
-``` 
-
-
-
-File:Multiswap.sol#L37
-```solidity
-36:        require(length > 1 && length <= 5 && _weights.length == length, "length");
-``` 
-
-
-
-File:Multiswap.sol#L38
-```solidity
-37:        require(_assertWeights(_weights), "wrong weights");
-``` 
-
-
-
-File:Multiswap.sol#L44
-```solidity
-43:            require(msg.value > 0, "no ETH sent");
-``` 
-
-
-
-File:Multiswap.sol#L54
-```solidity
-53:            require(_amount > 0, "no tokens sent");
-``` 
-
-
-
-File:Multiswap.sol#L56
-```solidity
-55:            require(transferFromSuccess, "transferFrom failed");
-``` 
-
-
-
-File:Voter.sol#L64
-```solidity
-63:        require(msg.sender == admin, "Voter: only admin");
-``` 
-
-
-
-File:Voter.sol#L69
-```solidity
-68:        require(
-69:            __ve != address(0) &&
-70:            _factory != address(0) &&
-71:            _gauges != address(0) &&
-72:            _bribes != address(0),
-73:            "Voter: zero address provided in constructor"
-74:        );
-``` 
-
-
-
-File:Voter.sol#L112
-```solidity
-111:        require(_admin != address(0), "zero address");
-``` 
-
-
-
-File:Voter.sol#L125
-```solidity
-124:        require(isLive[_gauge], "gauge is not live");
-``` 
-
-
-
-File:Voter.sol#L132
-```solidity
-131:        require(!isLive[_gauge], "gauge is live");
-``` 
-
-
-
-File:Voter.sol#L139
-```solidity
-138:        require(_activePeriod() > lastVote[_tokenId], "voted recently");
-``` 
-
-
-
-File:Voter.sol#L227
-```solidity
-226:        require(_activePeriod() > lastVote[tokenId], "already voted");
-``` 
-
-
-
-File:Voter.sol#L228
-```solidity
-227:        require(_nextPeriod() < _lockEnd, "lock expires soon");
-``` 
-
-
-
-File:Voter.sol#L248
-```solidity
-247:        require(ISwapFactory(factory).isPair(_pair), "!pair");
-``` 
-
-
-
-File:Voter.sol#L249
-```solidity
-248:        require(gauges[_pair] == address(0x0), "exists");
-``` 
-
-
-
-File:Voter.sol#L251
-```solidity
-250:        require(isWhitelisted[_tokenA] && isWhitelisted[_tokenB], "!whitelisted");
-``` 
-
-
-
- --- 
-
-<a name=[G-9]></a>
-### [G-9] Use assembly for math (add, sub, mul, div) - Instances: 6 
+### [G-8] Use assembly for math (add, sub, mul, div) - Instances: 13 
 
  
  
@@ -4349,2138 +2079,451 @@ contract Contract7 {
 
  --- 
 
-File:Bribe.sol#L99
+[File:FeeMath.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L24) 
 ```solidity
-98:        if (checkpoints[tokenId][nCheckpoints - 1].timestamp <= timestamp) {
+23:    uint256 accumulatedInterestRay = rate * timeDelta;
 ``` 
 
 
 
-File:Bribe.sol#L100
+[File:FeeMath.sol#L26](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L26) 
 ```solidity
-99:            return (nCheckpoints - 1);
+25:      return accumulatedInterestRay / SECONDS_IN_365_DAYS;
 ``` 
 
 
 
-File:Bribe.sol#L109
+[File:FeeMath.sol#L36](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L36) 
 ```solidity
-108:        uint upper = nCheckpoints - 1;
+35:      timestamp - state.lastInterestAccruedTimestamp
+36:    );
 ``` 
 
 
 
-File:Bribe.sol#L111
+[File:FeeMath.sol#L50](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L50) 
 ```solidity
-110:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+49:    state.accruedProtocolFees = (state.accruedProtocolFees + protocolFee).toUint128();
 ``` 
 
 
 
-File:Bribe.sol#L111
+[File:FeeMath.sol#L64](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L64) 
 ```solidity
-110:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+63:      timestamp - state.lastInterestAccruedTimestamp
+64:    );
 ``` 
 
 
 
-File:Bribe.sol#L111
+[File:FeeMath.sol#L100](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L100) 
 ```solidity
-110:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+99:      state.timeDelinquent = (previousTimeDelinquent + timeDelta).toUint32();
 ``` 
 
 
 
-File:Bribe.sol#L118
+[File:FeeMath.sol#L169](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L169) 
 ```solidity
-117:                upper = center - 1;
+168:    uint256 scaleFactorDelta = prevScaleFactor.rayMul(baseInterestRay + delinquencyFeeRay);
 ``` 
 
 
 
-File:Bribe.sol#L131
+[File:FeeMath.sol#L171](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L171) 
 ```solidity
-130:        if (supplyCheckpoints[nCheckpoints - 1].timestamp <= timestamp) {
+170:    state.scaleFactor = (prevScaleFactor + scaleFactorDelta).toUint112();
 ``` 
 
 
 
-File:Bribe.sol#L132
+[File:MarketState.sol#L91](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L91) 
 ```solidity
-131:            return (nCheckpoints - 1);
+90:    uint256 scaledRequiredReserves = (state.scaledTotalSupply - scaledWithdrawals).bipMul(
+91:      state.reserveRatioBips
+92:    ) + scaledWithdrawals;
 ``` 
 
 
 
-File:Bribe.sol#L141
+[File:MarketState.sol#L91](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L91) 
 ```solidity
-140:        uint upper = nCheckpoints - 1;
+90:    uint256 scaledRequiredReserves = (state.scaledTotalSupply - scaledWithdrawals).bipMul(
 ``` 
 
 
 
-File:Bribe.sol#L143
+[File:MarketState.sol#L95](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L95) 
 ```solidity
-142:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+94:      state.normalizeAmount(scaledRequiredReserves) +
+95:      state.accruedProtocolFees +
+96:      state.normalizedUnclaimedWithdrawals;
 ``` 
 
 
 
-File:Bribe.sol#L143
+[File:MarketState.sol#L95](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L95) 
 ```solidity
-142:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+94:      state.normalizeAmount(scaledRequiredReserves) +
+95:      state.accruedProtocolFees +
 ``` 
 
 
 
-File:Bribe.sol#L143
+[File:MarketState.sol#L109](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L109) 
 ```solidity
-142:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+108:    uint256 totalAvailableAssets = totalAssets - state.normalizedUnclaimedWithdrawals;
 ``` 
 
 
 
-File:Bribe.sol#L150
+[File:MarketState.sol#L140](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L140) 
 ```solidity
-149:                upper = center - 1;
+139:      state.normalizeAmount(state.scaledTotalSupply) +
+140:      state.normalizedUnclaimedWithdrawals +
+141:      state.accruedProtocolFees;
 ``` 
 
 
 
-File:Bribe.sol#L163
+[File:MarketState.sol#L140](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L140) 
 ```solidity
-162:        if (rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp <= timestamp) {
+139:      state.normalizeAmount(state.scaledTotalSupply) +
+140:      state.normalizedUnclaimedWithdrawals +
 ``` 
 
 
 
-File:Bribe.sol#L164
+[File:WildcatMarketController.sol#L131](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L131) 
 ```solidity
-163:            return (rewardPerTokenCheckpoints[token][nCheckpoints - 1].rewardPerToken, rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp);
+130:    uint256 count = end - start;
 ``` 
 
 
 
-File:Bribe.sol#L164
+[File:WildcatMarketController.sol#L134](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L134) 
 ```solidity
-163:            return (rewardPerTokenCheckpoints[token][nCheckpoints - 1].rewardPerToken, rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp);
+133:      arr[i] = _authorizedLenders.at(start + i);
 ``` 
 
 
 
-File:Bribe.sol#L173
+[File:WildcatMarketController.sol#L210](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L210) 
 ```solidity
-172:        uint upper = nCheckpoints - 1;
+209:    uint256 count = end - start;
 ``` 
 
 
 
-File:Bribe.sol#L175
+[File:WildcatMarketController.sol#L213](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L213) 
 ```solidity
-174:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+212:      arr[i] = _controlledMarkets.at(start + i);
 ``` 
 
 
 
-File:Bribe.sol#L175
+[File:WildcatMarketController.sol#L484](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L484) 
 ```solidity
-174:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+483:      tmp.expiry = uint128(block.timestamp + 2 weeks);
 ``` 
 
 
 
-File:Bribe.sol#L175
+[File:Withdrawal.sol#L39](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L39) 
 ```solidity
-174:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
+38:    return batch.scaledTotalAmount - batch.scaledAmountBurned;
 ``` 
 
 
 
-File:Bribe.sol#L182
+[File:Withdrawal.sol#L54](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L54) 
 ```solidity
-181:                upper = center - 1;
+53:    uint256 priorScaledAmountPending = (state.scaledPendingWithdrawals - batch.scaledOwedAmount());
 ``` 
 
 
 
-File:Bribe.sol#L192
+[File:Withdrawal.sol#L55](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L55) 
 ```solidity
-191:        if (_nCheckPoints > 0 && checkpoints[tokenId][_nCheckPoints - 1].timestamp == _timestamp) {
+54:    uint256 unavailableAssets = state.normalizedUnclaimedWithdrawals +
+55:      state.normalizeAmount(priorScaledAmountPending) +
+56:      state.accruedProtocolFees;
 ``` 
 
 
 
-File:Bribe.sol#L193
+[File:Withdrawal.sol#L55](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L55) 
 ```solidity
-192:            checkpoints[tokenId][_nCheckPoints - 1].balanceOf = balance;
+54:    uint256 unavailableAssets = state.normalizedUnclaimedWithdrawals +
+55:      state.normalizeAmount(priorScaledAmountPending) +
 ``` 
 
 
 
-File:Bribe.sol#L196
+[File:WildcatMarketControllerFactory.sol#L144](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L144) 
 ```solidity
-195:            numCheckpoints[tokenId] = _nCheckPoints + 1;
+143:    uint256 count = end - start;
 ``` 
 
 
 
-File:Bribe.sol#L203
+[File:WildcatMarketControllerFactory.sol#L147](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L147) 
 ```solidity
-202:        if (_nCheckPoints > 0 && rewardPerTokenCheckpoints[token][_nCheckPoints - 1].timestamp == timestamp) {
+146:      arr[i] = _deployedControllers.at(start + i);
 ``` 
 
 
 
-File:Bribe.sol#L204
+[File:WildcatMarketBase.sol#L321](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L321) 
 ```solidity
-203:            rewardPerTokenCheckpoints[token][_nCheckPoints - 1].rewardPerToken = reward;
+320:    uint256 apr = MathUtils.bipToRay(state.annualInterestBips).bipMul(BIP + protocolFeeBips);
 ``` 
 
 
 
-File:Bribe.sol#L207
+[File:WildcatMarketBase.sol#L505](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L505) 
 ```solidity
-206:            rewardPerTokenNumCheckpoints[token] = _nCheckPoints + 1;
+504:    uint104 scaledAmountOwed = batch.scaledTotalAmount - batch.scaledAmountBurned;
 ``` 
 
 
 
-File:Bribe.sol#L215
+[File:WildcatMarketBase.sol#L534](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L534) 
 ```solidity
-214:        if (_nCheckPoints > 0 && supplyCheckpoints[_nCheckPoints - 1].timestamp == _timestamp) {
+533:    uint104 scaledAmountOwed = batch.scaledTotalAmount - batch.scaledAmountBurned;
 ``` 
 
 
 
-File:Bribe.sol#L216
+[File:MathUtils.sol#L35](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L35) 
 ```solidity
-215:            supplyCheckpoints[_nCheckPoints - 1].supply = totalSupply;
+34:    uint256 accumulatedInterestRay = rate * timeDelta;
 ``` 
 
 
 
-File:Bribe.sol#L219
+[File:MathUtils.sol#L37](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L37) 
 ```solidity
-218:            supplyNumCheckpoints = _nCheckPoints + 1;
+36:      return accumulatedInterestRay / SECONDS_IN_365_DAYS;
 ``` 
 
 
 
-File:Bribe.sol#L267
+[File:WildcatMarket.sol#L154](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L154) 
 ```solidity
-266:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / totalSupply);
+153:      asset.safeTransferFrom(borrower, address(this), totalDebts - currentlyHeld);
 ``` 
 
 
 
-File:Bribe.sol#L267
+[File:WildcatMarket.sol#L157](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L157) 
 ```solidity
-266:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / totalSupply);
+156:      asset.safeTransfer(borrower, currentlyHeld - totalDebts);
 ``` 
 
 
 
-File:Bribe.sol#L267
+[File:WildcatArchController.sol#L91](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L91) 
 ```solidity
-266:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / totalSupply);
+90:    uint256 count = end - start;
 ``` 
 
 
 
-File:Bribe.sol#L267
+[File:WildcatArchController.sol#L94](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L94) 
 ```solidity
-266:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / totalSupply);
+93:      arr[i] = _borrowers.at(start + i);
 ``` 
 
 
 
-File:Bribe.sol#L267
+[File:WildcatArchController.sol#L134](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L134) 
 ```solidity
-266:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / totalSupply);
+133:    uint256 count = end - start;
 ``` 
 
 
 
-File:Bribe.sol#L287
+[File:WildcatArchController.sol#L137](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L137) 
 ```solidity
-286:        uint _endIndex = Math.min(supplyNumCheckpoints-1, maxRuns);
+136:      arr[i] = _controllerFactories.at(start + i);
 ``` 
 
 
 
-File:Bribe.sol#L292
+[File:WildcatArchController.sol#L177](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L177) 
 ```solidity
-291:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
+176:    uint256 count = end - start;
 ``` 
 
 
 
-File:Bribe.sol#L305
+[File:WildcatArchController.sol#L180](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L180) 
 ```solidity
-304:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
+179:      arr[i] = _controllers.at(start + i);
 ``` 
 
 
 
-File:Bribe.sol#L305
+[File:WildcatArchController.sol#L220](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L220) 
 ```solidity
-304:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
+219:    uint256 count = end - start;
 ``` 
 
 
 
-File:Bribe.sol#L305
+[File:WildcatArchController.sol#L223](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L223) 
 ```solidity
-304:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
+222:      arr[i] = _markets.at(start + i);
 ``` 
 
 
 
-File:Bribe.sol#L305
+[File:StringQuery.sol#L22](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L22) 
 ```solidity
-304:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
+21:    uint256 sizeInBits = 255 - uint256(value).ffs();
 ``` 
 
 
 
-File:Bribe.sol#L333
+[File:StringQuery.sol#L23](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L23) 
 ```solidity
-332:        uint _endIndex = Math.min(supplyNumCheckpoints - 1, maxRuns);
+22:    size = (sizeInBits + 7) / 8;
 ``` 
 
 
 
-File:Bribe.sol#L336
+[File:StringQuery.sol#L23](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L23) 
 ```solidity
-335:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
+22:    size = (sizeInBits + 7) / 8;
 ``` 
 
 
 
-File:Bribe.sol#L339
+[File:StringQuery.sol#L72](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L72) 
 ```solidity
-338:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
+71:      uint256 sizeInBits = 255 - value.ffs();
 ``` 
 
 
 
-File:Bribe.sol#L368
+[File:StringQuery.sol#L73](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L73) 
 ```solidity
-367:        uint _endIndex = numCheckpoints[tokenId]-1;
+72:      size = (sizeInBits + 7) / 8;
 ``` 
 
 
 
-File:Bribe.sol#L373
+[File:StringQuery.sol#L73](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L73) 
 ```solidity
-372:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
+72:      size = (sizeInBits + 7) / 8;
 ``` 
 
 
 
-File:Bribe.sol#L375
+[File:WildcatMarketWithdrawals.sol#L67](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L67) 
 ```solidity
-374:                Checkpoint memory cp1 = checkpoints[tokenId][i+1];
+66:    return newTotalWithdrawn - previousTotalWithdrawn;
 ``` 
 
 
 
-File:Bribe.sol#L378
+[File:WildcatMarketWithdrawals.sol#L95](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L95) 
 ```solidity
-377:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
+94:      state.pendingWithdrawalExpiry = uint32(block.timestamp + withdrawalBatchDuration);
 ``` 
 
 
 
-File:Bribe.sol#L378
+[File:WildcatMarketWithdrawals.sol#L155](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L155) 
 ```solidity
-377:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
+154:    uint128 normalizedAmountWithdrawn = newTotalWithdrawn - status.normalizedAmountWithdrawn;
 ``` 
 
 
 
-File:Bribe.sol#L378
+[File:WildcatMarketWithdrawals.sol#L200](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L200) 
 ```solidity
-377:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
+199:    uint256 availableLiquidity = totalAssets() -
+200:      (state.normalizedUnclaimedWithdrawals + state.accruedProtocolFees);
 ``` 
 
 
 
-File:Bribe.sol#L384
+[File:WildcatMarketWithdrawals.sol#L201](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L201) 
 ```solidity
-383:        reward += cp.balanceOf * (rewardPerToken(token) - Math.max(_rewardPerTokenStored, userRewardPerTokenStored[token][tokenId])) / PRECISION;
+200:      (state.normalizedUnclaimedWithdrawals + state.accruedProtocolFees);
 ``` 
 
 
 
-File:Bribe.sol#L384
+[File:FIFOQueue.sol#L39](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L39) 
 ```solidity
-383:        reward += cp.balanceOf * (rewardPerToken(token) - Math.max(_rewardPerTokenStored, userRewardPerTokenStored[token][tokenId])) / PRECISION;
+38:    return arr.nextIndex - arr.startIndex;
 ``` 
 
 
 
-File:Bribe.sol#L384
+[File:FIFOQueue.sol#L45](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L45) 
 ```solidity
-383:        reward += cp.balanceOf * (rewardPerToken(token) - Math.max(_rewardPerTokenStored, userRewardPerTokenStored[token][tokenId])) / PRECISION;
+44:    uint256 len = nextIndex - startIndex;
 ``` 
 
 
 
-File:Bribe.sol#L418
+[File:FIFOQueue.sol#L49](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L49) 
 ```solidity
-417:        uint _remaining = periodFinish[token] - block.timestamp;
+48:      _values[i] = arr.data[startIndex + i];
 ``` 
 
 
 
-File:Bribe.sol#L419
+[File:FIFOQueue.sol#L58](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L58) 
 ```solidity
-418:        return _remaining * rewardRate[token];
+57:    arr.nextIndex = nextIndex + 1;
 ``` 
 
 
 
-File:Bribe.sol#L437
+[File:FIFOQueue.sol#L67](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L67) 
 ```solidity
-436:            rewardRate[token] = amount / DURATION;
+66:    arr.startIndex = startIndex + 1;
 ``` 
 
 
 
-File:Bribe.sol#L439
+[File:FIFOQueue.sol#L72](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L72) 
 ```solidity
-438:            uint _remaining = periodFinish[token] - block.timestamp;
+71:    if (startIndex + n > arr.nextIndex) {
 ``` 
 
 
 
-File:Bribe.sol#L440
+[File:FIFOQueue.sol#L76](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L76) 
 ```solidity
-439:            uint _left = _remaining * rewardRate[token];
+75:      delete arr.data[startIndex + i];
 ``` 
 
 
 
-File:Bribe.sol#L443
+[File:FIFOQueue.sol#L78](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L78) 
 ```solidity
-442:            rewardRate[token] = (amount + _left) / DURATION;
+77:    arr.startIndex = startIndex + n;
 ``` 
 
 
 
-File:Bribe.sol#L443
+[File:WildcatMarketToken.sol#L50](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L50) 
 ```solidity
-442:            rewardRate[token] = (amount + _left) / DURATION;
-``` 
-
-
-
-File:Bribe.sol#L447
-```solidity
-446:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
-``` 
-
-
-
-File:Bribe.sol#L448
-```solidity
-447:        periodFinish[token] = block.timestamp + DURATION;
-``` 
-
-
-
-File:Multiswap.sol#L46
-```solidity
-45:                uint amount_ = msg.value * _weights[i] / 10000;
-``` 
-
-
-
-File:Multiswap.sol#L46
-```solidity
-45:                uint amount_ = msg.value * _weights[i] / 10000;
-``` 
-
-
-
-File:Multiswap.sol#L50
-```solidity
-49:                amountsOut[i] = out[out.length - 1];
-``` 
-
-
-
-File:Multiswap.sol#L62
-```solidity
-61:                amountsOut[i] = out[out.length - 1];
-``` 
-
-
-
-File:Minter.sol#L14
-```solidity
-13:    uint internal constant week = 86400 * 7; // allows minting once per week (reset every Thursday 00:00 UTC)
-``` 
-
-
-
-File:Minter.sol#L27
-```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
-``` 
-
-
-
-File:Minter.sol#L27
-```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
-``` 
-
-
-
-File:Minter.sol#L27
-```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L78
-```solidity
-77:        active_period = block.timestamp / week * week; // 
-``` 
-
-
-
-File:Minter.sol#L78
-```solidity
-77:        active_period = block.timestamp / week * week; // 
-``` 
-
-
-
-File:Minter.sol#L84
-```solidity
-83:        require(block.timestamp >= last_epoch + 26 weeks, "must wait next period");
-``` 
-
-
-
-File:Minter.sol#L87
-```solidity
-86:        last_epoch = block.timestamp + 26 weeks;
-``` 
-
-
-
-File:Minter.sol#L92
-```solidity
-91:        return _token.totalSupply() - _ve.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L97
-```solidity
-96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L97
-```solidity
-96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L97
-```solidity
-96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L97
-```solidity
-96:        return weekly * decay * circulating_supply() / target_base / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L103
-```solidity
-102:        return _emission + boost;
-``` 
-
-
-
-File:Minter.sol#L113
-```solidity
-112:        return circulating_supply() * tail_emission / tail_base;
-``` 
-
-
-
-File:Minter.sol#L113
-```solidity
-112:        return circulating_supply() * tail_emission / tail_base;
-``` 
-
-
-
-File:Minter.sol#L118
-```solidity
-117:        return _ve.totalSupply() * _minted / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L118
-```solidity
-117:        return _ve.totalSupply() * _minted / _token.totalSupply();
-``` 
-
-
-
-File:Minter.sol#L124
-```solidity
-123:        if (block.timestamp >= _period + week && initializer == address(0)) { // only trigger if new week
-``` 
-
-
-
-File:Minter.sol#L125
-```solidity
-124:            _period = block.timestamp / week * week;
-``` 
-
-
-
-File:Minter.sol#L125
-```solidity
-124:            _period = block.timestamp / week * week;
-``` 
-
-
-
-File:Minter.sol#L130
-```solidity
-129:            uint _required = _growth + weekly;
-``` 
-
-
-
-File:Minter.sol#L133
-```solidity
-132:                _token.mint(address(this), _required-_balanceOf);
-``` 
-
-
-
-File:SwapPair.sol#L125
-```solidity
-124:        return observations[observations.length-1];
-``` 
-
-
-
-File:SwapPair.sol#L156
-```solidity
-155:        uint256 _protocolFee = amount / 10; // 10% of the amount
-``` 
-
-
-
-File:SwapPair.sol#L157
-```solidity
-156:        uint256 _feeIncrease = amount - _protocolFee; // Might leave tokens in this contract due to rounding but ok, reserves updated after this function
-``` 
-
-
-
-File:SwapPair.sol#L160
-```solidity
-159:        uint256 _ratio = _feeIncrease * 1e18 / totalSupply; // 1e18 adjustment is removed during claim
-``` 
-
-
-
-File:SwapPair.sol#L160
-```solidity
-159:        uint256 _ratio = _feeIncrease * 1e18 / totalSupply; // 1e18 adjustment is removed during claim
-``` 
-
-
-
-File:SwapPair.sol#L170
-```solidity
-169:        uint256 _protocolFee = amount / 10; // 10% of the amount
-``` 
-
-
-
-File:SwapPair.sol#L171
-```solidity
-170:        uint256 _feeIncrease = amount - _protocolFee; // Might leave tokens in this contract due to rounding but ok, reserves updated after this function
-``` 
-
-
-
-File:SwapPair.sol#L174
-```solidity
-173:        uint256 _ratio = _feeIncrease * 1e18 / totalSupply;
-``` 
-
-
-
-File:SwapPair.sol#L174
-```solidity
-173:        uint256 _ratio = _feeIncrease * 1e18 / totalSupply;
-``` 
-
-
-
-File:SwapPair.sol#L192
-```solidity
-191:            uint _delta0 = _index0 - _supplyIndex0; // see if there is any difference that need to be accrued
-``` 
-
-
-
-File:SwapPair.sol#L193
-```solidity
-192:            uint _delta1 = _index1 - _supplyIndex1;
-``` 
-
-
-
-File:SwapPair.sol#L195
-```solidity
-194:                uint _share = _supplied * _delta0 / 1e18; // add accrued difference for each supplied token
-``` 
-
-
-
-File:SwapPair.sol#L195
-```solidity
-194:                uint _share = _supplied * _delta0 / 1e18; // add accrued difference for each supplied token
-``` 
-
-
-
-File:SwapPair.sol#L199
-```solidity
-198:                uint _share = _supplied * _delta1 / 1e18;
-``` 
-
-
-
-File:SwapPair.sol#L199
-```solidity
-198:                uint _share = _supplied * _delta1 / 1e18;
-``` 
-
-
-
-File:SwapPair.sol#L217
-```solidity
-216:        uint timeElapsed = blockTimestamp - blockTimestampLast; // overflow is desired
-``` 
-
-
-
-File:SwapPair.sol#L219
-```solidity
-218:            reserve0CumulativeLast += _reserve0 * timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L220
-```solidity
-219:            reserve1CumulativeLast += _reserve1 * timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L224
-```solidity
-223:        timeElapsed = blockTimestamp - _point.timestamp; // compare the last observation with current timestamp, if greater than 30 minutes, record a new event
-``` 
-
-
-
-File:SwapPair.sol#L244
-```solidity
-243:            uint timeElapsed = blockTimestamp - _blockTimestampLast;
-``` 
-
-
-
-File:SwapPair.sol#L245
-```solidity
-244:            reserve0Cumulative += _reserve0 * timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L246
-```solidity
-245:            reserve1Cumulative += _reserve1 * timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L255
-```solidity
-254:            _observation = observations[observations.length-2];
-``` 
-
-
-
-File:SwapPair.sol#L258
-```solidity
-257:        uint timeElapsed = block.timestamp - _observation.timestamp;
-``` 
-
-
-
-File:SwapPair.sol#L259
-```solidity
-258:        uint _reserve0 = (reserve0Cumulative - _observation.reserve0Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L259
-```solidity
-258:        uint _reserve0 = (reserve0Cumulative - _observation.reserve0Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L260
-```solidity
-259:        uint _reserve1 = (reserve1Cumulative - _observation.reserve1Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L260
-```solidity
-259:        uint _reserve1 = (reserve1Cumulative - _observation.reserve1Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L271
-```solidity
-270:        return priceAverageCumulative / granularity;
-``` 
-
-
-
-File:SwapPair.sol#L282
-```solidity
-281:        uint length = observations.length-1;
-``` 
-
-
-
-File:SwapPair.sol#L283
-```solidity
-282:        uint i = length - (points * window);
-``` 
-
-
-
-File:SwapPair.sol#L283
-```solidity
-282:        uint i = length - (points * window);
-``` 
-
-
-
-File:SwapPair.sol#L288
-```solidity
-287:            nextIndex = i + window;
-``` 
-
-
-
-File:SwapPair.sol#L289
-```solidity
-288:            uint timeElapsed = observations[nextIndex].timestamp - observations[i].timestamp;
-``` 
-
-
-
-File:SwapPair.sol#L290
-```solidity
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L290
-```solidity
-289:            uint _reserve0 = (observations[nextIndex].reserve0Cumulative - observations[i].reserve0Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L291
-```solidity
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L291
-```solidity
-290:            uint _reserve1 = (observations[nextIndex].reserve1Cumulative - observations[i].reserve1Cumulative) / timeElapsed;
-``` 
-
-
-
-File:SwapPair.sol#L293
-```solidity
-292:            index = index + 1;
-``` 
-
-
-
-File:SwapPair.sol#L304
-```solidity
-303:        uint _amount0 = _balance0 - _reserve0;
-``` 
-
-
-
-File:SwapPair.sol#L305
-```solidity
-304:        uint _amount1 = _balance1 - _reserve1;
-``` 
-
-
-
-File:SwapPair.sol#L309
-```solidity
-308:            liquidity = Math.sqrt(_amount0 * _amount1) - MINIMUM_LIQUIDITY;
-``` 
-
-
-
-File:SwapPair.sol#L309
-```solidity
-308:            liquidity = Math.sqrt(_amount0 * _amount1) - MINIMUM_LIQUIDITY;
-``` 
-
-
-
-File:SwapPair.sol#L312
-```solidity
-311:            liquidity = Math.min(_amount0 * _totalSupply / _reserve0, _amount1 * _totalSupply / _reserve1);
-``` 
-
-
-
-File:SwapPair.sol#L312
-```solidity
-311:            liquidity = Math.min(_amount0 * _totalSupply / _reserve0, _amount1 * _totalSupply / _reserve1);
-``` 
-
-
-
-File:SwapPair.sol#L312
-```solidity
-311:            liquidity = Math.min(_amount0 * _totalSupply / _reserve0, _amount1 * _totalSupply / _reserve1);
-``` 
-
-
-
-File:SwapPair.sol#L312
-```solidity
-311:            liquidity = Math.min(_amount0 * _totalSupply / _reserve0, _amount1 * _totalSupply / _reserve1);
-``` 
-
-
-
-File:SwapPair.sol#L331
-```solidity
-330:        amount0 = _liquidity * _balance0 / _totalSupply; // using balances ensures pro-rata distribution
-``` 
-
-
-
-File:SwapPair.sol#L331
-```solidity
-330:        amount0 = _liquidity * _balance0 / _totalSupply; // using balances ensures pro-rata distribution
-``` 
-
-
-
-File:SwapPair.sol#L332
-```solidity
-331:        amount1 = _liquidity * _balance1 / _totalSupply; // using balances ensures pro-rata distribution
-``` 
-
-
-
-File:SwapPair.sol#L332
-```solidity
-331:        amount1 = _liquidity * _balance1 / _totalSupply; // using balances ensures pro-rata distribution
-``` 
-
-
-
-File:SwapPair.sol#L362
-```solidity
-361:        uint amount0In = _balance0 > _reserve0 - amount0Out ? _balance0 - (_reserve0 - amount0Out) : 0;
-``` 
-
-
-
-File:SwapPair.sol#L362
-```solidity
-361:        uint amount0In = _balance0 > _reserve0 - amount0Out ? _balance0 - (_reserve0 - amount0Out) : 0;
-``` 
-
-
-
-File:SwapPair.sol#L362
-```solidity
-361:        uint amount0In = _balance0 > _reserve0 - amount0Out ? _balance0 - (_reserve0 - amount0Out) : 0;
-``` 
-
-
-
-File:SwapPair.sol#L363
-```solidity
-362:        uint amount1In = _balance1 > _reserve1 - amount1Out ? _balance1 - (_reserve1 - amount1Out) : 0;
-``` 
-
-
-
-File:SwapPair.sol#L363
-```solidity
-362:        uint amount1In = _balance1 > _reserve1 - amount1Out ? _balance1 - (_reserve1 - amount1Out) : 0;
-``` 
-
-
-
-File:SwapPair.sol#L363
-```solidity
-362:        uint amount1In = _balance1 > _reserve1 - amount1Out ? _balance1 - (_reserve1 - amount1Out) : 0;
-``` 
-
-
-
-File:SwapPair.sol#L367
-```solidity
-366:        if (amount0In > 0) _update0(amount0In * fee / 1e6); // accrue fees for token0 and move them out of pool
-``` 
-
-
-
-File:SwapPair.sol#L367
-```solidity
-366:        if (amount0In > 0) _update0(amount0In * fee / 1e6); // accrue fees for token0 and move them out of pool
-``` 
-
-
-
-File:SwapPair.sol#L368
-```solidity
-367:        if (amount1In > 0) _update1(amount1In * fee / 1e6); // accrue fees for token1 and move them out of pool
-``` 
-
-
-
-File:SwapPair.sol#L368
-```solidity
-367:        if (amount1In > 0) _update1(amount1In * fee / 1e6); // accrue fees for token1 and move them out of pool
-``` 
-
-
-
-File:SwapPair.sol#L382
-```solidity
-381:        _safeTransfer(_token0, to, IERC20(_token0).balanceOf(address(this)) - (reserve0));
-``` 
-
-
-
-File:SwapPair.sol#L383
-```solidity
-382:        _safeTransfer(_token1, to, IERC20(_token1).balanceOf(address(this)) - (reserve1));
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L404
-```solidity
-403:                uint dy = (xy - k)*1e18/_d(x0, y);
-``` 
-
-
-
-File:SwapPair.sol#L404
-```solidity
-403:                uint dy = (xy - k)*1e18/_d(x0, y);
-``` 
-
-
-
-File:SwapPair.sol#L404
-```solidity
-403:                uint dy = (xy - k)*1e18/_d(x0, y);
-``` 
-
-
-
-File:SwapPair.sol#L405
-```solidity
-404:                y = y + dy;
-``` 
-
-
-
-File:SwapPair.sol#L407
-```solidity
-406:                uint dy = (k - xy)*1e18/_d(x0, y);
-``` 
-
-
-
-File:SwapPair.sol#L407
-```solidity
-406:                uint dy = (k - xy)*1e18/_d(x0, y);
-``` 
-
-
-
-File:SwapPair.sol#L407
-```solidity
-406:                uint dy = (k - xy)*1e18/_d(x0, y);
-``` 
-
-
-
-File:SwapPair.sol#L408
-```solidity
-407:                y = y - dy;
-``` 
-
-
-
-File:SwapPair.sol#L411
-```solidity
-410:                if (y - y_prev <= 1) {
-``` 
-
-
-
-File:SwapPair.sol#L415
-```solidity
-414:                if (y_prev - y <= 1) {
-``` 
-
-
-
-File:SwapPair.sol#L425
-```solidity
-424:        amountIn -= amountIn * fee / 1e6; // remove fee from amount received
-``` 
-
-
-
-File:SwapPair.sol#L425
-```solidity
-424:        amountIn -= amountIn * fee / 1e6; // remove fee from amount received
-``` 
-
-
-
-File:SwapPair.sol#L432
-```solidity
-431:            _reserve0 = _reserve0 * 1e18 / decimals0;
-``` 
-
-
-
-File:SwapPair.sol#L432
-```solidity
-431:            _reserve0 = _reserve0 * 1e18 / decimals0;
-``` 
-
-
-
-File:SwapPair.sol#L433
-```solidity
-432:            _reserve1 = _reserve1 * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L433
-```solidity
-432:            _reserve1 = _reserve1 * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L435
-```solidity
-434:            amountIn = tokenIn == token0 ? amountIn * 1e18 / decimals0 : amountIn * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L435
-```solidity
-434:            amountIn = tokenIn == token0 ? amountIn * 1e18 / decimals0 : amountIn * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L435
-```solidity
-434:            amountIn = tokenIn == token0 ? amountIn * 1e18 / decimals0 : amountIn * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L435
-```solidity
-434:            amountIn = tokenIn == token0 ? amountIn * 1e18 / decimals0 : amountIn * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L436
-```solidity
-435:            uint y = reserveB - _get_y(amountIn+reserveA, xy, reserveB);
-``` 
-
-
-
-File:SwapPair.sol#L436
-```solidity
-435:            uint y = reserveB - _get_y(amountIn+reserveA, xy, reserveB);
-``` 
-
-
-
-File:SwapPair.sol#L437
-```solidity
-436:            return y * (tokenIn == token0 ? decimals1 : decimals0) / 1e18;
-``` 
-
-
-
-File:SwapPair.sol#L437
-```solidity
-436:            return y * (tokenIn == token0 ? decimals1 : decimals0) / 1e18;
-``` 
-
-
-
-File:SwapPair.sol#L440
-```solidity
-439:            return amountIn * reserveB / (reserveA + amountIn);
-``` 
-
-
-
-File:SwapPair.sol#L440
-```solidity
-439:            return amountIn * reserveB / (reserveA + amountIn);
-``` 
-
-
-
-File:SwapPair.sol#L440
-```solidity
-439:            return amountIn * reserveB / (reserveA + amountIn);
-``` 
-
-
-
-File:SwapPair.sol#L446
-```solidity
-445:            uint _x = x * 1e18 / decimals0;
-``` 
-
-
-
-File:SwapPair.sol#L446
-```solidity
-445:            uint _x = x * 1e18 / decimals0;
-``` 
-
-
-
-File:SwapPair.sol#L447
-```solidity
-446:            uint _y = y * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L447
-```solidity
-446:            uint _y = y * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L448
-```solidity
-447:            uint _a = (_x * _y) / 1e18;
-``` 
-
-
-
-File:SwapPair.sol#L448
-```solidity
-447:            uint _a = (_x * _y) / 1e18;
-``` 
-
-
-
-File:SwapPair.sol#L449
-```solidity
-448:            uint _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
-``` 
-
-
-
-File:SwapPair.sol#L449
-```solidity
-448:            uint _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
-``` 
-
-
-
-File:SwapPair.sol#L449
-```solidity
-448:            uint _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
-``` 
-
-
-
-File:SwapPair.sol#L449
-```solidity
-448:            uint _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
-``` 
-
-
-
-File:SwapPair.sol#L449
-```solidity
-448:            uint _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
-``` 
-
-
-
-File:SwapPair.sol#L450
-```solidity
-449:            return _a * _b / 1e18;  // x3y+y3x >= k
-``` 
-
-
-
-File:SwapPair.sol#L450
-```solidity
-449:            return _a * _b / 1e18;  // x3y+y3x >= k
-``` 
-
-
-
-File:SwapPair.sol#L452
-```solidity
-451:            return x * y; // xy >= k
-``` 
-
-
-
-File:SwapPair.sol#L517
-```solidity
-516:            uint newAllowance = spenderAllowance - amount;
-``` 
-
-
-
-File:Voter.sol#L108
-```solidity
-107:        return (IERC20(base).totalSupply() - IERC20(_ve).totalSupply()) / 10000;
-``` 
-
-
-
-File:Voter.sol#L108
-```solidity
-107:        return (IERC20(base).totalSupply() - IERC20(_ve).totalSupply()) / 10000;
-``` 
-
-
-
-File:Voter.sol#L201
-```solidity
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-``` 
-
-
-
-File:Voter.sol#L201
-```solidity
-200:                uint256 _gaugeWeight = _weights[i] * _weight / _totalVoteWeight;
-``` 
-
-
-
-File:Voter.sol#L301
-```solidity
-300:        uint256 _ratio = _amount * 1e18 / totalWeight; // 1e18 adjustment is removed during claim
-``` 
-
-
-
-File:Voter.sol#L301
-```solidity
-300:        uint256 _ratio = _amount * 1e18 / totalWeight; // 1e18 adjustment is removed during claim
-``` 
-
-
-
-File:Voter.sol#L336
-```solidity
-335:            uint _delta = _index - _supplyIndex; // see if there is any difference that need to be accrued
-``` 
-
-
-
-File:Voter.sol#L338
-```solidity
-337:                uint _share = uint(_supplied) * _delta / 1e18; // add accrued difference for each supplied token
-``` 
-
-
-
-File:Voter.sol#L338
-```solidity
-337:                uint _share = uint(_supplied) * _delta / 1e18; // add accrued difference for each supplied token
-``` 
-
-
-
-File:Voter.sol#L393
-```solidity
-392:        if (_claimable > IGauge(_gauge).left(base) && _claimable / DURATION > 0) {
-``` 
-
-
-
-File:Voter.sol#L423
-```solidity
-422:        activePeriod = block.timestamp / DURATION * DURATION;
-``` 
-
-
-
-File:Voter.sol#L423
-```solidity
-422:        activePeriod = block.timestamp / DURATION * DURATION;
-``` 
-
-
-
-File:Voter.sol#L429
-```solidity
-428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
-``` 
-
-
-
-File:Voter.sol#L429
-```solidity
-428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
-``` 
-
-
-
-File:Voter.sol#L429
-```solidity
-428:        nextPeriod = (block.timestamp + DURATION) / DURATION * DURATION;
-``` 
-
-
-
-File:Gauge.sol#L117
-```solidity
-116:            uint _fees0 = fees0 + claimed0;
-``` 
-
-
-
-File:Gauge.sol#L118
-```solidity
-117:            uint _fees1 = fees1 + claimed1;
-``` 
-
-
-
-File:Gauge.sol#L120
-```solidity
-119:            if (_fees0 > IBribe(bribe).left(_token0) && _fees0 / DURATION > 0) {
-``` 
-
-
-
-File:Gauge.sol#L127
-```solidity
-126:            if (_fees1 > IBribe(bribe).left(_token1) && _fees1 / DURATION > 0) {
-``` 
-
-
-
-File:Gauge.sol#L153
-```solidity
-152:        if (checkpoints[account][nCheckpoints - 1].timestamp <= timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L154
-```solidity
-153:            return (nCheckpoints - 1);
-``` 
-
-
-
-File:Gauge.sol#L163
-```solidity
-162:        uint upper = nCheckpoints - 1;
-``` 
-
-
-
-File:Gauge.sol#L165
-```solidity
-164:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L165
-```solidity
-164:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L165
-```solidity
-164:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L172
-```solidity
-171:                upper = center - 1;
-``` 
-
-
-
-File:Gauge.sol#L185
-```solidity
-184:        if (supplyCheckpoints[nCheckpoints - 1].timestamp <= timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L186
-```solidity
-185:            return (nCheckpoints - 1);
-``` 
-
-
-
-File:Gauge.sol#L195
-```solidity
-194:        uint upper = nCheckpoints - 1;
-``` 
-
-
-
-File:Gauge.sol#L197
-```solidity
-196:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L197
-```solidity
-196:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L197
-```solidity
-196:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L204
-```solidity
-203:                upper = center - 1;
-``` 
-
-
-
-File:Gauge.sol#L217
-```solidity
-216:        if (rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp <= timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L218
-```solidity
-217:            return (rewardPerTokenCheckpoints[token][nCheckpoints - 1].rewardPerToken, rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp);
-``` 
-
-
-
-File:Gauge.sol#L218
-```solidity
-217:            return (rewardPerTokenCheckpoints[token][nCheckpoints - 1].rewardPerToken, rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp);
-``` 
-
-
-
-File:Gauge.sol#L227
-```solidity
-226:        uint upper = nCheckpoints - 1;
-``` 
-
-
-
-File:Gauge.sol#L229
-```solidity
-228:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L229
-```solidity
-228:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L229
-```solidity
-228:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L236
-```solidity
-235:                upper = center - 1;
-``` 
-
-
-
-File:Gauge.sol#L246
-```solidity
-245:        if (_nCheckPoints > 0 && checkpoints[account][_nCheckPoints - 1].timestamp == _timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L247
-```solidity
-246:            checkpoints[account][_nCheckPoints - 1].balanceOf = balance;
-``` 
-
-
-
-File:Gauge.sol#L250
-```solidity
-249:            numCheckpoints[account] = _nCheckPoints + 1;
-``` 
-
-
-
-File:Gauge.sol#L257
-```solidity
-256:        if (_nCheckPoints > 0 && rewardPerTokenCheckpoints[token][_nCheckPoints - 1].timestamp == timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L258
-```solidity
-257:            rewardPerTokenCheckpoints[token][_nCheckPoints - 1].rewardPerToken = reward;
-``` 
-
-
-
-File:Gauge.sol#L261
-```solidity
-260:            rewardPerTokenNumCheckpoints[token] = _nCheckPoints + 1;
-``` 
-
-
-
-File:Gauge.sol#L269
-```solidity
-268:        if (_nCheckPoints > 0 && supplyCheckpoints[_nCheckPoints - 1].timestamp == _timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L270
-```solidity
-269:            supplyCheckpoints[_nCheckPoints - 1].supply = derivedSupply;
-``` 
-
-
-
-File:Gauge.sol#L273
-```solidity
-272:            supplyNumCheckpoints = _nCheckPoints + 1;
-``` 
-
-
-
-File:Gauge.sol#L325
-```solidity
-324:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / derivedSupply);
-``` 
-
-
-
-File:Gauge.sol#L325
-```solidity
-324:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / derivedSupply);
-``` 
-
-
-
-File:Gauge.sol#L325
-```solidity
-324:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / derivedSupply);
-``` 
-
-
-
-File:Gauge.sol#L325
-```solidity
-324:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / derivedSupply);
-``` 
-
-
-
-File:Gauge.sol#L325
-```solidity
-324:        return rewardPerTokenStored[token] + ((lastTimeRewardApplicable(token) - Math.min(lastUpdateTime[token], periodFinish[token])) * rewardRate[token] * PRECISION / derivedSupply);
-``` 
-
-
-
-File:Gauge.sol#L349
-```solidity
-348:        uint _endIndex = Math.min(supplyNumCheckpoints-1, maxRuns);
-``` 
-
-
-
-File:Gauge.sol#L354
-```solidity
-353:                SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-``` 
-
-
-
-File:Gauge.sol#L367
-```solidity
-366:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
-``` 
-
-
-
-File:Gauge.sol#L367
-```solidity
-366:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
-``` 
-
-
-
-File:Gauge.sol#L367
-```solidity
-366:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
-``` 
-
-
-
-File:Gauge.sol#L367
-```solidity
-366:        return (((Math.min(endTime, periodFinish[token]) - Math.min(Math.max(timestamp0, startTimestamp), periodFinish[token])) * rewardRate[token] * PRECISION / supply), endTime);
-``` 
-
-
-
-File:Gauge.sol#L397
-```solidity
-396:        uint _endIndex = Math.min(supplyNumCheckpoints - 1, maxRuns);
-``` 
-
-
-
-File:Gauge.sol#L400
-```solidity
-399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-``` 
-
-
-
-File:Gauge.sol#L403
-```solidity
-402:                    SupplyCheckpoint memory sp1 = supplyCheckpoints[i+1];
-``` 
-
-
-
-File:Gauge.sol#L432
-```solidity
-431:        uint _endIndex = numCheckpoints[account]-1;
-``` 
-
-
-
-File:Gauge.sol#L437
-```solidity
-436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
-``` 
-
-
-
-File:Gauge.sol#L439
-```solidity
-438:                Checkpoint memory cp1 = checkpoints[account][i+1];
-``` 
-
-
-
-File:Gauge.sol#L442
-```solidity
-441:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
-``` 
-
-
-
-File:Gauge.sol#L442
-```solidity
-441:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
-``` 
-
-
-
-File:Gauge.sol#L442
-```solidity
-441:                reward += cp0.balanceOf * (_rewardPerTokenStored1 - _rewardPerTokenStored0) / PRECISION;
-``` 
-
-
-
-File:Gauge.sol#L448
-```solidity
-447:        reward += cp.balanceOf * (rewardPerToken(token) - Math.max(_rewardPerTokenStored, userRewardPerTokenStored[token][account])) / PRECISION;
-``` 
-
-
-
-File:Gauge.sol#L448
-```solidity
-447:        reward += cp.balanceOf * (rewardPerToken(token) - Math.max(_rewardPerTokenStored, userRewardPerTokenStored[token][account])) / PRECISION;
-``` 
-
-
-
-File:Gauge.sol#L448
-```solidity
-447:        reward += cp.balanceOf * (rewardPerToken(token) - Math.max(_rewardPerTokenStored, userRewardPerTokenStored[token][account])) / PRECISION;
-``` 
-
-
-
-File:Gauge.sol#L531
-```solidity
-530:        uint _remaining = periodFinish[token] - block.timestamp;
-``` 
-
-
-
-File:Gauge.sol#L532
-```solidity
-531:        return _remaining * rewardRate[token];
-``` 
-
-
-
-File:Gauge.sol#L550
-```solidity
-549:            rewardRate[token] = amount / DURATION;
-``` 
-
-
-
-File:Gauge.sol#L552
-```solidity
-551:            uint _remaining = periodFinish[token] - block.timestamp;
-``` 
-
-
-
-File:Gauge.sol#L553
-```solidity
-552:            uint _left = _remaining * rewardRate[token];
-``` 
-
-
-
-File:Gauge.sol#L556
-```solidity
-555:            rewardRate[token] = (amount + _left) / DURATION;
-``` 
-
-
-
-File:Gauge.sol#L556
-```solidity
-555:            rewardRate[token] = (amount + _left) / DURATION;
-``` 
-
-
-
-File:Gauge.sol#L560
-```solidity
-559:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
-``` 
-
-
-
-File:Gauge.sol#L561
-```solidity
-560:        periodFinish[token] = block.timestamp + DURATION;
+49:      uint256 newAllowance = allowed - amount;
 ``` 
 
 
 
  --- 
 
-<a name=[G-10]></a>
-### [G-10] Use assembly to write storage values - Instances: 6 
+<a name=[G-9]></a>
+### [G-9] Use assembly to write storage values - Instances: 3 
 
  
  
@@ -6561,354 +2604,59 @@ contract Contract1 {
 
  --- 
 
-File:SwapPair.sol#L98
+[File:WildcatMarketBase.sol#L97](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L97) 
 ```solidity
-97:            name = string(abi.encodePacked("Stable Pair - ", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
+96:    name = string.concat(parameters.namePrefix, queryName(parameters.asset));
 ``` 
 
 
 
-File:SwapPair.sol#L99
+[File:WildcatMarketBase.sol#L98](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L98) 
 ```solidity
-98:            symbol = string(abi.encodePacked("sAMM-", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
+97:    symbol = string.concat(parameters.symbolPrefix, querySymbol(parameters.asset));
 ``` 
 
 
 
-File:SwapPair.sol#L101
+[File:ReentrancyGuard.sol#L51](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/ReentrancyGuard.sol#L51) 
 ```solidity
-100:            name = string(abi.encodePacked("Variable Pair - ", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
+50:    _reentrancyGuard = _NOT_ENTERED;
 ``` 
 
 
 
-File:SwapPair.sol#L102
+[File:ReentrancyGuard.sol#L65](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/ReentrancyGuard.sol#L65) 
 ```solidity
-101:            symbol = string(abi.encodePacked("vAMM-", cIERC20(_token0).symbol(), "/", cIERC20(_token1).symbol()));
+64:      _reentrancyGuard = _ENTERED;
 ``` 
 
 
 
-File:SwapPair.sol#L115
+[File:ReentrancyGuard.sol#L74](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/ReentrancyGuard.sol#L74) 
 ```solidity
-114:        _unlocked = 2;
+73:    _reentrancyGuard = _NOT_ENTERED;
 ``` 
 
 
 
-File:SwapPair.sol#L117
+[File:WildcatMarketControllerFactory.sol#L286](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L286) 
 ```solidity
-116:        _unlocked = 1;
+285:    _tmpMarketBorrowerParameter = msg.sender;
 ``` 
 
 
 
-File:SwapPair.sol#L228
+[File:WildcatMarketControllerFactory.sol#L298](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L298) 
 ```solidity
-227:        reserve0 = balance0;
-``` 
-
-
-
-File:SwapPair.sol#L229
-```solidity
-228:        reserve1 = balance1;
-``` 
-
-
-
-File:SwapPair.sol#L230
-```solidity
-229:        blockTimestampLast = blockTimestamp;
-``` 
-
-
-
-File:SwapPair.sol#L484
-```solidity
-483:        DOMAIN_SEPARATOR = keccak256(
-484:            abi.encode(
-485:                keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)'),
-486:                keccak256(bytes(name)),
-487:                keccak256('1'),
-488:                block.chainid,
-489:                address(this)
-490:            )
-491:        );
-``` 
-
-
-
-File:Voter.sol#L79
-```solidity
-78:        gaugeFactory = _gauges;
-``` 
-
-
-
-File:Voter.sol#L81
-```solidity
-80:        minter = msg.sender;
-``` 
-
-
-
-File:Voter.sol#L82
-```solidity
-81:        admin = msg.sender;
-``` 
-
-
-
-File:Voter.sol#L89
-```solidity
-88:        _unlocked = 2;
-``` 
-
-
-
-File:Voter.sol#L91
-```solidity
-90:        _unlocked = 1;
-``` 
-
-
-
-File:Voter.sol#L102
-```solidity
-101:        minter = _minter;
-``` 
-
-
-
-File:Voter.sol#L113
-```solidity
-112:        admin = _admin;
-``` 
-
-
-
-File:Minter.sol#L46
-```solidity
-45:        initializer = msg.sender;
-``` 
-
-
-
-File:Minter.sol#L54
-```solidity
-53:        admin = _admin;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Minter.sol#L60
-```solidity
-59:        last_epoch = block.timestamp;
-``` 
-
-
-
-File:Minter.sol#L61
-```solidity
-60:        boost = 0;
-``` 
-
-
-
-File:Minter.sol#L63
-```solidity
-62:        weekly = _weekly;
-``` 
-
-
-
-File:Minter.sol#L77
-```solidity
-76:        initializer = address(0);
-``` 
-
-
-
-File:Minter.sol#L78
-```solidity
-77:        active_period = block.timestamp / week * week; // 
-``` 
-
-
-
-File:Minter.sol#L85
-```solidity
-84:        decay = _decay;
-``` 
-
-
-
-File:Minter.sol#L86
-```solidity
-85:        boost = _boost;
-``` 
-
-
-
-File:Minter.sol#L87
-```solidity
-86:        last_epoch = block.timestamp + 26 weeks;
-``` 
-
-
-
-File:Minter.sol#L126
-```solidity
-125:            active_period = _period;
-``` 
-
-
-
-File:Minter.sol#L127
-```solidity
-126:            weekly = weekly_emission();
-``` 
-
-
-
-File:Gauge.sol#L102
-```solidity
-101:        _unlocked = 2;
-``` 
-
-
-
-File:Gauge.sol#L104
-```solidity
-103:        _unlocked = 1;
-``` 
-
-
-
-File:Gauge.sol#L121
-```solidity
-120:                fees0 = 0;
-``` 
-
-
-
-File:Gauge.sol#L125
-```solidity
-124:                fees0 = _fees0;
-``` 
-
-
-
-File:Gauge.sol#L128
-```solidity
-127:                fees1 = 0;
-``` 
-
-
-
-File:Gauge.sol#L132
-```solidity
-131:                fees1 = _fees1;
-``` 
-
-
-
-File:Gauge.sol#L273
-```solidity
-272:            supplyNumCheckpoints = _nCheckPoints + 1;
-``` 
-
-
-
-File:Gauge.sol#L295
-```solidity
-294:        _unlocked = 1;
-``` 
-
-
-
-File:Gauge.sol#L297
-```solidity
-296:        _unlocked = 2;
-``` 
-
-
-
-File:Bribe.sol#L80
-```solidity
-79:        _unlocked = 2;
-``` 
-
-
-
-File:Bribe.sol#L82
-```solidity
-81:        _unlocked = 1;
-``` 
-
-
-
-File:Bribe.sol#L219
-```solidity
-218:            supplyNumCheckpoints = _nCheckPoints + 1;
-``` 
-
-
-
-File:SwapFactory.sol#L36
-```solidity
-35:        pauser = msg.sender;
-``` 
-
-
-
-File:SwapFactory.sol#L40
-```solidity
-39:        admin = msg.sender;
-``` 
-
-
-
-File:SwapFactory.sol#L49
-```solidity
-48:        pendingPauser = _pauser;
-``` 
-
-
-
-File:SwapFactory.sol#L54
-```solidity
-53:        pauser = pendingPauser;
-``` 
-
-
-
-File:SwapFactory.sol#L59
-```solidity
-58:        isPaused = _state;
-``` 
-
-
-
-File:SwapFactory.sol#L69
-```solidity
-68:        admin = _admin;
+297:    _tmpMarketBorrowerParameter = address(1);
 ``` 
 
 
 
  --- 
 
-<a name=[G-11]></a>
-### [G-11] Event is not properly indexed. - Instances: 7 
+<a name=[G-10]></a>
+### [G-10] Event is not properly indexed. - Instances: 8 
 
  
  
@@ -6924,213 +2672,361 @@ File:SwapFactory.sol#L69
 
  --- 
 
-File:Bribe.sol#L65
+[File:IERC20.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20.sol#L5) 
 ```solidity
-64:    event Deposit(address indexed from, uint tokenId, uint amount);
+4:  event Transfer(address indexed from, address indexed to, uint256 value);
 ``` 
 
 
 
-File:Bribe.sol#L66
+[File:IERC20.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20.sol#L6) 
 ```solidity
-65:    event Withdraw(address indexed from, uint tokenId, uint amount);
+5:  event Approval(address indexed owner, address indexed spender, uint256 value);
 ``` 
 
 
 
-File:Bribe.sol#L67
+[File:IMarketEventsAndErrors.sol#L79](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L79) 
 ```solidity
-66:    event NotifyReward(address indexed from, address indexed reward, uint amount);
+78:  event Transfer(address indexed from, address indexed to, uint256 value);
 ``` 
 
 
 
-File:Bribe.sol#L68
+[File:IMarketEventsAndErrors.sol#L81](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L81) 
 ```solidity
-67:    event ClaimRewards(address indexed from, address indexed reward, uint amount);
+80:  event Approval(address indexed owner, address indexed spender, uint256 value);
 ``` 
 
 
 
-File:Voter.sol#L51
+[File:IMarketEventsAndErrors.sol#L83](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L83) 
 ```solidity
-50:    event Voted(address indexed voter, uint tokenId, uint256 weight);
+82:  event MaxTotalSupplyUpdated(uint256 assets);
 ``` 
 
 
 
-File:Voter.sol#L52
+[File:IMarketEventsAndErrors.sol#L85](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L85) 
 ```solidity
-51:    event Abstained(uint tokenId, uint256 weight);
+84:  event AnnualInterestBipsUpdated(uint256 annualInterestBipsUpdated);
 ``` 
 
 
 
-File:Voter.sol#L53
+[File:IMarketEventsAndErrors.sol#L87](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L87) 
 ```solidity
-52:    event Deposit(address indexed lp, address indexed gauge, uint tokenId, uint amount);
+86:  event ReserveRatioBipsUpdated(uint256 reserveRatioBipsUpdated);
 ``` 
 
 
 
-File:Voter.sol#L54
+[File:IMarketEventsAndErrors.sol#L89](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L89) 
 ```solidity
-53:    event Withdraw(address indexed lp, address indexed gauge, uint tokenId, uint amount);
+88:  event SanctionedAccountAssetsSentToEscrow(address account, address escrow, uint256 amount);
 ``` 
 
 
 
-File:Voter.sol#L55
+[File:IMarketEventsAndErrors.sol#L91](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L91) 
 ```solidity
-54:    event NotifyReward(address indexed sender, address indexed reward, uint amount);
+90:  event Deposit(address indexed account, uint256 assetAmount, uint256 scaledAmount);
 ``` 
 
 
 
-File:Voter.sol#L56
+[File:IMarketEventsAndErrors.sol#L93](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L93) 
 ```solidity
-55:    event DistributeReward(address indexed sender, address indexed gauge, uint amount);
+92:  event Borrow(uint256 assetAmount);
 ``` 
 
 
 
-File:Voter.sol#L57
+[File:IMarketEventsAndErrors.sol#L95](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L95) 
 ```solidity
-56:    event Attach(address indexed owner, address indexed gauge, uint tokenId);
+94:  event MarketClosed(uint256 timestamp);
 ``` 
 
 
 
-File:Voter.sol#L58
+[File:IMarketEventsAndErrors.sol#L97](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L97) 
 ```solidity
-57:    event Detach(address indexed owner, address indexed gauge, uint tokenId);
+96:  event FeesCollected(uint256 assets);
 ``` 
 
 
 
-File:SwapFactory.sol#L24
+[File:IMarketEventsAndErrors.sol#L99](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L99) 
 ```solidity
-23:    event PairCreated(address indexed token0, address indexed token1, bool stable, address pair, uint);
+98:  event StateUpdated(uint256 scaleFactor, bool isDelinquent);
 ``` 
 
 
 
-File:Minter.sol#L32
+[File:IMarketEventsAndErrors.sol#L101](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L101) 
 ```solidity
-31:    event Mint(address indexed sender, uint weekly, uint circulating_supply, uint circulating_emission);
+100:  event ScaleFactorUpdated(
+101:    uint256 scaleFactor,
+102:    uint256 baseInterestRay,
+103:    uint256 delinquencyFeeRay,
+104:    uint256 protocolFee
+105:  );
 ``` 
 
 
 
-File:SwapPair.sol#L75
+[File:IMarketEventsAndErrors.sol#L108](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L108) 
 ```solidity
-74:    event Fees(address indexed sender, uint amount0, uint amount1);
+107:  event AuthorizationStatusUpdated(address indexed account, AuthRole role);
 ``` 
 
 
 
-File:SwapPair.sol#L76
+[File:IMarketEventsAndErrors.sol#L114](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L114) 
 ```solidity
-75:    event Mint(address indexed sender, uint amount0, uint amount1);
+113:  event WithdrawalBatchExpired(
+114:    uint256 expiry,
+115:    uint256 scaledTotalAmount,
+116:    uint256 scaledAmountBurned,
+117:    uint256 normalizedAmountPaid
+118:  );
 ``` 
 
 
 
-File:SwapPair.sol#L77
+[File:IMarketEventsAndErrors.sol#L124](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L124) 
 ```solidity
-76:    event Burn(address indexed sender, uint amount0, uint amount1, address indexed to);
+123:  event WithdrawalBatchCreated(uint256 expiry);
 ``` 
 
 
 
-File:SwapPair.sol#L78
+[File:IMarketEventsAndErrors.sol#L129](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L129) 
 ```solidity
-77:    event Swap(
-78:        address indexed sender,
-79:        uint amount0In,
-80:        uint amount1In,
-81:        uint amount0Out,
-82:        uint amount1Out,
-83:        address indexed to
-84:    );
+128:  event WithdrawalBatchClosed(uint256 expiry);
 ``` 
 
 
 
-File:SwapPair.sol#L86
+[File:IMarketEventsAndErrors.sol#L131](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L131) 
 ```solidity
-85:    event Sync(uint reserve0, uint reserve1);
+130:  event WithdrawalBatchPayment(
+131:    uint256 expiry,
+132:    uint256 scaledAmountBurned,
+133:    uint256 normalizedAmountPaid
+134:  );
 ``` 
 
 
 
-File:SwapPair.sol#L87
+[File:IMarketEventsAndErrors.sol#L137](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L137) 
 ```solidity
-86:    event Claim(address indexed sender, address indexed recipient, uint amount0, uint amount1);
+136:  event WithdrawalQueued(uint256 expiry, address account, uint256 scaledAmount);
 ``` 
 
 
 
-File:SwapPair.sol#L89
+[File:IMarketEventsAndErrors.sol#L139](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L139) 
 ```solidity
-88:    event Transfer(address indexed from, address indexed to, uint amount);
+138:  event WithdrawalExecuted(uint256 expiry, address account, uint256 normalizedAmount);
 ``` 
 
 
 
-File:SwapPair.sol#L90
+[File:IMarketEventsAndErrors.sol#L141](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L141) 
 ```solidity
-89:    event Approval(address indexed owner, address indexed spender, uint amount);
+140:  event Withdrawal(address indexed account, uint256 assetAmount, uint256 scaledAmount);
 ``` 
 
 
 
-File:Multiswap.sol#L21
+[File:IMarketEventsAndErrors.sol#L143](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L143) 
 ```solidity
-20:    event Multiswapped(address indexed _token, uint _amountIn, uint[] amountsOut);
+142:  event SanctionedAccountWithdrawalSentToEscrow(
+143:    address account,
+144:    address escrow,
+145:    uint32 expiry,
+146:    uint256 amount
+147:  );
 ``` 
 
 
 
-File:Gauge.sol#L78
+[File:WildcatMarketControllerFactory.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L16) 
 ```solidity
-77:    event Deposit(address indexed from, uint tokenId, uint amount);
+15:  event NewController(address borrower, address controller, string namePrefix, string symbolPrefix);
 ``` 
 
 
 
-File:Gauge.sol#L79
+[File:WildcatMarketControllerFactory.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L17) 
 ```solidity
-78:    event Withdraw(address indexed from, uint tokenId, uint amount);
+16:  event UpdateProtocolFeeConfiguration(
+17:    address feeRecipient,
+18:    uint16 protocolFeeBips,
+19:    address originationFeeAsset,
+20:    uint256 originationFeeAmount
+21:  );
 ``` 
 
 
 
-File:Gauge.sol#L80
+[File:WildcatArchController.sol#L29](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L29) 
 ```solidity
-79:    event NotifyReward(address indexed from, address indexed reward, uint amount);
+28:  event MarketAdded(address indexed controller, address market);
 ``` 
 
 
 
-File:Gauge.sol#L81
+[File:WildcatArchController.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L30) 
 ```solidity
-80:    event ClaimFees(address indexed from, uint claimed0, uint claimed1);
+29:  event MarketRemoved(address market);
 ``` 
 
 
 
-File:Gauge.sol#L82
+[File:WildcatArchController.sol#L32](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L32) 
 ```solidity
-81:    event ClaimRewards(address indexed from, address indexed reward, uint amount);
+31:  event ControllerFactoryAdded(address controllerFactory);
+``` 
+
+
+
+[File:WildcatArchController.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L33) 
+```solidity
+32:  event ControllerFactoryRemoved(address controllerFactory);
+``` 
+
+
+
+[File:WildcatArchController.sol#L35](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L35) 
+```solidity
+34:  event BorrowerAdded(address borrower);
+``` 
+
+
+
+[File:WildcatArchController.sol#L36](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L36) 
+```solidity
+35:  event BorrowerRemoved(address borrower);
+``` 
+
+
+
+[File:WildcatArchController.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L38) 
+```solidity
+37:  event ControllerAdded(address indexed controllerFactory, address controller);
+``` 
+
+
+
+[File:WildcatArchController.sol#L39](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L39) 
+```solidity
+38:  event ControllerRemoved(address controller);
+``` 
+
+
+
+[File:IWildcatSanctionsEscrow.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatSanctionsEscrow.sol#L5) 
+```solidity
+4:  event EscrowReleased(address indexed account, address indexed asset, uint256 amount);
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L39](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L39) 
+```solidity
+38:  event LenderAuthorized(address);
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L41](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L41) 
+```solidity
+40:  event LenderDeauthorized(address);
+``` 
+
+
+
+[File:IWildcatArchController.sol#L15](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L15) 
+```solidity
+14:  event ControllerFactoryAdded(address);
+``` 
+
+
+
+[File:IWildcatArchController.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L17) 
+```solidity
+16:  event ControllerFactoryRemoved(address);
+``` 
+
+
+
+[File:IWildcatArchController.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L38) 
+```solidity
+37:  event ControllerAdded(address, address);
+``` 
+
+
+
+[File:IWildcatArchController.sol#L40](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L40) 
+```solidity
+39:  event ControllerRemoved(address);
+``` 
+
+
+
+[File:IWildcatArchController.sol#L61](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L61) 
+```solidity
+60:  event BorrowerAdded(address);
+``` 
+
+
+
+[File:IWildcatArchController.sol#L63](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L63) 
+```solidity
+62:  event BorrowerRemoved(address);
+``` 
+
+
+
+[File:IWildcatArchController.sol#L84](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L84) 
+```solidity
+83:  event MarketAdded(address, address);
+``` 
+
+
+
+[File:IWildcatArchController.sol#L86](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L86) 
+```solidity
+85:  event MarketRemoved(address);
+``` 
+
+
+
+[File:IWildcatMarketControllerFactory.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L7) 
+```solidity
+6:  event NewController(address borrower, address controller, string namePrefix, string symbolPrefix);
+``` 
+
+
+
+[File:IWildcatMarketControllerFactory.sol#L8](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L8) 
+```solidity
+7:  event UpdateProtocolFeeConfiguration(
+8:    address feeRecipient,
+9:    uint16 protocolFeeBips,
+10:    address originationFeeAsset,
+11:    uint256 originationFeeAmount
+12:  );
 ``` 
 
 
 
  --- 
 
-<a name=[G-12]></a>
-### [G-12] Right shift or Left shift instead of dividing or multiplying by powers of two - Instances: 5 
+<a name=[G-11]></a>
+### [G-11] Right shift or Left shift instead of dividing or multiplying by powers of two - Instances: 1 
 
  
  
@@ -7257,508 +3153,24 @@ contract Contract3 {
 
  --- 
 
-File:SwapPair.sol#L160
+[File:StringQuery.sol#L23](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L23) 
 ```solidity
-159:        uint256 _ratio = _feeIncrease * 1e18 / totalSupply; // 1e18 adjustment is removed during claim
+22:    size = (sizeInBits + 7) / 8;
 ``` 
 
 
 
-File:SwapPair.sol#L174
+[File:StringQuery.sol#L73](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L73) 
 ```solidity
-173:        uint256 _ratio = _feeIncrease * 1e18 / totalSupply;
-``` 
-
-
-
-File:SwapPair.sol#L195
-```solidity
-194:                uint _share = _supplied * _delta0 / 1e18; // add accrued difference for each supplied token
-``` 
-
-
-
-File:SwapPair.sol#L199
-```solidity
-198:                uint _share = _supplied * _delta1 / 1e18;
-``` 
-
-
-
-File:SwapPair.sol#L367
-```solidity
-366:        if (amount0In > 0) _update0(amount0In * fee / 1e6); // accrue fees for token0 and move them out of pool
-``` 
-
-
-
-File:SwapPair.sol#L368
-```solidity
-367:        if (amount1In > 0) _update1(amount1In * fee / 1e6); // accrue fees for token1 and move them out of pool
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L392
-```solidity
-391:        return x0*(y*y/1e18*y/1e18)/1e18+(x0*x0/1e18*x0/1e18)*y/1e18;
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L396
-```solidity
-395:        return 3*x0*(y*y/1e18)/1e18+(x0*x0/1e18*x0/1e18);
-``` 
-
-
-
-File:SwapPair.sol#L404
-```solidity
-403:                uint dy = (xy - k)*1e18/_d(x0, y);
-``` 
-
-
-
-File:SwapPair.sol#L407
-```solidity
-406:                uint dy = (k - xy)*1e18/_d(x0, y);
-``` 
-
-
-
-File:SwapPair.sol#L425
-```solidity
-424:        amountIn -= amountIn * fee / 1e6; // remove fee from amount received
-``` 
-
-
-
-File:SwapPair.sol#L432
-```solidity
-431:            _reserve0 = _reserve0 * 1e18 / decimals0;
-``` 
-
-
-
-File:SwapPair.sol#L433
-```solidity
-432:            _reserve1 = _reserve1 * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L435
-```solidity
-434:            amountIn = tokenIn == token0 ? amountIn * 1e18 / decimals0 : amountIn * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L435
-```solidity
-434:            amountIn = tokenIn == token0 ? amountIn * 1e18 / decimals0 : amountIn * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L437
-```solidity
-436:            return y * (tokenIn == token0 ? decimals1 : decimals0) / 1e18;
-``` 
-
-
-
-File:SwapPair.sol#L446
-```solidity
-445:            uint _x = x * 1e18 / decimals0;
-``` 
-
-
-
-File:SwapPair.sol#L447
-```solidity
-446:            uint _y = y * 1e18 / decimals1;
-``` 
-
-
-
-File:SwapPair.sol#L448
-```solidity
-447:            uint _a = (_x * _y) / 1e18;
-``` 
-
-
-
-File:SwapPair.sol#L449
-```solidity
-448:            uint _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
-``` 
-
-
-
-File:SwapPair.sol#L449
-```solidity
-448:            uint _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
-``` 
-
-
-
-File:SwapPair.sol#L450
-```solidity
-449:            return _a * _b / 1e18;  // x3y+y3x >= k
-``` 
-
-
-
-File:Gauge.sol#L165
-```solidity
-164:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L197
-```solidity
-196:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Gauge.sol#L229
-```solidity
-228:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Minter.sol#L27
-```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
-``` 
-
-
-
-File:Minter.sol#L59
-```solidity
-58:        active_period = (block.timestamp + (2*week)) / week * week;
-``` 
-
-
-
-File:Bribe.sol#L111
-```solidity
-110:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Bribe.sol#L143
-```solidity
-142:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Bribe.sol#L175
-```solidity
-174:            uint center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-``` 
-
-
-
-File:Voter.sol#L301
-```solidity
-300:        uint256 _ratio = _amount * 1e18 / totalWeight; // 1e18 adjustment is removed during claim
-``` 
-
-
-
-File:Voter.sol#L338
-```solidity
-337:                uint _share = uint(_supplied) * _delta / 1e18; // add accrued difference for each supplied token
+72:      size = (sizeInBits + 7) / 8;
 ``` 
 
 
 
  --- 
 
-<a name=[G-13]></a>
-### [G-13] Use multiple require() statments insted of require(expression && expression && ...) - Instances: 7 
-
- 
- 
-> You can safe gas by breaking up a require statement with multiple conditions, into multiple require statements with a single condition. 
- 
-#### Gas Report - Savings: ~16 
- <details>  
- <summary>  
-  </summary> 
- 
-        
-```solidity
-
-contract GasTest is DSTest {
-    Contract0 c0;
-    Contract1 c1;
-
-    function setUp() public {
-        c0 = new Contract0();
-        c1 = new Contract1();
-    }
-
-    function testGas() public {
-        c0.singleRequire(3);
-        c1.multipleRequire(3);
-    }
-}
-
-contract Contract0 {
-    function singleRequire(uint256 num) public {
-        require(num > 1 && num < 10 && num == 3);
-    }
-}
-
-contract Contract1 {
-    function multipleRequire(uint256 num) public {
-        require(num > 1);
-        require(num < 10);
-        require(num == 3);
-    }
-}
-
-```
-
-
-```solidity
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract0 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 35487              ┆ 208             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ singleRequire      ┆ 286             ┆ 286 ┆ 286    ┆ 286 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-╭────────────────────┬─────────────────┬─────┬────────┬─────┬─────────╮
-│ Contract1 contract ┆                 ┆     ┆        ┆     ┆         │
-╞════════════════════╪═════════════════╪═════╪════════╪═════╪═════════╡
-│ Deployment Cost    ┆ Deployment Size ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 35887              ┆ 210             ┆     ┆        ┆     ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name      ┆ min             ┆ avg ┆ median ┆ max ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ multipleRequire    ┆ 270             ┆ 270 ┆ 270    ┆ 270 ┆ 1       │
-╰────────────────────┴─────────────────┴─────┴────────┴─────┴─────────╯
-
-```
-
- 
- </details> 
- 
-
- --- 
-
-File:SwapFactory.sol#L68
-```solidity
-67:        require(msg.sender == admin && _admin != address(0), "SwapFactory; wrong input parameters");
-``` 
-
-
-
-File:Gauge.sol#L85
-```solidity
-84:        require(
-85:            _stake != address(0) &&
-86:            _bribe != address(0) &&
-87:            __ve != address(0) &&
-88:            _voter != address(0),
-89:            "Gauge: zero address provided in constructor"
-90:        );
-``` 
-
-
-
-File:Gauge.sol#L570
-```solidity
-569:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Gauge.sol#L577
-```solidity
-576:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Gauge.sol#L584
-```solidity
-583:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:SwapPair.sol#L333
-```solidity
-332:        require(amount0 > 0 && amount1 > 0, 'ILB'); // SwapPair: INSUFFICIENT_LIQUIDITY_BURNED
-``` 
-
-
-
-File:SwapPair.sol#L349
-```solidity
-348:        require(amount0Out < _reserve0 && amount1Out < _reserve1, 'IL'); // SwapPair: INSUFFICIENT_LIQUIDITY
-``` 
-
-
-
-File:SwapPair.sol#L355
-```solidity
-354:        require(to != _token0 && to != _token1, 'IT'); // SwapPair: INVALID_TO
-``` 
-
-
-
-File:SwapPair.sol#L501
-```solidity
-500:        require(recoveredAddress != address(0) && recoveredAddress == owner, 'SwapPair: INVALID_SIGNATURE');
-``` 
-
-
-
-File:SwapPair.sol#L541
-```solidity
-540:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Minter.sol#L47
-```solidity
-46:        require(
-47:            __voter != address(0) &&
-48:            __ve != address(0) &&
-49:            __ve_dist != address(0) &&
-50:            _admin != address(0),
-51:            "Minter: zero address provided in constructor"
-52:        );
-``` 
-
-
-
-File:Multiswap.sol#L37
-```solidity
-36:        require(length > 1 && length <= 5 && _weights.length == length, "length");
-``` 
-
-
-
-File:Voter.sol#L69
-```solidity
-68:        require(
-69:            __ve != address(0) &&
-70:            _factory != address(0) &&
-71:            _gauges != address(0) &&
-72:            _bribes != address(0),
-73:            "Voter: zero address provided in constructor"
-74:        );
-``` 
-
-
-
-File:Voter.sol#L251
-```solidity
-250:        require(isWhitelisted[_tokenA] && isWhitelisted[_tokenB], "!whitelisted");
-``` 
-
-
-
-File:Voter.sol#L437
-```solidity
-436:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Bribe.sol#L457
-```solidity
-456:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Bribe.sol#L464
-```solidity
-463:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
- --- 
-
-<a name=[G-14]></a>
-### [G-14] Optimal Comparison - Instances: 5 
+<a name=[G-12]></a>
+### [G-12] Optimal Comparison - Instances: 1 
 
  
  
@@ -7874,171 +3286,17 @@ contract Contract3 {
 
  --- 
 
-File:Bribe.sol#L99
+[File:FIFOQueue.sol#L32](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L32) 
 ```solidity
-98:        if (checkpoints[tokenId][nCheckpoints - 1].timestamp <= timestamp) {
-``` 
-
-
-
-File:Bribe.sol#L131
-```solidity
-130:        if (supplyCheckpoints[nCheckpoints - 1].timestamp <= timestamp) {
-``` 
-
-
-
-File:Bribe.sol#L163
-```solidity
-162:        if (rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp <= timestamp) {
-``` 
-
-
-
-File:Bribe.sol#L336
-```solidity
-335:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-``` 
-
-
-
-File:Bribe.sol#L373
-```solidity
-372:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-``` 
-
-
-
-File:Bribe.sol#L417
-```solidity
-416:        if (block.timestamp >= periodFinish[token]) return 0;
-``` 
-
-
-
-File:Bribe.sol#L435
-```solidity
-434:        if (block.timestamp >= periodFinish[token]) {
-``` 
-
-
-
-File:Bribe.sol#L447
-```solidity
-446:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
-``` 
-
-
-
-File:Minter.sol#L84
-```solidity
-83:        require(block.timestamp >= last_epoch + 26 weeks, "must wait next period");
-``` 
-
-
-
-File:Minter.sol#L124
-```solidity
-123:        if (block.timestamp >= _period + week && initializer == address(0)) { // only trigger if new week
-``` 
-
-
-
-File:Multiswap.sol#L37
-```solidity
-36:        require(length > 1 && length <= 5 && _weights.length == length, "length");
-``` 
-
-
-
-File:Gauge.sol#L153
-```solidity
-152:        if (checkpoints[account][nCheckpoints - 1].timestamp <= timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L185
-```solidity
-184:        if (supplyCheckpoints[nCheckpoints - 1].timestamp <= timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L217
-```solidity
-216:        if (rewardPerTokenCheckpoints[token][nCheckpoints - 1].timestamp <= timestamp) {
-``` 
-
-
-
-File:Gauge.sol#L400
-```solidity
-399:            for (uint i = _startIndex; i <= _endIndex - 1; i++) {
-``` 
-
-
-
-File:Gauge.sol#L437
-```solidity
-436:            for (uint i = _startIndex; i <= _endIndex-1; i++) {
-``` 
-
-
-
-File:Gauge.sol#L530
-```solidity
-529:        if (block.timestamp >= periodFinish[token]) return 0;
-``` 
-
-
-
-File:Gauge.sol#L548
-```solidity
-547:        if (block.timestamp >= periodFinish[token]) {
-``` 
-
-
-
-File:Gauge.sol#L560
-```solidity
-559:        require(rewardRate[token] <= balance / DURATION, "Provided reward too high");
-``` 
-
-
-
-File:SwapPair.sol#L372
-```solidity
-371:        require(_k(_balance0, _balance1) >= _k(_reserve0, _reserve1), 'K'); // SwapPair: K
-``` 
-
-
-
-File:SwapPair.sol#L411
-```solidity
-410:                if (y - y_prev <= 1) {
-``` 
-
-
-
-File:SwapPair.sol#L415
-```solidity
-414:                if (y_prev - y <= 1) {
-``` 
-
-
-
-File:SwapPair.sol#L478
-```solidity
-477:        require(deadline >= block.timestamp, 'SwapPair: EXPIRED');
+31:    if (index >= arr.nextIndex) {
 ``` 
 
 
 
  --- 
 
-<a name=[G-15]></a>
-### [G-15] Mark functions as payable (with discretion) - Instances: 6 
+<a name=[G-13]></a>
+### [G-13] Mark functions as payable (with discretion) - Instances: 10 
 
  
  
@@ -8115,735 +3373,827 @@ contract Contract1 {
 
  --- 
 
-File:Minter.sol#L66
+[File:WildcatMarketConfig.sol#L21](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L21) 
 ```solidity
-65:    function initialize(
-66:        // address[] memory claimants,
-67:        // uint[] memory amounts,
-68:        // uint max // sum amounts / max = % ownership of top protocols, so if initial 20m is distributed, and target is 25% protocol ownership, then max - 4 x 20m = 80m
-69:    ) external {
+20:  function maximumDeposit() external view returns (uint256) {
 ``` 
 
 
 
-File:Minter.sol#L83
+[File:WildcatMarketConfig.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L30) 
 ```solidity
-82:    function setEmissions(uint _decay, uint _boost) public onlyAdmin {
+29:  function maxTotalSupply() external view returns (uint256) {
 ``` 
 
 
 
-File:Minter.sol#L91
+[File:WildcatMarketConfig.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L38) 
 ```solidity
-90:    function circulating_supply() public view returns (uint) {
+37:  function annualInterestBips() external view returns (uint256) {
 ``` 
 
 
 
-File:Minter.sol#L101
+[File:WildcatMarketConfig.sol#L42](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L42) 
 ```solidity
-100:    function calculate_emission() public view returns (uint) {
+41:  function reserveRatioBips() external view returns (uint256) {
 ``` 
 
 
 
-File:Minter.sol#L107
+[File:WildcatMarketConfig.sol#L74](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L74) 
 ```solidity
-106:    function weekly_emission() public view returns (uint) {
+73:  function nukeFromOrbit(address accountAddress) external nonReentrant {
 ``` 
 
 
 
-File:Minter.sol#L112
+[File:WildcatMarketConfig.sol#L88](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L88) 
 ```solidity
-111:    function circulating_emission() public view returns (uint) {
+87:  function stunningReversal(address accountAddress) external nonReentrant {
 ``` 
 
 
 
-File:Minter.sol#L117
+[File:WildcatMarketConfig.sol#L112](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L112) 
 ```solidity
-116:    function calculate_growth(uint _minted) public view returns (uint) {
+111:  function updateAccountAuthorization(
+112:    address _account,
+113:    bool _isAuthorized
+114:  ) external onlyController nonReentrant {
 ``` 
 
 
 
-File:Minter.sol#L122
+[File:WildcatMarketConfig.sol#L134](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L134) 
 ```solidity
-121:    function update_period() external returns (uint) {
+133:  function setMaxTotalSupply(uint256 _maxTotalSupply) external onlyController nonReentrant {
 ``` 
 
 
 
-File:SwapPair.sol#L120
+[File:WildcatMarketConfig.sol#L149](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L149) 
 ```solidity
-119:    function observationLength() external view returns (uint) {
+148:  function setAnnualInterestBips(uint16 _annualInterestBips) public onlyController nonReentrant {
 ``` 
 
 
 
-File:SwapPair.sol#L124
+[File:WildcatMarketConfig.sol#L171](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L171) 
 ```solidity
-123:    function lastObservation() public view returns (Observation memory) {
+170:  function setReserveRatioBips(uint16 _reserveRatioBips) public onlyController nonReentrant {
 ``` 
 
 
 
-File:SwapPair.sol#L128
+[File:WildcatMarketControllerFactory.sol#L126](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L126) 
 ```solidity
-127:    function metadata() external view returns (uint dec0, uint dec1, uint r0, uint r1, bool st, address t0, address t1) {
+125:  function isDeployedController(address controller) external view returns (bool) {
 ``` 
 
 
 
-File:SwapPair.sol#L132
+[File:WildcatMarketControllerFactory.sol#L130](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L130) 
 ```solidity
-131:    function tokens() external view returns (address, address) {
+129:  function getDeployedControllersCount() external view returns (uint256) {
 ``` 
 
 
 
-File:SwapPair.sol#L137
+[File:WildcatMarketControllerFactory.sol#L134](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L134) 
 ```solidity
-136:    function claimFees() external returns (uint claimed0, uint claimed1) {
+133:  function getDeployedControllers() external view returns (address[] memory) {
 ``` 
 
 
 
-File:SwapPair.sol#L208
+[File:WildcatMarketControllerFactory.sol#L138](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L138) 
 ```solidity
-207:    function getReserves() public view returns (uint _reserve0, uint _reserve1, uint _blockTimestampLast) {
+137:  function getDeployedControllers(
+138:    uint256 start,
+139:    uint256 end
+140:  ) external view returns (address[] memory arr) {
 ``` 
 
 
 
-File:SwapPair.sol#L235
+[File:WildcatMarketControllerFactory.sol#L165](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L165) 
 ```solidity
-234:    function currentCumulativePrices() public view returns (uint reserve0Cumulative, uint reserve1Cumulative, uint blockTimestamp) {
+164:  function getProtocolFeeConfiguration()
+165:    external
+166:    view
+167:    returns (
+168:      address feeRecipient,
+169:      address originationFeeAsset,
+170:      uint80 originationFeeAmount,
+171:      uint16 protocolFeeBips
+172:    )
+173:  {
 ``` 
 
 
 
-File:SwapPair.sol#L251
+[File:WildcatMarketControllerFactory.sol#L195](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L195) 
 ```solidity
-250:    function current(address tokenIn, uint amountIn) external view returns (uint amountOut) {
+194:  function setProtocolFeeConfiguration(
+195:    address feeRecipient,
+196:    address originationFeeAsset,
+197:    uint80 originationFeeAmount,
+198:    uint16 protocolFeeBips
+199:  ) external onlyArchControllerOwner {
 ``` 
 
 
 
-File:SwapPair.sol#L265
+[File:WildcatMarketControllerFactory.sol#L223](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L223) 
 ```solidity
-264:    function quote(address tokenIn, uint amountIn, uint granularity) external view returns (uint amountOut) {
+222:  function getParameterConstraints()
+223:    external
+224:    view
+225:    returns (MarketParameterConstraints memory constraints)
+226:  {
 ``` 
 
 
 
-File:SwapPair.sol#L275
+[File:WildcatMarketControllerFactory.sol#L246](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L246) 
 ```solidity
-274:    function prices(address tokenIn, uint amountIn, uint points) external view returns (uint[] memory) {
+245:  function getMarketControllerParameters()
+246:    external
+247:    view
+248:    virtual
+249:    returns (MarketControllerParameters memory parameters)
+250:  {
 ``` 
 
 
 
-File:SwapPair.sol#L279
+[File:WildcatMarketControllerFactory.sol#L282](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L282) 
 ```solidity
-278:    function sample(address tokenIn, uint amountIn, uint points, uint window) public view returns (uint[] memory) {
+281:  function deployController() public returns (address controller) {
 ``` 
 
 
 
-File:SwapPair.sol#L300
+[File:WildcatMarketControllerFactory.sol#L317](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L317) 
 ```solidity
-299:    function mint(address to) external lock returns (uint liquidity) {
+316:  function deployControllerAndMarket(
+317:    string memory namePrefix,
+318:    string memory symbolPrefix,
+319:    address asset,
+320:    uint128 maxTotalSupply,
+321:    uint16 annualInterestBips,
+322:    uint16 delinquencyFeeBips,
+323:    uint32 withdrawalBatchDuration,
+324:    uint16 reserveRatioBips,
+325:    uint32 delinquencyGracePeriod
+326:  ) external returns (address controller, address market) {
 ``` 
 
 
 
-File:SwapPair.sol#L323
+[File:WildcatMarketControllerFactory.sol#L342](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L342) 
 ```solidity
-322:    function burn(address to) external lock returns (uint amount0, uint amount1) {
+341:  function computeControllerAddress(address borrower) external view returns (address) {
 ``` 
 
 
 
-File:SwapPair.sol#L345
+[File:WildcatMarketToken.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L16) 
 ```solidity
-344:    function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) external lock {
+15:  function balanceOf(address account) public view virtual nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:SwapPair.sol#L380
+[File:WildcatMarketToken.sol#L22](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L22) 
 ```solidity
-379:    function skim(address to) external lock {
+21:  function totalSupply() external view virtual nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:SwapPair.sol#L387
+[File:WildcatMarketToken.sol#L31](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L31) 
 ```solidity
-386:    function sync() external lock {
+30:  function approve(address spender, uint256 amount) external virtual nonReentrant returns (bool) {
 ``` 
 
 
 
-File:SwapPair.sol#L423
+[File:WildcatMarketToken.sol#L36](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L36) 
 ```solidity
-422:    function getAmountOut(uint amountIn, address tokenIn) external view returns (uint) {
+35:  function transfer(address to, uint256 amount) external virtual nonReentrant returns (bool) {
 ``` 
 
 
 
-File:SwapPair.sol#L470
+[File:WildcatMarketToken.sol#L41](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L41) 
 ```solidity
-469:    function approve(address spender, uint amount) external returns (bool) {
+40:  function transferFrom(
+41:    address from,
+42:    address to,
+43:    uint256 amount
+44:  ) external virtual nonReentrant returns (bool) {
 ``` 
 
 
 
-File:SwapPair.sol#L477
+[File:WildcatSanctionsEscrow.sol#L21](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L21) 
 ```solidity
-476:    function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external {
+20:  function balance() public view override returns (uint256) {
 ``` 
 
 
 
-File:SwapPair.sol#L507
+[File:WildcatSanctionsEscrow.sol#L25](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L25) 
 ```solidity
-506:    function transfer(address dst, uint amount) external returns (bool) {
+24:  function canReleaseEscrow() public view override returns (bool) {
 ``` 
 
 
 
-File:SwapPair.sol#L512
+[File:WildcatSanctionsEscrow.sol#L29](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L29) 
 ```solidity
-511:    function transferFrom(address src, address dst, uint amount) external returns (bool) {
+28:  function escrowedAsset() public view override returns (address, uint256) {
 ``` 
 
 
 
-File:Bribe.sol#L92
+[File:WildcatSanctionsEscrow.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L33) 
 ```solidity
-91:    function getPriorBalanceIndex(uint tokenId, uint timestamp) public view returns (uint) {
+32:  function releaseEscrow() public override {
 ``` 
 
 
 
-File:Bribe.sol#L124
+[File:WildcatMarket.sol#L26](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L26) 
 ```solidity
-123:    function getPriorSupplyIndex(uint timestamp) public view returns (uint) {
+25:  function updateState() external nonReentrant {
 ``` 
 
 
 
-File:Bribe.sol#L156
+[File:WildcatMarket.sol#L42](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L42) 
 ```solidity
-155:    function getPriorRewardPerToken(address token, uint timestamp) public view returns (uint, uint) {
+41:  function depositUpTo(
+42:    uint256 amount
+43:  ) public virtual nonReentrant returns (uint256 /* actualAmount */) {
 ``` 
 
 
 
-File:Bribe.sol#L223
+[File:WildcatMarket.sol#L86](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L86) 
 ```solidity
-222:    function rewardsListLength() external view returns (uint) {
+85:  function deposit(uint256 amount) external virtual {
 ``` 
 
 
 
-File:Bribe.sol#L228
+[File:WildcatMarket.sol#L96](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L96) 
 ```solidity
-227:    function lastTimeRewardApplicable(address token) public view returns (uint) {
+95:  function collectFees() external nonReentrant {
 ``` 
 
 
 
-File:Bribe.sol#L233
+[File:WildcatMarket.sol#L119](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L119) 
 ```solidity
-232:    function getReward(uint tokenId, address[] memory tokens) external lock  {
+118:  function borrow(uint256 amount) external onlyBorrower nonReentrant {
 ``` 
 
 
 
-File:Bribe.sol#L248
+[File:WildcatMarket.sol#L142](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L142) 
 ```solidity
-247:    function getRewardForOwner(uint tokenId, address[] memory tokens) external lock  {
+141:  function closeMarket() external onlyController nonReentrant {
 ``` 
 
 
 
-File:Bribe.sol#L263
+[File:WildcatSanctionsSentinel.sol#L39](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L39) 
 ```solidity
-262:    function rewardPerToken(address token) public view returns (uint) {
+38:  function isSanctioned(address borrower, address account) public view override returns (bool) {
 ``` 
 
 
 
-File:Bribe.sol#L270
+[File:WildcatSanctionsSentinel.sol#L48](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L48) 
 ```solidity
-269:    function batchRewardPerToken(address token, uint maxRuns) external {
+47:  function overrideSanction(address account) public override {
 ``` 
 
 
 
-File:Bribe.sol#L308
+[File:WildcatSanctionsSentinel.sol#L56](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L56) 
 ```solidity
-307:    function batchUpdateRewardPerToken(address token, uint maxRuns) external {
+55:  function removeSanctionOverride(address account) public override {
 ``` 
 
 
 
-File:Bribe.sol#L361
+[File:WildcatSanctionsSentinel.sol#L65](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L65) 
 ```solidity
-360:    function earned(address token, uint tokenId) public view returns (uint) {
+64:  function getEscrowAddress(
+65:    address borrower,
+66:    address account,
+67:    address asset
+68:  ) public view override returns (address escrowAddress) {
 ``` 
 
 
 
-File:Bribe.sol#L390
+[File:WildcatSanctionsSentinel.sol#L95](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L95) 
 ```solidity
-389:    function _deposit(uint amount, uint tokenId) external {
+94:  function createEscrow(
+95:    address borrower,
+96:    address account,
+97:    address asset
+98:  ) public override returns (address escrowContract) {
 ``` 
 
 
 
-File:Bribe.sol#L403
+[File:WildcatMarketBase.sol#L223](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L223) 
 ```solidity
-402:    function _withdraw(uint amount, uint tokenId) external {
+222:  function coverageLiquidity() external view nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:Bribe.sol#L416
+[File:WildcatMarketBase.sol#L231](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L231) 
 ```solidity
-415:    function left(address token) external view returns (uint) {
+230:  function scaleFactor() external view nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:Bribe.sol#L423
+[File:WildcatMarketBase.sol#L238](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L238) 
 ```solidity
-422:    function notifyRewardAmount(address token, uint amount) external lock {
+237:  function totalAssets() public view returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L97
+[File:WildcatMarketBase.sol#L252](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L252) 
 ```solidity
-96:    function initialize(/*address[] memory _tokens*/address _minter) external {
+251:  function borrowableAssets() external view nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L107
+[File:WildcatMarketBase.sol#L260](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L260) 
 ```solidity
-106:    function listing_fee() public view returns (uint) {
+259:  function accruedProtocolFees() external view nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L111
+[File:WildcatMarketBase.sol#L267](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L267) 
 ```solidity
-110:    function setAdmin(address _admin) external onlyAdmin {
+266:  function previousState() external view returns (MarketState memory) {
 ``` 
 
 
 
-File:Voter.sol#L116
+[File:WildcatMarketBase.sol#L276](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L276) 
 ```solidity
-115:    function setReward(address _gauge, address _token, bool _status) external onlyAdmin {
+275:  function currentState() public view nonReentrantView returns (MarketState memory state) {
 ``` 
 
 
 
-File:Voter.sol#L120
+[File:WildcatMarketBase.sol#L285](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L285) 
 ```solidity
-119:    function setBribe(address _bribe, address _token, bool _status) external onlyAdmin {
+284:  function scaledTotalSupply() external view nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L124
+[File:WildcatMarketBase.sol#L292](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L292) 
 ```solidity
-123:    function killGauge(address _gauge) external onlyAdmin {
+291:  function scaledBalanceOf(address account) external view nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L131
+[File:WildcatMarketBase.sol#L299](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L299) 
 ```solidity
-130:    function reviveGauge(address _gauge) external onlyAdmin {
+298:  function getAccountRole(address account) external view nonReentrantView returns (AuthRole) {
 ``` 
 
 
 
-File:Voter.sol#L138
+[File:WildcatMarketBase.sol#L307](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L307) 
 ```solidity
-137:    function reset(uint _tokenId) external { // OR msg.sender == votingescrow when withdrawing
+306:  function withdrawableProtocolFees() external view returns (uint128) {
 ``` 
 
 
 
-File:Voter.sol#L174
+[File:WildcatMarketBase.sol#L318](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L318) 
 ```solidity
-173:    function poke(uint _tokenId) external {
+317:  function effectiveBorrowerAPR() external view returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L225
+[File:WildcatMarketBase.sol#L334](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L334) 
 ```solidity
-224:    function vote(uint tokenId, address[] calldata _gaugeVote, uint256[] calldata _weights) external {
+333:  function effectiveLenderAPR() external view returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L235
+[File:WildcatMarketWithdrawals.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L24) 
 ```solidity
-234:    function whitelist(address _token) public onlyAdmin {
+23:  function getUnpaidBatchExpiries() external view nonReentrantView returns (uint32[] memory) {
 ``` 
 
 
 
-File:Voter.sol#L247
+[File:WildcatMarketWithdrawals.sol#L28](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L28) 
 ```solidity
-246:    function createSwapGauge(address _pair) external returns (address gauge) {
+27:  function getWithdrawalBatch(
+28:    uint32 expiry
+29:  ) external view nonReentrantView returns (WithdrawalBatch memory) {
 ``` 
 
 
 
-File:Voter.sol#L271
+[File:WildcatMarketWithdrawals.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L38) 
 ```solidity
-270:    function attachTokenToGauge(uint tokenId, address account) external {
+37:  function getAccountWithdrawalStatus(
+38:    address accountAddress,
+39:    uint32 expiry
+40:  ) external view nonReentrantView returns (AccountWithdrawalStatus memory) {
 ``` 
 
 
 
-File:Voter.sol#L277
+[File:WildcatMarketWithdrawals.sol#L45](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L45) 
 ```solidity
-276:    function emitDeposit(uint tokenId, address account, uint amount) external {
+44:  function getAvailableWithdrawalAmount(
+45:    address accountAddress,
+46:    uint32 expiry
+47:  ) external view nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L282
+[File:WildcatMarketWithdrawals.sol#L77](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L77) 
 ```solidity
-281:    function detachTokenFromGauge(uint tokenId, address account) external {
+76:  function queueWithdrawal(uint256 amount) external nonReentrant {
 ``` 
 
 
 
-File:Voter.sol#L288
+[File:WildcatMarketWithdrawals.sol#L137](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L137) 
 ```solidity
-287:    function emitWithdraw(uint tokenId, address account, uint amount) external {
+136:  function executeWithdrawal(
+137:    address accountAddress,
+138:    uint32 expiry
+139:  ) external nonReentrant returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L293
+[File:WildcatMarketWithdrawals.sol#L190](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L190) 
 ```solidity
-292:    function length() external view returns (uint) {
+189:  function processUnpaidWithdrawalBatch() external nonReentrant {
 ``` 
 
 
 
-File:Voter.sol#L299
+[File:WildcatArchController.sol#L63](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L63) 
 ```solidity
-298:    function notifyRewardAmount(uint _amount) external {
+62:  function registerBorrower(address borrower) external onlyOwner {
 ``` 
 
 
 
-File:Voter.sol#L308
+[File:WildcatArchController.sol#L70](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L70) 
 ```solidity
-307:    function updateFor(address[] memory _gauges) external {
+69:  function removeBorrower(address borrower) external onlyOwner {
 ``` 
 
 
 
-File:Voter.sol#L314
+[File:WildcatArchController.sol#L77](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L77) 
 ```solidity
-313:    function updateForRange(uint start, uint end) public {
+76:  function isRegisteredBorrower(address borrower) external view returns (bool) {
 ``` 
 
 
 
-File:Voter.sol#L320
+[File:WildcatArchController.sol#L81](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L81) 
 ```solidity
-319:    function updateAll() external {
+80:  function getRegisteredBorrowers() external view returns (address[] memory) {
 ``` 
 
 
 
-File:Voter.sol#L326
+[File:WildcatArchController.sol#L85](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L85) 
 ```solidity
-325:    function updateGauge(address _gauge) external {
+84:  function getRegisteredBorrowers(
+85:    uint256 start,
+86:    uint256 end
+87:  ) external view returns (address[] memory arr) {
 ``` 
 
 
 
-File:Voter.sol#L351
+[File:WildcatArchController.sol#L98](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L98) 
 ```solidity
-350:    function claimRewards(address[] memory _gauges, address[][] memory _tokens) external {
+97:  function getRegisteredBorrowersCount() external view returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L361
+[File:WildcatArchController.sol#L106](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L106) 
 ```solidity
-360:    function claimBribes(address[] memory _bribes, address[][] memory _tokens, uint _tokenId) external {
+105:  function registerControllerFactory(address factory) external onlyOwner {
 ``` 
 
 
 
-File:Voter.sol#L372
+[File:WildcatArchController.sol#L113](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L113) 
 ```solidity
-371:    function claimFees(address[] memory _fees, address[][] memory _tokens, uint _tokenId) external {
+112:  function removeControllerFactory(address factory) external onlyOwner {
 ``` 
 
 
 
-File:Voter.sol#L381
+[File:WildcatArchController.sol#L120](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L120) 
 ```solidity
-380:    function distributeFees(address[] memory _gauges) external {
+119:  function isRegisteredControllerFactory(address factory) external view returns (bool) {
 ``` 
 
 
 
-File:Voter.sol#L389
+[File:WildcatArchController.sol#L124](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L124) 
 ```solidity
-388:    function distribute(address _gauge) public lock {
+123:  function getRegisteredControllerFactories() external view returns (address[] memory) {
 ``` 
 
 
 
-File:Voter.sol#L400
+[File:WildcatArchController.sol#L128](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L128) 
 ```solidity
-399:    function distro() external {
+127:  function getRegisteredControllerFactories(
+128:    uint256 start,
+129:    uint256 end
+130:  ) external view returns (address[] memory arr) {
 ``` 
 
 
 
-File:Voter.sol#L404
+[File:WildcatArchController.sol#L141](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L141) 
 ```solidity
-403:    function distribute() external {
+140:  function getRegisteredControllerFactoriesCount() external view returns (uint256) {
 ``` 
 
 
 
-File:Voter.sol#L408
+[File:WildcatArchController.sol#L149](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L149) 
 ```solidity
-407:    function distribute(uint start, uint finish) public {
+148:  function registerController(address controller) external onlyControllerFactory {
 ``` 
 
 
 
-File:Voter.sol#L414
+[File:WildcatArchController.sol#L156](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L156) 
 ```solidity
-413:    function distribute(address[] memory _gauges) external {
+155:  function removeController(address controller) external onlyOwner {
 ``` 
 
 
 
-File:SwapFactory.sol#L43
+[File:WildcatArchController.sol#L163](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L163) 
 ```solidity
-42:    function allPairsLength() external view returns (uint) {
+162:  function isRegisteredController(address controller) external view returns (bool) {
 ``` 
 
 
 
-File:SwapFactory.sol#L47
+[File:WildcatArchController.sol#L167](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L167) 
 ```solidity
-46:    function setPauser(address _pauser) external {
+166:  function getRegisteredControllers() external view returns (address[] memory) {
 ``` 
 
 
 
-File:SwapFactory.sol#L52
+[File:WildcatArchController.sol#L171](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L171) 
 ```solidity
-51:    function acceptPauser() external {
+170:  function getRegisteredControllers(
+171:    uint256 start,
+172:    uint256 end
+173:  ) external view returns (address[] memory arr) {
 ``` 
 
 
 
-File:SwapFactory.sol#L57
+[File:WildcatArchController.sol#L184](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L184) 
 ```solidity
-56:    function setPause(bool _state) external {
+183:  function getRegisteredControllersCount() external view returns (uint256) {
 ``` 
 
 
 
-File:SwapFactory.sol#L62
+[File:WildcatArchController.sol#L192](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L192) 
 ```solidity
-61:    function setFeeTier(bool _stable, uint _fee) external {
+191:  function registerMarket(address market) external onlyController {
 ``` 
 
 
 
-File:SwapFactory.sol#L67
+[File:WildcatArchController.sol#L199](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L199) 
 ```solidity
-66:    function setAdmin(address _admin) external {
+198:  function removeMarket(address market) external onlyOwner {
 ``` 
 
 
 
-File:SwapFactory.sol#L72
+[File:WildcatArchController.sol#L206](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L206) 
 ```solidity
-71:    function pairCodeHash() external pure returns (bytes32) {
+205:  function isRegisteredMarket(address market) external view returns (bool) {
 ``` 
 
 
 
-File:SwapFactory.sol#L76
+[File:WildcatArchController.sol#L210](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L210) 
 ```solidity
-75:    function getInitializable() external view returns (address, address, bool, uint) {
+209:  function getRegisteredMarkets() external view returns (address[] memory) {
 ``` 
 
 
 
-File:SwapFactory.sol#L80
+[File:WildcatArchController.sol#L214](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L214) 
 ```solidity
-79:    function createPair(address tokenA, address tokenB, bool stable) external returns (address pair) {
+213:  function getRegisteredMarkets(
+214:    uint256 start,
+215:    uint256 end
+216:  ) external view returns (address[] memory arr) {
 ``` 
 
 
 
-File:Gauge.sol#L110
+[File:WildcatArchController.sol#L227](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L227) 
 ```solidity
-109:    function claimFees() external lock returns (uint claimed0, uint claimed1) {
+226:  function getRegisteredMarketsCount() external view returns (uint256) {
 ``` 
 
 
 
-File:Gauge.sol#L146
+[File:WildcatMarketController.sol#L121](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L121) 
 ```solidity
-145:    function getPriorBalanceIndex(address account, uint timestamp) public view returns (uint) {
+120:  function getAuthorizedLenders() external view returns (address[] memory) {
 ``` 
 
 
 
-File:Gauge.sol#L178
+[File:WildcatMarketController.sol#L125](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L125) 
 ```solidity
-177:    function getPriorSupplyIndex(uint timestamp) public view returns (uint) {
+124:  function getAuthorizedLenders(
+125:    uint256 start,
+126:    uint256 end
+127:  ) external view returns (address[] memory arr) {
 ``` 
 
 
 
-File:Gauge.sol#L210
+[File:WildcatMarketController.sol#L138](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L138) 
 ```solidity
-209:    function getPriorRewardPerToken(address token, uint timestamp) public view returns (uint, uint) {
+137:  function getAuthorizedLendersCount() external view returns (uint256) {
 ``` 
 
 
 
-File:Gauge.sol#L277
+[File:WildcatMarketController.sol#L142](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L142) 
 ```solidity
-276:    function rewardsListLength() external view returns (uint) {
+141:  function isAuthorizedLender(address lender) external view virtual returns (bool) {
 ``` 
 
 
 
-File:Gauge.sol#L284
+[File:WildcatMarketController.sol#L153](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L153) 
 ```solidity
-283:    function lastTimeRewardApplicable(address token) public view returns (uint) {
+152:  function authorizeLenders(address[] memory lenders) external onlyBorrower {
 ``` 
 
 
 
-File:Gauge.sol#L293
+[File:WildcatMarketController.sol#L169](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L169) 
 ```solidity
-292:    function getReward(address account, address[] memory tokens) external lock {
+168:  function deauthorizeLenders(address[] memory lenders) external onlyBorrower {
 ``` 
 
 
 
-File:Gauge.sol#L321
+[File:WildcatMarketController.sol#L182](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L182) 
 ```solidity
-320:    function rewardPerToken(address token) public view returns (uint) {
+181:  function updateLenderAuthorization(address lender, address[] memory markets) external {
 ``` 
 
 
 
-File:Gauge.sol#L328
+[File:WildcatMarketController.sol#L196](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L196) 
 ```solidity
-327:    function derivedBalance(address account) public view returns (uint) {
+195:  function isControlledMarket(address market) external view returns (bool) {
 ``` 
 
 
 
-File:Gauge.sol#L332
+[File:WildcatMarketController.sol#L200](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L200) 
 ```solidity
-331:    function batchRewardPerToken(address token, uint maxRuns) external {
+199:  function getControlledMarkets() external view returns (address[] memory) {
 ``` 
 
 
 
-File:Gauge.sol#L372
+[File:WildcatMarketController.sol#L204](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L204) 
 ```solidity
-371:    function batchUpdateRewardPerToken(address token, uint maxRuns) external {
+203:  function getControlledMarkets(
+204:    uint256 start,
+205:    uint256 end
+206:  ) external view returns (address[] memory arr) {
 ``` 
 
 
 
-File:Gauge.sol#L425
+[File:WildcatMarketController.sol#L217](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L217) 
 ```solidity
-424:    function earned(address token, address account) public view returns (uint) {
+216:  function getControlledMarketsCount() external view returns (uint256) {
 ``` 
 
 
 
-File:Gauge.sol#L453
+[File:WildcatMarketController.sol#L221](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L221) 
 ```solidity
-452:    function depositAll(uint tokenId) external {
+220:  function computeMarketAddress(
+221:    address asset,
+222:    string memory namePrefix,
+223:    string memory symbolPrefix
+224:  ) external view returns (address) {
 ``` 
 
 
 
-File:Gauge.sol#L457
+[File:WildcatMarketController.sol#L238](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L238) 
 ```solidity
-456:    function deposit(uint amount, uint tokenId) public lock {
+237:  function getMarketParameters() external view returns (MarketParameters memory parameters) {
 ``` 
 
 
 
-File:Gauge.sol#L489
+[File:WildcatMarketController.sol#L291](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L291) 
 ```solidity
-488:    function withdrawAll() external {
+290:  function deployMarket(
+291:    address asset,
+292:    string memory namePrefix,
+293:    string memory symbolPrefix,
+294:    uint128 maxTotalSupply,
+295:    uint16 annualInterestBips,
+296:    uint16 delinquencyFeeBips,
+297:    uint32 withdrawalBatchDuration,
+298:    uint16 reserveRatioBips,
+299:    uint32 delinquencyGracePeriod
+300:  ) external returns (address market) {
 ``` 
 
 
 
-File:Gauge.sol#L493
+[File:WildcatMarketController.sol#L446](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L446) 
 ```solidity
-492:    function withdraw(uint amount) public {
+445:  function getParameterConstraints()
+446:    external
+447:    view
+448:    returns (MarketParameterConstraints memory constraints)
+449:  {
 ``` 
 
 
 
-File:Gauge.sol#L501
+[File:WildcatMarketController.sol#L468](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L468) 
 ```solidity
-500:    function withdrawToken(uint amount, uint tokenId) public lock {
+467:  function setAnnualInterestBips(
+468:    address market,
+469:    uint16 annualInterestBips
+470:  ) external virtual onlyBorrower onlyControlledMarket(market) {
 ``` 
 
 
 
-File:Gauge.sol#L529
+[File:WildcatMarketController.sol#L490](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L490) 
 ```solidity
-528:    function left(address token) external view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L535
-```solidity
-534:    function notifyRewardAmount(address token, uint amount) external lock {
+489:  function resetReserveRatio(address market) external virtual {
 ``` 
 
 
 
  --- 
 
-<a name=[G-16]></a>
-### [G-16] Consider marking constants as private - Instances: 5 
+<a name=[G-14]></a>
+### [G-14] Consider marking constants as private - Instances: 2 
 
  
  
@@ -8923,122 +4273,25 @@ contract Contract1 {
 
  --- 
 
-File:Voter.sol#L23
+[File:WildcatMarketBase.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L24) 
 ```solidity
-22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
+23:  string public constant version = '1.0';
 ``` 
 
 
 
-File:Gauge.sol#L23
+[File:WildcatSanctionsSentinel.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L11) 
 ```solidity
-22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
-``` 
-
-
-
-File:Gauge.sol#L24
-```solidity
-23:    uint internal constant PRECISION = 10 ** 18;
-``` 
-
-
-
-File:Gauge.sol#L25
-```solidity
-24:    uint internal constant MAX_REWARD_TOKENS = 16;
-``` 
-
-
-
-File:Bribe.sol#L15
-```solidity
-14:    uint public constant DURATION = 7 days; // rewards are released over 7 days
-``` 
-
-
-
-File:Bribe.sol#L16
-```solidity
-15:    uint public constant PRECISION = 10 ** 18;
-``` 
-
-
-
-File:Bribe.sol#L17
-```solidity
-16:    uint public constant MAX_REWARD_TOKENS = 16; // max number of reward tokens that can be added
-``` 
-
-
-
-File:Minter.sol#L14
-```solidity
-13:    uint internal constant week = 86400 * 7; // allows minting once per week (reset every Thursday 00:00 UTC)
-``` 
-
-
-
-File:Minter.sol#L16
-```solidity
-15:    uint internal constant target_base = 10000; // 2% per week target emission
-``` 
-
-
-
-File:Minter.sol#L17
-```solidity
-16:    uint internal constant tail_emission = 3; // 0.03% per week tail emission
-``` 
-
-
-
-File:Minter.sol#L18
-```solidity
-17:    uint internal constant tail_base = 1000; // 0.2% per week target emission
-``` 
-
-
-
-File:Minter.sol#L27
-```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
-``` 
-
-
-
-File:SwapPair.sol#L17
-```solidity
-16:    uint8 public constant decimals = 18;
-``` 
-
-
-
-File:SwapPair.sol#L29
-```solidity
-28:    bytes32 internal constant PERMIT_TYPEHASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
-``` 
-
-
-
-File:SwapPair.sol#L32
-```solidity
-31:    uint internal constant MINIMUM_LIQUIDITY = 10**3;
-``` 
-
-
-
-File:SwapPair.sol#L48
-```solidity
-47:    uint constant periodSize = 1800;
+10:  bytes32 public constant override WildcatSanctionsEscrowInitcodeHash =
+11:    keccak256(type(WildcatSanctionsEscrow).creationCode);
 ``` 
 
 
 
  --- 
 
-<a name=[G-17]></a>
-### [G-17] Use assembly to check for address(0) - Instances: 6 
+<a name=[G-15]></a>
+### [G-15] Use assembly to check for address(0) - Instances: 3 
 
  
   
@@ -9116,157 +4369,38 @@ contract Contract1 {
 
  --- 
 
-File:Minter.sol#L48
+[File:WildcatMarketBase.sol#L79](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L79) 
 ```solidity
-47:            __voter != address(0) &&
+78:    if ((parameters.protocolFeeBips > 0).and(parameters.feeRecipient == address(0))) {
 ``` 
 
 
 
-File:Minter.sol#L49
+[File:WildcatMarketControllerFactory.sol#L202](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L202) 
 ```solidity
-48:            __ve != address(0) &&
+201:    bool nullFeeRecipient = feeRecipient == address(0);
 ``` 
 
 
 
-File:Minter.sol#L50
+[File:WildcatMarketControllerFactory.sol#L203](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L203) 
 ```solidity
-49:            __ve_dist != address(0) &&
+202:    bool nullOriginationFeeAsset = originationFeeAsset == address(0);
 ``` 
 
 
 
-File:Minter.sol#L51
+[File:WildcatMarketController.sol#L345](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L345) 
 ```solidity
-50:            _admin != address(0),
-``` 
-
-
-
-File:Minter.sol#L124
-```solidity
-123:        if (block.timestamp >= _period + week && initializer == address(0)) { // only trigger if new week
-``` 
-
-
-
-File:Gauge.sol#L86
-```solidity
-85:            _stake != address(0) &&
-``` 
-
-
-
-File:Gauge.sol#L87
-```solidity
-86:            _bribe != address(0) &&
-``` 
-
-
-
-File:Gauge.sol#L88
-```solidity
-87:            __ve != address(0) &&
-``` 
-
-
-
-File:Gauge.sol#L89
-```solidity
-88:            _voter != address(0),
-``` 
-
-
-
-File:SwapFactory.sol#L33
-```solidity
-32:            _feeCollector != address(0),
-``` 
-
-
-
-File:SwapFactory.sol#L68
-```solidity
-67:        require(msg.sender == admin && _admin != address(0), "SwapFactory; wrong input parameters");
-``` 
-
-
-
-File:SwapFactory.sol#L83
-```solidity
-82:        require(token0 != address(0), 'ZA'); // BaseV1: ZERO_ADDRESS
-``` 
-
-
-
-File:SwapFactory.sol#L84
-```solidity
-83:        require(getPair[token0][token1][stable] == address(0), 'PE'); // BaseV1: PAIR_EXISTS - single check is sufficient
-``` 
-
-
-
-File:Multiswap.sol#L13
-```solidity
-12:            _router != address(0),
-``` 
-
-
-
-File:Multiswap.sol#L42
-```solidity
-41:        if (eth = (_token == address(0))) {
-``` 
-
-
-
-File:Voter.sol#L70
-```solidity
-69:            __ve != address(0) &&
-``` 
-
-
-
-File:Voter.sol#L71
-```solidity
-70:            _factory != address(0) &&
-``` 
-
-
-
-File:Voter.sol#L72
-```solidity
-71:            _gauges != address(0) &&
-``` 
-
-
-
-File:Voter.sol#L73
-```solidity
-72:            _bribes != address(0),
-``` 
-
-
-
-File:Voter.sol#L112
-```solidity
-111:        require(_admin != address(0), "zero address");
-``` 
-
-
-
-File:SwapPair.sol#L501
-```solidity
-500:        require(recoveredAddress != address(0) && recoveredAddress == owner, 'SwapPair: INVALID_SIGNATURE');
+344:    if (originationFeeAsset != address(0)) {
 ``` 
 
 
 
  --- 
 
-<a name=[G-18]></a>
-### [G-18] Cache array length during for loop definition. - Instances: 4 
+<a name=[G-16]></a>
+### [G-16] Cache array length during for loop definition. - Instances: 1 
 
  
  
@@ -9403,72 +4537,23 @@ contract Contract3 {
 
  --- 
 
-File:Voter.sol#L309
+[File:WildcatMarketController.sol#L154](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L154) 
 ```solidity
-308:        for (uint i = 0; i < _gauges.length; i++) {
+153:    for (uint256 i = 0; i < lenders.length; i++) {
 ``` 
 
 
 
-File:Voter.sol#L352
+[File:WildcatMarketController.sol#L170](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L170) 
 ```solidity
-351:        for (uint i = 0; i < _gauges.length; i++) {
+169:    for (uint256 i = 0; i < lenders.length; i++) {
 ``` 
 
 
 
-File:Voter.sol#L363
+[File:WildcatMarketController.sol#L183](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L183) 
 ```solidity
-362:        for (uint i = 0; i < _bribes.length; i++) {
-``` 
-
-
-
-File:Voter.sol#L374
-```solidity
-373:        for (uint i = 0; i < _fees.length; i++) {
-``` 
-
-
-
-File:Voter.sol#L382
-```solidity
-381:        for (uint i = 0; i < _gauges.length; i++) {
-``` 
-
-
-
-File:Voter.sol#L415
-```solidity
-414:        for (uint x = 0; x < _gauges.length; x++) {
-``` 
-
-
-
-File:SwapPair.sol#L268
-```solidity
-267:        for (uint i = 0; i < _prices.length; i++) {
-``` 
-
-
-
-File:Gauge.sol#L299
-```solidity
-298:        for (uint i = 0; i < tokens.length; i++) {
-``` 
-
-
-
-File:Bribe.sol#L235
-```solidity
-234:        for (uint i = 0; i < tokens.length; i++) {
-``` 
-
-
-
-File:Bribe.sol#L251
-```solidity
-250:        for (uint i = 0; i < tokens.length; i++) {
+182:    for (uint256 i; i < markets.length; i++) {
 ``` 
 
 
@@ -9477,89 +4562,173 @@ File:Bribe.sol#L251
 
 
 
-## Quality Assurance - Total: 243 
+## Quality Assurance - Total: 392 
 
 <a name=[NC-0]></a>
-### [NC-0] Private variables should contain a leading underscore - Instances: 11 
+### [NC-0] Private variables should contain a leading underscore - Instances: 23 
 
  
 > Consider adding an underscore to the beginning of the variable name 
 
  --- 
 
-File:Minter.sol#L30
+[File:WildcatMarketController.sol#L65](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L65) 
 ```solidity
-29:    address internal admin;
+64:  uint32 internal immutable MaximumWithdrawalBatchDuration;
 ``` 
 
 
 
-File:Minter.sol#L15
+[File:WildcatMarketController.sol#L62](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L62) 
 ```solidity
-14:    uint internal decay = 9900; // weekly decay of 1%
+61:  uint16 internal immutable MaximumDelinquencyFeeBips;
 ``` 
 
 
 
-File:Minter.sol#L29
+[File:WildcatMarketController.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L59) 
 ```solidity
-28:    address internal initializer;
+58:  uint16 internal immutable MaximumReserveRatioBips;
 ``` 
 
 
 
-File:Voter.sol#L20
+[File:WildcatMarketController.sol#L55](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L55) 
 ```solidity
-19:    address internal immutable base;
+54:  uint32 internal immutable MinimumDelinquencyGracePeriod;
 ``` 
 
 
 
-File:Voter.sol#L46
+[File:WildcatMarketController.sol#L67](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L67) 
 ```solidity
-45:    uint internal index;
+66:  uint16 internal immutable MinimumAnnualInterestBips;
 ``` 
 
 
 
-File:Voter.sol#L17
+[File:WildcatMarketController.sol#L64](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L64) 
 ```solidity
-16:    address public immutable _ve;
+63:  uint32 internal immutable MinimumWithdrawalBatchDuration;
 ``` 
 
 
 
-File:Bribe.sol#L13
+[File:WildcatMarketController.sol#L56](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L56) 
 ```solidity
-12:    address public immutable _ve;
+55:  uint32 internal immutable MaximumDelinquencyGracePeriod;
 ``` 
 
 
 
-File:Gauge.sol#L16
+[File:WildcatMarketController.sol#L53](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L53) 
 ```solidity
-15:    address public immutable _ve; // the ve token used for gauges
+52:  uint256 internal immutable ownCreate2Prefix = LibStoredInitCode.getCreate2Prefix(address(this));
 ``` 
 
 
 
-File:SwapPair.sol#L52
+[File:WildcatMarketController.sol#L58](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L58) 
 ```solidity
-51:    uint internal immutable decimals0;
+57:  uint16 internal immutable MinimumReserveRatioBips;
 ``` 
 
 
 
-File:SwapPair.sol#L27
+[File:WildcatMarketController.sol#L61](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L61) 
 ```solidity
-26:    bytes32 internal DOMAIN_SEPARATOR;
+60:  uint16 internal immutable MinimumDelinquencyFeeBips;
 ``` 
 
 
 
-File:SwapPair.sol#L53
+[File:WildcatMarketController.sol#L68](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L68) 
 ```solidity
-52:    uint internal immutable decimals1;
+67:  uint16 internal immutable MaximumAnnualInterestBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L47](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L47) 
+```solidity
+46:  uint32 internal immutable MaximumDelinquencyGracePeriod;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L58](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L58) 
+```solidity
+57:  uint16 internal immutable MinimumAnnualInterestBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L53](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L53) 
+```solidity
+52:  uint16 internal immutable MaximumDelinquencyFeeBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L52](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L52) 
+```solidity
+51:  uint16 internal immutable MinimumDelinquencyFeeBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L56](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L56) 
+```solidity
+55:  uint32 internal immutable MaximumWithdrawalBatchDuration;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L46](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L46) 
+```solidity
+45:  uint32 internal immutable MinimumDelinquencyGracePeriod;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L50](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L50) 
+```solidity
+49:  uint16 internal immutable MaximumReserveRatioBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L55](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L55) 
+```solidity
+54:  uint32 internal immutable MinimumWithdrawalBatchDuration;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L59) 
+```solidity
+58:  uint16 internal immutable MaximumAnnualInterestBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L49](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L49) 
+```solidity
+48:  uint16 internal immutable MinimumReserveRatioBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L44](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L44) 
+```solidity
+43:  uint256 internal immutable ownCreate2Prefix = LibStoredInitCode.getCreate2Prefix(address(this));
+``` 
+
+
+
+[File:WildcatSanctionsEscrow.sol#L14](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L14) 
+```solidity
+13:  address internal immutable asset;
 ``` 
 
 
@@ -9567,56 +4736,55 @@ File:SwapPair.sol#L53
  --- 
 
 <a name=[NC-1]></a>
-### [NC-1] Constructor should check that all parameters are not 0 - Instances: 6 
+### [NC-1] Constructor should check that all parameters are not 0 - Instances: 5 
 
  > Consider adding a require statement to check that all parameters are not 0 in the constructor 
 
  --- 
 
-File:Minter.sol#L39
+[File:WildcatMarketControllerFactory.sol#L72](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L72) 
 ```solidity
-38:    constructor(
-39:        address __voter, // the voting & distribution system
-40:        address  __ve, // the ve(3,3) system that will be locked into
-41:        address __ve_dist, // the distribution system that ensures users aren't diluted
-42:        address _admin,
-43:        uint _weekly
-44:    ) {
+71:  constructor(
+72:    address _archController,
+73:    address _sentinel,
+74:    MarketParameterConstraints memory constraints
+75:  ) {
 ``` 
 
 
 
-File:SwapPair.sol#L92
+[File:WildcatMarketControllerFactory.sol#L72](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L72) 
 ```solidity
-91:    constructor() {
+71:  constructor(
+72:    address _archController,
+73:    address _sentinel,
+74:    MarketParameterConstraints memory constraints
+75:  ) {
 ``` 
 
 
 
-File:SwapPair.sol#L92
+[File:WildcatMarketControllerFactory.sol#L72](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L72) 
 ```solidity
-91:    constructor() {
+71:  constructor(
+72:    address _archController,
+73:    address _sentinel,
+74:    MarketParameterConstraints memory constraints
+75:  ) {
 ``` 
 
 
 
-File:SwapPair.sol#L92
+[File:WildcatSanctionsSentinel.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L24) 
 ```solidity
-91:    constructor() {
+23:  constructor(address _archController, address _chainalysisSanctionsList) {
 ``` 
 
 
 
-File:SwapPair.sol#L92
+[File:WildcatSanctionsSentinel.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L24) 
 ```solidity
-91:    constructor() {
-``` 
-
-
-
-File:Bribe.sol#L70
-```solidity
-69:    constructor(address _voter) {
+23:  constructor(address _archController, address _chainalysisSanctionsList) {
 ``` 
 
 
@@ -9624,219 +4792,387 @@ File:Bribe.sol#L70
  --- 
 
 <a name=[NC-2]></a>
-### [NC-2] Consider importing specific identifiers instead of the whole file - Instances: 30 
+### [NC-2] Consider importing specific identifiers instead of the whole file - Instances: 54 
 
  
 > This will minimize compiled code size and help with readability 
 
  --- 
 
-File:Minter.sol#L4
+[File:WildcatMarketToken.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L4) 
 ```solidity
-3:import "./libraries/Math.sol";
+3:import './WildcatMarketBase.sol';
 ``` 
 
 
 
-File:Minter.sol#L5
+[File:IWildcatMarketController.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketController.sol#L4) 
 ```solidity
-4:import "./interfaces/IUnderlying.sol";
+3:import './WildcatStructsAndEnums.sol';
 ``` 
 
 
 
-File:Minter.sol#L6
+[File:IWildcatMarketController.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketController.sol#L5) 
 ```solidity
-5:import "./interfaces/IVotingEscrow.sol";
+4:import './IWildcatMarketControllerEventsAndErrors.sol';
 ``` 
 
 
 
-File:Minter.sol#L8
+[File:IERC20Metadata.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20Metadata.sol#L4) 
 ```solidity
-7:import "./interfaces/IVotingDist.sol";
+3:import './IERC20.sol';
 ``` 
 
 
 
-File:Voter.sol#L4
+[File:Withdrawal.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L4) 
 ```solidity
-3:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+3:import './MarketState.sol';
 ``` 
 
 
 
-File:Voter.sol#L5
+[File:Withdrawal.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L5) 
 ```solidity
-4:import "./interfaces/IVotingEscrow.sol";
+4:import './FIFOQueue.sol';
 ``` 
 
 
 
-File:Voter.sol#L6
+[File:MathUtils.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L4) 
 ```solidity
-5:import "../core/interfaces/ISwapPair.sol";
+3:import './Errors.sol';
 ``` 
 
 
 
-File:Voter.sol#L7
+[File:WildcatMarket.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L4) 
 ```solidity
-6:import "./interfaces/IGaugeFactory.sol";
+3:import '../libraries/FeeMath.sol';
 ``` 
 
 
 
-File:Voter.sol#L8
+[File:WildcatMarket.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L5) 
 ```solidity
-7:import "./interfaces/IBribeFactory.sol";
+4:import './WildcatMarketBase.sol';
 ``` 
 
 
 
-File:Voter.sol#L9
+[File:WildcatMarket.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L6) 
 ```solidity
-8:import "./interfaces/IGauge.sol";
+5:import './WildcatMarketConfig.sol';
 ``` 
 
 
 
-File:Voter.sol#L10
+[File:WildcatMarket.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L7) 
 ```solidity
-9:import "./interfaces/IBribe.sol";
+6:import './WildcatMarketToken.sol';
 ``` 
 
 
 
-File:Voter.sol#L11
+[File:WildcatMarket.sol#L8](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L8) 
 ```solidity
-10:import "../core/interfaces/ISwapFactory.sol";
+7:import './WildcatMarketWithdrawals.sol';
 ``` 
 
 
 
-File:Voter.sol#L12
+[File:WildcatMarketController.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L5) 
 ```solidity
-11:import "./interfaces/IMinter.sol";
+4:import 'solady/utils/SafeTransferLib.sol';
 ``` 
 
 
 
-File:Gauge.sol#L4
+[File:WildcatMarketController.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L6) 
 ```solidity
-3:import "./libraries/Math.sol";
+5:import './market/WildcatMarket.sol';
 ``` 
 
 
 
-File:Gauge.sol#L5
+[File:WildcatMarketController.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L7) 
 ```solidity
-4:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+6:import './interfaces/IWildcatArchController.sol';
 ``` 
 
 
 
-File:Gauge.sol#L6
+[File:WildcatMarketController.sol#L8](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L8) 
 ```solidity
-5:import "./interfaces/IVotingEscrow.sol";
+7:import './interfaces/IWildcatMarketControllerEventsAndErrors.sol';
 ``` 
 
 
 
-File:Gauge.sol#L8
+[File:WildcatMarketController.sol#L9](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L9) 
 ```solidity
-7:import "../core/interfaces/ISwapFactory.sol";
+8:import './interfaces/IWildcatMarketControllerFactory.sol';
 ``` 
 
 
 
-File:Gauge.sol#L9
+[File:WildcatMarketController.sol#L10](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L10) 
 ```solidity
-8:import "../core/interfaces/ISwapPair.sol";
+9:import './libraries/LibStoredInitCode.sol';
 ``` 
 
 
 
-File:Gauge.sol#L10
+[File:WildcatMarketController.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L11) 
 ```solidity
-9:import "./interfaces/IBribe.sol";
+10:import './libraries/MathUtils.sol';
 ``` 
 
 
 
-File:Multiswap.sol#L5
+[File:WildcatArchController.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L5) 
 ```solidity
-4:import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+4:import 'solady/auth/Ownable.sol';
 ``` 
 
 
 
-File:SwapPair.sol#L4
+[File:WildcatArchController.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L6) 
 ```solidity
-3:import "./SwapFactory.sol";
+5:import './libraries/MathUtils.sol';
 ``` 
 
 
 
-File:SwapPair.sol#L5
+[File:FeeMath.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L4) 
 ```solidity
-4:import "./SwapFees.sol";
+3:import './MathUtils.sol';
 ``` 
 
 
 
-File:SwapPair.sol#L6
+[File:FeeMath.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L5) 
 ```solidity
-5:import "./libraries/Math.sol";
+4:import './SafeCastLib.sol';
 ``` 
 
 
 
-File:SwapPair.sol#L7
+[File:FeeMath.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L6) 
 ```solidity
-6:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+5:import './MarketState.sol';
 ``` 
 
 
 
-File:SwapPair.sol#L9
+[File:SafeCastLib.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L4) 
 ```solidity
-8:import "./interfaces/callback/ISwapCallee.sol";
+3:import './Errors.sol';
 ``` 
 
 
 
-File:SwapPair.sol#L10
+[File:WildcatMarketConfig.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L4) 
 ```solidity
-9:import "./interfaces/ISwapFactory.sol";
+3:import '../interfaces/IWildcatSanctionsSentinel.sol';
 ``` 
 
 
 
-File:SwapFactory.sol#L4
+[File:WildcatMarketConfig.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L5) 
 ```solidity
-3:import "./SwapPair.sol";
+4:import '../libraries/FeeMath.sol';
 ``` 
 
 
 
-File:Bribe.sol#L4
+[File:WildcatMarketConfig.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L6) 
 ```solidity
-3:import "./libraries/Math.sol";
+5:import '../libraries/SafeCastLib.sol';
 ``` 
 
 
 
-File:Bribe.sol#L5
+[File:WildcatMarketConfig.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L7) 
 ```solidity
-4:import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+6:import './WildcatMarketBase.sol';
 ``` 
 
 
 
-File:Bribe.sol#L6
+[File:Chainalysis.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Chainalysis.sol#L4) 
 ```solidity
-5:import "./interfaces/IVotingEscrow.sol";
+3:import '../interfaces/IChainalysisSanctionsList.sol';
+``` 
+
+
+
+[File:IWildcatMarketControllerFactory.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L4) 
+```solidity
+3:import './WildcatStructsAndEnums.sol';
+``` 
+
+
+
+[File:WildcatMarketWithdrawals.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L4) 
+```solidity
+3:import './WildcatMarketBase.sol';
+``` 
+
+
+
+[File:WildcatMarketWithdrawals.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L5) 
+```solidity
+4:import '../libraries/MarketState.sol';
+``` 
+
+
+
+[File:WildcatMarketWithdrawals.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L6) 
+```solidity
+5:import '../libraries/FeeMath.sol';
+``` 
+
+
+
+[File:WildcatMarketWithdrawals.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L7) 
+```solidity
+6:import '../libraries/FIFOQueue.sol';
+``` 
+
+
+
+[File:WildcatMarketWithdrawals.sol#L8](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L8) 
+```solidity
+7:import '../interfaces/IWildcatSanctionsSentinel.sol';
+``` 
+
+
+
+[File:WildcatMarketWithdrawals.sol#L9](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L9) 
+```solidity
+8:import 'solady/utils/SafeTransferLib.sol';
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L4) 
+```solidity
+3:import '../libraries/FeeMath.sol';
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L5) 
+```solidity
+4:import '../libraries/Withdrawal.sol';
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L7) 
+```solidity
+6:import '../interfaces/IMarketEventsAndErrors.sol';
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L8](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L8) 
+```solidity
+7:import '../interfaces/IWildcatMarketController.sol';
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L9](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L9) 
+```solidity
+8:import '../interfaces/IWildcatSanctionsSentinel.sol';
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L11) 
+```solidity
+10:import '../ReentrancyGuard.sol';
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L12](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L12) 
+```solidity
+11:import '../libraries/BoolUtils.sol';
+``` 
+
+
+
+[File:MarketState.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L5) 
+```solidity
+4:import './MathUtils.sol';
+``` 
+
+
+
+[File:MarketState.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L6) 
+```solidity
+5:import './SafeCastLib.sol';
+``` 
+
+
+
+[File:MarketState.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L7) 
+```solidity
+6:import './FeeMath.sol';
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L5) 
+```solidity
+4:import './interfaces/WildcatStructsAndEnums.sol';
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L6) 
+```solidity
+5:import './interfaces/IWildcatMarketController.sol';
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L7) 
+```solidity
+6:import './interfaces/IWildcatArchController.sol';
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L8](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L8) 
+```solidity
+7:import './libraries/LibStoredInitCode.sol';
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L9](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L9) 
+```solidity
+8:import './libraries/MathUtils.sol';
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L10](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L10) 
+```solidity
+9:import './market/WildcatMarket.sol';
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L11) 
+```solidity
+10:import './WildcatMarketController.sol';
 ``` 
 
 
@@ -9844,16 +5180,581 @@ File:Bribe.sol#L6
  --- 
 
 <a name=[NC-3]></a>
-### [NC-3] Storage variables should be named with camel case - Instances: 1 
+### [NC-3] Remove any unused functions - Instances: 75 
 
  
-> Consider renaming to follow convention 
+> Any functions not used should be removed as best practice. 
 
  --- 
 
-File:SwapPair.sol#L27
+[File:SafeCastLib.sol#L73](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L73) 
 ```solidity
-26:    bytes32 internal DOMAIN_SEPARATOR;
+72:  function toUint120(uint256 x) internal pure returns (uint120 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L77](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L77) 
+```solidity
+76:  function toUint128(uint256 x) internal pure returns (uint128 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L85](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L85) 
+```solidity
+84:  function toUint144(uint256 x) internal pure returns (uint144 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L69](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L69) 
+```solidity
+68:  function toUint112(uint256 x) internal pure returns (uint112 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L21](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L21) 
+```solidity
+20:  function toUint16(uint256 x) internal pure returns (uint16 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L25](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L25) 
+```solidity
+24:  function toUint24(uint256 x) internal pure returns (uint24 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L65](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L65) 
+```solidity
+64:  function toUint104(uint256 x) internal pure returns (uint104 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L117](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L117) 
+```solidity
+116:  function toUint208(uint256 x) internal pure returns (uint208 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L113](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L113) 
+```solidity
+112:  function toUint200(uint256 x) internal pure returns (uint200 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L97](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L97) 
+```solidity
+96:  function toUint168(uint256 x) internal pure returns (uint168 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L45](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L45) 
+```solidity
+44:  function toUint64(uint256 x) internal pure returns (uint64 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L101](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L101) 
+```solidity
+100:  function toUint176(uint256 x) internal pure returns (uint176 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L37](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L37) 
+```solidity
+36:  function toUint48(uint256 x) internal pure returns (uint48 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L89](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L89) 
+```solidity
+88:  function toUint152(uint256 x) internal pure returns (uint152 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L109](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L109) 
+```solidity
+108:  function toUint192(uint256 x) internal pure returns (uint192 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L17) 
+```solidity
+16:  function toUint8(uint256 x) internal pure returns (uint8 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L61](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L61) 
+```solidity
+60:  function toUint96(uint256 x) internal pure returns (uint96 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L57](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L57) 
+```solidity
+56:  function toUint88(uint256 x) internal pure returns (uint88 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L105](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L105) 
+```solidity
+104:  function toUint184(uint256 x) internal pure returns (uint184 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L137](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L137) 
+```solidity
+136:  function toUint248(uint256 x) internal pure returns (uint248 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L33) 
+```solidity
+32:  function toUint40(uint256 x) internal pure returns (uint40 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L53](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L53) 
+```solidity
+52:  function toUint80(uint256 x) internal pure returns (uint80 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L125](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L125) 
+```solidity
+124:  function toUint224(uint256 x) internal pure returns (uint224 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L49](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L49) 
+```solidity
+48:  function toUint72(uint256 x) internal pure returns (uint72 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L81](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L81) 
+```solidity
+80:  function toUint136(uint256 x) internal pure returns (uint136 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L133](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L133) 
+```solidity
+132:  function toUint240(uint256 x) internal pure returns (uint240 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L29](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L29) 
+```solidity
+28:  function toUint32(uint256 x) internal pure returns (uint32 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L41](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L41) 
+```solidity
+40:  function toUint56(uint256 x) internal pure returns (uint56 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L93](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L93) 
+```solidity
+92:  function toUint160(uint256 x) internal pure returns (uint160 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L121](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L121) 
+```solidity
+120:  function toUint216(uint256 x) internal pure returns (uint216 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L129](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L129) 
+```solidity
+128:  function toUint232(uint256 x) internal pure returns (uint232 y) {
+``` 
+
+
+
+[File:Withdrawal.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L38) 
+```solidity
+37:  function scaledOwedAmount(WithdrawalBatch memory batch) internal pure returns (uint104) {
+``` 
+
+
+
+[File:Withdrawal.sol#L47](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/Withdrawal.sol#L47) 
+```solidity
+46:  function availableLiquidityForPendingBatch(
+47:    WithdrawalBatch memory batch,
+48:    MarketState memory state,
+49:    uint256 totalAssets
+50:  ) internal pure returns (uint256) {
+``` 
+
+
+
+[File:MathUtils.sol#L173](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L173) 
+```solidity
+172:  function mulDiv(uint256 x, uint256 y, uint256 d) internal pure returns (uint256 z) {
+``` 
+
+
+
+[File:MathUtils.sol#L85](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L85) 
+```solidity
+84:  function bipMul(uint256 a, uint256 b) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:MathUtils.sol#L121](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L121) 
+```solidity
+120:  function bipToRay(uint256 a) internal pure returns (uint256 b) {
+``` 
+
+
+
+[File:MathUtils.sol#L138](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L138) 
+```solidity
+137:  function rayMul(uint256 a, uint256 b) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:MathUtils.sol#L155](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L155) 
+```solidity
+154:  function rayDiv(uint256 a, uint256 b) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:MathUtils.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L30) 
+```solidity
+29:  function calculateLinearInterestFromBips(
+30:    uint256 rateBip,
+31:    uint256 timeDelta
+32:  ) internal pure returns (uint256 result) {
+``` 
+
+
+
+[File:MathUtils.sol#L191](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L191) 
+```solidity
+190:  function mulDivUp(uint256 x, uint256 y, uint256 d) internal pure returns (uint256 z) {
+``` 
+
+
+
+[File:MathUtils.sol#L44](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L44) 
+```solidity
+43:  function min(uint256 a, uint256 b) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:MathUtils.sol#L51](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L51) 
+```solidity
+50:  function max(uint256 a, uint256 b) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:MathUtils.sol#L105](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L105) 
+```solidity
+104:  function bipDiv(uint256 a, uint256 b) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:MathUtils.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L59) 
+```solidity
+58:  function satSub(uint256 a, uint256 b) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:MarketState.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L59) 
+```solidity
+58:  function maximumDeposit(MarketState memory state) internal pure returns (uint256) {
+``` 
+
+
+
+[File:MarketState.sol#L123](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L123) 
+```solidity
+122:  function borrowableAssets(
+123:    MarketState memory state,
+124:    uint256 totalAssets
+125:  ) internal pure returns (uint256) {
+``` 
+
+
+
+[File:MarketState.sol#L66](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L66) 
+```solidity
+65:  function normalizeAmount(
+66:    MarketState memory state,
+67:    uint256 amount
+68:  ) internal pure returns (uint256) {
+``` 
+
+
+
+[File:MarketState.sol#L105](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L105) 
+```solidity
+104:  function withdrawableProtocolFees(
+105:    MarketState memory state,
+106:    uint256 totalAssets
+107:  ) internal pure returns (uint128) {
+``` 
+
+
+
+[File:MarketState.sol#L130](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L130) 
+```solidity
+129:  function hasPendingExpiredBatch(MarketState memory state) internal view returns (bool result) {
+``` 
+
+
+
+[File:MarketState.sol#L87](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L87) 
+```solidity
+86:  function liquidityRequired(
+87:    MarketState memory state
+88:  ) internal pure returns (uint256 _liquidityRequired) {
+``` 
+
+
+
+[File:MarketState.sol#L76](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L76) 
+```solidity
+75:  function scaleAmount(MarketState memory state, uint256 amount) internal pure returns (uint256) {
+``` 
+
+
+
+[File:MarketState.sol#L51](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L51) 
+```solidity
+50:  function totalSupply(MarketState memory state) internal pure returns (uint256) {
+``` 
+
+
+
+[File:MarketState.sol#L138](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MarketState.sol#L138) 
+```solidity
+137:  function totalDebts(MarketState memory state) internal pure returns (uint256) {
+``` 
+
+
+
+[File:BoolUtils.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/BoolUtils.sol#L5) 
+```solidity
+4:  function and(bool a, bool b) internal pure returns (bool c) {
+``` 
+
+
+
+[File:BoolUtils.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/BoolUtils.sol#L11) 
+```solidity
+10:  function or(bool a, bool b) internal pure returns (bool c) {
+``` 
+
+
+
+[File:BoolUtils.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/BoolUtils.sol#L17) 
+```solidity
+16:  function xor(bool a, bool b) internal pure returns (bool c) {
+``` 
+
+
+
+[File:FeeMath.sol#L40](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L40) 
+```solidity
+39:  function applyProtocolFee(
+40:    MarketState memory state,
+41:    uint256 baseInterestRay,
+42:    uint256 protocolFeeBips
+43:  ) internal pure returns (uint256 protocolFee) {
+``` 
+
+
+
+[File:FeeMath.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L30) 
+```solidity
+29:  function calculateBaseInterest(
+30:    MarketState memory state,
+31:    uint256 timestamp
+32:  ) internal pure returns (uint256 baseInterestRay) {
+``` 
+
+
+
+[File:FeeMath.sol#L53](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L53) 
+```solidity
+52:  function updateDelinquency(
+53:    MarketState memory state,
+54:    uint256 timestamp,
+55:    uint256 delinquencyFeeBips,
+56:    uint256 delinquencyGracePeriod
+57:  ) internal pure returns (uint256 delinquencyFeeRay) {
+``` 
+
+
+
+[File:FeeMath.sol#L142](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FeeMath.sol#L142) 
+```solidity
+141:  function updateScaleFactorAndFees(
+142:    MarketState memory state,
+143:    uint256 protocolFeeBips,
+144:    uint256 delinquencyFeeBips,
+145:    uint256 delinquencyGracePeriod,
+146:    uint256 timestamp
+147:  )
+148:    internal
+149:    pure
+150:    returns (uint256 baseInterestRay, uint256 delinquencyFeeRay, uint256 protocolFee)
+151:  {
+``` 
+
+
+
+[File:LibStoredInitCode.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/LibStoredInitCode.sol#L7) 
+```solidity
+6:  function deployInitCode(bytes memory data) internal returns (address initCodeStorage) {
+``` 
+
+
+
+[File:LibStoredInitCode.sol#L54](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/LibStoredInitCode.sol#L54) 
+```solidity
+53:  function calculateCreate2Address(
+54:    uint256 create2Prefix,
+55:    bytes32 salt,
+56:    uint256 initCodeHash
+57:  ) internal pure returns (address create2Address) {
+``` 
+
+
+
+[File:LibStoredInitCode.sol#L48](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/LibStoredInitCode.sol#L48) 
+```solidity
+47:  function getCreate2Prefix(address deployer) internal pure returns (uint256 create2Prefix) {
+``` 
+
+
+
+[File:FIFOQueue.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L38) 
+```solidity
+37:  function length(FIFOQueue storage arr) internal view returns (uint128) {
+``` 
+
+
+
+[File:FIFOQueue.sol#L42](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L42) 
+```solidity
+41:  function values(FIFOQueue storage arr) internal view returns (uint32[] memory _values) {
+``` 
+
+
+
+[File:FIFOQueue.sol#L70](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L70) 
+```solidity
+69:  function shiftN(FIFOQueue storage arr, uint128 n) internal {
+``` 
+
+
+
+[File:FIFOQueue.sol#L19](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L19) 
+```solidity
+18:  function empty(FIFOQueue storage arr) internal view returns (bool) {
+``` 
+
+
+
+[File:FIFOQueue.sol#L23](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L23) 
+```solidity
+22:  function first(FIFOQueue storage arr) internal view returns (uint32) {
+``` 
+
+
+
+[File:FIFOQueue.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L30) 
+```solidity
+29:  function at(FIFOQueue storage arr, uint256 index) internal view returns (uint32) {
+``` 
+
+
+
+[File:FIFOQueue.sol#L55](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L55) 
+```solidity
+54:  function push(FIFOQueue storage arr, uint32 value) internal {
+``` 
+
+
+
+[File:FIFOQueue.sol#L61](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L61) 
+```solidity
+60:  function shift(FIFOQueue storage arr) internal {
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L448](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L448) 
+```solidity
+447:  function _writeState(MarketState memory state) internal {
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L358](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L358) 
+```solidity
+357:  function _getUpdatedState() internal returns (MarketState memory state) {
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L197](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L197) 
+```solidity
+196:  function _getAccountWithRole(
+197:    address accountAddress,
+198:    AuthRole requiredRole
+199:  ) internal returns (Account memory account) {
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L163](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L163) 
+```solidity
+162:  function _blockAccount(MarketState memory state, address accountAddress) internal {
 ``` 
 
 
@@ -9861,634 +5762,21 @@ File:SwapPair.sol#L27
  --- 
 
 <a name=[NC-4]></a>
-### [NC-4] Function names should be in camelCase - Instances: 88 
+### [NC-4] Contract names should be in PascalCase - Instances: 2 
 
  
-> Ensure that function definitions are declared using camelCase 
+> Ensure that contract definitions are declared using PascalCase 
 
  --- 
 
-File:Multiswap.sol#L29
+[File:IERC20Metadata.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20Metadata.sol#L6) 
 ```solidity
-28:    function multiswap(
-29:        address _token,
-30:        uint _amount,
-31:        bytes[] memory _swapData,
-32:        uint[] calldata _weights
-33:    ) external payable returns (uint[] memory) {
 ``` 
 
 
 
-File:Multiswap.sol#L71
+[File:IERC20.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20.sol#L4) 
 ```solidity
-70:    function _assertWeights(uint[] calldata _weights) internal pure returns (bool) {
-``` 
-
-
-
-File:Gauge.sol#L100
-```solidity
-99:    modifier lock() {
-``` 
-
-
-
-File:Gauge.sol#L114
-```solidity
-113:    function _claimFees() internal returns (uint claimed0, uint claimed1) {
-``` 
-
-
-
-File:Gauge.sol#L242
-```solidity
-241:    function _writeCheckpoint(address account, uint balance) internal {
-``` 
-
-
-
-File:Gauge.sol#L254
-```solidity
-253:    function _writeRewardPerTokenCheckpoint(address token, uint reward, uint timestamp) internal {
-``` 
-
-
-
-File:Gauge.sol#L265
-```solidity
-264:    function _writeSupplyCheckpoint() internal {
-``` 
-
-
-
-File:Gauge.sol#L336
-```solidity
-335:    function _batchRewardPerToken(address token, uint maxRuns) internal returns (uint, uint) {
-``` 
-
-
-
-File:Gauge.sol#L365
-```solidity
-364:    function _calcRewardPerToken(address token, uint timestamp1, uint timestamp0, uint supply, uint startTimestamp) internal view returns (uint, uint) {
-``` 
-
-
-
-File:Gauge.sol#L376
-```solidity
-375:    function _updateRewardForAllTokens() internal {
-``` 
-
-
-
-File:Gauge.sol#L384
-```solidity
-383:    function _updateRewardPerToken(address token, uint maxRuns, bool actualLast) internal returns (uint, uint) {
-``` 
-
-
-
-File:Gauge.sol#L425
-```solidity
-424:    function earned(address token, address account) public view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L457
-```solidity
-456:    function deposit(uint amount, uint tokenId) public lock {
-``` 
-
-
-
-File:Gauge.sol#L493
-```solidity
-492:    function withdraw(uint amount) public {
-``` 
-
-
-
-File:Gauge.sol#L529
-```solidity
-528:    function left(address token) external view returns (uint) {
-``` 
-
-
-
-File:Gauge.sol#L566
-```solidity
-565:    function _safeTransfer(address token, address to, uint256 value) internal {
-``` 
-
-
-
-File:Gauge.sol#L573
-```solidity
-572:    function _safeTransferFrom(address token, address from, address to, uint256 value) internal {
-``` 
-
-
-
-File:Gauge.sol#L580
-```solidity
-579:    function _safeApprove(address token, address spender, uint256 value) internal {
-``` 
-
-
-
-File:Voter.sol#L87
-```solidity
-86:    modifier lock() {
-``` 
-
-
-
-File:Voter.sol#L97
-```solidity
-96:    function initialize(/*address[] memory _tokens*/address _minter) external {
-``` 
-
-
-
-File:Voter.sol#L107
-```solidity
-106:    function listing_fee() public view returns (uint) {
-``` 
-
-
-
-File:Voter.sol#L138
-```solidity
-137:    function reset(uint _tokenId) external { // OR msg.sender == votingescrow when withdrawing
-``` 
-
-
-
-File:Voter.sol#L146
-```solidity
-145:    function _reset(uint _tokenId) internal {
-``` 
-
-
-
-File:Voter.sol#L174
-```solidity
-173:    function poke(uint _tokenId) external {
-``` 
-
-
-
-File:Voter.sol#L186
-```solidity
-185:    function _vote(uint _tokenId, address[] memory _gaugeVote, uint256[] memory _weights) internal {
-``` 
-
-
-
-File:Voter.sol#L225
-```solidity
-224:    function vote(uint tokenId, address[] calldata _gaugeVote, uint256[] calldata _weights) external {
-``` 
-
-
-
-File:Voter.sol#L235
-```solidity
-234:    function whitelist(address _token) public onlyAdmin {
-``` 
-
-
-
-File:Voter.sol#L239
-```solidity
-238:    function _whitelist(address _token) internal {
-``` 
-
-
-
-File:Voter.sol#L293
-```solidity
-292:    function length() external view returns (uint) {
-``` 
-
-
-
-File:Voter.sol#L330
-```solidity
-329:    function _updateFor(address _gauge) internal {
-``` 
-
-
-
-File:Voter.sol#L389
-```solidity
-388:    function distribute(address _gauge) public lock {
-``` 
-
-
-
-File:Voter.sol#L400
-```solidity
-399:    function distro() external {
-``` 
-
-
-
-File:Voter.sol#L404
-```solidity
-403:    function distribute() external {
-``` 
-
-
-
-File:Voter.sol#L408
-```solidity
-407:    function distribute(uint start, uint finish) public {
-``` 
-
-
-
-File:Voter.sol#L414
-```solidity
-413:    function distribute(address[] memory _gauges) external {
-``` 
-
-
-
-File:Voter.sol#L422
-```solidity
-421:    function _activePeriod() internal view returns (uint activePeriod) {
-``` 
-
-
-
-File:Voter.sol#L428
-```solidity
-427:    function _nextPeriod() internal view returns(uint nextPeriod) {
-``` 
-
-
-
-File:Voter.sol#L433
-```solidity
-432:    function _safeTransferFrom(address token, address from, address to, uint256 value) internal {
-``` 
-
-
-
-File:SwapPair.sol#L113
-```solidity
-112:    modifier lock() {
-``` 
-
-
-
-File:SwapPair.sol#L128
-```solidity
-127:    function metadata() external view returns (uint dec0, uint dec1, uint r0, uint r1, bool st, address t0, address t1) {
-``` 
-
-
-
-File:SwapPair.sol#L132
-```solidity
-131:    function tokens() external view returns (address, address) {
-``` 
-
-
-
-File:SwapPair.sol#L154
-```solidity
-153:    function _update0(uint amount) internal {
-``` 
-
-
-
-File:SwapPair.sol#L168
-```solidity
-167:    function _update1(uint amount) internal {
-``` 
-
-
-
-File:SwapPair.sol#L183
-```solidity
-182:    function _updateFor(address recipient) internal {
-``` 
-
-
-
-File:SwapPair.sol#L215
-```solidity
-214:    function _update(uint balance0, uint balance1, uint _reserve0, uint _reserve1) internal {
-``` 
-
-
-
-File:SwapPair.sol#L251
-```solidity
-250:    function current(address tokenIn, uint amountIn) external view returns (uint amountOut) {
-``` 
-
-
-
-File:SwapPair.sol#L265
-```solidity
-264:    function quote(address tokenIn, uint amountIn, uint granularity) external view returns (uint amountOut) {
-``` 
-
-
-
-File:SwapPair.sol#L275
-```solidity
-274:    function prices(address tokenIn, uint amountIn, uint points) external view returns (uint[] memory) {
-``` 
-
-
-
-File:SwapPair.sol#L279
-```solidity
-278:    function sample(address tokenIn, uint amountIn, uint points, uint window) public view returns (uint[] memory) {
-``` 
-
-
-
-File:SwapPair.sol#L300
-```solidity
-299:    function mint(address to) external lock returns (uint liquidity) {
-``` 
-
-
-
-File:SwapPair.sol#L323
-```solidity
-322:    function burn(address to) external lock returns (uint amount0, uint amount1) {
-``` 
-
-
-
-File:SwapPair.sol#L345
-```solidity
-344:    function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) external lock {
-``` 
-
-
-
-File:SwapPair.sol#L380
-```solidity
-379:    function skim(address to) external lock {
-``` 
-
-
-
-File:SwapPair.sol#L387
-```solidity
-386:    function sync() external lock {
-``` 
-
-
-
-File:SwapPair.sol#L391
-```solidity
-390:    function _f(uint x0, uint y) internal pure returns (uint) {
-``` 
-
-
-
-File:SwapPair.sol#L395
-```solidity
-394:    function _d(uint x0, uint y) internal pure returns (uint) {
-``` 
-
-
-
-File:SwapPair.sol#L399
-```solidity
-398:    function _get_y(uint x0, uint xy, uint y) internal pure returns (uint) {
-``` 
-
-
-
-File:SwapPair.sol#L429
-```solidity
-428:    function _getAmountOut(uint amountIn, address tokenIn, uint _reserve0, uint _reserve1) internal view returns (uint) {
-``` 
-
-
-
-File:SwapPair.sol#L444
-```solidity
-443:    function _k(uint x, uint y) internal view returns (uint) {
-``` 
-
-
-
-File:SwapPair.sol#L456
-```solidity
-455:    function _mint(address dst, uint amount) internal {
-``` 
-
-
-
-File:SwapPair.sol#L463
-```solidity
-462:    function _burn(address dst, uint amount) internal {
-``` 
-
-
-
-File:SwapPair.sol#L470
-```solidity
-469:    function approve(address spender, uint amount) external returns (bool) {
-``` 
-
-
-
-File:SwapPair.sol#L477
-```solidity
-476:    function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external {
-``` 
-
-
-
-File:SwapPair.sol#L507
-```solidity
-506:    function transfer(address dst, uint amount) external returns (bool) {
-``` 
-
-
-
-File:SwapPair.sol#L527
-```solidity
-526:    function _transferTokens(address src, address dst, uint amount) internal {
-``` 
-
-
-
-File:SwapPair.sol#L537
-```solidity
-536:    function _safeTransfer(address token,address to,uint256 value) internal {
-``` 
-
-
-
-File:Bribe.sol#L78
-```solidity
-77:    modifier lock() {
-``` 
-
-
-
-File:Bribe.sol#L188
-```solidity
-187:    function _writeCheckpoint(uint tokenId, uint balance) internal {
-``` 
-
-
-
-File:Bribe.sol#L200
-```solidity
-199:    function _writeRewardPerTokenCheckpoint(address token, uint reward, uint timestamp) internal {
-``` 
-
-
-
-File:Bribe.sol#L211
-```solidity
-210:    function _writeSupplyCheckpoint() internal {
-``` 
-
-
-
-File:Bribe.sol#L274
-```solidity
-273:    function _batchRewardPerToken(address token, uint maxRuns) internal returns (uint, uint) {
-``` 
-
-
-
-File:Bribe.sol#L303
-```solidity
-302:    function _calcRewardPerToken(address token, uint timestamp1, uint timestamp0, uint supply, uint startTimestamp) internal view returns (uint, uint) {
-``` 
-
-
-
-File:Bribe.sol#L312
-```solidity
-311:    function _updateRewardForAllTokens() internal {
-``` 
-
-
-
-File:Bribe.sol#L320
-```solidity
-319:    function _updateRewardPerToken(address token, uint maxRuns, bool actualLast) internal returns (uint, uint) {
-``` 
-
-
-
-File:Bribe.sol#L361
-```solidity
-360:    function earned(address token, uint tokenId) public view returns (uint) {
-``` 
-
-
-
-File:Bribe.sol#L390
-```solidity
-389:    function _deposit(uint amount, uint tokenId) external {
-``` 
-
-
-
-File:Bribe.sol#L403
-```solidity
-402:    function _withdraw(uint amount, uint tokenId) external {
-``` 
-
-
-
-File:Bribe.sol#L416
-```solidity
-415:    function left(address token) external view returns (uint) {
-``` 
-
-
-
-File:Bribe.sol#L453
-```solidity
-452:    function _safeTransfer(address token, address to, uint256 value) internal {
-``` 
-
-
-
-File:Bribe.sol#L460
-```solidity
-459:    function _safeTransferFrom(address token, address from, address to, uint256 value) internal {
-``` 
-
-
-
-File:Minter.sol#L66
-```solidity
-65:    function initialize(
-66:        // address[] memory claimants,
-67:        // uint[] memory amounts,
-68:        // uint max // sum amounts / max = % ownership of top protocols, so if initial 20m is distributed, and target is 25% protocol ownership, then max - 4 x 20m = 80m
-69:    ) external {
-``` 
-
-
-
-File:Minter.sol#L91
-```solidity
-90:    function circulating_supply() public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L96
-```solidity
-95:    function _calculate_emission() private view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L101
-```solidity
-100:    function calculate_emission() public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L107
-```solidity
-106:    function weekly_emission() public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L112
-```solidity
-111:    function circulating_emission() public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L117
-```solidity
-116:    function calculate_growth(uint _minted) public view returns (uint) {
-``` 
-
-
-
-File:Minter.sol#L122
-```solidity
-121:    function update_period() external returns (uint) {
 ``` 
 
 
@@ -10496,261 +5784,683 @@ File:Minter.sol#L122
  --- 
 
 <a name=[NC-5]></a>
-### [NC-5] Constant and immutable variable names should be in SCREAMING_SNAKE_CASE - Instances: 36 
+### [NC-5] Function names should be in camelCase - Instances: 89 
 
  
-> Ensure that Constant and immutable variable names are declared using SCREAMING_SNAKE_CASE 
+> Ensure that function definitions are declared using camelCase 
 
  --- 
 
-File:Bribe.sol#L15
+[File:IWildcatSanctionsEscrow.sol#L9](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatSanctionsEscrow.sol#L9) 
 ```solidity
-14:    uint public constant DURATION = 7 days; // rewards are released over 7 days
+8:  function sentinel() external view returns (address);
 ``` 
 
 
 
-File:Bribe.sol#L16
+[File:IWildcatSanctionsEscrow.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatSanctionsEscrow.sol#L11) 
 ```solidity
-15:    uint public constant PRECISION = 10 ** 18;
+10:  function borrower() external view returns (address);
 ``` 
 
 
 
-File:Bribe.sol#L12
+[File:IWildcatSanctionsEscrow.sol#L13](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatSanctionsEscrow.sol#L13) 
 ```solidity
-11:    address public immutable voter; // only voter can modify balances (since it only happens on vote())
+12:  function account() external view returns (address);
 ``` 
 
 
 
-File:Bribe.sol#L13
+[File:IWildcatSanctionsEscrow.sol#L15](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatSanctionsEscrow.sol#L15) 
 ```solidity
-12:    address public immutable _ve;
+14:  function balance() external view returns (uint256);
 ``` 
 
 
 
-File:SwapPair.sol#L17
+[File:WildcatSanctionsSentinel.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L30) 
 ```solidity
-16:    uint8 public constant decimals = 18;
+29:  function _resetTmpEscrowParams() internal {
 ``` 
 
 
 
-File:SwapPair.sol#L48
+[File:IWildcatSanctionsSentinel.sol#L23](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatSanctionsSentinel.sol#L23) 
 ```solidity
-47:    uint constant periodSize = 1800;
+22:  function WildcatSanctionsEscrowInitcodeHash() external pure returns (bytes32);
 ``` 
 
 
 
-File:SwapPair.sol#L20
+[File:BoolUtils.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/BoolUtils.sol#L5) 
 ```solidity
-19:    bool public immutable stable;
+4:  function and(bool a, bool b) internal pure returns (bool c) {
 ``` 
 
 
 
-File:SwapPair.sol#L34
+[File:BoolUtils.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/BoolUtils.sol#L11) 
 ```solidity
-33:    address public immutable token0;
+10:  function or(bool a, bool b) internal pure returns (bool c) {
 ``` 
 
 
 
-File:SwapPair.sol#L35
+[File:BoolUtils.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/BoolUtils.sol#L17) 
 ```solidity
-34:    address public immutable token1;
+16:  function xor(bool a, bool b) internal pure returns (bool c) {
 ``` 
 
 
 
-File:SwapPair.sol#L36
+[File:WildcatSanctionsEscrow.sol#L21](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L21) 
 ```solidity
-35:    address public immutable fees;
+20:  function balance() public view override returns (uint256) {
 ``` 
 
 
 
-File:SwapPair.sol#L37
+[File:WildcatMarketController.sol#L255](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L255) 
 ```solidity
-36:    address public immutable factory;
+254:  function _resetTmpMarketParameters() internal {
 ``` 
 
 
 
-File:SwapPair.sol#L38
+[File:WildcatMarketController.sol#L370](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L370) 
 ```solidity
-37:    uint public immutable fee;
+369:  function _deriveSalt(
+370:    address asset,
+371:    string memory namePrefix,
+372:    string memory symbolPrefix
+373:  ) internal pure returns (bytes32 salt) {
 ``` 
 
 
 
-File:SwapPair.sol#L52
+[File:WildcatMarketBase.sol#L150](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L150) 
 ```solidity
-51:    uint internal immutable decimals0;
+149:  function _getAccount(address accountAddress) internal view returns (Account memory account) {
 ``` 
 
 
 
-File:SwapPair.sol#L53
+[File:WildcatMarketBase.sol#L163](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L163) 
 ```solidity
-52:    uint internal immutable decimals1;
+162:  function _blockAccount(MarketState memory state, address accountAddress) internal {
 ``` 
 
 
 
-File:Voter.sol#L23
+[File:WildcatMarketBase.sol#L197](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L197) 
 ```solidity
-22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
+196:  function _getAccountWithRole(
+197:    address accountAddress,
+198:    AuthRole requiredRole
+199:  ) internal returns (Account memory account) {
 ``` 
 
 
 
-File:Voter.sol#L17
+[File:WildcatMarketBase.sol#L358](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L358) 
 ```solidity
-16:    address public immutable _ve;
+357:  function _getUpdatedState() internal returns (MarketState memory state) {
 ``` 
 
 
 
-File:Voter.sol#L18
+[File:WildcatMarketBase.sol#L399](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L399) 
 ```solidity
-17:    address public immutable factory;
+398:  function _calculateCurrentState()
+399:    internal
+400:    view
+401:    returns (
+402:      MarketState memory state,
+403:      uint32 expiredBatchExpiry,
+404:      WithdrawalBatch memory expiredBatch
+405:    )
+406:  {
 ``` 
 
 
 
-File:Voter.sol#L20
+[File:WildcatMarketBase.sol#L448](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L448) 
 ```solidity
-19:    address internal immutable base;
+447:  function _writeState(MarketState memory state) internal {
 ``` 
 
 
 
-File:Voter.sol#L22
+[File:WildcatMarketBase.sol#L466](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L466) 
 ```solidity
-21:    address public immutable bribeFactory;
+465:  function _processExpiredWithdrawalBatch(MarketState memory state) internal {
 ``` 
 
 
 
-File:Gauge.sol#L23
+[File:WildcatMarketBase.sol#L498](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L498) 
 ```solidity
-22:    uint internal constant DURATION = 7 days; // rewards are released over 7 days
+497:  function _applyWithdrawalBatchPayment(
+498:    WithdrawalBatch memory batch,
+499:    MarketState memory state,
+500:    uint32 expiry,
+501:    uint256 availableLiquidity
+502:  ) internal {
 ``` 
 
 
 
-File:Gauge.sol#L24
+[File:WildcatMarketBase.sol#L528](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L528) 
 ```solidity
-23:    uint internal constant PRECISION = 10 ** 18;
+527:  function _applyWithdrawalBatchPaymentView(
+528:    WithdrawalBatch memory batch,
+529:    MarketState memory state,
+530:    uint256 availableLiquidity
+531:  ) internal pure {
 ``` 
 
 
 
-File:Gauge.sol#L15
+[File:LibStoredInitCode.sol#L48](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/LibStoredInitCode.sol#L48) 
 ```solidity
-14:    address public immutable stake; // the LP token that needs to be staked for rewards
+47:  function getCreate2Prefix(address deployer) internal pure returns (uint256 create2Prefix) {
 ``` 
 
 
 
-File:Gauge.sol#L16
+[File:LibStoredInitCode.sol#L54](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/LibStoredInitCode.sol#L54) 
 ```solidity
-15:    address public immutable _ve; // the ve token used for gauges
+53:  function calculateCreate2Address(
+54:    uint256 create2Prefix,
+55:    bytes32 salt,
+56:    uint256 initCodeHash
+57:  ) internal pure returns (address create2Address) {
 ``` 
 
 
 
-File:Gauge.sol#L17
+[File:LibStoredInitCode.sol#L99](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/LibStoredInitCode.sol#L99) 
 ```solidity
-16:    address public immutable bribe;
+98:  function create2WithStoredInitCode(
+99:    address initCodeStorage,
+100:    bytes32 salt
+101:  ) internal returns (address deployment) {
 ``` 
 
 
 
-File:Gauge.sol#L18
+[File:LibStoredInitCode.sol#L106](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/LibStoredInitCode.sol#L106) 
 ```solidity
-17:    address public immutable voter;
+105:  function create2WithStoredInitCode(
+106:    address initCodeStorage,
+107:    bytes32 salt,
+108:    uint256 value
+109:  ) internal returns (address deployment) {
 ``` 
 
 
 
-File:Minter.sol#L14
+[File:IWildcatMarketControllerFactory.sol#L28](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L28) 
 ```solidity
-13:    uint internal constant week = 86400 * 7; // allows minting once per week (reset every Thursday 00:00 UTC)
+27:  function sentinel() external view returns (address);
 ``` 
 
 
 
-File:Minter.sol#L16
+[File:WildcatMarket.sol#L86](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L86) 
 ```solidity
-15:    uint internal constant target_base = 10000; // 2% per week target emission
+85:  function deposit(uint256 amount) external virtual {
 ``` 
 
 
 
-File:Minter.sol#L17
+[File:WildcatMarket.sol#L119](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L119) 
 ```solidity
-16:    uint internal constant tail_emission = 3; // 0.03% per week tail emission
+118:  function borrow(uint256 amount) external onlyBorrower nonReentrant {
 ``` 
 
 
 
-File:Minter.sol#L18
+[File:FIFOQueue.sol#L19](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L19) 
 ```solidity
-17:    uint internal constant tail_base = 1000; // 0.2% per week target emission
+18:  function empty(FIFOQueue storage arr) internal view returns (bool) {
 ``` 
 
 
 
-File:Minter.sol#L27
+[File:FIFOQueue.sol#L23](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L23) 
 ```solidity
-26:    uint internal constant lock = 86400 * 7 * 52 * 4;
+22:  function first(FIFOQueue storage arr) internal view returns (uint32) {
 ``` 
 
 
 
-File:Minter.sol#L19
+[File:FIFOQueue.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L30) 
 ```solidity
-18:    underlying public immutable _token;
+29:  function at(FIFOQueue storage arr, uint256 index) internal view returns (uint32) {
 ``` 
 
 
 
-File:Minter.sol#L20
+[File:FIFOQueue.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L38) 
 ```solidity
-19:    IVoter public immutable _voter;
+37:  function length(FIFOQueue storage arr) internal view returns (uint128) {
 ``` 
 
 
 
-File:Minter.sol#L21
+[File:FIFOQueue.sol#L42](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L42) 
 ```solidity
-20:    IVotingEscrow public immutable _ve;
+41:  function values(FIFOQueue storage arr) internal view returns (uint32[] memory _values) {
 ``` 
 
 
 
-File:Minter.sol#L22
+[File:FIFOQueue.sol#L55](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L55) 
 ```solidity
-21:    IVotingDist public immutable _ve_dist;
+54:  function push(FIFOQueue storage arr, uint32 value) internal {
 ``` 
 
 
 
-File:SwapFactory.sol#L17
+[File:FIFOQueue.sol#L61](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L61) 
 ```solidity
-16:    address public immutable feeCollector;
+60:  function shift(FIFOQueue storage arr) internal {
 ``` 
 
 
 
-File:Multiswap.sol#L9
+[File:WildcatMarketToken.sol#L31](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L31) 
 ```solidity
-8:    address public immutable router;
+30:  function approve(address spender, uint256 amount) external virtual nonReentrant returns (bool) {
+``` 
+
+
+
+[File:WildcatMarketToken.sol#L36](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L36) 
+```solidity
+35:  function transfer(address to, uint256 amount) external virtual nonReentrant returns (bool) {
+``` 
+
+
+
+[File:WildcatMarketToken.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L59) 
+```solidity
+58:  function _approve(address approver, address spender, uint256 amount) internal virtual {
+``` 
+
+
+
+[File:WildcatMarketToken.sol#L64](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L64) 
+```solidity
+63:  function _transfer(address from, address to, uint256 amount) internal virtual {
+``` 
+
+
+
+[File:StringQuery.sol#L19](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L19) 
+```solidity
+18:function bytes32ToString(bytes32 value) pure returns (string memory str) {
+``` 
+
+
+
+[File:StringQuery.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L33) 
+```solidity
+32:function queryStringOrBytes32AsString(
+33:  address target,
+34:  uint256 rightPaddedFunctionSelector,
+35:  uint256 rightPaddedGenericErrorSelector
+36:) view returns (string memory str) {
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L106](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L106) 
+```solidity
+105:  function _storeControllerInitCode()
+106:    internal
+107:    virtual
+108:    returns (address initCodeStorage, uint256 initCodeHash)
+109:  {
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L116](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L116) 
+```solidity
+115:  function _storeMarketInitCode()
+116:    internal
+117:    virtual
+118:    returns (address initCodeStorage, uint256 initCodeHash)
+119:  {
+``` 
+
+
+
+[File:MathUtils.sol#L44](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L44) 
+```solidity
+43:  function min(uint256 a, uint256 b) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:MathUtils.sol#L51](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L51) 
+```solidity
+50:  function max(uint256 a, uint256 b) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:MathUtils.sol#L71](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L71) 
+```solidity
+70:  function ternary(
+71:    bool condition,
+72:    uint256 valueIfTrue,
+73:    uint256 valueIfFalse
+74:  ) internal pure returns (uint256 c) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L7) 
+```solidity
+6:  function _assertNonOverflow(bool didNotOverflow) private pure {
+``` 
+
+
+
+[File:SafeCastLib.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L17) 
+```solidity
+16:  function toUint8(uint256 x) internal pure returns (uint8 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L21](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L21) 
+```solidity
+20:  function toUint16(uint256 x) internal pure returns (uint16 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L25](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L25) 
+```solidity
+24:  function toUint24(uint256 x) internal pure returns (uint24 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L29](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L29) 
+```solidity
+28:  function toUint32(uint256 x) internal pure returns (uint32 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L33) 
+```solidity
+32:  function toUint40(uint256 x) internal pure returns (uint40 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L37](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L37) 
+```solidity
+36:  function toUint48(uint256 x) internal pure returns (uint48 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L41](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L41) 
+```solidity
+40:  function toUint56(uint256 x) internal pure returns (uint56 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L45](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L45) 
+```solidity
+44:  function toUint64(uint256 x) internal pure returns (uint64 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L49](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L49) 
+```solidity
+48:  function toUint72(uint256 x) internal pure returns (uint72 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L53](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L53) 
+```solidity
+52:  function toUint80(uint256 x) internal pure returns (uint80 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L57](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L57) 
+```solidity
+56:  function toUint88(uint256 x) internal pure returns (uint88 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L61](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L61) 
+```solidity
+60:  function toUint96(uint256 x) internal pure returns (uint96 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L65](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L65) 
+```solidity
+64:  function toUint104(uint256 x) internal pure returns (uint104 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L69](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L69) 
+```solidity
+68:  function toUint112(uint256 x) internal pure returns (uint112 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L73](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L73) 
+```solidity
+72:  function toUint120(uint256 x) internal pure returns (uint120 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L77](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L77) 
+```solidity
+76:  function toUint128(uint256 x) internal pure returns (uint128 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L81](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L81) 
+```solidity
+80:  function toUint136(uint256 x) internal pure returns (uint136 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L85](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L85) 
+```solidity
+84:  function toUint144(uint256 x) internal pure returns (uint144 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L89](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L89) 
+```solidity
+88:  function toUint152(uint256 x) internal pure returns (uint152 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L93](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L93) 
+```solidity
+92:  function toUint160(uint256 x) internal pure returns (uint160 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L97](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L97) 
+```solidity
+96:  function toUint168(uint256 x) internal pure returns (uint168 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L101](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L101) 
+```solidity
+100:  function toUint176(uint256 x) internal pure returns (uint176 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L105](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L105) 
+```solidity
+104:  function toUint184(uint256 x) internal pure returns (uint184 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L109](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L109) 
+```solidity
+108:  function toUint192(uint256 x) internal pure returns (uint192 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L113](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L113) 
+```solidity
+112:  function toUint200(uint256 x) internal pure returns (uint200 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L117](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L117) 
+```solidity
+116:  function toUint208(uint256 x) internal pure returns (uint208 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L121](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L121) 
+```solidity
+120:  function toUint216(uint256 x) internal pure returns (uint216 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L125](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L125) 
+```solidity
+124:  function toUint224(uint256 x) internal pure returns (uint224 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L129](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L129) 
+```solidity
+128:  function toUint232(uint256 x) internal pure returns (uint232 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L133](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L133) 
+```solidity
+132:  function toUint240(uint256 x) internal pure returns (uint240 y) {
+``` 
+
+
+
+[File:SafeCastLib.sol#L137](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/SafeCastLib.sol#L137) 
+```solidity
+136:  function toUint248(uint256 x) internal pure returns (uint248 y) {
+``` 
+
+
+
+[File:IWildcatArchController.sol#L9](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L9) 
+```solidity
+8:  function owner() external view returns (address);
+``` 
+
+
+
+[File:IWildcatMarketController.sol#L18](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketController.sol#L18) 
+```solidity
+17:  function borrower() external view returns (address);
+``` 
+
+
+
+[File:IERC20.sol#L12](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20.sol#L12) 
+```solidity
+11:  function transfer(address recipient, uint256 amount) external returns (bool);
+``` 
+
+
+
+[File:IERC20.sol#L14](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20.sol#L14) 
+```solidity
+13:  function allowance(address owner, address spender) external view returns (uint256);
+``` 
+
+
+
+[File:IERC20.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20.sol#L16) 
+```solidity
+15:  function approve(address spender, uint256 amount) external returns (bool);
+``` 
+
+
+
+[File:IERC20Metadata.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20Metadata.sol#L7) 
+```solidity
+6:  function name() external view returns (string memory);
+``` 
+
+
+
+[File:IERC20Metadata.sol#L9](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20Metadata.sol#L9) 
+```solidity
+8:  function symbol() external view returns (string memory);
+``` 
+
+
+
+[File:IERC20Metadata.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IERC20Metadata.sol#L11) 
+```solidity
+10:  function decimals() external view returns (uint8);
+``` 
+
+
+
+[File:ReentrancyGuard.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/ReentrancyGuard.sol#L59) 
+```solidity
+58:  function _setReentrancyGuard() internal {
+``` 
+
+
+
+[File:ReentrancyGuard.sol#L72](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/ReentrancyGuard.sol#L72) 
+```solidity
+71:  function _clearReentrancyGuard() internal {
+``` 
+
+
+
+[File:ReentrancyGuard.sol#L81](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/ReentrancyGuard.sol#L81) 
+```solidity
+80:  function _assertNonReentrant() internal view {
 ``` 
 
 
@@ -10758,86 +6468,388 @@ File:Multiswap.sol#L9
  --- 
 
 <a name=[NC-6]></a>
-### [NC-6] Remove any unused returns - Instances: 11 
+### [NC-6] Constant and immutable variable names should be in SCREAMING_SNAKE_CASE - Instances: 54 
 
  
-> Either remove the return parameter names, or use them as the returns of the function. 
+> Ensure that Constant and immutable variable names are declared using SCREAMING_SNAKE_CASE 
 
  --- 
 
-File:Gauge.sol#L110
+[File:WildcatSanctionsEscrow.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L11) 
 ```solidity
-109:    function claimFees() external lock returns (uint claimed0, uint claimed1) {
+10:  address public immutable override sentinel;
 ``` 
 
 
 
-File:Gauge.sol#L110
+[File:WildcatSanctionsEscrow.sol#L12](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L12) 
 ```solidity
-109:    function claimFees() external lock returns (uint claimed0, uint claimed1) {
+11:  address public immutable override borrower;
 ``` 
 
 
 
-File:SwapPair.sol#L128
+[File:WildcatSanctionsEscrow.sol#L13](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L13) 
 ```solidity
-127:    function metadata() external view returns (uint dec0, uint dec1, uint r0, uint r1, bool st, address t0, address t1) {
+12:  address public immutable override account;
 ``` 
 
 
 
-File:SwapPair.sol#L128
+[File:WildcatSanctionsEscrow.sol#L14](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L14) 
 ```solidity
-127:    function metadata() external view returns (uint dec0, uint dec1, uint r0, uint r1, bool st, address t0, address t1) {
+13:  address internal immutable asset;
 ``` 
 
 
 
-File:SwapPair.sol#L128
+[File:WildcatMarketBase.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L24) 
 ```solidity
-127:    function metadata() external view returns (uint dec0, uint dec1, uint r0, uint r1, bool st, address t0, address t1) {
+23:  string public constant version = '1.0';
 ``` 
 
 
 
-File:SwapPair.sol#L128
+[File:WildcatMarketBase.sol#L27](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L27) 
 ```solidity
-127:    function metadata() external view returns (uint dec0, uint dec1, uint r0, uint r1, bool st, address t0, address t1) {
+26:  address public immutable sentinel;
 ``` 
 
 
 
-File:SwapPair.sol#L128
+[File:WildcatMarketBase.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L30) 
 ```solidity
-127:    function metadata() external view returns (uint dec0, uint dec1, uint r0, uint r1, bool st, address t0, address t1) {
+29:  address public immutable borrower;
 ``` 
 
 
 
-File:SwapPair.sol#L128
+[File:WildcatMarketBase.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L33) 
 ```solidity
-127:    function metadata() external view returns (uint dec0, uint dec1, uint r0, uint r1, bool st, address t0, address t1) {
+32:  address public immutable feeRecipient;
 ``` 
 
 
 
-File:SwapPair.sol#L128
+[File:WildcatMarketBase.sol#L36](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L36) 
 ```solidity
-127:    function metadata() external view returns (uint dec0, uint dec1, uint r0, uint r1, bool st, address t0, address t1) {
+35:  uint256 public immutable protocolFeeBips;
 ``` 
 
 
 
-File:SwapPair.sol#L265
+[File:WildcatMarketBase.sol#L39](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L39) 
 ```solidity
-264:    function quote(address tokenIn, uint amountIn, uint granularity) external view returns (uint amountOut) {
+38:  uint256 public immutable delinquencyFeeBips;
 ``` 
 
 
 
-File:Voter.sol#L247
+[File:WildcatMarketBase.sol#L42](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L42) 
 ```solidity
-246:    function createSwapGauge(address _pair) external returns (address gauge) {
+41:  uint256 public immutable delinquencyGracePeriod;
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L45](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L45) 
+```solidity
+44:  address public immutable controller;
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L48](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L48) 
+```solidity
+47:  address public immutable asset;
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L51](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L51) 
+```solidity
+50:  uint256 public immutable withdrawalBatchDuration;
+``` 
+
+
+
+[File:WildcatMarketBase.sol#L54](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L54) 
+```solidity
+53:  uint8 public immutable decimals;
+``` 
+
+
+
+[File:WildcatSanctionsSentinel.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L11) 
+```solidity
+10:  bytes32 public constant override WildcatSanctionsEscrowInitcodeHash =
+11:    keccak256(type(WildcatSanctionsEscrow).creationCode);
+``` 
+
+
+
+[File:WildcatSanctionsSentinel.sol#L14](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L14) 
+```solidity
+13:  address public immutable override chainalysisSanctionsList;
+``` 
+
+
+
+[File:WildcatSanctionsSentinel.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L16) 
+```solidity
+15:  address public immutable override archController;
+``` 
+
+
+
+[File:ReentrancyGuard.sol#L22](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/ReentrancyGuard.sol#L22) 
+```solidity
+21:  uint256 private constant _NOT_ENTERED = 1;
+``` 
+
+
+
+[File:ReentrancyGuard.sol#L23](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/ReentrancyGuard.sol#L23) 
+```solidity
+22:  uint256 private constant _ENTERED = 2;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L41](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L41) 
+```solidity
+40:  IWildcatArchController public immutable archController;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L43](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L43) 
+```solidity
+42:  IWildcatMarketControllerFactory public immutable controllerFactory;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L45](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L45) 
+```solidity
+44:  address public immutable borrower;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L47](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L47) 
+```solidity
+46:  address public immutable sentinel;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L49](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L49) 
+```solidity
+48:  address public immutable marketInitCodeStorage;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L51](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L51) 
+```solidity
+50:  uint256 public immutable marketInitCodeHash;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L53](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L53) 
+```solidity
+52:  uint256 internal immutable ownCreate2Prefix = LibStoredInitCode.getCreate2Prefix(address(this));
+``` 
+
+
+
+[File:WildcatMarketController.sol#L55](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L55) 
+```solidity
+54:  uint32 internal immutable MinimumDelinquencyGracePeriod;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L56](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L56) 
+```solidity
+55:  uint32 internal immutable MaximumDelinquencyGracePeriod;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L58](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L58) 
+```solidity
+57:  uint16 internal immutable MinimumReserveRatioBips;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L59) 
+```solidity
+58:  uint16 internal immutable MaximumReserveRatioBips;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L61](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L61) 
+```solidity
+60:  uint16 internal immutable MinimumDelinquencyFeeBips;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L62](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L62) 
+```solidity
+61:  uint16 internal immutable MaximumDelinquencyFeeBips;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L64](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L64) 
+```solidity
+63:  uint32 internal immutable MinimumWithdrawalBatchDuration;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L65](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L65) 
+```solidity
+64:  uint32 internal immutable MaximumWithdrawalBatchDuration;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L67](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L67) 
+```solidity
+66:  uint16 internal immutable MinimumAnnualInterestBips;
+``` 
+
+
+
+[File:WildcatMarketController.sol#L68](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L68) 
+```solidity
+67:  uint16 internal immutable MaximumAnnualInterestBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L31](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L31) 
+```solidity
+30:  IWildcatArchController public immutable archController;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L34](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L34) 
+```solidity
+33:  address public immutable sentinel;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L36](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L36) 
+```solidity
+35:  address public immutable marketInitCodeStorage;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L38) 
+```solidity
+37:  uint256 public immutable marketInitCodeHash;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L40](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L40) 
+```solidity
+39:  address public immutable controllerInitCodeStorage;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L42](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L42) 
+```solidity
+41:  uint256 public immutable controllerInitCodeHash;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L44](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L44) 
+```solidity
+43:  uint256 internal immutable ownCreate2Prefix = LibStoredInitCode.getCreate2Prefix(address(this));
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L46](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L46) 
+```solidity
+45:  uint32 internal immutable MinimumDelinquencyGracePeriod;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L47](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L47) 
+```solidity
+46:  uint32 internal immutable MaximumDelinquencyGracePeriod;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L49](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L49) 
+```solidity
+48:  uint16 internal immutable MinimumReserveRatioBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L50](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L50) 
+```solidity
+49:  uint16 internal immutable MaximumReserveRatioBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L52](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L52) 
+```solidity
+51:  uint16 internal immutable MinimumDelinquencyFeeBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L53](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L53) 
+```solidity
+52:  uint16 internal immutable MaximumDelinquencyFeeBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L55](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L55) 
+```solidity
+54:  uint32 internal immutable MinimumWithdrawalBatchDuration;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L56](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L56) 
+```solidity
+55:  uint32 internal immutable MaximumWithdrawalBatchDuration;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L58](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L58) 
+```solidity
+57:  uint16 internal immutable MinimumAnnualInterestBips;
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L59) 
+```solidity
+58:  uint16 internal immutable MaximumAnnualInterestBips;
 ``` 
 
 
@@ -10845,30 +6857,95 @@ File:Voter.sol#L247
  --- 
 
 <a name=[NC-7]></a>
-### [NC-7] Consider marking public function External - Instances: 3 
+### [NC-7] Remove any unused returns - Instances: 6 
 
  
-> If a public function is never called internally. It is best practice to mark it as external. 
+> Either remove the return parameter names, or use them as the returns of the function. 
 
  --- 
 
-File:Voter.sol#L107
+[File:WildcatSanctionsSentinel.sol#L65](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L65) 
 ```solidity
-106:    function listing_fee() public view returns (uint) {
+64:  function getEscrowAddress(
+65:    address borrower,
+66:    address account,
+67:    address asset
+68:  ) public view override returns (address escrowAddress) {
 ``` 
 
 
 
-File:Voter.sol#L235
+[File:WildcatMarketControllerFactory.sol#L165](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L165) 
 ```solidity
-234:    function whitelist(address _token) public onlyAdmin {
+164:  function getProtocolFeeConfiguration()
+165:    external
+166:    view
+167:    returns (
+168:      address feeRecipient,
+169:      address originationFeeAsset,
+170:      uint80 originationFeeAmount,
+171:      uint16 protocolFeeBips
+172:    )
+173:  {
 ``` 
 
 
 
-File:Minter.sol#L83
+[File:WildcatMarketControllerFactory.sol#L165](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L165) 
 ```solidity
-82:    function setEmissions(uint _decay, uint _boost) public onlyAdmin {
+164:  function getProtocolFeeConfiguration()
+165:    external
+166:    view
+167:    returns (
+168:      address feeRecipient,
+169:      address originationFeeAsset,
+170:      uint80 originationFeeAmount,
+171:      uint16 protocolFeeBips
+172:    )
+173:  {
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L165](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L165) 
+```solidity
+164:  function getProtocolFeeConfiguration()
+165:    external
+166:    view
+167:    returns (
+168:      address feeRecipient,
+169:      address originationFeeAsset,
+170:      uint80 originationFeeAmount,
+171:      uint16 protocolFeeBips
+172:    )
+173:  {
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L165](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L165) 
+```solidity
+164:  function getProtocolFeeConfiguration()
+165:    external
+166:    view
+167:    returns (
+168:      address feeRecipient,
+169:      address originationFeeAsset,
+170:      uint80 originationFeeAmount,
+171:      uint16 protocolFeeBips
+172:    )
+173:  {
+``` 
+
+
+
+[File:WildcatMarketController.sol#L370](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L370) 
+```solidity
+369:  function _deriveSalt(
+370:    address asset,
+371:    string memory namePrefix,
+372:    string memory symbolPrefix
+373:  ) internal pure returns (bytes32 salt) {
 ``` 
 
 
@@ -10876,380 +6953,76 @@ File:Minter.sol#L83
  --- 
 
 <a name=[NC-8]></a>
-### [NC-8] Consider adding a message with require and revert statements - Instances: 53 
+### [NC-8] Consider marking public function External - Instances: 9 
 
  
-> Adding a message to accompany require statements will provide more context when a transaction fails. 
+> If a public function is never called internally. It is best practice to mark it as external. 
 
  --- 
 
-File:Bribe.sol#L79
+[File:WildcatSanctionsEscrow.sol#L29](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L29) 
 ```solidity
-78:        require(_unlocked == 1);
+28:  function escrowedAsset() public view override returns (address, uint256) {
 ``` 
 
 
 
-File:Bribe.sol#L234
+[File:WildcatSanctionsEscrow.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L33) 
 ```solidity
-233:        require(IVotingEscrow(_ve).isApprovedOrOwner(msg.sender, tokenId));
+32:  function releaseEscrow() public override {
 ``` 
 
 
 
-File:Bribe.sol#L249
+[File:WildcatMarketToken.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L16) 
 ```solidity
-248:        require(msg.sender == voter);
+15:  function balanceOf(address account) public view virtual nonReentrantView returns (uint256) {
 ``` 
 
 
 
-File:Bribe.sol#L391
+[File:WildcatMarketConfig.sol#L149](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L149) 
 ```solidity
-390:        require(msg.sender == voter);
+148:  function setAnnualInterestBips(uint16 _annualInterestBips) public onlyController nonReentrant {
 ``` 
 
 
 
-File:Bribe.sol#L404
+[File:WildcatMarketConfig.sol#L171](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L171) 
 ```solidity
-403:        require(msg.sender == voter);
+170:  function setReserveRatioBips(uint16 _reserveRatioBips) public onlyController nonReentrant {
 ``` 
 
 
 
-File:Bribe.sol#L424
+[File:WildcatSanctionsSentinel.sol#L95](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L95) 
 ```solidity
-423:        require(amount > 0);
+94:  function createEscrow(
+95:    address borrower,
+96:    address account,
+97:    address asset
+98:  ) public override returns (address escrowContract) {
 ``` 
 
 
 
-File:Bribe.sol#L441
+[File:WildcatSanctionsSentinel.sol#L48](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L48) 
 ```solidity
-440:            require(amount > _left);
+47:  function overrideSanction(address account) public override {
 ``` 
 
 
 
-File:Bribe.sol#L445
+[File:WildcatSanctionsSentinel.sol#L39](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L39) 
 ```solidity
-444:        require(rewardRate[token] > 0);
+38:  function isSanctioned(address borrower, address account) public view override returns (bool) {
 ``` 
 
 
 
-File:Bribe.sol#L454
+[File:WildcatSanctionsSentinel.sol#L56](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L56) 
 ```solidity
-453:        require(token.code.length > 0);
-``` 
-
-
-
-File:Bribe.sol#L457
-```solidity
-456:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Bribe.sol#L461
-```solidity
-460:        require(token.code.length > 0);
-``` 
-
-
-
-File:Bribe.sol#L464
-```solidity
-463:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:SwapPair.sol#L114
-```solidity
-113:        require(_unlocked == 1);
-``` 
-
-
-
-File:SwapPair.sol#L346
-```solidity
-345:        require(!SwapFactory(factory).isPaused());
-``` 
-
-
-
-File:SwapPair.sol#L538
-```solidity
-537:        require(token.code.length > 0);
-``` 
-
-
-
-File:SwapPair.sol#L541
-```solidity
-540:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:SwapFactory.sol#L48
-```solidity
-47:        require(msg.sender == pauser);
-``` 
-
-
-
-File:SwapFactory.sol#L53
-```solidity
-52:        require(msg.sender == pendingPauser);
-``` 
-
-
-
-File:SwapFactory.sol#L58
-```solidity
-57:        require(msg.sender == pauser);
-``` 
-
-
-
-File:Gauge.sol#L101
-```solidity
-100:        require(_unlocked == 1);
-``` 
-
-
-
-File:Gauge.sol#L294
-```solidity
-293:        require(msg.sender == account || msg.sender == voter);
-``` 
-
-
-
-File:Gauge.sol#L458
-```solidity
-457:        require(amount > 0);
-``` 
-
-
-
-File:Gauge.sol#L466
-```solidity
-465:            require(IVotingEscrow(_ve).ownerOf(tokenId) == msg.sender);
-``` 
-
-
-
-File:Gauge.sol#L471
-```solidity
-470:            require(tokenIds[msg.sender] == tokenId);
-``` 
-
-
-
-File:Gauge.sol#L509
-```solidity
-508:            require(tokenId == tokenIds[msg.sender]);
-``` 
-
-
-
-File:Gauge.sol#L536
-```solidity
-535:        require(token != stake);
-``` 
-
-
-
-File:Gauge.sol#L537
-```solidity
-536:        require(amount > 0);
-``` 
-
-
-
-File:Gauge.sol#L554
-```solidity
-553:            require(amount > _left);
-``` 
-
-
-
-File:Gauge.sol#L558
-```solidity
-557:        require(rewardRate[token] > 0);
-``` 
-
-
-
-File:Gauge.sol#L567
-```solidity
-566:        require(token.code.length > 0);
-``` 
-
-
-
-File:Gauge.sol#L570
-```solidity
-569:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Gauge.sol#L574
-```solidity
-573:        require(token.code.length > 0);
-``` 
-
-
-
-File:Gauge.sol#L577
-```solidity
-576:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Gauge.sol#L581
-```solidity
-580:        require(token.code.length > 0);
-``` 
-
-
-
-File:Gauge.sol#L584
-```solidity
-583:        require(success && (data.length == 0 || abi.decode(data, (bool))));
-``` 
-
-
-
-File:Minter.sol#L35
-```solidity
-34:        require(msg.sender == admin);
-``` 
-
-
-
-File:Minter.sol#L71
-```solidity
-70:        require(initializer == msg.sender);
-``` 
-
-
-
-File:Voter.sol#L88
-```solidity
-87:        require(_unlocked == 1);
-``` 
-
-
-
-File:Voter.sol#L98
-```solidity
-97:        require(msg.sender == minter);
-``` 
-
-
-
-File:Voter.sol#L140
-```solidity
-139:        require(IVotingEscrow(_ve).isApprovedOrOwner(msg.sender, _tokenId));
-``` 
-
-
-
-File:Voter.sol#L202
-```solidity
-201:                require(votes[_tokenId][_gauge] == 0);
-``` 
-
-
-
-File:Voter.sol#L203
-```solidity
-202:                require(_gaugeWeight != 0);
-``` 
-
-
-
-File:Voter.sol#L229
-```solidity
-228:        require(IVotingEscrow(_ve).isApprovedOrOwner(msg.sender, tokenId));
-``` 
-
-
-
-File:Voter.sol#L230
-```solidity
-229:        require(_gaugeVote.length == _weights.length);
-``` 
-
-
-
-File:Voter.sol#L240
-```solidity
-239:        require(!isWhitelisted[_token]);
-``` 
-
-
-
-File:Voter.sol#L272
-```solidity
-271:        require(isGauge[msg.sender]);
-``` 
-
-
-
-File:Voter.sol#L278
-```solidity
-277:        require(isGauge[msg.sender]);
-``` 
-
-
-
-File:Voter.sol#L283
-```solidity
-282:        require(isGauge[msg.sender]);
-``` 
-
-
-
-File:Voter.sol#L289
-```solidity
-288:        require(isGauge[msg.sender]);
-``` 
-
-
-
-File:Voter.sol#L362
-```solidity
-361:        require(IVotingEscrow(_ve).isApprovedOrOwner(msg.sender, _tokenId));
-``` 
-
-
-
-File:Voter.sol#L373
-```solidity
-372:        require(IVotingEscrow(_ve).isApprovedOrOwner(msg.sender, _tokenId));
-``` 
-
-
-
-File:Voter.sol#L434
-```solidity
-433:        require(token.code.length > 0);
-``` 
-
-
-
-File:Voter.sol#L437
-```solidity
-436:        require(success && (data.length == 0 || abi.decode(data, (bool))));
+55:  function removeSanctionOverride(address account) public override {
 ``` 
 
 
@@ -11257,17 +7030,514 @@ File:Voter.sol#L437
  --- 
 
 <a name=[NC-9]></a>
-### [NC-9] Storage variables should not have implicit visibility - Instances: 1 
+### [NC-9] This error has no parameters, the state of the contract when the revert occured will not be available - Instances: 72 
 
  
-> Consider explicitly specifying the visibility of storage variables for readability
+> Consider adding parameters to the error to provide more context when a transaction fails
  
 
  --- 
 
-File:SwapPair.sol#L48
+[File:IWildcatMarketControllerFactory.sol#L15](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L15) 
 ```solidity
-47:    uint constant periodSize = 1800;
+14:  error NotRegisteredBorrower();
+``` 
+
+
+
+[File:IWildcatMarketControllerFactory.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L16) 
+```solidity
+15:  error InvalidProtocolFeeConfiguration();
+``` 
+
+
+
+[File:IWildcatMarketControllerFactory.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L17) 
+```solidity
+16:  error CallerNotArchControllerOwner();
+``` 
+
+
+
+[File:IWildcatMarketControllerFactory.sol#L18](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L18) 
+```solidity
+17:  error InvalidConstraints();
+``` 
+
+
+
+[File:IWildcatMarketControllerFactory.sol#L19](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L19) 
+```solidity
+18:  error ControllerAlreadyDeployed();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L9](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L9) 
+```solidity
+8:  error MaxSupplyExceeded();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L12](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L12) 
+```solidity
+11:  error NotApprovedBorrower();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L15](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L15) 
+```solidity
+14:  error NotApprovedLender();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L18](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L18) 
+```solidity
+17:  error NotController();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L21](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L21) 
+```solidity
+20:  error BadLaunchCode();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L24) 
+```solidity
+23:  error NewMaxSupplyTooLow();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L27](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L27) 
+```solidity
+26:  error ReserveRatioBipsTooHigh();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L30) 
+```solidity
+29:  error InterestRateTooHigh();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L33) 
+```solidity
+32:  error InterestFeeTooHigh();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L36](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L36) 
+```solidity
+35:  error PenaltyFeeTooHigh();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L39](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L39) 
+```solidity
+38:  error AccountBlacklisted();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L41](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L41) 
+```solidity
+40:  error AccountNotBlocked();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L43](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L43) 
+```solidity
+42:  error NotReversedOrStunning();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L45](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L45) 
+```solidity
+44:  error UnknownNameQueryError();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L47](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L47) 
+```solidity
+46:  error UnknownSymbolQueryError();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L49](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L49) 
+```solidity
+48:  error BorrowAmountTooHigh();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L51](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L51) 
+```solidity
+50:  error FeeSetWithoutRecipient();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L53](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L53) 
+```solidity
+52:  error InsufficientReservesForFeeWithdrawal();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L55](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L55) 
+```solidity
+54:  error WithdrawalBatchNotExpired();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L57](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L57) 
+```solidity
+56:  error NullMintAmount();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L59](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L59) 
+```solidity
+58:  error NullBurnAmount();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L61](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L61) 
+```solidity
+60:  error NullFeeAmount();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L63](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L63) 
+```solidity
+62:  error NullTransferAmount();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L65](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L65) 
+```solidity
+64:  error NullWithdrawalAmount();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L67](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L67) 
+```solidity
+66:  error DepositToClosedMarket();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L69](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L69) 
+```solidity
+68:  error BorrowFromClosedMarket();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L71](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L71) 
+```solidity
+70:  error CloseMarketWithUnpaidWithdrawals();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L75](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L75) 
+```solidity
+74:  error InsufficientReservesForNewLiquidityRatio();
+``` 
+
+
+
+[File:IMarketEventsAndErrors.sol#L77](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IMarketEventsAndErrors.sol#L77) 
+```solidity
+76:  error InsufficientReservesForOldLiquidityRatio();
+``` 
+
+
+
+[File:MathUtils.sol#L19](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/MathUtils.sol#L19) 
+```solidity
+18:  error MulDivFailed();
+``` 
+
+
+
+[File:ReentrancyGuard.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/ReentrancyGuard.sol#L17) 
+```solidity
+16:  error NoReentrantCalls();
+``` 
+
+
+
+[File:IWildcatSanctionsSentinel.sol#L15](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatSanctionsSentinel.sol#L15) 
+```solidity
+14:  error NotRegisteredMarket();
+``` 
+
+
+
+[File:StringQuery.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L16) 
+```solidity
+15:error InvalidReturnDataString();
+``` 
+
+
+
+[File:StringQuery.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/StringQuery.sol#L17) 
+```solidity
+16:error InvalidCompactString();
+``` 
+
+
+
+[File:IWildcatSanctionsEscrow.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatSanctionsEscrow.sol#L7) 
+```solidity
+6:  error CanNotReleaseEscrow();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L9](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L9) 
+```solidity
+8:  error DelinquencyGracePeriodOutOfBounds();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L10](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L10) 
+```solidity
+9:  error ReserveRatioBipsOutOfBounds();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L11](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L11) 
+```solidity
+10:  error DelinquencyFeeBipsOutOfBounds();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L12](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L12) 
+```solidity
+11:  error WithdrawalBatchDurationOutOfBounds();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L13](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L13) 
+```solidity
+12:  error AnnualInterestBipsOutOfBounds();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L16) 
+```solidity
+15:  error CallerNotBorrower();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L20](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L20) 
+```solidity
+19:  error CallerNotBorrowerOrControllerFactory();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L24) 
+```solidity
+23:  error NotRegisteredBorrower();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L26](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L26) 
+```solidity
+25:  error EmptyString();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L28](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L28) 
+```solidity
+27:  error NotControlledMarket();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L30) 
+```solidity
+29:  error MarketAlreadyDeployed();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L32](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L32) 
+```solidity
+31:  error ExcessReserveRatioStillActive();
+``` 
+
+
+
+[File:IWildcatMarketControllerEventsAndErrors.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerEventsAndErrors.sol#L33) 
+```solidity
+32:  error AprChangeNotPending();
+``` 
+
+
+
+[File:FIFOQueue.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/FIFOQueue.sol#L17) 
+```solidity
+16:  error FIFOQueueOutOfBounds();
+``` 
+
+
+
+[File:WildcatArchController.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L16) 
+```solidity
+15:  error NotControllerFactory();
+``` 
+
+
+
+[File:WildcatArchController.sol#L17](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L17) 
+```solidity
+16:  error NotController();
+``` 
+
+
+
+[File:WildcatArchController.sol#L19](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L19) 
+```solidity
+18:  error BorrowerAlreadyExists();
+``` 
+
+
+
+[File:WildcatArchController.sol#L20](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L20) 
+```solidity
+19:  error ControllerFactoryAlreadyExists();
+``` 
+
+
+
+[File:WildcatArchController.sol#L21](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L21) 
+```solidity
+20:  error ControllerAlreadyExists();
+``` 
+
+
+
+[File:WildcatArchController.sol#L22](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L22) 
+```solidity
+21:  error MarketAlreadyExists();
+``` 
+
+
+
+[File:WildcatArchController.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L24) 
+```solidity
+23:  error BorrowerDoesNotExist();
+``` 
+
+
+
+[File:WildcatArchController.sol#L25](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L25) 
+```solidity
+24:  error ControllerFactoryDoesNotExist();
+``` 
+
+
+
+[File:WildcatArchController.sol#L26](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L26) 
+```solidity
+25:  error ControllerDoesNotExist();
+``` 
+
+
+
+[File:WildcatArchController.sol#L27](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L27) 
+```solidity
+26:  error MarketDoesNotExist();
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L24) 
+```solidity
+23:  error NotRegisteredBorrower();
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L25](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L25) 
+```solidity
+24:  error InvalidProtocolFeeConfiguration();
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L26](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L26) 
+```solidity
+25:  error CallerNotArchControllerOwner();
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L27](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L27) 
+```solidity
+26:  error InvalidConstraints();
+``` 
+
+
+
+[File:WildcatMarketControllerFactory.sol#L28](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L28) 
+```solidity
+27:  error ControllerAlreadyDeployed();
+``` 
+
+
+
+[File:LibStoredInitCode.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/libraries/LibStoredInitCode.sol#L5) 
+```solidity
+4:  error InitCodeDeploymentFailed();
+``` 
+
+
+
+[File:IWildcatArchController.sol#L5](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L5) 
+```solidity
+4:  error NotMarketFactory();
+``` 
+
+
+
+[File:IWildcatArchController.sol#L7](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L7) 
+```solidity
+6:  error NotControllerFactory();
 ``` 
 
 
@@ -11275,31 +7545,31 @@ File:SwapPair.sol#L48
  --- 
 
 <a name=[NC-10]></a>
-### [NC-10] This variables default value is the same as the value it is initialized with - Instances: 3 
+### [NC-10] Large contracts with many external functions should inherit an interface - Instances: 3 
 
  
-> This is unnecessary and will have some overhead on Gas
-     
+> Consider inheriting the interface to ensure the interface matches the contract spec
+ 
 
  --- 
 
-File:SwapPair.sol#L22
+[File:IWildcatMarketControllerFactory.sol#L6](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatMarketControllerFactory.sol#L6) 
 ```solidity
-21:    uint public totalSupply = 0;
+5:interface IWildcatMarketControllerFactory {
 ``` 
 
 
 
-File:SwapPair.sol#L64
+[File:IWildcatArchController.sol#L4](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/interfaces/IWildcatArchController.sol#L4) 
 ```solidity
-63:    uint public index0 = 0;
+3:interface IWildcatArchController {
 ``` 
 
 
 
-File:SwapPair.sol#L65
+[File:WildcatArchController.sol#L8](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L8) 
 ```solidity
-64:    uint public index1 = 0;
+7:contract WildcatArchController is Ownable {
 ``` 
 
 
