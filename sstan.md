@@ -53,6 +53,7 @@
  | [[NC-8]](#[NC-8]) | Consider marking public function External | 9 |
  | [[NC-9]](#[NC-9]) | This error has no parameters, the state of the contract when the revert occured will not be available | 72 |
  | [[NC-10]](#[NC-10]) | Large contracts with many external functions should inherit an interface | 3 |
+ | [[NC-11]](#[NC-11]) | Emitting an event in a for loop | 2 |
 
 ## Vulnerabilities - Total: 6 
 
@@ -7575,5 +7576,40 @@ contract Contract3 {
 
 
  --- 
+
+ <a name=[NC-11]></a>
+### [NC-11] Emitting an event in a for loop - Instances: 72 
+
+ 
+> Consider Emitting an array of values instead of emitting an event per value
+ 
+
+ --- 
+
+[File:WildcatMarketController.sol#L153](https://github.com/code-423n4/2023-10-wildcat/blob/bbeea97c94114731d809674546210b5a56d7bc6c/src/WildcatMarketController.sol#L153) 
+```solidity
+153:  function authorizeLenders(address[] memory lenders) external onlyBorrower {
+154:    for (uint256 i = 0; i < lenders.length; i++) {
+155:      address lender = lenders[i];
+156:      if (_authorizedLenders.add(lender)) {
+157:        emit LenderAuthorized(lender);
+158:      }
+159:    }
+160:  }
+```
+
+ --- 
+
+[File:WildcatMarketController.sol#L169](https://github.com/code-423n4/2023-10-wildcat/blob/bbeea97c94114731d809674546210b5a56d7bc6c/src/WildcatMarketController.sol#L169) 
+```solidity
+169:function deauthorizeLenders(address[] memory lenders) external onlyBorrower {
+170:    for (uint256 i = 0; i < lenders.length; i++) {
+171:      address lender = lenders[i];
+172:      if (_authorizedLenders.remove(lender)) {
+173:        emit LenderDeauthorized(lender);
+174:      }
+175:    }
+176:  }
+``` 
 
 
