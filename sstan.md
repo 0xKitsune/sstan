@@ -690,117 +690,6 @@ contract Contract4 {
 
  --- 
 
-[File:WildcatArchController.sol#L94](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L94) 
-```solidity
-93:      arr[i] = _borrowers.at(start + i);
-``` 
-
-
-
-[File:WildcatArchController.sol#L137](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L137) 
-```solidity
-136:      arr[i] = _controllerFactories.at(start + i);
-``` 
-
-
-
-[File:WildcatArchController.sol#L180](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L180) 
-```solidity
-179:      arr[i] = _controllers.at(start + i);
-``` 
-
-
-
-[File:WildcatArchController.sol#L223](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L223) 
-```solidity
-222:      arr[i] = _markets.at(start + i);
-``` 
-
-
-
-[File:WildcatMarketController.sol#L134](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L134) 
-```solidity
-133:      arr[i] = _authorizedLenders.at(start + i);
-``` 
-
-
-
-[File:WildcatMarketController.sol#L213](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L213) 
-```solidity
-212:      arr[i] = _controlledMarkets.at(start + i);
-``` 
-
-
-
-[File:WildcatMarketController.sol#L240](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L240) 
-```solidity
-239:    parameters.namePrefix = _tmpMarketParameters.namePrefix;
-``` 
-
-
-
-[File:WildcatMarketController.sol#L241](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L241) 
-```solidity
-240:    parameters.symbolPrefix = _tmpMarketParameters.symbolPrefix;
-``` 
-
-
-
-[File:WildcatMarketController.sol#L244](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L244) 
-```solidity
-243:    parameters.feeRecipient = _tmpMarketParameters.feeRecipient;
-``` 
-
-
-
-[File:WildcatMarketController.sol#L246](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L246) 
-```solidity
-245:    parameters.maxTotalSupply = _tmpMarketParameters.maxTotalSupply;
-``` 
-
-
-
-[File:WildcatMarketController.sol#L247](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L247) 
-```solidity
-246:    parameters.protocolFeeBips = _tmpMarketParameters.protocolFeeBips;
-``` 
-
-
-
-[File:WildcatMarketController.sol#L248](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L248) 
-```solidity
-247:    parameters.annualInterestBips = _tmpMarketParameters.annualInterestBips;
-``` 
-
-
-
-[File:WildcatMarketController.sol#L249](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L249) 
-```solidity
-248:    parameters.delinquencyFeeBips = _tmpMarketParameters.delinquencyFeeBips;
-``` 
-
-
-
-[File:WildcatMarketController.sol#L250](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L250) 
-```solidity
-249:    parameters.withdrawalBatchDuration = _tmpMarketParameters.withdrawalBatchDuration;
-``` 
-
-
-
-[File:WildcatMarketController.sol#L251](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L251) 
-```solidity
-250:    parameters.reserveRatioBips = _tmpMarketParameters.reserveRatioBips;
-``` 
-
-
-
-[File:WildcatMarketController.sol#L252](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L252) 
-```solidity
-251:    parameters.delinquencyGracePeriod = _tmpMarketParameters.delinquencyGracePeriod;
-``` 
-
-
 
 [File:WildcatMarketController.sol#L257](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L257) 
 ```solidity
@@ -869,71 +758,6 @@ contract Contract4 {
 ```solidity
 265:    _tmpMarketParameters.delinquencyGracePeriod = 1;
 ``` 
-
-
-
-[File:WildcatMarketController.sol#L500](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L500) 
-```solidity
-499:    delete temporaryExcessReserveRatio[market];
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L178](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L178) 
-```solidity
-177:        _accounts[escrow].scaledBalance += scaledBalance;
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L185](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L185) 
-```solidity
-184:      _accounts[accountAddress] = account;
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L484](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L484) 
-```solidity
-483:      _withdrawalData.unpaidBatches.push(expiry);
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L491](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L491) 
-```solidity
-490:    _withdrawalData.batches[expiry] = batch;
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L147](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L147) 
-```solidity
-146:      arr[i] = _deployedControllers.at(start + i);
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L177](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L177) 
-```solidity
-176:      _protocolFeeConfiguration.originationFeeAsset,
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L178](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L178) 
-```solidity
-177:      _protocolFeeConfiguration.originationFeeAmount,
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L179](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L179) 
-```solidity
-178:      _protocolFeeConfiguration.protocolFeeBips
-``` 
-
-
 
 [File:WildcatMarketControllerFactory.sol#L298](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L298) 
 ```solidity
@@ -3008,34 +2832,6 @@ contract Contract1 {
 
  --- 
 
-[File:WildcatMarketConfig.sol#L21](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L21) 
-```solidity
-20:  function maximumDeposit() external view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketConfig.sol#L30](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L30) 
-```solidity
-29:  function maxTotalSupply() external view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketConfig.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L38) 
-```solidity
-37:  function annualInterestBips() external view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketConfig.sol#L42](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L42) 
-```solidity
-41:  function reserveRatioBips() external view returns (uint256) {
-``` 
-
-
-
 [File:WildcatMarketConfig.sol#L74](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketConfig.sol#L74) 
 ```solidity
 73:  function nukeFromOrbit(address accountAddress) external nonReentrant {
@@ -3079,55 +2875,6 @@ contract Contract1 {
 170:  function setReserveRatioBips(uint16 _reserveRatioBips) public onlyController nonReentrant {
 ``` 
 
-
-
-[File:WildcatMarketControllerFactory.sol#L126](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L126) 
-```solidity
-125:  function isDeployedController(address controller) external view returns (bool) {
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L130](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L130) 
-```solidity
-129:  function getDeployedControllersCount() external view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L134](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L134) 
-```solidity
-133:  function getDeployedControllers() external view returns (address[] memory) {
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L138](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L138) 
-```solidity
-137:  function getDeployedControllers(
-138:    uint256 start,
-139:    uint256 end
-140:  ) external view returns (address[] memory arr) {
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L165](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L165) 
-```solidity
-164:  function getProtocolFeeConfiguration()
-165:    external
-166:    view
-167:    returns (
-168:      address feeRecipient,
-169:      address originationFeeAsset,
-170:      uint80 originationFeeAmount,
-171:      uint16 protocolFeeBips
-172:    )
-173:  {
-``` 
-
-
-
 [File:WildcatMarketControllerFactory.sol#L195](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L195) 
 ```solidity
 194:  function setProtocolFeeConfiguration(
@@ -3136,29 +2883,6 @@ contract Contract1 {
 197:    uint80 originationFeeAmount,
 198:    uint16 protocolFeeBips
 199:  ) external onlyArchControllerOwner {
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L223](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L223) 
-```solidity
-222:  function getParameterConstraints()
-223:    external
-224:    view
-225:    returns (MarketParameterConstraints memory constraints)
-226:  {
-``` 
-
-
-
-[File:WildcatMarketControllerFactory.sol#L246](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L246) 
-```solidity
-245:  function getMarketControllerParameters()
-246:    external
-247:    view
-248:    virtual
-249:    returns (MarketControllerParameters memory parameters)
-250:  {
 ``` 
 
 
@@ -3186,34 +2910,10 @@ contract Contract1 {
 ``` 
 
 
-
-[File:WildcatMarketControllerFactory.sol#L342](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketControllerFactory.sol#L342) 
-```solidity
-341:  function computeControllerAddress(address borrower) external view returns (address) {
-``` 
-
-
-
-[File:WildcatMarketToken.sol#L16](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L16) 
-```solidity
-15:  function balanceOf(address account) public view virtual nonReentrantView returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketToken.sol#L22](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L22) 
-```solidity
-21:  function totalSupply() external view virtual nonReentrantView returns (uint256) {
-``` 
-
-
-
 [File:WildcatMarketToken.sol#L31](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L31) 
 ```solidity
 30:  function approve(address spender, uint256 amount) external virtual nonReentrant returns (bool) {
 ``` 
-
-
 
 [File:WildcatMarketToken.sol#L36](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketToken.sol#L36) 
 ```solidity
@@ -3230,29 +2930,6 @@ contract Contract1 {
 43:    uint256 amount
 44:  ) external virtual nonReentrant returns (bool) {
 ``` 
-
-
-
-[File:WildcatSanctionsEscrow.sol#L21](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L21) 
-```solidity
-20:  function balance() public view override returns (uint256) {
-``` 
-
-
-
-[File:WildcatSanctionsEscrow.sol#L25](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L25) 
-```solidity
-24:  function canReleaseEscrow() public view override returns (bool) {
-``` 
-
-
-
-[File:WildcatSanctionsEscrow.sol#L29](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L29) 
-```solidity
-28:  function escrowedAsset() public view override returns (address, uint256) {
-``` 
-
-
 
 [File:WildcatSanctionsEscrow.sol#L33](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsEscrow.sol#L33) 
 ```solidity
@@ -3305,36 +2982,16 @@ contract Contract1 {
 
 
 
-[File:WildcatSanctionsSentinel.sol#L39](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L39) 
-```solidity
-38:  function isSanctioned(address borrower, address account) public view override returns (bool) {
-``` 
-
-
-
 [File:WildcatSanctionsSentinel.sol#L48](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L48) 
 ```solidity
 47:  function overrideSanction(address account) public override {
 ``` 
 
 
-
 [File:WildcatSanctionsSentinel.sol#L56](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L56) 
 ```solidity
 55:  function removeSanctionOverride(address account) public override {
 ``` 
-
-
-
-[File:WildcatSanctionsSentinel.sol#L65](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L65) 
-```solidity
-64:  function getEscrowAddress(
-65:    address borrower,
-66:    address account,
-67:    address asset
-68:  ) public view override returns (address escrowAddress) {
-``` 
-
 
 
 [File:WildcatSanctionsSentinel.sol#L95](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatSanctionsSentinel.sol#L95) 
@@ -3345,135 +3002,6 @@ contract Contract1 {
 97:    address asset
 98:  ) public override returns (address escrowContract) {
 ``` 
-
-
-
-[File:WildcatMarketBase.sol#L223](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L223) 
-```solidity
-222:  function coverageLiquidity() external view nonReentrantView returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L231](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L231) 
-```solidity
-230:  function scaleFactor() external view nonReentrantView returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L238](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L238) 
-```solidity
-237:  function totalAssets() public view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L252](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L252) 
-```solidity
-251:  function borrowableAssets() external view nonReentrantView returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L260](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L260) 
-```solidity
-259:  function accruedProtocolFees() external view nonReentrantView returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L267](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L267) 
-```solidity
-266:  function previousState() external view returns (MarketState memory) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L276](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L276) 
-```solidity
-275:  function currentState() public view nonReentrantView returns (MarketState memory state) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L285](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L285) 
-```solidity
-284:  function scaledTotalSupply() external view nonReentrantView returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L292](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L292) 
-```solidity
-291:  function scaledBalanceOf(address account) external view nonReentrantView returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L299](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L299) 
-```solidity
-298:  function getAccountRole(address account) external view nonReentrantView returns (AuthRole) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L307](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L307) 
-```solidity
-306:  function withdrawableProtocolFees() external view returns (uint128) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L318](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L318) 
-```solidity
-317:  function effectiveBorrowerAPR() external view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketBase.sol#L334](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketBase.sol#L334) 
-```solidity
-333:  function effectiveLenderAPR() external view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketWithdrawals.sol#L24](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L24) 
-```solidity
-23:  function getUnpaidBatchExpiries() external view nonReentrantView returns (uint32[] memory) {
-``` 
-
-
-
-[File:WildcatMarketWithdrawals.sol#L28](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L28) 
-```solidity
-27:  function getWithdrawalBatch(
-28:    uint32 expiry
-29:  ) external view nonReentrantView returns (WithdrawalBatch memory) {
-``` 
-
-
-
-[File:WildcatMarketWithdrawals.sol#L38](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L38) 
-```solidity
-37:  function getAccountWithdrawalStatus(
-38:    address accountAddress,
-39:    uint32 expiry
-40:  ) external view nonReentrantView returns (AccountWithdrawalStatus memory) {
-``` 
-
-
-
-[File:WildcatMarketWithdrawals.sol#L45](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L45) 
-```solidity
-44:  function getAvailableWithdrawalAmount(
-45:    address accountAddress,
-46:    uint32 expiry
-47:  ) external view nonReentrantView returns (uint256) {
-``` 
-
-
 
 [File:WildcatMarketWithdrawals.sol#L77](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L77) 
 ```solidity
@@ -3489,7 +3017,6 @@ contract Contract1 {
 138:    uint32 expiry
 139:  ) external nonReentrant returns (uint256) {
 ``` 
-
 
 
 [File:WildcatMarketWithdrawals.sol#L190](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarketWithdrawals.sol#L190) 
@@ -3512,38 +3039,6 @@ contract Contract1 {
 ``` 
 
 
-
-[File:WildcatArchController.sol#L77](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L77) 
-```solidity
-76:  function isRegisteredBorrower(address borrower) external view returns (bool) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L81](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L81) 
-```solidity
-80:  function getRegisteredBorrowers() external view returns (address[] memory) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L85](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L85) 
-```solidity
-84:  function getRegisteredBorrowers(
-85:    uint256 start,
-86:    uint256 end
-87:  ) external view returns (address[] memory arr) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L98](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L98) 
-```solidity
-97:  function getRegisteredBorrowersCount() external view returns (uint256) {
-``` 
-
-
-
 [File:WildcatArchController.sol#L106](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L106) 
 ```solidity
 105:  function registerControllerFactory(address factory) external onlyOwner {
@@ -3555,38 +3050,6 @@ contract Contract1 {
 ```solidity
 112:  function removeControllerFactory(address factory) external onlyOwner {
 ``` 
-
-
-
-[File:WildcatArchController.sol#L120](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L120) 
-```solidity
-119:  function isRegisteredControllerFactory(address factory) external view returns (bool) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L124](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L124) 
-```solidity
-123:  function getRegisteredControllerFactories() external view returns (address[] memory) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L128](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L128) 
-```solidity
-127:  function getRegisteredControllerFactories(
-128:    uint256 start,
-129:    uint256 end
-130:  ) external view returns (address[] memory arr) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L141](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L141) 
-```solidity
-140:  function getRegisteredControllerFactoriesCount() external view returns (uint256) {
-``` 
-
 
 
 [File:WildcatArchController.sol#L149](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L149) 
@@ -3601,39 +3064,6 @@ contract Contract1 {
 155:  function removeController(address controller) external onlyOwner {
 ``` 
 
-
-
-[File:WildcatArchController.sol#L163](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L163) 
-```solidity
-162:  function isRegisteredController(address controller) external view returns (bool) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L167](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L167) 
-```solidity
-166:  function getRegisteredControllers() external view returns (address[] memory) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L171](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L171) 
-```solidity
-170:  function getRegisteredControllers(
-171:    uint256 start,
-172:    uint256 end
-173:  ) external view returns (address[] memory arr) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L184](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L184) 
-```solidity
-183:  function getRegisteredControllersCount() external view returns (uint256) {
-``` 
-
-
-
 [File:WildcatArchController.sol#L192](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L192) 
 ```solidity
 191:  function registerMarket(address market) external onlyController {
@@ -3646,75 +3076,10 @@ contract Contract1 {
 198:  function removeMarket(address market) external onlyOwner {
 ``` 
 
-
-
-[File:WildcatArchController.sol#L206](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L206) 
-```solidity
-205:  function isRegisteredMarket(address market) external view returns (bool) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L210](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L210) 
-```solidity
-209:  function getRegisteredMarkets() external view returns (address[] memory) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L214](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L214) 
-```solidity
-213:  function getRegisteredMarkets(
-214:    uint256 start,
-215:    uint256 end
-216:  ) external view returns (address[] memory arr) {
-``` 
-
-
-
-[File:WildcatArchController.sol#L227](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatArchController.sol#L227) 
-```solidity
-226:  function getRegisteredMarketsCount() external view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L121](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L121) 
-```solidity
-120:  function getAuthorizedLenders() external view returns (address[] memory) {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L125](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L125) 
-```solidity
-124:  function getAuthorizedLenders(
-125:    uint256 start,
-126:    uint256 end
-127:  ) external view returns (address[] memory arr) {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L138](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L138) 
-```solidity
-137:  function getAuthorizedLendersCount() external view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L142](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L142) 
-```solidity
-141:  function isAuthorizedLender(address lender) external view virtual returns (bool) {
-``` 
-
-
-
 [File:WildcatMarketController.sol#L153](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L153) 
 ```solidity
 152:  function authorizeLenders(address[] memory lenders) external onlyBorrower {
 ``` 
-
 
 
 [File:WildcatMarketController.sol#L169](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L169) 
@@ -3727,58 +3092,7 @@ contract Contract1 {
 [File:WildcatMarketController.sol#L182](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L182) 
 ```solidity
 181:  function updateLenderAuthorization(address lender, address[] memory markets) external {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L196](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L196) 
-```solidity
-195:  function isControlledMarket(address market) external view returns (bool) {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L200](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L200) 
-```solidity
-199:  function getControlledMarkets() external view returns (address[] memory) {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L204](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L204) 
-```solidity
-203:  function getControlledMarkets(
-204:    uint256 start,
-205:    uint256 end
-206:  ) external view returns (address[] memory arr) {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L217](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L217) 
-```solidity
-216:  function getControlledMarketsCount() external view returns (uint256) {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L221](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L221) 
-```solidity
-220:  function computeMarketAddress(
-221:    address asset,
-222:    string memory namePrefix,
-223:    string memory symbolPrefix
-224:  ) external view returns (address) {
-``` 
-
-
-
-[File:WildcatMarketController.sol#L238](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L238) 
-```solidity
-237:  function getMarketParameters() external view returns (MarketParameters memory parameters) {
-``` 
-
-
+```
 
 [File:WildcatMarketController.sol#L291](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L291) 
 ```solidity
@@ -3795,16 +3109,6 @@ contract Contract1 {
 300:  ) external returns (address market) {
 ``` 
 
-
-
-[File:WildcatMarketController.sol#L446](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L446) 
-```solidity
-445:  function getParameterConstraints()
-446:    external
-447:    view
-448:    returns (MarketParameterConstraints memory constraints)
-449:  {
-``` 
 
 
 
