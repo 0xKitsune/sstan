@@ -10,26 +10,26 @@
  |:-------:|:---------|:-------:| 
  | [[L-0]](#[L-0]) | Use a locked pragma version instead of a floating pragma version | 2 |
  | [[L-1]](#[L-1]) | Unsafe ERC20 Operation | 1 |
- | [[L-2]](#[L-2]) | Double Casting | 3 |
+ | [[L-2]](#[L-2]) | Double Casting | 1 |
 ## Optimizations 
 
  | Classification | Title | Instances | 
  |:-------:|:---------|:-------:| 
- | [[G-1]](#[G-1]) | Avoid Reading From Storage in a for loop | 3 |
- | [[G-3]](#[G-3]) | Mark storage variables as `immutable` if they never change after contract initialization. | 1 |
- | [[G-4]](#[G-4]) | `unchecked{++i}` instead of `i++` (or use assembly when applicable) | 4 |
- | [[G-5]](#[G-5]) | Cache Storage Variables in Memory | 4 |
- | [[G-6]](#[G-6]) | Use `calldata` instead of `memory` for function arguments that do not get mutated. | 7 |
- | [[G-7]](#[G-7]) | Use assembly to hash instead of Solidity | 2 |
- | [[G-8]](#[G-8]) | Use assembly for math (add, sub, mul, div) | 13 |
- | [[G-9]](#[G-9]) | Use assembly to write storage values | 3 |
- | [[G-10]](#[G-10]) | Event is not properly indexed. | 8 |
- | [[G-11]](#[G-11]) | Right shift or Left shift instead of dividing or multiplying by powers of two | 1 |
+ | [[G-1]](#[G-1]) | Avoid Reading From Storage in a for loop | 6 |
+ | [[G-3]](#[G-3]) | Mark storage variables as `immutable` if they never change after contract initialization. | 2 |
+ | [[G-4]](#[G-4]) | `unchecked{++i}` instead of `i++` (or use assembly when applicable) | 12 |
+ | [[G-5]](#[G-5]) | Cache Storage Variables in Memory | 11 |
+ | [[G-6]](#[G-6]) | Use `calldata` instead of `memory` for function arguments that do not get mutated. | 38 |
+ | [[G-7]](#[G-7]) | Use assembly to hash instead of Solidity | 6 |
+ | [[G-8]](#[G-8]) | Use assembly for math (add, sub, mul, div) | 56 |
+ | [[G-9]](#[G-9]) | Use assembly to write storage values | 7 |
+ | [[G-10]](#[G-10]) | Event is not properly indexed. | 32 |
+ | [[G-11]](#[G-11]) | Right shift or Left shift instead of dividing or multiplying by powers of two | 2 |
  | [[G-12]](#[G-12]) | Optimal Comparison | 1 |
- | [[G-13]](#[G-13]) | Mark functions as payable (with discretion) | 10 |
+ | [[G-13]](#[G-13]) | Mark functions as payable (with discretion) | 42 |
  | [[G-14]](#[G-14]) | Consider marking constants as private | 2 |
- | [[G-15]](#[G-15]) | Use assembly to check for address(0) | 3 |
- | [[G-16]](#[G-16]) | Cache array length during for loop definition. | 1 |
+ | [[G-15]](#[G-15]) | Use assembly to check for address(0) | 4 |
+ | [[G-16]](#[G-16]) | Cache array length during for loop definition. | 3 |
 ## Quality Assurance 
 
  | Classification | Title | Instances | 
