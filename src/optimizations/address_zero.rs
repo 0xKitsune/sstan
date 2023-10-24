@@ -8,7 +8,6 @@ use solang_parser::{
     helpers::CodeLocation,
     pt::{self, SourceUnit},
 };
-
 use super::{AddressZero, OptimizationOutcome, OptimizationPattern};
 
 pub const ZERO: &str = "0";

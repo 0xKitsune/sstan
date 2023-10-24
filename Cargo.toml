@@ -27,3 +27,9 @@ ruint = "1.10.1"
 name = "sstan"
 path = "bin/sstan.rs"
 
+
+
+
+[[bin]]
+name = "vet"
+path = "bin/vet.rs"
