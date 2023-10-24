@@ -94,7 +94,7 @@ mod tests {
     "#;
 
         let mut mock_source =
-            MockSource::new().add_source("contract_name_pascal_case.sol", file_contents);
+            MockSource::new().add_source("contract_interface_inheritance.sol", file_contents);
         let qa_locations = ContractsShouldInheritInterface::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 1);

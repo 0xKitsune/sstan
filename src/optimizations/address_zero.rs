@@ -1,5 +1,6 @@
 use std::{collections::HashMap, path::PathBuf};
 
+use super::{AddressZero, OptimizationOutcome, OptimizationPattern};
 use crate::{
     engine::{EngineError, Outcome, Pushable},
     extractors::{primitive::EqualityExtractor, Extractor},
@@ -8,7 +9,6 @@ use solang_parser::{
     helpers::CodeLocation,
     pt::{self, SourceUnit},
 };
-use super::{AddressZero, OptimizationOutcome, OptimizationPattern};
 
 pub const ZERO: &str = "0";
 

@@ -1,19 +1,13 @@
-
 use std::{fs, io::Write, process};
 
 use clap::Parser;
 
-use sstan::{
-    engine::Engine, optimizations::{OptimizationTarget, AddressBalance}, qa::QualityAssuranceTarget, report::Report,
-    vulnerabilities::VulnerabilityTarget,
-};
+use sstan::{engine::Engine, optimizations::OptimizationTarget, report::Report};
 
 pub const DEFAULT_PATH: &str = "./src";
 
-#[macro_use]
 extern crate colour;
 fn main() -> eyre::Result<()> {
-
     let mut engine = Engine::new(
         "./bin",
         Some("https://github.com/0xKitsune/sstan/blob/main".to_string()),
