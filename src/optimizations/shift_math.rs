@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 use std::path::PathBuf;
+use std::str::FromStr;
 
+use ruint::Uint;
 use solang_parser::pt::{CodeLocation, Expression};
 use solang_parser::{self, pt::SourceUnit};
 
@@ -47,22 +49,20 @@ fn check_if_inputs_are_power_of_two(
 
     //if the first expression is a number literal that is a power of 2
     if let Expression::NumberLiteral(_, val_string, _, _) = box_expression {
-        let value = val_string
-            .parse::<u128>()
-            .expect("Could not parse NumberLiteral value from string to u128");
-
-        if (value != 0) && ((value & (value - 1)) == 0) {
+        let value = Uint::<256, 4>::from_str(&val_string).unwrap();
+        let zero = Uint::<256, 4>::from_str("0").unwrap();
+        let one: Uint<256, 4> = Uint::<256, 4>::from_str("1").unwrap();
+        if (value != zero) && ((value & (value - one)) == zero) {
             is_even = true;
         }
     }
 
     //if the first expression is a number literal that is a power of 2
     if let Expression::NumberLiteral(_, val_string, _, _) = box_expression_1 {
-        let value = val_string
-            .parse::<u128>()
-            .expect("Could not parse NumberLiteral value from string to u128");
-
-        if (value != 0) && ((value & (value - 1)) == 0) {
+        let value = Uint::<256, 4>::from_str(&val_string).unwrap();
+        let zero = Uint::<256, 4>::from_str("0").unwrap();
+        let one: Uint<256, 4> = Uint::<256, 4>::from_str("1").unwrap();
+        if (value != zero) && ((value & (value - one)) == zero) {
             is_even = true;
         }
     }

@@ -2,7 +2,7 @@ use std::{fs, io::Write, process};
 
 use clap::Parser;
 
-use sstan::{engine::Engine, optimizations::OptimizationTarget, report::Report};
+use sstan::{engine::Engine, optimizations::OptimizationTarget, report::Report, qa::QualityAssuranceTarget};
 
 pub const DEFAULT_PATH: &str = "./src";
 
@@ -12,8 +12,8 @@ fn main() -> eyre::Result<()> {
         "./bin",
         Some("https://github.com/0xKitsune/sstan/blob/main".to_string()),
         vec![],
-        vec![OptimizationTarget::MultipleRequire],
         vec![],
+        vec![QualityAssuranceTarget::MissingUnderscoresForLargeNumericLiterals],
     );
 
     //Populate the modules

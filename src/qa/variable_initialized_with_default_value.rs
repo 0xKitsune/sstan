@@ -20,7 +20,6 @@ impl QAPattern for VariableInitializedWithDefault {
         for (path_buf, source_unit) in source {
             let variables = VariableDefinitionExtractor::extract(source_unit)?;
             for variable in variables {
-                dbg!(variable.clone());
                 if let Expression::Type(_, ty) = &variable.ty {
                     match ty {
                         Type::Uint(_) | Type::Int(_) => {
