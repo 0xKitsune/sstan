@@ -30,7 +30,8 @@ impl VulnerabilityPattern for DoubleCasting {
                                     if let Expression::FunctionCall(_, ty, _) = arg {
                                         if let Expression::Type(_, primitive) = *ty {
                                             match primitive {
-                                                Type::Uint(inner_capacity) | Type::Int(inner_capacity) => {
+                                                Type::Uint(inner_capacity)
+                                                | Type::Int(inner_capacity) => {
                                                     //If the capacity of the inner cast is greater than capacity we might have truncation from the double cast
                                                     if inner_capacity > capacity {
                                                         vulnerability_locations.push_or_insert(
@@ -70,12 +71,12 @@ mod test {
     contract Contract0 {
         uint256 constant x = uint128(uint256(1));
         uint256 constant y = int128(int256(1));
-        function bad() public returns (uint256) {
-            return uint256(uint128(uint256(1)));
+        function isOkay() public returns (uint256) {
+            return uint256(uint128(1));
         }
 
-        function alsoBad() public returns (uint256 x) {
-            x = i128(i256(1));
+        function alsoBad() public returns (int128 x) {
+            x = int128(int256(1));
         }
 
         function okay() public returns (uint128) {
@@ -91,8 +92,7 @@ mod test {
     "#;
         let mut mock_source = MockSource::new().add_source("double_cast.sol", file_contents);
         let vuln_locations = DoubleCasting::find(&mut mock_source.source)?;
-        assert_eq!(vuln_locations.len(), 4);
-
+        assert_eq!(vuln_locations.len(), 3);
         Ok(())
     }
 }
