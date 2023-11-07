@@ -2,7 +2,9 @@ use std::{fs, io::Write, process};
 
 use clap::Parser;
 
-use sstan::{engine::Engine, optimizations::OptimizationTarget, report::Report, qa::QualityAssuranceTarget};
+use sstan::{
+    engine::Engine, optimizations::OptimizationTarget, qa::QualityAssuranceTarget, report::Report, vulnerabilities::VulnerabilityTarget,
+};
 
 pub const DEFAULT_PATH: &str = "./src";
 
@@ -11,9 +13,9 @@ fn main() -> eyre::Result<()> {
     let mut engine = Engine::new(
         "./bin",
         Some("https://github.com/0xKitsune/sstan/blob/main".to_string()),
+        vec![VulnerabilityTarget::DoubleCasting],
         vec![],
         vec![],
-        vec![QualityAssuranceTarget::MissingUnderscoresForLargeNumericLiterals],
     );
 
     //Populate the modules

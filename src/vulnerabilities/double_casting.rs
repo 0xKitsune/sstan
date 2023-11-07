@@ -24,18 +24,22 @@ impl VulnerabilityPattern for DoubleCasting {
                 if let Expression::FunctionCall(_, ty, expr_args) = function_call.clone() {
                     if let Expression::Type(_, primitive) = *ty {
                         match primitive {
-                            Type::Uint(_) | Type::Int(_) => {
+                            Type::Uint(capacity) | Type::Int(capacity) => {
                                 //Check the args are a function call on an Int/Uint
                                 for arg in expr_args {
                                     if let Expression::FunctionCall(_, ty, _) = arg {
                                         if let Expression::Type(_, primitive) = *ty {
                                             match primitive {
-                                                Type::Uint(_) | Type::Int(_) => {
-                                                    vulnerability_locations.push_or_insert(
-                                                        path_buf.clone(),
-                                                        function_call.loc(),
-                                                        function_call.to_string(),
-                                                    );
+                                                Type::Uint(inner_capacity) | Type::Int(inner_capacity) => {
+                                                    //If the capacity of the inner cast is greater than capacity we might have truncation from the double cast
+                                                    if inner_capacity > capacity {
+                                                        vulnerability_locations.push_or_insert(
+                                                            path_buf.clone(),
+                                                            function_call.loc(),
+                                                            function_call.to_string(),
+                                                        );
+                                                        break;
+                                                    }
                                                     break;
                                                 }
                                                 _ => continue,
