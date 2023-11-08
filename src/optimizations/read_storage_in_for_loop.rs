@@ -7,7 +7,9 @@ use solang_parser::pt::{CodeLocation, Expression, SourceUnit};
 
 use crate::extractors::{
     compound::MutableStorageVariableExtractor,
-    primitive::{ContractDefinitionExtractor, ForExtractor, VariableExtractor, ArraySubscriptExtractor},
+    primitive::{
+        ArraySubscriptExtractor, ContractDefinitionExtractor, ForExtractor, VariableExtractor,
+    },
     Extractor,
 };
 
