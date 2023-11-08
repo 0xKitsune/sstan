@@ -7,7 +7,7 @@ use solang_parser::pt::{CodeLocation, Expression, SourceUnit};
 
 use crate::extractors::{
     compound::MutableStorageVariableExtractor,
-    primitive::{ContractDefinitionExtractor, ForExtractor, VariableExtractor},
+    primitive::{ContractDefinitionExtractor, ForExtractor, VariableExtractor, ArraySubscriptExtractor},
     Extractor,
 };
 
@@ -28,18 +28,32 @@ impl OptimizationPattern for ReadStorageInForLoop {
                         variable_names.insert(identifier.name);
                     }
                 }
-
+                //Extract all ArraySubscript variable names
+                let mut array_subscripts = ArraySubscriptExtractor::extract(contract)?;
+                let mut array_variable_names = HashSet::new();
+                for array_subscript in array_subscripts.iter_mut() {
+                    let array_variables = VariableExtractor::extract(array_subscript)?;
+                    //Insert all Array subscript var names into the HashSet
+                    for array_variable in array_variables {
+                        if let Expression::Variable(identifier) = array_variable {
+                            array_variable_names.insert(identifier.name);
+                        }
+                    }
+                }
                 let mut for_loops = ForExtractor::extract(contract)?;
                 for for_loop in for_loops.iter_mut() {
                     let variables = VariableExtractor::extract(for_loop)?;
                     for variable in variables {
                         if let Expression::Variable(identifier) = variable {
                             if variable_names.contains(&identifier.name) {
-                                outcome.push_or_insert(
-                                    path_buf.clone(),
-                                    for_loop.loc(),
-                                    format!("{}", for_loop),
-                                )
+                                //Check if the variable is in an array subscript
+                                if !array_variable_names.contains(&identifier.name) {
+                                    outcome.push_or_insert(
+                                        path_buf.clone(),
+                                        for_loop.loc(),
+                                        format!("{}", for_loop),
+                                    )
+                                }
                             }
                         }
                     }
@@ -62,9 +76,18 @@ mod test {
     contract Contract0 {
         uint x;
         uint y;
+        struct ArrayStruct {
+            uint256[] arr;
+        }
         function shouldCacheInMemory() public {
             for (uint i = 0; i < 10; i++) {
                 uint z = y;
+            }
+        }
+
+        function isReferencingArray(ArrayStruct memory arr) public {
+            for (uint i = 0; i < arr.length; i++) {
+                uint z = arr[i];
             }
         }
         function shouldCacheInMemory() public {
