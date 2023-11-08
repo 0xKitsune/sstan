@@ -53,7 +53,7 @@ impl OptimizationPattern for ReadStorageInForLoop {
                                     outcome.push_or_insert(
                                         path_buf.clone(),
                                         for_loop.loc(),
-                                        format!("{}", for_loop),
+                                        for_loop.to_string(),
                                     )
                                 }
                             }
