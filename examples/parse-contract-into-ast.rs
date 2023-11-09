@@ -9,11 +9,12 @@ fn main() {
             struct ArrayStruct {
                 uint256[] array;
             }
-            function foo(ArrayStruct memory arrStruct) public {
-                for (uint256 i=0;i<arrStruct.array.length; ++i) {
-                    arrStruct.array[i] = 0;
-                    uint256 x = arrStruct.array[i];
-                }
+            ArrayStruct arrStruct;
+            constructor(ArrayStruct memory _arrStruct) {
+                arrStruct = _arrStruct;
+            }
+            function deleteStorage() public {
+                delete arrStruct;
             }
         }
     "#;
