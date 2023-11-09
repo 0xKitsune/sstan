@@ -61,8 +61,13 @@ impl OptimizationPattern for CacheStorageInMemory {
                                 } else {
                                     0
                                 };
-                                num_storage_references.insert(identifier.name.clone(), current_count + 1);
-                                if (current_count + 1 > 1 && !deleted_storage_variables.contains(&identifier.name)) || (deleted_storage_variables.contains(&identifier.name) && current_count + 1 > 2){
+                                num_storage_references
+                                    .insert(identifier.name.clone(), current_count + 1);
+                                if (current_count + 1 > 1
+                                    && !deleted_storage_variables.contains(&identifier.name))
+                                    || (deleted_storage_variables.contains(&identifier.name)
+                                        && current_count + 1 > 2)
+                                {
                                     outcome.push_or_insert(
                                         path_buf.clone(),
                                         var.loc(),
