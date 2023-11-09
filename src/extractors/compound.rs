@@ -379,18 +379,10 @@ impl<V: Visitable> Extractor<V, FunctionDefinition> for WriteFunctionExtractor {
         let non_view_functions = functions
             .iter()
             .flat_map(|func| {
-                func.attributes.iter().filter_map(|attr| {
-                    if let FunctionAttribute::Mutability(Mutability::View(_)) = attr {
-                        None
-                    } else {
-                        Some(func.clone())
-                    };
-
-                    if let FunctionAttribute::Mutability(Mutability::Pure(_)) = attr {
-                        None
-                    } else {
-                        Some(func.clone())
-                    }
+                func.attributes.iter().filter_map(|attr| match attr {
+                    FunctionAttribute::Mutability(Mutability::View(_))
+                    | FunctionAttribute::Mutability(Mutability::Pure(_)) => None,
+                    _ => Some(func.clone()),
                 })
             })
             .collect::<Vec<FunctionDefinition>>();
@@ -407,18 +399,10 @@ impl<V: Visitable> Extractor<V, FunctionDefinition> for ReadFunctionExtractor {
         let non_view_functions = functions
             .iter()
             .flat_map(|func| {
-                func.attributes.iter().filter_map(|attr| {
-                    if let FunctionAttribute::Mutability(Mutability::View(_)) = attr {
-                        Some(func.clone())
-                    } else {
-                        None
-                    };
-
-                    if let FunctionAttribute::Mutability(Mutability::Pure(_)) = attr {
-                        Some(func.clone())
-                    } else {
-                        None
-                    }
+                func.attributes.iter().filter_map(|attr| match attr {
+                    FunctionAttribute::Mutability(Mutability::View(_))
+                    | FunctionAttribute::Mutability(Mutability::Pure(_)) => Some(func.clone()),
+                    _ => None,
                 })
             })
             .collect::<Vec<FunctionDefinition>>();

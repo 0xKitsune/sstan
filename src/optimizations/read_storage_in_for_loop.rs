@@ -24,10 +24,10 @@ impl OptimizationPattern for ReadStorageInForLoop {
 
             for contract in contracts.iter_mut() {
                 let storage_variables = MutableStorageVariableExtractor::extract(contract)?;
-                let mut variable_names = HashSet::new();
+                let mut storage_variable_names = HashSet::new();
                 for storage_variable in storage_variables {
                     if let Some(identifier) = storage_variable.name {
-                        variable_names.insert(identifier.name);
+                        storage_variable_names.insert(identifier.name);
                     }
                 }
                 //Extract all ArraySubscript variable names
@@ -42,14 +42,14 @@ impl OptimizationPattern for ReadStorageInForLoop {
                         }
                     }
                 }
-                let mut non_view_functions = WriteFunctionExtractor::extract(contract)?;
-                for function in non_view_functions.iter_mut() {
+                let mut write_functions = WriteFunctionExtractor::extract(contract)?;
+                for function in write_functions.iter_mut() {
                     let mut for_loops = ForExtractor::extract(function)?;
                     for for_loop in for_loops.iter_mut() {
                         let variables = VariableExtractor::extract(for_loop)?;
                         for variable in variables {
                             if let Expression::Variable(identifier) = variable {
-                                if variable_names.contains(&identifier.name) {
+                                if storage_variable_names.contains(&identifier.name) {
                                     //Check if the variable is in an array subscript
                                     if !array_variable_names.contains(&identifier.name) {
                                         outcome.push_or_insert(
