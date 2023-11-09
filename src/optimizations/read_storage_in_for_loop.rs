@@ -6,7 +6,7 @@ use std::{
 use solang_parser::pt::{CodeLocation, Expression, SourceUnit};
 
 use crate::extractors::{
-    compound::MutableStorageVariableExtractor,
+    compound::{MutableStorageVariableExtractor, WriteFunctionExtractor},
     primitive::{
         ArraySubscriptExtractor, ContractDefinitionExtractor, ForExtractor, VariableExtractor,
     },
@@ -42,19 +42,22 @@ impl OptimizationPattern for ReadStorageInForLoop {
                         }
                     }
                 }
-                let mut for_loops = ForExtractor::extract(contract)?;
-                for for_loop in for_loops.iter_mut() {
-                    let variables = VariableExtractor::extract(for_loop)?;
-                    for variable in variables {
-                        if let Expression::Variable(identifier) = variable {
-                            if variable_names.contains(&identifier.name) {
-                                //Check if the variable is in an array subscript
-                                if !array_variable_names.contains(&identifier.name) {
-                                    outcome.push_or_insert(
-                                        path_buf.clone(),
-                                        for_loop.loc(),
-                                        for_loop.to_string(),
-                                    )
+                let mut non_view_functions = WriteFunctionExtractor::extract(contract)?;
+                for function in non_view_functions.iter_mut() {
+                    let mut for_loops = ForExtractor::extract(function)?;
+                    for for_loop in for_loops.iter_mut() {
+                        let variables = VariableExtractor::extract(for_loop)?;
+                        for variable in variables {
+                            if let Expression::Variable(identifier) = variable {
+                                if variable_names.contains(&identifier.name) {
+                                    //Check if the variable is in an array subscript
+                                    if !array_variable_names.contains(&identifier.name) {
+                                        outcome.push_or_insert(
+                                            path_buf.clone(),
+                                            for_loop.loc(),
+                                            for_loop.to_string(),
+                                        )
+                                    }
                                 }
                             }
                         }
