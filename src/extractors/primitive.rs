@@ -348,3 +348,22 @@ impl Visitor for VariableDefinitionExtractor {
         Ok(())
     }
 }
+
+default_extractor!(ArraySubscriptExtractor, Expression);
+
+impl Visitor for ArraySubscriptExtractor {
+    type Error = ExtractionError;
+    fn extract_array_subscript(
+        &mut self,
+        _loc: Loc,
+        _expr_0: &mut Box<Expression>,
+        _expr_1: &mut Option<Box<Expression>>,
+    ) -> Result<(), Self::Error> {
+        self.targets.push(Expression::ArraySubscript(
+            _loc,
+            _expr_0.clone(),
+            _expr_1.clone(),
+        ));
+        Ok(())
+    }
+}

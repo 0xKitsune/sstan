@@ -14,924 +14,524 @@
 
  | Classification | Title | Instances | 
  |:-------:|:---------|:-------:| 
- | [[L-0]](#[L-0]) | Double Casting | 117 |
 ## Optimizations 
 
  | Classification | Title | Instances | 
  |:-------:|:---------|:-------:| 
+ | [[G-0]](#[G-0]) | Avoid Reading From Storage in a for loop | 15 |
 ## Quality Assurance 
 
  | Classification | Title | Instances | 
  |:-------:|:---------|:-------:| 
 
-## Vulnerabilities - Total: 117 
+## Vulnerabilities - Total: 0 
 
-<a name=[L-0]></a>
-### [L-0] Double Casting - Instances: 117 
+
+
+
+## Optimizations - Total: 15 
+
+<a name=[G-0]></a>
+### [G-0] Avoid Reading From Storage in a for loop - Instances: 15 
 
  
-> Avoid double casting as it may introduce unexpected truncations/rounding errors among other issues.
-         
+  
+  - Savings: ~0 
+ <details>  
+ <summary>  
+  </summary> 
+  
+ </details> 
+ 
 
  --- 
 
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/test.sol#L42) 
+[File:GovernorTimelockCompound.sol#L98](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L98) 
 ```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
+97:        for (uint256 i = 0; i < targets.length; ++i) {
+98:            require(
+99:                !_timelock.queuedTransactions(keccak256(abi.encode(targets[i], values[i], "", calldatas[i], eta))),
+100:                "GovernorTimelockCompound: identical proposal action already queued"
+101:            );
+102:            _timelock.queueTransaction(targets[i], values[i], "", calldatas[i], eta);
+103:        }
+104:
 ``` 
 
 
 
-[File:WildcatSanctionsSentinel.sol#L72](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatSanctionsSentinel.sol#L72) 
+[File:GovernorTimelockCompound.sol#L98](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L98) 
 ```solidity
-71:        uint160(
-72:          uint256(
-73:            keccak256(
-74:              abi.encodePacked(
-75:                bytes1(0xff),
-76:                address(this),
-77:                keccak256(abi.encode(borrower, account, asset)),
-78:                WildcatSanctionsEscrowInitcodeHash
-79:              )
-80:            )
-81:          )
-82:        )
-83:      );
+97:        for (uint256 i = 0; i < targets.length; ++i) {
+98:            require(
+99:                !_timelock.queuedTransactions(keccak256(abi.encode(targets[i], values[i], "", calldatas[i], eta))),
+100:                "GovernorTimelockCompound: identical proposal action already queued"
+101:            );
+102:            _timelock.queueTransaction(targets[i], values[i], "", calldatas[i], eta);
+103:        }
+104:
 ``` 
 
 
 
-[File:StdJson.sol#L30](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/StdJson.sol#L30) 
+[File:GovernorTimelockCompound.sol#L124](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L124) 
 ```solidity
-29:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
+123:        for (uint256 i = 0; i < targets.length; ++i) {
+124:            _timelock.executeTransaction(targets[i], values[i], "", calldatas[i], eta);
+125:        }
+126:    }
 ``` 
 
 
 
-[File:StdJson.sol#L30](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/StdJson.sol#L30) 
+[File:GovernorTimelockCompound.sol#L146](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L146) 
 ```solidity
-29:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
+145:            for (uint256 i = 0; i < targets.length; ++i) {
+146:                _timelock.cancelTransaction(targets[i], values[i], "", calldatas[i], eta);
+147:            }
+148:        }
 ``` 
 
 
 
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/ds-test/src/test.sol#L42) 
+[File:MockFlashLoanReceiver.sol#L61](https://github.com/0xKitsune/sstan/blob/main/bin/scope/protocol-v2/contracts/mocks/flashloan/MockFlashLoanReceiver.sol#L61) 
 ```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
+60:    for (uint256 i = 0; i < assets.length; i++) {
+61:      //mint to this contract the specific amount
+62:      MintableERC20 token = MintableERC20(assets[i]);
+63:
+64:      //check the contract has the specified balance
+65:      require(
+66:        amounts[i] <= IERC20(assets[i]).balanceOf(address(this)),
+67:        'Invalid balance for the contract'
+68:      );
+69:
+70:      uint256 amountToReturn =
+71:        (_amountToApprove != 0) ? _amountToApprove : amounts[i].add(premiums[i]);
+72:      //execution does not fail - mint tokens and return them to the _destination
+73:
+74:      token.mint(premiums[i]);
+75:
+76:      IERC20(assets[i]).approve(address(LENDING_POOL), amountToReturn);
+77:    }
+78:
 ``` 
 
 
 
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/lib/ds-test/src/test.sol#L42) 
+[File:MockFlashLoanReceiver.sol#L61](https://github.com/0xKitsune/sstan/blob/main/bin/scope/protocol-v2/contracts/mocks/flashloan/MockFlashLoanReceiver.sol#L61) 
 ```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
+60:    for (uint256 i = 0; i < assets.length; i++) {
+61:      //mint to this contract the specific amount
+62:      MintableERC20 token = MintableERC20(assets[i]);
+63:
+64:      //check the contract has the specified balance
+65:      require(
+66:        amounts[i] <= IERC20(assets[i]).balanceOf(address(this)),
+67:        'Invalid balance for the contract'
+68:      );
+69:
+70:      uint256 amountToReturn =
+71:        (_amountToApprove != 0) ? _amountToApprove : amounts[i].add(premiums[i]);
+72:      //execution does not fail - mint tokens and return them to the _destination
+73:
+74:      token.mint(premiums[i]);
+75:
+76:      IERC20(assets[i]).approve(address(LENDING_POOL), amountToReturn);
+77:    }
+78:
 ``` 
 
 
 
-[File:EnumerableMap.sol#L326](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L326) 
+[File:Governor.sol#L388](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/governance/Governor.sol#L388) 
 ```solidity
-325:        return (uint256(key), address(uint160(uint256(value))));
+387:            for (uint256 i = 0; i < targets.length; ++i) {
+388:                if (targets[i] == address(this)) {
+389:                    _governanceCall.pushBack(keccak256(calldatas[i]));
+390:                }
+391:            }
+392:        }
 ``` 
 
 
 
-[File:EnumerableMap.sol#L335](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L335) 
+[File:CallReceiverMock.sol#L50](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/mocks/CallReceiverMock.sol#L50) 
 ```solidity
-334:        return (success, address(uint160(uint256(value))));
+49:        for (uint256 i = 0; ; ++i) {
+50:            _array.push(i);
+51:        }
+52:    }
 ``` 
 
 
 
-[File:EnumerableMap.sol#L346](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L346) 
+[File:CallReceiverMock.sol#L50](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/mocks/CallReceiverMock.sol#L50) 
 ```solidity
-345:        return address(uint160(uint256(get(map._inner, bytes32(key)))));
+49:        for (uint256 i = 0; ; ++i) {
+50:            _array.push(i);
+51:        }
+52:    }
 ``` 
 
 
 
-[File:EnumerableMap.sol#L360](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L360) 
+[File:ATokensAndRatesHelper.sol#L49](https://github.com/0xKitsune/sstan/blob/main/bin/scope/protocol-v2/contracts/deployments/ATokensAndRatesHelper.sol#L49) 
 ```solidity
-359:        return address(uint160(uint256(get(map._inner, bytes32(key), errorMessage))));
+48:    for (uint256 i = 0; i < inputParams.length; i++) {
+49:      emit deployedContracts(
+50:        address(new AToken()),
+51:        address(
+52:          new DefaultReserveInterestRateStrategy(
+53:            LendingPoolAddressesProvider(addressesProvider),
+54:            inputParams[i].rates[0],
+55:            inputParams[i].rates[1],
+56:            inputParams[i].rates[2],
+57:            inputParams[i].rates[3],
+58:            inputParams[i].rates[4],
+59:            inputParams[i].rates[5]
+60:          )
+61:        )
+62:      );
+63:    }
+64:  }
 ``` 
 
 
 
-[File:EnumerableMap.sol#L434](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L434) 
+[File:Governor.sol#L388](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/governance/Governor.sol#L388) 
 ```solidity
-433:        return (address(uint160(uint256(key))), uint256(value));
+387:            for (uint256 i = 0; i < targets.length; ++i) {
+388:                if (targets[i] == address(this)) {
+389:                    _governanceCall.pushBack(keccak256(calldatas[i]));
+390:                }
+391:            }
+392:        }
 ``` 
 
 
 
-[File:StdUtils.sol#L16](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/StdUtils.sol#L16) 
+[File:GovernorTimelockCompound.sol#L98](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L98) 
 ```solidity
-15:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
+97:        for (uint256 i = 0; i < targets.length; ++i) {
+98:            require(
+99:                !_timelock.queuedTransactions(keccak256(abi.encode(targets[i], values[i], "", calldatas[i], eta))),
+100:                "GovernorTimelockCompound: identical proposal action already queued"
+101:            );
+102:            _timelock.queueTransaction(targets[i], values[i], "", calldatas[i], eta);
+103:        }
+104:
 ``` 
 
 
 
-[File:StdUtils.sol#L175](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/StdUtils.sol#L175) 
+[File:GovernorTimelockCompound.sol#L98](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L98) 
 ```solidity
-174:        return address(uint160(uint256(bytesValue)));
+97:        for (uint256 i = 0; i < targets.length; ++i) {
+98:            require(
+99:                !_timelock.queuedTransactions(keccak256(abi.encode(targets[i], values[i], "", calldatas[i], eta))),
+100:                "GovernorTimelockCompound: identical proposal action already queued"
+101:            );
+102:            _timelock.queueTransaction(targets[i], values[i], "", calldatas[i], eta);
+103:        }
+104:
 ``` 
 
 
 
-[File:StdUtils.sol#L16](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/StdUtils.sol#L16) 
+[File:GovernorTimelockCompound.sol#L124](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L124) 
 ```solidity
-15:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
+123:        for (uint256 i = 0; i < targets.length; ++i) {
+124:            _timelock.executeTransaction(targets[i], values[i], "", calldatas[i], eta);
+125:        }
+126:    }
 ``` 
 
 
 
-[File:StdUtils.sol#L175](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/StdUtils.sol#L175) 
+[File:GovernorTimelockCompound.sol#L146](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L146) 
 ```solidity
-174:        return address(uint160(uint256(bytesValue)));
+145:            for (uint256 i = 0; i < targets.length; ++i) {
+146:                _timelock.cancelTransaction(targets[i], values[i], "", calldatas[i], eta);
+147:            }
+148:        }
 ``` 
 
 
 
-[File:StdChains.sol#L39](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/StdChains.sol#L39) 
+[File:WildcatMarketController.sol#L133](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatMarketController.sol#L133) 
 ```solidity
-38:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
+132:    for (uint256 i = 0; i < count; i++) {
+133:      arr[i] = _authorizedLenders.at(start + i);
+134:    }
+135:  }
 ``` 
 
 
 
-[File:StdStyle.sol#L7](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/StdStyle.sol#L7) 
+[File:WildcatMarketController.sol#L154](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatMarketController.sol#L154) 
 ```solidity
-6:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
+153:    for (uint256 i = 0; i < lenders.length; i++) {
+154:      address lender = lenders[i];
+155:      if (_authorizedLenders.add(lender)) {
+156:        emit LenderAuthorized(lender);
+157:      }
+158:    }
+159:  }
 ``` 
 
 
 
-[File:StdChains.sol#L39](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/StdChains.sol#L39) 
+[File:WildcatMarketController.sol#L170](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatMarketController.sol#L170) 
 ```solidity
-38:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
+169:    for (uint256 i = 0; i < lenders.length; i++) {
+170:      address lender = lenders[i];
+171:      if (_authorizedLenders.remove(lender)) {
+172:        emit LenderDeauthorized(lender);
+173:      }
+174:    }
+175:  }
 ``` 
 
 
 
-[File:Script.sol#L10](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/solady/test/utils/forge-std/Script.sol#L10) 
+[File:WildcatMarketController.sol#L183](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatMarketController.sol#L183) 
 ```solidity
-9:        address(bytes20(uint160(uint256(keccak256("hevm cheat code")))));
+182:    for (uint256 i; i < markets.length; i++) {
+183:      address market = markets[i];
+184:      if (!_controlledMarkets.contains(market)) {
+185:        revert NotControlledMarket();
+186:      }
+187:      WildcatMarket(market).updateAccountAuthorization(lender, _authorizedLenders.contains(lender));
+188:    }
+189:  }
 ``` 
 
 
 
-[File:StdCheats.sol#L10](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/StdCheats.sol#L10) 
+[File:WildcatMarketController.sol#L183](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatMarketController.sol#L183) 
 ```solidity
-9:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
+182:    for (uint256 i; i < markets.length; i++) {
+183:      address market = markets[i];
+184:      if (!_controlledMarkets.contains(market)) {
+185:        revert NotControlledMarket();
+186:      }
+187:      WildcatMarket(market).updateAccountAuthorization(lender, _authorizedLenders.contains(lender));
+188:    }
+189:  }
 ``` 
 
 
 
-[File:StdCheats.sol#L480](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/StdCheats.sol#L480) 
+[File:WildcatMarketController.sol#L212](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatMarketController.sol#L212) 
 ```solidity
-479:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
+211:    for (uint256 i = 0; i < count; i++) {
+212:      arr[i] = _controlledMarkets.at(start + i);
+213:    }
+214:  }
 ``` 
 
 
 
-[File:StdJson.sol#L30](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/StdJson.sol#L30) 
+[File:WildcatArchController.sol#L93](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatArchController.sol#L93) 
 ```solidity
-29:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
+92:    for (uint256 i = 0; i < count; i++) {
+93:      arr[i] = _borrowers.at(start + i);
+94:    }
+95:  }
 ``` 
 
 
 
-[File:Labeler.sol#L7](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/test/helpers/Labeler.sol#L7) 
+[File:WildcatArchController.sol#L136](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatArchController.sol#L136) 
 ```solidity
-6:address constant LABELER_ADDRESS = address(uint160(uint256(keccak256('.labeler'))));
+135:    for (uint256 i = 0; i < count; i++) {
+136:      arr[i] = _controllerFactories.at(start + i);
+137:    }
+138:  }
 ``` 
 
 
 
-[File:Base.sol#L9](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/Base.sol#L9) 
+[File:WildcatArchController.sol#L179](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatArchController.sol#L179) 
 ```solidity
-8:    address internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
+178:    for (uint256 i = 0; i < count; i++) {
+179:      arr[i] = _controllers.at(start + i);
+180:    }
+181:  }
 ``` 
 
 
 
-[File:Base.sol#L13](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/Base.sol#L13) 
+[File:WildcatArchController.sol#L222](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatArchController.sol#L222) 
 ```solidity
-12:    address internal constant DEFAULT_SENDER = address(uint160(uint256(keccak256("foundry default caller"))));
+221:    for (uint256 i = 0; i < count; i++) {
+222:      arr[i] = _markets.at(start + i);
+223:    }
+224:  }
 ``` 
 
 
 
-[File:StdCheats.sol#L10](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/StdCheats.sol#L10) 
+[File:CallReceiverMock.sol#L50](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/mocks/CallReceiverMock.sol#L50) 
 ```solidity
-9:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
+49:        for (uint256 i = 0; ; ++i) {
+50:            _array.push(i);
+51:        }
+52:    }
 ``` 
 
 
 
-[File:StdCheats.sol#L490](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/StdCheats.sol#L490) 
+[File:WildcatMarketControllerFactory.sol#L146](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/src/WildcatMarketControllerFactory.sol#L146) 
 ```solidity
-489:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
+145:    for (uint256 i = 0; i < count; i++) {
+146:      arr[i] = _deployedControllers.at(start + i);
+147:    }
+148:  }
 ``` 
 
 
 
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/lib/ds-test/src/test.sol#L42) 
+[File:ExpectedBalances.sol#L305](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/test/helpers/ExpectedBalances.sol#L305) 
 ```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
+304:    for (uint256 j; j < accountsLength; j++) {
+305:      address account = accounts[j];
+306:      uint256 expectedBalance = accountsMap.get(account);
+307:      uint256 actualBalance = account.balance;
+308:      if (expectedBalance != actualBalance) {
+309:        revert(
+310:          BalanceErrorMessages.nativeUnexpectedBalance(account, expectedBalance, actualBalance)
+311:        );
+312:      }
+313:    }
+314:  }
 ``` 
 
 
 
-[File:StdJson.sol#L30](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/StdJson.sol#L30) 
+[File:ExpectedBalances.sol#L320](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/test/helpers/ExpectedBalances.sol#L320) 
 ```solidity
-29:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
+319:    for (uint256 i; i < accounts.length; i++) {
+320:      address account = accounts[i];
+321:      accountBalances[i] = NativeAccountDump(account, accountsMap.get(account));
+322:    }
+323:  }
 ``` 
 
 
 
-[File:Base.sol#L9](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/Base.sol#L9) 
+[File:ExpectedBalances.sol#L379](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/test/helpers/ExpectedBalances.sol#L379) 
 ```solidity
-8:    address internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
+378:    for (uint256 i; i < length; i++) {
+379:      address token = tokens.at(i);
+380:      EnumerableMap.AddressToUintMap storage accountsMap = tokenAccounts[token];
+381:      address[] memory accounts = accountsMap.keys();
+382:      uint256 accountsLength = accounts.length;
+383:      for (uint256 j; j < accountsLength; j++) {
+384:        address account = accounts[j];
+385:        uint256 expectedBalance = accountsMap.get(account);
+386:        uint256 actualBalance = IERC20(token).balanceOf(account);
+387:        if (expectedBalance != actualBalance) {
+388:          revert(
+389:            BalanceErrorMessages.erc20UnexpectedBalance(
+390:              token,
+391:              account,
+392:              expectedBalance,
+393:              actualBalance
+394:            )
+395:          );
+396:        }
+397:      }
+398:    }
+399:  }
 ``` 
 
 
 
-[File:Base.sol#L13](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/Base.sol#L13) 
+[File:ExpectedBalances.sol#L405](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/test/helpers/ExpectedBalances.sol#L405) 
 ```solidity
-12:    address internal constant DEFAULT_SENDER = address(uint160(uint256(keccak256("foundry default caller"))));
+404:    for (uint256 i; i < length; i++) {
+405:      address token = tokens.at(i);
+406:      EnumerableMap.AddressToUintMap storage accountsMap = tokenAccounts[token];
+407:      address[] memory accounts = accountsMap.keys();
+408:      ERC20TokenDump memory tokenDump = ERC20TokenDump({
+409:        token: token,
+410:        accounts: accounts,
+411:        balances: new uint256[](accounts.length)
+412:      });
+413:      tokenDumps[i] = tokenDump;
+414:      for (uint256 j; j < accounts.length; j++) {
+415:        address account = accounts[j];
+416:        tokenDump.balances[j] = accountsMap.get(account);
+417:      }
+418:    }
+419:  }
 ``` 
 
 
 
-[File:ReferencePairAddress.sol#L18](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/test/uniswap/helpers/ReferencePairAddress.sol#L18) 
+[File:GovernorTimelockCompound.sol#L98](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L98) 
 ```solidity
-17:      uint160(
-18:        uint256(
-19:          keccak256(
-20:            abi.encodePacked(
-21:              hex'ff',
-22:              UniswapV3_Factory,
-23:              keccak256(abi.encode(token0, token1, fee)),
-24:              hex'e34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54'
-25:            )
-26:          )
-27:        )
-28:      )
-29:    );
+97:        for (uint256 i = 0; i < targets.length; ++i) {
+98:            require(
+99:                !_timelock.queuedTransactions(keccak256(abi.encode(targets[i], values[i], "", calldatas[i], eta))),
+100:                "GovernorTimelockCompound: identical proposal action already queued"
+101:            );
+102:            _timelock.queueTransaction(targets[i], values[i], "", calldatas[i], eta);
+103:        }
+104:
 ``` 
 
 
 
-[File:ReferencePairAddress.sol#L55](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/test/uniswap/helpers/ReferencePairAddress.sol#L55) 
+[File:GovernorTimelockCompound.sol#L98](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L98) 
 ```solidity
-54:      uint160(
-55:        uint256(
-56:          keccak256(
-57:            abi.encodePacked(
-58:              hex'ff',
-59:              UniswapV2_Factory,
-60:              keccak256(abi.encodePacked(token0, token1)),
-61:              hex'96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f' // init code hash
-62:            )
-63:          )
-64:        )
-65:      )
-66:    );
+97:        for (uint256 i = 0; i < targets.length; ++i) {
+98:            require(
+99:                !_timelock.queuedTransactions(keccak256(abi.encode(targets[i], values[i], "", calldatas[i], eta))),
+100:                "GovernorTimelockCompound: identical proposal action already queued"
+101:            );
+102:            _timelock.queueTransaction(targets[i], values[i], "", calldatas[i], eta);
+103:        }
+104:
 ``` 
 
 
 
-[File:ReferencePairAddress.sol#L75](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/test/uniswap/helpers/ReferencePairAddress.sol#L75) 
+[File:GovernorTimelockCompound.sol#L124](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L124) 
 ```solidity
-74:      uint160(
-75:        uint256(
-76:          keccak256(
-77:            abi.encodePacked(
-78:              hex'ff',
-79:              Sushiswap_Factory,
-80:              keccak256(abi.encodePacked(token0, token1)),
-81:              hex'e18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303' // init code hash
-82:            )
-83:          )
-84:        )
-85:      )
-86:    );
+123:        for (uint256 i = 0; i < targets.length; ++i) {
+124:            _timelock.executeTransaction(targets[i], values[i], "", calldatas[i], eta);
+125:        }
+126:    }
 ``` 
 
 
 
-[File:StdChains.sol#L39](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/StdChains.sol#L39) 
+[File:GovernorTimelockCompound.sol#L146](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/governance/extensions/GovernorTimelockCompound.sol#L146) 
 ```solidity
-38:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
+145:            for (uint256 i = 0; i < targets.length; ++i) {
+146:                _timelock.cancelTransaction(targets[i], values[i], "", calldatas[i], eta);
+147:            }
+148:        }
 ``` 
 
 
 
-[File:Bytes32AddressLib.sol#L8](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/solmate/src/utils/Bytes32AddressLib.sol#L8) 
+[File:Governor.sol#L388](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/governance/Governor.sol#L388) 
 ```solidity
-7:        return address(uint160(uint256(bytesValue)));
-``` 
-
-
-
-[File:StdChains.sol#L39](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/StdChains.sol#L39) 
-```solidity
-38:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:SafeHelper.sol#L144](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/src/libraries/SafeHelper.sol#L144) 
-```solidity
-143:        return address(uint160(uint256(bytes32(guardAddress))));
-``` 
-
-
-
-[File:SafeHelper.sol#L154](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/src/libraries/SafeHelper.sol#L154) 
-```solidity
-153:        return address(uint160(uint256(bytes32(fallbackHandlerAddress))));
-``` 
-
-
-
-[File:StdJson.sol#L30](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/StdJson.sol#L30) 
-```solidity
-29:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L326](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L326) 
-```solidity
-325:        return (uint256(key), address(uint160(uint256(value))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L335](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L335) 
-```solidity
-334:        return (success, address(uint160(uint256(value))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L346](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L346) 
-```solidity
-345:        return address(uint160(uint256(get(map._inner, bytes32(key)))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L360](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L360) 
-```solidity
-359:        return address(uint160(uint256(get(map._inner, bytes32(key), errorMessage))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L434](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L434) 
-```solidity
-433:        return (address(uint160(uint256(key))), uint256(value));
-``` 
-
-
-
-[File:Base.sol#L9](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/Base.sol#L9) 
-```solidity
-8:    address internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
-``` 
-
-
-
-[File:Base.sol#L13](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/Base.sol#L13) 
-```solidity
-12:    address internal constant DEFAULT_SENDER = address(uint160(uint256(keccak256("foundry default caller"))));
-``` 
-
-
-
-[File:GnosisSafe.sol#L260](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/safe-contracts/contracts/GnosisSafe.sol#L260) 
-```solidity
-259:                currentOwner = address(uint160(uint256(r)));
-``` 
-
-
-
-[File:GnosisSafe.sol#L289](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/safe-contracts/contracts/GnosisSafe.sol#L289) 
-```solidity
-288:                currentOwner = address(uint160(uint256(r)));
-``` 
-
-
-
-[File:Script.sol#L10](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/solady/test/utils/forge-std/Script.sol#L10) 
-```solidity
-9:        address(bytes20(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:Bytes32AddressLib.sol#L8](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/solmate/src/utils/Bytes32AddressLib.sol#L8) 
-```solidity
-7:        return address(uint160(uint256(bytesValue)));
-``` 
-
-
-
-[File:EnumerableSet.sol#L282](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol#L282) 
-```solidity
-281:        return address(uint160(uint256(_at(set._inner, index))));
-``` 
-
-
-
-[File:StdStyle.sol#L7](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/StdStyle.sol#L7) 
-```solidity
-6:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdStyle.sol#L7](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/StdStyle.sol#L7) 
-```solidity
-6:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/solady/lib/solmate/lib/ds-test/src/test.sol#L42) 
-```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
-``` 
-
-
-
-[File:StdStyle.sol#L7](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/StdStyle.sol#L7) 
-```solidity
-6:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdUtils.sol#L16](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/StdUtils.sol#L16) 
-```solidity
-15:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdUtils.sol#L175](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/StdUtils.sol#L175) 
-```solidity
-174:        return address(uint160(uint256(bytesValue)));
-``` 
-
-
-
-[File:UniswapV2ContractsProvider.sol#L11](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/test/uniswap/helpers/UniswapV2ContractsProvider.sol#L11) 
-```solidity
-10:  address private constant VM_ADDRESS = address(uint160(uint256(keccak256('hevm cheat code'))));
-``` 
-
-
-
-[File:VmUtils.sol#L7](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/test/helpers/VmUtils.sol#L7) 
-```solidity
-6:address constant VM_ADDRESS = address(uint160(uint256(keccak256('hevm cheat code'))));
-``` 
-
-
-
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/solady/lib/solmate/lib/ds-test/src/test.sol#L42) 
-```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
-``` 
-
-
-
-[File:StdStorage.sol#L20](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/StdStorage.sol#L20) 
-```solidity
-19:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdStorage.sol#L196](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/StdStorage.sol#L196) 
-```solidity
-195:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdUtils.sol#L15](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/StdUtils.sol#L15) 
-```solidity
-14:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdUtils.sol#L184](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/StdUtils.sol#L184) 
-```solidity
-183:        return address(uint160(uint256(bytesValue)));
-``` 
-
-
-
-[File:EnumerableSet.sol#L282](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol#L282) 
-```solidity
-281:        return address(uint160(uint256(_at(set._inner, index))));
-``` 
-
-
-
-[File:StdStorage.sol#L20](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/StdStorage.sol#L20) 
-```solidity
-19:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdStorage.sol#L196](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/StdStorage.sol#L196) 
-```solidity
-195:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/lib/ds-test/src/test.sol#L42) 
-```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
-``` 
-
-
-
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/solady/lib/ds-test/src/test.sol#L42) 
-```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
-``` 
-
-
-
-[File:Base.sol#L9](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/Base.sol#L9) 
-```solidity
-8:    address internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
-``` 
-
-
-
-[File:Base.sol#L15](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/Base.sol#L15) 
-```solidity
-14:    address internal constant DEFAULT_SENDER = address(uint160(uint256(keccak256("foundry default caller"))));
-``` 
-
-
-
-[File:StdStorage.sol#L20](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/StdStorage.sol#L20) 
-```solidity
-19:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdStorage.sol#L196](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/StdStorage.sol#L196) 
-```solidity
-195:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:Bytes32AddressLib.sol#L8](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/solady/lib/solmate/src/utils/Bytes32AddressLib.sol#L8) 
-```solidity
-7:        return address(uint160(uint256(bytesValue)));
-``` 
-
-
-
-[File:StdStorage.sol#L20](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/StdStorage.sol#L20) 
-```solidity
-19:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdStorage.sol#L196](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/StdStorage.sol#L196) 
-```solidity
-195:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdChains.sol#L35](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/StdChains.sol#L35) 
-```solidity
-34:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:ForgeConstants.sol#L6](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/src/test/ForgeConstants.sol#L6) 
-```solidity
-5:address constant VM_ADDRESS = address(uint160(uint256(keccak256('hevm cheat code'))));
-``` 
-
-
-
-[File:StdUtils.sol#L16](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/StdUtils.sol#L16) 
-```solidity
-15:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdUtils.sol#L175](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/StdUtils.sol#L175) 
-```solidity
-174:        return address(uint160(uint256(bytesValue)));
-``` 
-
-
-
-[File:StdStyle.sol#L7](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/StdStyle.sol#L7) 
-```solidity
-6:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:Base.sol#L9](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/Base.sol#L9) 
-```solidity
-8:    address internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
-``` 
-
-
-
-[File:Base.sol#L13](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/Base.sol#L13) 
-```solidity
-12:    address internal constant DEFAULT_SENDER = address(uint160(uint256(keccak256("foundry default caller"))));
-``` 
-
-
-
-[File:StdCheats.sol#L10](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/StdCheats.sol#L10) 
-```solidity
-9:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdCheats.sol#L480](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/forge-std/src/StdCheats.sol#L480) 
-```solidity
-479:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdCheats.sol#L10](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/StdCheats.sol#L10) 
-```solidity
-9:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdCheats.sol#L480](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/StdCheats.sol#L480) 
-```solidity
-479:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdUtils.sol#L16](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/StdUtils.sol#L16) 
-```solidity
-15:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdUtils.sol#L175](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/src/StdUtils.sol#L175) 
-```solidity
-174:        return address(uint160(uint256(bytesValue)));
-``` 
-
-
-
-[File:Base.sol#L9](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/Base.sol#L9) 
-```solidity
-8:    address internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
-``` 
-
-
-
-[File:Base.sol#L13](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/Base.sol#L13) 
-```solidity
-12:    address internal constant DEFAULT_SENDER = address(uint160(uint256(keccak256("foundry default caller"))));
-``` 
-
-
-
-[File:StdChains.sol#L39](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/StdChains.sol#L39) 
-```solidity
-38:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/test.sol#L42) 
-```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
-``` 
-
-
-
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/test.sol#L42) 
-```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
-``` 
-
-
-
-[File:StdCheats.sol#L10](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/StdCheats.sol#L10) 
-```solidity
-9:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdCheats.sol#L639](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/forge-std/src/StdCheats.sol#L639) 
-```solidity
-638:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:EnumerableSet.sol#L282](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol#L282) 
-```solidity
-281:        return address(uint160(uint256(_at(set._inner, index))));
-``` 
-
-
-
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/solmate/lib/ds-test/src/test.sol#L42) 
-```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
-``` 
-
-
-
-[File:StdJson.sol#L30](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/StdJson.sol#L30) 
-```solidity
-29:    VmSafe private constant vm = VmSafe(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L326](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L326) 
-```solidity
-325:        return (uint256(key), address(uint160(uint256(value))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L335](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L335) 
-```solidity
-334:        return (success, address(uint160(uint256(value))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L346](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L346) 
-```solidity
-345:        return address(uint160(uint256(get(map._inner, bytes32(key)))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L360](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L360) 
-```solidity
-359:        return address(uint160(uint256(get(map._inner, bytes32(key), errorMessage))));
-``` 
-
-
-
-[File:EnumerableMap.sol#L434](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableMap.sol#L434) 
-```solidity
-433:        return (address(uint160(uint256(key))), uint256(value));
-``` 
-
-
-
-[File:SentinelTest.sol#L119](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/test/SentinelTest.sol#L119) 
-```solidity
-118:        uint160(
-119:          uint256(
-120:            keccak256(
-121:              abi.encodePacked(
-122:                bytes1(0xff),
-123:                address(sentinel),
-124:                keccak256(abi.encode(borrower, account, asset)),
-125:                sentinel.WildcatSanctionsEscrowInitcodeHash()
-126:              )
-127:            )
-128:          )
-129:        )
-130:      )
-``` 
-
-
-
-[File:SentinelTest.sol#L139](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/test/SentinelTest.sol#L139) 
-```solidity
-138:        uint160(
-139:          uint256(
-140:            keccak256(
-141:              abi.encodePacked(
-142:                bytes1(0xff),
-143:                address(sentinel),
-144:                keccak256(abi.encode(borrower, account, asset)),
-145:                sentinel.WildcatSanctionsEscrowInitcodeHash()
-146:              )
-147:            )
-148:          )
-149:        )
-150:      )
-``` 
-
-
-
-[File:Bytes32AddressLib.sol#L8](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/solady/lib/solmate/src/utils/Bytes32AddressLib.sol#L8) 
-```solidity
-7:        return address(uint160(uint256(bytesValue)));
-``` 
-
-
-
-[File:StdStorage.sol#L20](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/StdStorage.sol#L20) 
-```solidity
-19:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdStorage.sol#L196](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/forge-std/src/StdStorage.sol#L196) 
-```solidity
-195:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdCheats.sol#L10](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/StdCheats.sol#L10) 
-```solidity
-9:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdCheats.sol#L480](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-brahma/contracts/lib/openzeppelin-contracts/lib/forge-std/src/StdCheats.sol#L480) 
-```solidity
-479:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:test.sol#L42](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/solmate/lib/ds-test/src/test.sol#L42) 
-```solidity
-41:        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
-``` 
-
-
-
-[File:StdStyle.sol#L7](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/StdStyle.sol#L7) 
-```solidity
-6:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdStorage.sol#L20](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/StdStorage.sol#L20) 
-```solidity
-19:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:StdStorage.sol#L196](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/openzeppelin-contracts/lib/forge-std/src/StdStorage.sol#L196) 
-```solidity
-195:    Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-``` 
-
-
-
-[File:Script.sol#L10](https://github.com/0xKitsune/sstan/blob/main/bin/scope/2023-10-wildcat/lib/sol-utils/lib/solady/test/utils/forge-std/Script.sol#L10) 
-```solidity
-9:        address(bytes20(uint160(uint256(keccak256("hevm cheat code")))));
+387:            for (uint256 i = 0; i < targets.length; ++i) {
+388:                if (targets[i] == address(this)) {
+389:                    _governanceCall.pushBack(keccak256(calldatas[i]));
+390:                }
+391:            }
+392:        }
 ``` 
 
 
 
  --- 
-
-
-
-## Optimizations - Total: 0 
-
 
 
 

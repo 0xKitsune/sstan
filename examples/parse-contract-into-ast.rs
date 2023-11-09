@@ -6,20 +6,15 @@ fn main() {
         contract SimpleStore {
            
             address hardcoded = 0xCF93bC53DA6D3543ec2B39EB9Fb3eb1472502afA;
-            
-            function foo() public {
-                if (msg.sender != address(0)) {
-                uint256 balance = address(this).balance;
-                bar();
+            struct ArrayStruct {
+                uint256[] array;
+            }
+            function foo(ArrayStruct memory arrStruct) public {
+                for (uint256 i=0;i<arrStruct.array.length; ++i) {
+                    arrStruct.array[i] = 0;
+                    uint256 x = arrStruct.array[i];
                 }
             }
-
-            function bar() internal {
-                assembly {
-                    shl(1,1)
-                }
-            }
-            
         }
     "#;
 

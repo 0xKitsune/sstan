@@ -14,8 +14,8 @@ fn main() -> eyre::Result<()> {
     let mut engine = Engine::new(
         "./bin",
         Some("https://github.com/0xKitsune/sstan/blob/main".to_string()),
-        vec![VulnerabilityTarget::DoubleCasting],
         vec![],
+        vec![OptimizationTarget::ReadStorageInForLoop],
         vec![],
     );
 
