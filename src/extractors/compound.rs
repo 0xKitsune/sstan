@@ -371,6 +371,46 @@ impl<V: Visitable> Extractor<V, FunctionDefinition> for PrivateFunctionExtractor
     }
 }
 
+compound_extractor!(WriteFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for WriteFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let non_view_functions = functions
+            .iter()
+            .flat_map(|func| {
+                func.attributes.iter().filter_map(|attr| match attr {
+                    FunctionAttribute::Mutability(Mutability::View(_))
+                    | FunctionAttribute::Mutability(Mutability::Pure(_)) => None,
+                    _ => Some(func.clone()),
+                })
+            })
+            .collect::<Vec<FunctionDefinition>>();
+
+        Ok(non_view_functions)
+    }
+}
+
+compound_extractor!(ReadFunctionExtractor, FunctionDefinition);
+
+impl<V: Visitable> Extractor<V, FunctionDefinition> for ReadFunctionExtractor {
+    fn extract(v: &mut V) -> Result<Vec<FunctionDefinition>, ExtractionError> {
+        let functions = FunctionExtractor::extract(v)?;
+        let non_view_functions = functions
+            .iter()
+            .flat_map(|func| {
+                func.attributes.iter().filter_map(|attr| match attr {
+                    FunctionAttribute::Mutability(Mutability::View(_))
+                    | FunctionAttribute::Mutability(Mutability::Pure(_)) => Some(func.clone()),
+                    _ => None,
+                })
+            })
+            .collect::<Vec<FunctionDefinition>>();
+
+        Ok(non_view_functions)
+    }
+}
+
 compound_extractor!(YulShiftExtractor, YulFunctionCall);
 
 impl<V: Visitable> Extractor<V, YulFunctionCall> for YulShiftExtractor {

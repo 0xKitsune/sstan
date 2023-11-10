@@ -8,8 +8,10 @@ use solang_parser::pt::{CodeLocation, Expression, SourceUnit};
 use crate::{
     engine::{EngineError, Outcome, Pushable},
     extractors::{
-        compound::MutableStorageVariableExtractor,
-        primitive::{ContractDefinitionExtractor, FunctionExtractor, VariableExtractor},
+        compound::{MutableStorageVariableExtractor, WriteFunctionExtractor},
+        primitive::{
+            ContractDefinitionExtractor, DeleteExtractor, FunctionExtractor, VariableExtractor,
+        },
         Extractor,
     },
 };
@@ -31,11 +33,24 @@ impl OptimizationPattern for CacheStorageInMemory {
                     }
                 }
                 //Get all functions in the contract
-                let mut functions = FunctionExtractor::extract(contract)?;
+                let mut functions = WriteFunctionExtractor::extract(contract)?;
+
                 //Iterate through the functions
                 for function in functions.iter_mut() {
                     let mut num_storage_references: HashMap<String, u32> = HashMap::new();
                     let all_variables = VariableExtractor::extract(function)?;
+                    //Get all the delete expressions in the function
+                    let mut delete_expressions = DeleteExtractor::extract(function)?;
+                    let mut deleted_storage_variables: HashSet<String> = HashSet::new();
+                    //Accumulate any deleted storage variable names
+                    for delete_expression in delete_expressions.iter_mut() {
+                        let variables = VariableExtractor::extract(delete_expression)?;
+                        for var in variables.iter() {
+                            if let Expression::Variable(identifier) = var.clone() {
+                                deleted_storage_variables.insert(identifier.name);
+                            }
+                        }
+                    }
                     for var in all_variables {
                         if let Expression::Variable(identifier) = var.clone() {
                             if storage_variable_names.contains(&identifier.name) {
@@ -46,8 +61,13 @@ impl OptimizationPattern for CacheStorageInMemory {
                                 } else {
                                     0
                                 };
-                                num_storage_references.insert(identifier.name, current_count + 1);
-                                if current_count + 1 > 1 {
+                                num_storage_references
+                                    .insert(identifier.name.clone(), current_count + 1);
+                                if (current_count + 1 > 1
+                                    && !deleted_storage_variables.contains(&identifier.name))
+                                    || (deleted_storage_variables.contains(&identifier.name)
+                                        && current_count + 1 > 2)
+                                {
                                     outcome.push_or_insert(
                                         path_buf.clone(),
                                         var.loc(),
