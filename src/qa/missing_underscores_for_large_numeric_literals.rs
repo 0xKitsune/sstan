@@ -47,14 +47,12 @@ impl QAPattern for MissingUnderscoresForLargeNumericLiterals {
                                 let node = line_contents.split(&ident.name).collect::<Vec<&str>>();
                                 if node.len() > 1 {
                                     let statement = node[1].split('=').collect::<Vec<&str>>();
-                                    if statement.len() > 1 {
-                                        if !statement[1].contains('_') {
-                                            outcome.push_or_insert(
-                                                path_buf.clone(),
-                                                variable.loc(),
-                                                variable.to_string(),
-                                            );
-                                        }
+                                    if statement.len() > 1 && !statement[1].contains('_') {
+                                        outcome.push_or_insert(
+                                            path_buf.clone(),
+                                            variable.loc(),
+                                            variable.to_string(),
+                                        );
                                     }
                                 }
                             }

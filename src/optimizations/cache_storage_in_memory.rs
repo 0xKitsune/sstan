@@ -10,7 +10,7 @@ use crate::{
     extractors::{
         compound::{MutableStorageVariableExtractor, WriteFunctionExtractor},
         primitive::{
-            ContractDefinitionExtractor, DeleteExtractor, FunctionExtractor, VariableExtractor,
+            ContractDefinitionExtractor, DeleteExtractor, VariableExtractor,
         },
         Extractor,
     },
