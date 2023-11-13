@@ -1,6 +1,6 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{Loc, SourceUnit};
+use solang_parser::pt::{self, Loc, SourceUnit};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
@@ -20,17 +20,24 @@ impl QAPattern for ContractsShouldInheritInterface {
             let contracts = ContractDefinitionExtractor::extract(source_unit)?;
 
             for mut contract in contracts {
-                let external_functions = ExternalFunctionExtractor::extract(&mut contract)?;
-                if external_functions.len() > 10 {
-                    let inherits_interface = contract.base.iter().any(|base| {
-                        base.name
-                            .identifiers
-                            .iter()
-                            .any(|identifier| identifier.name.contains('I'))
-                    });
-                    if !inherits_interface {
-                        if let Some(ident) = &contract.name {
-                            outcome.push_or_insert(path_buf.clone(), ident.loc, ident.to_string());
+                //Dont care about interfaces here
+                if !matches!(contract.ty, pt::ContractTy::Interface(_)) {
+                    let external_functions = ExternalFunctionExtractor::extract(&mut contract)?;
+                    if external_functions.len() > 10 {
+                        let inherits_interface = contract.base.iter().any(|base| {
+                            base.name
+                                .identifiers
+                                .iter()
+                                .any(|identifier| identifier.name.contains('I'))
+                        });
+                        if !inherits_interface {
+                            if let Some(ident) = &contract.name {
+                                outcome.push_or_insert(
+                                    path_buf.clone(),
+                                    ident.loc,
+                                    ident.to_string(),
+                                );
+                            }
                         }
                     }
                 }
