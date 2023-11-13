@@ -9,9 +9,7 @@ use crate::{
     engine::{EngineError, Outcome, Pushable},
     extractors::{
         compound::{MutableStorageVariableExtractor, WriteFunctionExtractor},
-        primitive::{
-            ContractDefinitionExtractor, DeleteExtractor, VariableExtractor,
-        },
+        primitive::{ContractDefinitionExtractor, DeleteExtractor, VariableExtractor},
         Extractor,
     },
 };

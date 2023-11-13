@@ -273,9 +273,8 @@ default_extractor!(DeleteExtractor, Expression);
 impl Visitor for DeleteExtractor {
     type Error = ExtractionError;
     fn extract_expr(&mut self, _loc: Loc, expr: &mut Expression) -> Result<(), Self::Error> {
-        match expr {
-            Expression::Delete(..) => self.targets.push(expr.clone()),
-            _ => {}
+        if let Expression::Delete(..) = expr {
+            self.targets.push(expr.clone())
         }
         Ok(())
     }
