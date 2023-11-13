@@ -16,7 +16,7 @@ fn main() -> eyre::Result<()> {
         Some("https://github.com/0xKitsune/sstan/blob/main".to_string()),
         vec![],
         vec![],
-        vec![QualityAssuranceTarget::ContractsShouldInheritInterface],
+        vec![QualityAssuranceTarget::RemoveConsole],
     );
 
     //Populate the modules
