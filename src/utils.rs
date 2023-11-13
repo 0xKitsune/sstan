@@ -19,7 +19,9 @@ pub fn extract_source(path: &str, source: &mut HashMap<PathBuf, SourceUnit>) -> 
         let entry = entry?;
         let path = entry.path();
         if path.is_dir() {
-            extract_source(path.to_str().unwrap(), source)?;
+            if !path.to_str().unwrap().contains("test") {
+                extract_source(path.to_str().unwrap(), source)?;
+            }
         } else {
             let file_name = path
                 .file_name()

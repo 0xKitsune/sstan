@@ -15,8 +15,8 @@ fn main() -> eyre::Result<()> {
         "./bin",
         Some("https://github.com/0xKitsune/sstan/blob/main".to_string()),
         vec![],
-        vec![OptimizationTarget::ReadStorageInForLoop],
         vec![],
+        vec![QualityAssuranceTarget::ConstructorVarInitialization],
     );
 
     //Populate the modules
