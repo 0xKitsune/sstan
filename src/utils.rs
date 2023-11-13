@@ -49,7 +49,7 @@ pub fn is_camel_case(s: &str) -> bool {
 
 // Check if a string is PascalCase
 pub fn is_pascal_case(s: &str) -> bool {
-    let re = Regex::new(r"^[A-Z][a-zA-Z]*$").unwrap();
+    let re = Regex::new(r"^[A-Z0-9][a-zA-Z0-9]*$").unwrap();
     re.is_match(s)
 }
 
