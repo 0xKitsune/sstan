@@ -1,9 +1,7 @@
 fn main() {
     let file_contents = r#"
 
-    contract contract0 {
-        uint128 constant doubleCast = uint128(uint256(1));
-        
+    interface contract0 {        
     }
     "#;
 

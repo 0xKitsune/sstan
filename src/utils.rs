@@ -19,7 +19,10 @@ pub fn extract_source(path: &str, source: &mut HashMap<PathBuf, SourceUnit>) -> 
         let entry = entry?;
         let path = entry.path();
         if path.is_dir() {
-            extract_source(path.to_str().unwrap(), source)?;
+            let str_path = path.to_str().expect("Could not convert path to string");
+            if !str_path.contains("test") {
+                extract_source(str_path, source)?;
+            }
         } else {
             let file_name = path
                 .file_name()
@@ -47,7 +50,7 @@ pub fn is_camel_case(s: &str) -> bool {
 
 // Check if a string is PascalCase
 pub fn is_pascal_case(s: &str) -> bool {
-    let re = Regex::new(r"^[A-Z][a-zA-Z]*$").unwrap();
+    let re = Regex::new(r"^[A-Z0-9][a-zA-Z0-9]*$").unwrap();
     re.is_match(s)
 }
 

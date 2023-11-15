@@ -1,11 +1,6 @@
-use std::{fs, io::Write, process};
+use std::io::Write;
 
-use clap::Parser;
-
-use sstan::{
-    engine::Engine, optimizations::OptimizationTarget, qa::QualityAssuranceTarget, report::Report,
-    vulnerabilities::VulnerabilityTarget,
-};
+use sstan::{engine::Engine, qa::QualityAssuranceTarget, report::Report};
 
 pub const DEFAULT_PATH: &str = "./src";
 
@@ -15,8 +10,8 @@ fn main() -> eyre::Result<()> {
         "./bin",
         Some("https://github.com/0xKitsune/sstan/blob/main".to_string()),
         vec![],
-        vec![OptimizationTarget::ReadStorageInForLoop],
         vec![],
+        vec![QualityAssuranceTarget::VariableInitializedWithDefault],
     );
 
     //Populate the modules
