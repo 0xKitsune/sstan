@@ -296,7 +296,7 @@ impl Serialize for ReportSectionFragment {
         state.serialize_field("description", self.description.as_str())?;
         state.serialize_field("gasSavings", "")?; //TODO:
         state.serialize_field("category", "")?; //TODO:
-        state.serialize_field("instances", "")?; //TODO: Implement serialize for Vec<OutcomeReport>
+        state.serialize_field("instances", "")?; //TODO: //TODO: Implement serialize for Vec<OutcomeReport>
         state.end()
     }
 }  
