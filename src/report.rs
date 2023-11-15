@@ -31,8 +31,8 @@ impl Serialize for Report {
         let mut state = serializer.serialize_struct("Report", 3)?;
         state.serialize_field("comment", self.preamble.title.as_str())?;
         state.serialize_field("footnote", self.description.as_str())?;
-        //TODO: impl Serialize for ReportSection
-        // state.serialize_field("findings", )?;
+        //TODO: impl Serialize for ReportSectionFragment
+        state.serialize_field("findings", "")?;
         state.end()
     }
 }
@@ -292,11 +292,11 @@ impl Serialize for ReportSectionFragment {
     {
         let mut state = serializer.serialize_struct("ReportSectionFragment", 6)?;
         state.serialize_field("severity", self.identifier.classification.identifier().as_str())?;
-        state.serialize_field("title", self.title.as_str());
-        state.serialize_field("description", self.description.as_str());
-        state.serialize_field("gasSavings", "");
-        state.serialize_field("category", "");
-        state.serialize_field("instances", ); //TODO: Implement serialize for Vec<OutcomeReport>
+        state.serialize_field("title", self.title.as_str())?;
+        state.serialize_field("description", self.description.as_str())?;
+        state.serialize_field("gasSavings", "")?; //TODO:
+        state.serialize_field("category", "")?; //TODO:
+        state.serialize_field("instances", "")?; //TODO: Implement serialize for Vec<OutcomeReport>
         state.end()
     }
 }  
