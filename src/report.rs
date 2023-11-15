@@ -1,5 +1,7 @@
 use std::path::PathBuf;
 
+use serde::ser::{Serialize, SerializeStruct, Serializer};
+
 use crate::{
     optimizations::OptimizationOutcome, qa::QualityAssuranceOutcome, utils::read_lines,
     vulnerabilities::VulnerabilityOutcome,
@@ -19,6 +21,20 @@ pub struct Report {
     pub vulnerability_report: ReportSection,
     pub optimization_report: ReportSection,
     pub qa_report: ReportSection,
+}
+
+impl Serialize for Report {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut state = serializer.serialize_struct("Report", 3)?;
+        state.serialize_field("comment", self.preamble.title.as_str())?;
+        state.serialize_field("footnote", self.description.as_str())?;
+        //TODO: impl Serialize for ReportSection
+        // state.serialize_field("findings", )?;
+        state.end()
+    }
 }
 
 impl Report {
@@ -269,6 +285,37 @@ pub struct ReportSectionFragment {
     pub outcomes: Vec<OutcomeReport>,
 }
 
+impl Serialize for ReportSectionFragment {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut state = serializer.serialize_struct("ReportSectionFragment", 6)?;
+        state.serialize_field("severity", self.identifier.classification.identifier().as_str())?;
+        state.serialize_field("title", self.title.as_str());
+        state.serialize_field("description", self.description.as_str());
+        state.serialize_field("gasSavings", "");
+        state.serialize_field("category", "");
+        state.serialize_field("instances", ); //TODO: Implement serialize for Vec<OutcomeReport>
+        state.end()
+    }
+}  
+//     "instances": [
+//         {
+//             "content": "Example markdown content",
+//             "loc": [
+//                 "[207](https://somepretentlinesofcode207.com)",
+//                 "[102](https://somepretentlinesofcode102.com)"
+//             ]
+//         },
+//         {
+//             "content": "Example markdown content",
+//             "loc": [
+//                 "[202](https://somepretentlinesofcode202.com)"
+//             ]
+//         }
+//     ]
+
 impl ReportSectionFragment {
     pub fn new(
         title: String,
@@ -303,13 +350,13 @@ pub enum Classification {
 impl Classification {
     pub fn identifier(&self) -> String {
         match self {
-            Classification::VulnerabilityHigh => "H".to_string(),
-            Classification::VulnerabilityMedium => "M".to_string(),
-            Classification::VulnerabilityLow => "L".to_string(),
-            Classification::NonCritical => "NC".to_string(),
+            Classification::VulnerabilityHigh => "High".to_string(),
+            Classification::VulnerabilityMedium => "Medium".to_string(),
+            Classification::VulnerabilityLow => "Low".to_string(),
+            Classification::NonCritical => "NonCritical".to_string(),
             Classification::OptimizationHigh
             | Classification::OptimizationMedium
-            | Classification::OptimizationLow => "G".to_string(),
+            | Classification::OptimizationLow => "Gas".to_string(),
         }
     }
 }
