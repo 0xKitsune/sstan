@@ -31,8 +31,27 @@ impl Serialize for Report {
         let mut state = serializer.serialize_struct("Report", 3)?;
         state.serialize_field("comment", self.preamble.title.as_str())?;
         state.serialize_field("footnote", self.description.as_str())?;
+        let mut findings: Vec<String> = vec![];
+        findings.extend(
+            self.vulnerability_report
+                .outcomes
+                .iter()
+                .map(|f| serde_json::to_string(&f).unwrap_or("".to_string())),
+        );
+        findings.extend(
+            self.qa_report
+                .outcomes
+                .iter()
+                .map(|f| serde_json::to_string(&f).unwrap_or("".to_string())),
+        );
+        findings.extend(
+            self.optimization_report
+                .outcomes
+                .iter()
+                .map(|f| serde_json::to_string(&f).unwrap_or("".to_string())),
+        );
         //TODO: impl Serialize for ReportSectionFragment
-        state.serialize_field("findings", "")?;
+        state.serialize_field("findings", &findings)?;
         state.end()
     }
 }
@@ -296,25 +315,15 @@ impl Serialize for ReportSectionFragment {
         state.serialize_field("description", self.description.as_str())?;
         state.serialize_field("gasSavings", "")?; //TODO:
         state.serialize_field("category", "")?; //TODO:
-        state.serialize_field("instances", "")?; //TODO: Implement serialize for Vec<OutcomeReport>
+        let instances: Vec<String> = self
+            .outcomes
+            .iter()
+            .map(|f| serde_json::to_string(&f).unwrap_or("".to_string()))
+            .collect();
+        state.serialize_field("instances", &instances)?; //TODO: Implement serialize for Vec<OutcomeReport>
         state.end()
     }
 }  
-//     "instances": [
-//         {
-//             "content": "Example markdown content",
-//             "loc": [
-//                 "[207](https://somepretentlinesofcode207.com)",
-//                 "[102](https://somepretentlinesofcode102.com)"
-//             ]
-//         },
-//         {
-//             "content": "Example markdown content",
-//             "loc": [
-//                 "[202](https://somepretentlinesofcode202.com)"
-//             ]
-//         }
-//     ]
 
 impl ReportSectionFragment {
     pub fn new(

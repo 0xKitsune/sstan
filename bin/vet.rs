@@ -19,7 +19,8 @@ fn main() -> eyre::Result<()> {
     //Generate the report struct
     let report = Report::from(engine);
     //Generate the report string & write to the output path.
-    std::fs::File::create("sstan.md")?.write_all(String::from(report).as_bytes())?;
+    std::fs::File::create("sstan.json")?.write_all(serde_json::to_string(&report).unwrap().as_bytes())?;
+    
 
     Ok(())
 }
