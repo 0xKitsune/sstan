@@ -1,17 +1,20 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{Loc, SourceUnit};
+use solang_parser::{
+    helpers::CodeLocation,
+    pt::{Loc, SourceUnit},
+};
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
     extractors::{
-        compound::{ConstantStorageVariableExtractor, ImmutableStorageVariableExtractor},
+        compound::RequireExtractor,
+        primitive::ErrorExtractor,
         Extractor,
     },
-    utils::is_screaming_snake_case,
 };
 
-use super::{QAPattern, QualityAssuranceOutcome, InconsistentRequireError};
+use super::{InconsistentRequireError, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for InconsistentRequireError {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
@@ -19,21 +22,23 @@ impl QAPattern for InconsistentRequireError {
         let mut outcome: HashMap<PathBuf, Vec<(Loc, String)>> = Outcome::new();
 
         for (path_buf, source_unit) in source {
-            let immutable_variables = ImmutableStorageVariableExtractor::extract(source_unit)?;
-            let constant_variables = ConstantStorageVariableExtractor::extract(source_unit)?;
-
-            for var in constant_variables {
-                if let Some(name) = &var.name {
-                    if !is_screaming_snake_case(&name.name) {
-                        outcome.push_or_insert(path_buf.clone(), var.loc, var.to_string());
+            let errors = ErrorExtractor::extract(source_unit)?;
+            let requires = RequireExtractor::extract(source_unit)?;
+            //Using both requires/revertsx
+            if requires.len() > 0 && errors.len() > 0 {
+                //Show all errors
+                if requires.len() >= errors.len() {
+                    for error in errors {
+                        outcome.push_or_insert(path_buf.clone(), error.loc, error.to_string());
                     }
-                }
-            }
-
-            for var in immutable_variables {
-                if let Some(name) = &var.name {
-                    if !is_screaming_snake_case(&name.name) {
-                        outcome.push_or_insert(path_buf.clone(), var.loc, var.to_string());
+                } else {
+                    //Show all requires
+                    for require in requires {
+                        outcome.push_or_insert(
+                            path_buf.clone(),
+                            require.loc(),
+                            require.to_string(),
+                        );
                     }
                 }
             }
@@ -55,23 +60,30 @@ mod tests {
     import "filename.sol";
     contract contract0 {
 
-        uint256 constant CONSTANT_NAME = 1;
-        uint256 constant constantName = 1;
-        uint256 immutable constant_name = 1;
-        uint256 immutable IMMUTABLE_NAME = 1;
-        uint256 immutable immutable_name = 1;
-        uint256 immutable immutableName = 1;
+        error SomeError();
+        error SomeOtherError();
+
+        function foo() public {
+            require(true, "SomeError");
+            revert SomeError();
+        }
+
+        function bar() {
+            require(true, "SomeError");
+            require(true, "SomeOtherError");
+            revert SomeOtherError();
+        }
     }
  
     "#;
 
         let mut mock_source = MockSource::new().add_source(
-            "constant_immutable_name_screaming_snake_case.sol",
+            "consistent_require_revert.sol",
             file_contents,
         );
         let qa_locations = InconsistentRequireError::find(&mut mock_source.source)?;
-
-        assert_eq!(qa_locations.len(), 4);
+        //Should show all errors, since there are more requires
+        assert_eq!(qa_locations.len(), 2);
 
         Ok(())
     }

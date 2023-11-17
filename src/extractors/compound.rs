@@ -3,7 +3,7 @@ use std::{collections::HashSet, str::FromStr, vec};
 use super::{
     primitive::{
         ContractDefinitionExtractor, FunctionExtractor, PragmaDirectiveExtractor,
-        YulFunctionCallExtractor,
+        YulFunctionCallExtractor, FunctionCallExtractor,
     },
     visitable::Visitable,
     visitor::Visitor,
@@ -428,5 +428,28 @@ impl<V: Visitable> Extractor<V, YulFunctionCall> for YulShiftExtractor {
             .collect::<Vec<YulFunctionCall>>();
 
         Ok(shift_functions)
+    }
+}
+
+compound_extractor!(RequireExtractor, Expression);
+
+impl<V: Visitable> Extractor<V, Expression> for RequireExtractor {
+    fn extract(v: &mut V) -> Result<Vec<Expression>, ExtractionError> {
+        let function_calls = FunctionCallExtractor::extract(v)?;
+        let require_function_calls = function_calls
+            .iter()
+            .filter_map(|function| {
+                if let Expression::FunctionCall(_, function_identifier, _) = function.clone() {
+                    if let Expression::Variable(identifier) = *function_identifier {
+                        if identifier.name == "require" || identifier.name == "revert" {
+                            return Some(function.clone());
+                        }
+                    }
+                }
+                None
+            })
+            .collect::<Vec<Expression>>();
+
+        Ok(require_function_calls)
     }
 }
