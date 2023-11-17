@@ -31,8 +31,27 @@ impl Serialize for Report {
         let mut state = serializer.serialize_struct("Report", 3)?;
         state.serialize_field("comment", self.preamble.title.as_str())?;
         state.serialize_field("footnote", self.description.as_str())?;
+        let mut findings: Vec<String> = vec![];
+        findings.extend(
+            self.vulnerability_report
+                .outcomes
+                .iter()
+                .map(|f| serde_json::to_string(&f).unwrap_or("".to_string())),
+        );
+        findings.extend(
+            self.qa_report
+                .outcomes
+                .iter()
+                .map(|f| serde_json::to_string(&f).unwrap_or("".to_string())),
+        );
+        findings.extend(
+            self.optimization_report
+                .outcomes
+                .iter()
+                .map(|f| serde_json::to_string(&f).unwrap_or("".to_string())),
+        );
         //TODO: impl Serialize for ReportSectionFragment
-        state.serialize_field("findings", "")?;
+        state.serialize_field("findings", &findings)?;
         state.end()
     }
 }
@@ -291,30 +310,23 @@ impl Serialize for ReportSectionFragment {
         S: Serializer,
     {
         let mut state = serializer.serialize_struct("ReportSectionFragment", 6)?;
-        state.serialize_field("severity", self.identifier.classification.identifier().as_str())?;
+        state.serialize_field(
+            "severity",
+            self.identifier.classification.identifier().as_str(),
+        )?;
         state.serialize_field("title", self.title.as_str())?;
         state.serialize_field("description", self.description.as_str())?;
         state.serialize_field("gasSavings", "")?; //TODO:
         state.serialize_field("category", "")?; //TODO:
-        state.serialize_field("instances", "")?; //TODO: //TODO: Implement serialize for Vec<OutcomeReport>
+        let instances: Vec<String> = self
+            .outcomes
+            .iter()
+            .map(|f| serde_json::to_string(&f).unwrap_or("".to_string()))
+            .collect();
+        state.serialize_field("instances", &instances)?; //TODO: Implement serialize for Vec<OutcomeReport>
         state.end()
     }
-}  
-//     "instances": [
-//         {
-//             "content": "Example markdown content",
-//             "loc": [
-//                 "[207](https://somepretentlinesofcode207.com)",
-//                 "[102](https://somepretentlinesofcode102.com)"
-//             ]
-//         },
-//         {
-//             "content": "Example markdown content",
-//             "loc": [
-//                 "[202](https://somepretentlinesofcode202.com)"
-//             ]
-//         }
-//     ]
+}
 
 impl ReportSectionFragment {
     pub fn new(
@@ -375,21 +387,20 @@ impl Serialize for OutcomeReport {
     where
         S: Serializer,
     {
-            
-            let mut state = serializer.serialize_struct("OutcomeReport", 2)?;
-            let mut content = String::new();
-            if let Ok(lines) = read_lines(self.file_path.as_path()) {
-                for (i, line) in lines.enumerate() {
-                    if let Ok(l) = line {
-                        if i + 1 >= self.line_numbers.0 && i < self.line_numbers.1 {
-                            content.push_str(&format!("{}:{}\n", i, l));
-                        }
+        let mut state = serializer.serialize_struct("OutcomeReport", 2)?;
+        let mut content = String::new();
+        if let Ok(lines) = read_lines(self.file_path.as_path()) {
+            for (i, line) in lines.enumerate() {
+                if let Ok(l) = line {
+                    if i + 1 >= self.line_numbers.0 && i < self.line_numbers.1 {
+                        content.push_str(&format!("{}:{}\n", i, l));
                     }
                 }
             }
-            state.serialize_field("content", content.as_str())?;
-            state.serialize_field("loc", self.file_path.as_os_str())?;//TODO: Add git url somewhere in here to derive permalink
-            state.end()
+        }
+        state.serialize_field("content", content.as_str())?;
+        state.serialize_field("loc", self.file_path.as_os_str())?; //TODO: Add git url somewhere in here to derive permalink
+        state.end()
     }
 }
 
