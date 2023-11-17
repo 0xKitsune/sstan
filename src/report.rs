@@ -1,6 +1,9 @@
 use std::path::PathBuf;
 
-use serde::{Serialize, Serializer, ser::{SerializeStruct, SerializeSeq}};
+use serde::{
+    ser::{SerializeSeq, SerializeStruct},
+    Serialize, Serializer,
+};
 
 use crate::{
     optimizations::OptimizationOutcome, qa::QualityAssuranceOutcome, utils::read_lines,
@@ -308,24 +311,25 @@ pub struct ReportSectionFragment {
     pub outcomes: Vec<OutcomeReport>,
 }
 
-pub fn serialize_instances<S>(instances: &Vec<OutcomeReport>, serializer: S) -> Result<S::Ok, S::Error>
+pub fn serialize_instances<S>(
+    instances: &Vec<OutcomeReport>,
+    serializer: S,
+) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {
     let mut seq = serializer.serialize_seq(Some(instances.len()))?;
-        for e in instances {
-            seq.serialize_element(e)?;
-        }
-        seq.end()
+    for e in instances {
+        seq.serialize_element(e)?;
+    }
+    seq.end()
 }
 
 pub fn serialize_identifier<S>(identifier: &Identifier, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {
-    serializer.serialize_str(
-        identifier.classification.identifier().as_str()
-    )  
+    serializer.serialize_str(identifier.classification.identifier().as_str())
 }
 
 impl ReportSectionFragment {
