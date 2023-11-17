@@ -44,7 +44,7 @@ pub fn extract_source(path: &str, source: &mut HashMap<PathBuf, SourceUnit>) -> 
 
 // Check if a string is camelCase
 pub fn is_camel_case(s: &str) -> bool {
-    let re = Regex::new(r"^[a-z][a-zA-Z]*$").unwrap();
+    let re = Regex::new(r"^[a-z_][a-zA-Z0-9]*$").unwrap();
     re.is_match(s) && s.chars().any(|c| c.is_uppercase())
 }
 

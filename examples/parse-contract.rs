@@ -1,7 +1,11 @@
 fn main() {
     let file_contents = r#"
 
-    interface contract0 {        
+    contract Contract0 {
+        modifier someModifier() {
+            _;
+        }
+        function some_function() public {}
     }
     "#;
 

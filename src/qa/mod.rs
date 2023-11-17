@@ -20,6 +20,7 @@ pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
 pub mod variable_initialized_with_default_value;
+pub mod function_parameters_camel_case;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Identifier;
@@ -280,6 +281,13 @@ quality_assurance!(
     "Large contracts with many external functions should inherit an interface",
     "
 > Consider inheriting the interface to ensure the interface matches the contract spec
+"
+),
+(
+    FunctionParametersCamelCase,
+    "Function parameters should be in camelCase",
+    "
+> Ensure that function parameters are declared using camelCase
 "
 )
 );
