@@ -7,11 +7,7 @@ use solang_parser::{
 
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{
-        compound::RequireExtractor,
-        primitive::ErrorExtractor,
-        Extractor,
-    },
+    extractors::{compound::RequireExtractor, primitive::ErrorExtractor, Extractor},
 };
 
 use super::{InconsistentRequireError, QAPattern, QualityAssuranceOutcome};
@@ -25,7 +21,7 @@ impl QAPattern for InconsistentRequireError {
             let errors = ErrorExtractor::extract(source_unit)?;
             let requires = RequireExtractor::extract(source_unit)?;
             //Using both requires/revertsx
-            if requires.len() > 0 && errors.len() > 0 {
+            if !requires.is_empty() && !errors.is_empty() {
                 //Show all errors
                 if requires.len() >= errors.len() {
                     for error in errors {
@@ -77,10 +73,8 @@ mod tests {
  
     "#;
 
-        let mut mock_source = MockSource::new().add_source(
-            "consistent_require_revert.sol",
-            file_contents,
-        );
+        let mut mock_source =
+            MockSource::new().add_source("consistent_require_revert.sol", file_contents);
         let qa_locations = InconsistentRequireError::find(&mut mock_source.source)?;
         //Should show all errors, since there are more requires
         assert_eq!(qa_locations.len(), 2);

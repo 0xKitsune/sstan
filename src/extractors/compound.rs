@@ -2,8 +2,8 @@ use std::{collections::HashSet, str::FromStr, vec};
 
 use super::{
     primitive::{
-        ContractDefinitionExtractor, FunctionExtractor, PragmaDirectiveExtractor,
-        YulFunctionCallExtractor, FunctionCallExtractor,
+        ContractDefinitionExtractor, FunctionCallExtractor, FunctionExtractor,
+        PragmaDirectiveExtractor, YulFunctionCallExtractor,
     },
     visitable::Visitable,
     visitor::Visitor,
