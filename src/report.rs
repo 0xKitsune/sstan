@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use serde::ser::{Serialize, SerializeStruct, Serializer};
+use serde::{Serialize, Serializer, ser::{SerializeStruct, SerializeSeq}};
 
 use crate::{
     optimizations::OptimizationOutcome, qa::QualityAssuranceOutcome, utils::read_lines,
@@ -295,37 +295,37 @@ pub struct ReportSection {
     pub outcomes: Vec<ReportSectionFragment>,
 }
 
-#[derive(Default, Clone)]
+#[derive(Default, Clone, Serialize)]
 pub struct ReportSectionFragment {
+    #[serde(serialize_with = "serialize_identifier")]
+    #[serde(rename = "severity")]
     pub identifier: Identifier, //TODO: this would be something that would define the item like [G-0], [G-1], etc
     pub instances: usize,
     pub title: String,
     pub description: String,
+    #[serde(serialize_with = "serialize_instances")]
+    #[serde(rename = "instances")]
     pub outcomes: Vec<OutcomeReport>,
 }
 
-impl Serialize for ReportSectionFragment {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut state = serializer.serialize_struct("ReportSectionFragment", 6)?;
-        state.serialize_field(
-            "severity",
-            self.identifier.classification.identifier().as_str(),
-        )?;
-        state.serialize_field("title", self.title.as_str())?;
-        state.serialize_field("description", self.description.as_str())?;
-        state.serialize_field("gasSavings", "")?; //TODO:
-        state.serialize_field("category", "")?; //TODO:
-        let instances: Vec<String> = self
-            .outcomes
-            .iter()
-            .map(|f| serde_json::to_string(&f).unwrap_or("".to_string()))
-            .collect();
-        state.serialize_field("instances", &instances)?; //TODO: Implement serialize for Vec<OutcomeReport>
-        state.end()
-    }
+pub fn serialize_instances<S>(instances: &Vec<OutcomeReport>, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    let mut seq = serializer.serialize_seq(Some(instances.len()))?;
+        for e in instances {
+            seq.serialize_element(e)?;
+        }
+        seq.end()
+}
+
+pub fn serialize_identifier<S>(identifier: &Identifier, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    serializer.serialize_str(
+        identifier.classification.identifier().as_str()
+    )  
 }
 
 impl ReportSectionFragment {
