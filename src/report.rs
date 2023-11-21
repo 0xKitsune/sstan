@@ -93,43 +93,20 @@ impl From<&ReportSectionFragment> for Finding {
 
 impl From<&OutcomeReport> for Instance {
     fn from(outcome: &OutcomeReport) -> Self {
+        let mut content = String::new();
+        if let Ok(lines) = read_lines(outcome.file_path.as_path()) {
+            for (i, line) in lines.enumerate() {
+                if let Ok(l) = line {
+                    if i + 1 >= outcome.line_numbers.0 && i < outcome.line_numbers.1 {
+                        content.push_str(&format!("{}:{}\n", i, l));
+                    }
+                }
+            }
+        }
         Instance {
-            content: vec![outcome.snippet.clone()],
+            content: vec![content],
             loc: vec![outcome.file_path.as_os_str().to_str().unwrap().to_string()],
         }
-    }
-}
-
-impl Serialize for Report {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut state = serializer.serialize_struct("Report", 3)?;
-        state.serialize_field("comment", self.preamble.title.as_str())?;
-        state.serialize_field("footnote", self.description.as_str())?;
-        let mut findings: Vec<String> = vec![];
-        findings.extend(
-            self.vulnerability_report
-                .outcomes
-                .iter()
-                .map(|f| serde_json::to_string(&f).unwrap_or("".to_string())),
-        );
-        findings.extend(
-            self.qa_report
-                .outcomes
-                .iter()
-                .map(|f| serde_json::to_string(&f).unwrap_or("".to_string())),
-        );
-        findings.extend(
-            self.optimization_report
-                .outcomes
-                .iter()
-                .map(|f| serde_json::to_string(&f).unwrap_or("".to_string())),
-        );
-        //TODO: impl Serialize for ReportSectionFragment
-        state.serialize_field("findings", &findings)?;
-        state.end()
     }
 }
 
@@ -372,16 +349,12 @@ pub struct ReportSection {
     pub outcomes: Vec<ReportSectionFragment>,
 }
 
-#[derive(Default, Clone, Serialize)]
+#[derive(Default, Clone)]
 pub struct ReportSectionFragment {
-    #[serde(serialize_with = "serialize_identifier")]
-    #[serde(rename = "severity")]
     pub identifier: Identifier, //TODO: this would be something that would define the item like [G-0], [G-1], etc
     pub instances: usize,
     pub title: String,
     pub description: String,
-    #[serde(serialize_with = "serialize_instances")]
-    #[serde(rename = "instances")]
     pub outcomes: Vec<OutcomeReport>,
 }
 
