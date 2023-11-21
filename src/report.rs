@@ -21,7 +21,8 @@ pub struct Finding {
     severity: String,
     title: String,
     description: String,
-    gasSavings: Option<u32>,
+    #[serde(rename="gasSavings")]
+    gas_savings: Option<u32>,
     category: Option<String>,
     instances: Vec<Instance>,
 }
@@ -80,12 +81,12 @@ impl From<&ReportSectionFragment> for Finding {
             severity: fragment.identifier.classification.identifier(),
             title: fragment.title.clone(),
             description: fragment.description.clone(),
-            gasSavings: None,
+            gas_savings: None,
             category: None,
             instances: fragment
                 .outcomes
                 .iter()
-                .map(|o| Instance::from(o))
+                .map(Instance::from)
                 .collect::<Vec<Instance>>(),
         }
     }
