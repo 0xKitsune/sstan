@@ -9,6 +9,7 @@ pub mod explicit_visibility;
 pub mod function_name_camel_case;
 pub mod function_parameters_camel_case;
 pub mod import_identifiers;
+pub mod inconsistent_require_error;
 pub mod interface_namespace;
 pub mod large_multiples_of_ten;
 pub mod missing_underscores_for_large_numeric_literals;
@@ -287,7 +288,12 @@ quality_assurance!(
     FunctionParametersCamelCase,
     "Function parameters should be in camelCase",
     "
-> Ensure that function parameters are declared using camelCase
+> Ensure that function parameters are declared using camelCase"
+),
+    InconsistentRequireError,
+    "Require/Revert statements should be consistent across the codebase",
+    "
+> Consider using require/revert statements consistently across the codebase
 "
 )
 );
