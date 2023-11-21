@@ -54,15 +54,21 @@ impl From<Report> for JsonReport {
                 .vulnerability_report
                 .outcomes
                 .iter()
-                .map(Finding::from),
+                .map(|f: &ReportSectionFragment| report.finding_from_report_section_fragment(f)),
         );
-        findings.extend(report.qa_report.outcomes.iter().map(Finding::from));
+        findings.extend(
+            report
+                .qa_report
+                .outcomes
+                .iter()
+                .map(|f: &ReportSectionFragment| report.finding_from_report_section_fragment(f)),
+        );
         findings.extend(
             report
                 .optimization_report
                 .outcomes
                 .iter()
-                .map(Finding::from),
+                .map(|f: &ReportSectionFragment| report.finding_from_report_section_fragment(f)),
         );
         JsonReport {
             comment: report.preamble.title,
@@ -72,43 +78,66 @@ impl From<Report> for JsonReport {
     }
 }
 
-impl From<&ReportSectionFragment> for Finding {
-    fn from(fragment: &ReportSectionFragment) -> Self {
+impl Report {
+    pub fn finding_from_report_section_fragment(
+        &self,
+        report_section_fragment: &ReportSectionFragment,
+    ) -> Finding {
         Finding {
-            severity: fragment.identifier.classification.identifier(),
-            title: fragment.title.clone(),
-            description: fragment.description.clone(),
+            severity: report_section_fragment
+                .identifier
+                .classification
+                .identifier(),
+            title: report_section_fragment.title.clone(),
+            description: report_section_fragment.description.clone(),
             gas_savings: None,
             category: None,
-            instances: fragment
+            instances: report_section_fragment
                 .outcomes
                 .iter()
-                .map(Instance::from)
+                .map(|o| self.instance_from_report_outcome(o))
                 .collect::<Vec<Instance>>(),
         }
     }
-}
 
-impl From<&OutcomeReport> for Instance {
-    fn from(outcome: &OutcomeReport) -> Self {
+    pub fn instance_from_report_outcome(&self, report_outcome: &OutcomeReport) -> Instance {
         let mut content = String::new();
-        if let Ok(lines) = read_lines(outcome.file_path.as_path()) {
+        if let Ok(lines) = read_lines(report_outcome.file_path.as_path()) {
             for (i, line) in lines.enumerate() {
                 if let Ok(l) = line {
-                    if i + 1 >= outcome.line_numbers.0 && i < outcome.line_numbers.1 {
+                    if i + 1 >= report_outcome.line_numbers.0 && i < report_outcome.line_numbers.1 {
                         content.push_str(&format!("{}:{}\n", i, l));
                     }
                 }
             }
         }
-        Instance {
-            content: vec![content],
-            loc: vec![outcome.file_path.as_os_str().to_str().unwrap().to_string()],
+        if let Some(url) = &self.git_url {
+            Instance {
+                content: vec![content],
+                loc: vec![format!(
+                    "{}{}#L{}",
+                    url,
+                    &report_outcome
+                        .file_path
+                        .as_path()
+                        .as_os_str()
+                        .to_str()
+                        .unwrap()[1..], //./src/*/**  -> /src/*/**
+                    report_outcome.line_numbers.0
+                )],
+            }
+        } else {
+            Instance {
+                content: vec![content],
+                loc: vec![report_outcome
+                    .file_path
+                    .as_os_str()
+                    .to_str()
+                    .unwrap()
+                    .to_string()],
+            }
         }
     }
-}
-
-impl Report {
     //Converts a report section into a string
     pub fn string_from_report_section(&self, report_section: ReportSection) -> String {
         let mut fragment: String = String::new();
