@@ -1,14 +1,39 @@
 use std::path::PathBuf;
 
+use serde::Serialize;
+
 use crate::{
     optimizations::OptimizationOutcome, qa::QualityAssuranceOutcome, utils::read_lines,
     vulnerabilities::VulnerabilityOutcome,
 };
+//Json Schema for report
+#[derive(Serialize)]
+pub struct JsonReport {
+    comment: String,
+    footnote: String,
+    findings: Vec<Finding>,
+}
+#[derive(Serialize)]
+pub struct Finding {
+    severity: String,
+    title: String,
+    description: String,
+    #[serde(rename = "gasSavings")]
+    gas_savings: Option<u32>,
+    category: Option<String>,
+    instances: Vec<Instance>,
+}
+#[derive(Serialize)]
+pub struct Instance {
+    content: Vec<String>,
+    loc: Vec<String>,
+}
 #[derive(Default, Clone)]
 pub struct ReportOutput {
     pub file_name: PathBuf,
     pub file_contents: String,
 }
+
 #[derive(Clone, Default)]
 pub struct Report {
     pub preamble: ReportPreamble,
@@ -21,7 +46,98 @@ pub struct Report {
     pub qa_report: ReportSection,
 }
 
+impl From<Report> for JsonReport {
+    fn from(report: Report) -> Self {
+        let mut findings: Vec<Finding> = vec![];
+        findings.extend(
+            report
+                .vulnerability_report
+                .outcomes
+                .iter()
+                .map(|f: &ReportSectionFragment| report.finding_from_report_section_fragment(f)),
+        );
+        findings.extend(
+            report
+                .qa_report
+                .outcomes
+                .iter()
+                .map(|f: &ReportSectionFragment| report.finding_from_report_section_fragment(f)),
+        );
+        findings.extend(
+            report
+                .optimization_report
+                .outcomes
+                .iter()
+                .map(|f: &ReportSectionFragment| report.finding_from_report_section_fragment(f)),
+        );
+        JsonReport {
+            comment: report.preamble.title,
+            footnote: report.description,
+            findings,
+        }
+    }
+}
+
 impl Report {
+    pub fn finding_from_report_section_fragment(
+        &self,
+        report_section_fragment: &ReportSectionFragment,
+    ) -> Finding {
+        Finding {
+            severity: report_section_fragment
+                .identifier
+                .classification
+                .identifier(),
+            title: report_section_fragment.title.clone(),
+            description: report_section_fragment.description.clone(),
+            gas_savings: None,
+            category: None,
+            instances: report_section_fragment
+                .outcomes
+                .iter()
+                .map(|o| self.instance_from_report_outcome(o))
+                .collect::<Vec<Instance>>(),
+        }
+    }
+
+    pub fn instance_from_report_outcome(&self, report_outcome: &OutcomeReport) -> Instance {
+        let mut content = String::new();
+        if let Ok(lines) = read_lines(report_outcome.file_path.as_path()) {
+            for (i, line) in lines.enumerate() {
+                if let Ok(l) = line {
+                    if i + 1 >= report_outcome.line_numbers.0 && i < report_outcome.line_numbers.1 {
+                        content.push_str(&format!("{}:{}\n", i, l));
+                    }
+                }
+            }
+        }
+        if let Some(url) = &self.git_url {
+            Instance {
+                content: vec![content],
+                loc: vec![format!(
+                    "{}{}#L{}",
+                    url,
+                    &report_outcome
+                        .file_path
+                        .as_path()
+                        .as_os_str()
+                        .to_str()
+                        .unwrap()[1..], //./src/*/**  -> /src/*/**
+                    report_outcome.line_numbers.0
+                )],
+            }
+        } else {
+            Instance {
+                content: vec![content],
+                loc: vec![report_outcome
+                    .file_path
+                    .as_os_str()
+                    .to_str()
+                    .unwrap()
+                    .to_string()],
+            }
+        }
+    }
     //Converts a report section into a string
     pub fn string_from_report_section(&self, report_section: ReportSection) -> String {
         let mut fragment: String = String::new();
@@ -303,13 +419,13 @@ pub enum Classification {
 impl Classification {
     pub fn identifier(&self) -> String {
         match self {
-            Classification::VulnerabilityHigh => "H".to_string(),
-            Classification::VulnerabilityMedium => "M".to_string(),
-            Classification::VulnerabilityLow => "L".to_string(),
-            Classification::NonCritical => "NC".to_string(),
+            Classification::VulnerabilityHigh => "High".to_string(),
+            Classification::VulnerabilityMedium => "Medium".to_string(),
+            Classification::VulnerabilityLow => "Low".to_string(),
+            Classification::NonCritical => "NonCritical".to_string(),
             Classification::OptimizationHigh
             | Classification::OptimizationMedium
-            | Classification::OptimizationLow => "G".to_string(),
+            | Classification::OptimizationLow => "Gas".to_string(),
         }
     }
 }

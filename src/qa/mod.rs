@@ -8,6 +8,7 @@ pub mod event_name_pascalcase;
 pub mod explicit_visibility;
 pub mod function_name_camel_case;
 pub mod import_identifiers;
+pub mod inconsistent_require_error;
 pub mod interface_namespace;
 pub mod large_multiples_of_ten;
 pub mod missing_underscores_for_large_numeric_literals;
@@ -280,6 +281,13 @@ quality_assurance!(
     "Large contracts with many external functions should inherit an interface",
     "
 > Consider inheriting the interface to ensure the interface matches the contract spec
+"
+),
+(
+    InconsistentRequireError,
+    "Require/Revert statements should be consistent across the codebase",
+    "
+> Consider using require/revert statements consistently across the codebase
 "
 )
 );
