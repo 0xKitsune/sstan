@@ -1,9 +1,6 @@
 use std::path::PathBuf;
 
-use serde::{
-    ser::{SerializeSeq, SerializeStruct},
-    Serialize, Serializer,
-};
+use serde::Serialize;
 
 use crate::{
     optimizations::OptimizationOutcome, qa::QualityAssuranceOutcome, utils::read_lines,
