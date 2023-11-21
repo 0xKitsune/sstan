@@ -290,10 +290,10 @@ quality_assurance!(
     "
 > Ensure that function parameters are declared using camelCase"
 ),
+(
     InconsistentRequireError,
     "Require/Revert statements should be consistent across the codebase",
     "
 > Consider using require/revert statements consistently across the codebase
 "
-)
-);
+));

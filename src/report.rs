@@ -1,6 +1,5 @@
 use std::path::PathBuf;
 
-
 use serde::Serialize;
 
 use crate::{
@@ -385,7 +384,6 @@ pub struct ReportSectionFragment {
     pub description: String,
     pub outcomes: Vec<OutcomeReport>,
 }
-
 
 impl ReportSectionFragment {
     pub fn new(
