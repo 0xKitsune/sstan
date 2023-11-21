@@ -21,7 +21,7 @@ pub struct Finding {
     severity: String,
     title: String,
     description: String,
-    #[serde(rename="gasSavings")]
+    #[serde(rename = "gasSavings")]
     gas_savings: Option<u32>,
     category: Option<String>,
     instances: Vec<Instance>,

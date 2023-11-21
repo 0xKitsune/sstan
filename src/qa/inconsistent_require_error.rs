@@ -65,10 +65,8 @@ mod tests {
  
     "#;
 
-        let mut mock_source = MockSource::new().add_source(
-            "constant_immutable_name_screaming_snake_case.sol",
-            file_contents,
-        );
+        let mut mock_source =
+            MockSource::new().add_source("inconsistent_require_error.sol", file_contents);
         let qa_locations = InconsistentRequireError::find(&mut mock_source.source)?;
 
         assert_eq!(qa_locations.len(), 4);
