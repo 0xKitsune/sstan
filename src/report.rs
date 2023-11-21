@@ -1,16 +1,41 @@
 use std::path::PathBuf;
 
-use serde::{Serialize, Serializer, ser::{SerializeStruct, SerializeSeq}};
+use serde::{
+    ser::{SerializeSeq, SerializeStruct},
+    Serialize, Serializer,
+};
 
 use crate::{
     optimizations::OptimizationOutcome, qa::QualityAssuranceOutcome, utils::read_lines,
     vulnerabilities::VulnerabilityOutcome,
 };
+//Json Schema for report
+#[derive(Serialize)]
+pub struct JsonReport {
+    comment: String,
+    footnote: String,
+    findings: Vec<Finding>,
+}
+#[derive(Serialize)]
+pub struct Finding {
+    severity: String,
+    title: String,
+    description: String,
+    gasSavings: Option<u32>,
+    category: Option<String>,
+    instances: Vec<Instance>,
+}
+#[derive(Serialize)]
+pub struct Instance {
+    content: Vec<String>,
+    loc: Vec<String>,
+}
 #[derive(Default, Clone)]
 pub struct ReportOutput {
     pub file_name: PathBuf,
     pub file_contents: String,
 }
+
 #[derive(Clone, Default)]
 pub struct Report {
     pub preamble: ReportPreamble,
@@ -21,6 +46,58 @@ pub struct Report {
     pub vulnerability_report: ReportSection,
     pub optimization_report: ReportSection,
     pub qa_report: ReportSection,
+}
+
+impl From<Report> for JsonReport {
+    fn from(report: Report) -> Self {
+        let mut findings: Vec<Finding> = vec![];
+        findings.extend(
+            report
+                .vulnerability_report
+                .outcomes
+                .iter()
+                .map(|f| Finding::from(f)),
+        );
+        findings.extend(report.qa_report.outcomes.iter().map(|f| Finding::from(f)));
+        findings.extend(
+            report
+                .optimization_report
+                .outcomes
+                .iter()
+                .map(|f| Finding::from(f)),
+        );
+        JsonReport {
+            comment: report.preamble.title,
+            footnote: report.description,
+            findings,
+        }
+    }
+}
+
+impl From<&ReportSectionFragment> for Finding {
+    fn from(fragment: &ReportSectionFragment) -> Self {
+        Finding {
+            severity: fragment.identifier.classification.identifier(),
+            title: fragment.title.clone(),
+            description: fragment.description.clone(),
+            gasSavings: None,
+            category: None,
+            instances: fragment
+                .outcomes
+                .iter()
+                .map(|o| Instance::from(o))
+                .collect::<Vec<Instance>>(),
+        }
+    }
+}
+
+impl From<&OutcomeReport> for Instance {
+    fn from(outcome: &OutcomeReport) -> Self {
+        Instance {
+            content: vec![outcome.snippet.clone()],
+            loc: vec![outcome.file_path.as_os_str().to_str().unwrap().to_string()],
+        }
+    }
 }
 
 impl Serialize for Report {
@@ -308,24 +385,25 @@ pub struct ReportSectionFragment {
     pub outcomes: Vec<OutcomeReport>,
 }
 
-pub fn serialize_instances<S>(instances: &Vec<OutcomeReport>, serializer: S) -> Result<S::Ok, S::Error>
+pub fn serialize_instances<S>(
+    instances: &Vec<OutcomeReport>,
+    serializer: S,
+) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {
     let mut seq = serializer.serialize_seq(Some(instances.len()))?;
-        for e in instances {
-            seq.serialize_element(e)?;
-        }
-        seq.end()
+    for e in instances {
+        seq.serialize_element(e)?;
+    }
+    seq.end()
 }
 
 pub fn serialize_identifier<S>(identifier: &Identifier, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {
-    serializer.serialize_str(
-        identifier.classification.identifier().as_str()
-    )  
+    serializer.serialize_str(identifier.classification.identifier().as_str())
 }
 
 impl ReportSectionFragment {

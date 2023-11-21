@@ -11,7 +11,7 @@ use crate::{
     utils::is_screaming_snake_case,
 };
 
-use super::{QAPattern, QualityAssuranceOutcome, InconsistentRequireError};
+use super::{InconsistentRequireError, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for InconsistentRequireError {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
