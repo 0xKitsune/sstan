@@ -359,27 +359,6 @@ pub struct ReportSectionFragment {
     pub outcomes: Vec<OutcomeReport>,
 }
 
-pub fn serialize_instances<S>(
-    instances: &Vec<OutcomeReport>,
-    serializer: S,
-) -> Result<S::Ok, S::Error>
-where
-    S: Serializer,
-{
-    let mut seq = serializer.serialize_seq(Some(instances.len()))?;
-    for e in instances {
-        seq.serialize_element(e)?;
-    }
-    seq.end()
-}
-
-pub fn serialize_identifier<S>(identifier: &Identifier, serializer: S) -> Result<S::Ok, S::Error>
-where
-    S: Serializer,
-{
-    serializer.serialize_str(identifier.classification.identifier().as_str())
-}
-
 impl ReportSectionFragment {
     pub fn new(
         title: String,
@@ -432,28 +411,6 @@ pub struct OutcomeReport {
     pub line_numbers: (usize, usize), //if the same line number then we just compile report as one number
     pub snippet: String,
     pub file_path: PathBuf,
-}
-
-impl Serialize for OutcomeReport {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut state = serializer.serialize_struct("OutcomeReport", 2)?;
-        let mut content = String::new();
-        if let Ok(lines) = read_lines(self.file_path.as_path()) {
-            for (i, line) in lines.enumerate() {
-                if let Ok(l) = line {
-                    if i + 1 >= self.line_numbers.0 && i < self.line_numbers.1 {
-                        content.push_str(&format!("{}:{}\n", i, l));
-                    }
-                }
-            }
-        }
-        state.serialize_field("content", content.as_str())?;
-        state.serialize_field("loc", self.file_path.as_os_str())?; //TODO: Add git url somewhere in here to derive permalink
-        state.end()
-    }
 }
 
 impl OutcomeReport {
