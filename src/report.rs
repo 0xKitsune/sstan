@@ -56,15 +56,15 @@ impl From<Report> for JsonReport {
                 .vulnerability_report
                 .outcomes
                 .iter()
-                .map(|f| Finding::from(f)),
+                .map(Finding::from),
         );
-        findings.extend(report.qa_report.outcomes.iter().map(|f| Finding::from(f)));
+        findings.extend(report.qa_report.outcomes.iter().map(Finding::from));
         findings.extend(
             report
                 .optimization_report
                 .outcomes
                 .iter()
-                .map(|f| Finding::from(f)),
+                .map(Finding::from),
         );
         JsonReport {
             comment: report.preamble.title,
