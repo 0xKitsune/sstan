@@ -1,14 +1,12 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use solang_parser::pt::{Loc, SourceUnit};
-
 use crate::{
     engine::{EngineError, Outcome, Pushable},
-    extractors::{
-        compound::{ConstantStorageVariableExtractor, ImmutableStorageVariableExtractor},
-        Extractor,
-    },
-    utils::is_screaming_snake_case,
+    extractors::{compound::MappingExtractor, Extractor},
+};
+use solang_parser::{
+    helpers::CodeLocation,
+    pt::{Expression, Loc, SourceUnit, Type},
 };
 
 use super::{NamedMappingParameters, QAPattern, QualityAssuranceOutcome};
@@ -18,7 +16,30 @@ impl QAPattern for NamedMappingParameters {
     ) -> Result<QualityAssuranceOutcome, EngineError> {
         let mut outcome: HashMap<PathBuf, Vec<(Loc, String)>> = Outcome::new();
 
-        for (path_buf, source_unit) in source {}
+        for (path_buf, source_unit) in source {
+            let mappings = MappingExtractor::extract(source_unit)?;
+            for mapping in mappings {
+                if let Expression::Type(
+                    _,
+                    Type::Mapping {
+                        loc: _,
+                        key: _,
+                        key_name,
+                        value: _,
+                        value_name,
+                    },
+                ) = mapping.ty.clone()
+                {
+                    if key_name.is_none() || value_name.is_none() {
+                        outcome.push_or_insert(
+                            path_buf.clone(),
+                            mapping.loc(),
+                            mapping.to_string(),
+                        );
+                    }
+                }
+            }
+        }
 
         Ok(QualityAssuranceOutcome::NamedMappingParameters(outcome))
     }

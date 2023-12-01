@@ -11,8 +11,7 @@ use super::{
 };
 use crate::compound_extractor;
 use solang_parser::pt::Type;
-use solang_parser::pt::Type::Mapping;
-use solang_parser::pt::{self, *};
+use solang_parser::pt::*;
 
 compound_extractor!(StorageVariableExtractor, VariableDefinition);
 
