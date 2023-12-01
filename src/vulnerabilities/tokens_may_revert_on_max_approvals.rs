@@ -72,7 +72,8 @@ mod test {
     }
     "#;
 
-        let mut mock_source = MockSource::new().add_source("tokens_may_revert_on_max_approval.sol", file_contents);
+        let mut mock_source =
+            MockSource::new().add_source("tokens_may_revert_on_max_approval.sol", file_contents);
         let vuln_locations = TokensMayRevertOnMaxApprovals::find(&mut mock_source.source)?;
         assert_eq!(vuln_locations.len(), 1);
 
