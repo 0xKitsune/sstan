@@ -1,3 +1,4 @@
+pub mod blindly_calling_decimals;
 pub mod divide_before_multiply;
 pub mod double_casting;
 pub mod floating_pragma;
@@ -5,6 +6,7 @@ pub mod incorrect_shift_math;
 pub mod uninitialized_storage_variable;
 pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
+
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Identifier;
@@ -358,4 +360,12 @@ require(success, \"ERC20 transfer failed\");
 //         ",
 //         Classification::VulnerabilityLow
 //     )
+(
+    BlindDecimalsCall,
+    "`decimals()` is not part of the ERC20 standard",
+    "
+> `decimals()` is not part of the ERC20 standard, and as such there exists valid ERC20 tokens that do not conform to this interface. Therefore it is unsafe to assume that all ERC20 tokens have a `decimals()` function.
+    ",
+    Classification::VulnerabilityLow
+),
 );
