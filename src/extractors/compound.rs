@@ -3,14 +3,16 @@ use std::{collections::HashSet, str::FromStr, vec};
 use super::{
     primitive::{
         ContractDefinitionExtractor, FunctionExtractor, PragmaDirectiveExtractor,
-        YulFunctionCallExtractor,
+        VariableDefinitionExtractor, YulFunctionCallExtractor,
     },
     visitable::Visitable,
     visitor::Visitor,
     ExtractionError, Extractor, SolidityVersion,
 };
 use crate::compound_extractor;
-use solang_parser::pt::*;
+use solang_parser::pt::Type;
+use solang_parser::pt::Type::Mapping;
+use solang_parser::pt::{self, *};
 
 compound_extractor!(StorageVariableExtractor, VariableDefinition);
 
@@ -428,5 +430,30 @@ impl<V: Visitable> Extractor<V, YulFunctionCall> for YulShiftExtractor {
             .collect::<Vec<YulFunctionCall>>();
 
         Ok(shift_functions)
+    }
+}
+
+compound_extractor!(MappingExtractor, VariableDefinition);
+
+impl<V: Visitable> Extractor<V, VariableDefinition> for MappingExtractor {
+    fn extract(v: &mut V) -> Result<Vec<VariableDefinition>, ExtractionError> {
+        let variable_definitions: Vec<VariableDefinition> =
+            VariableDefinitionExtractor::extract(v)?;
+        let mappings = variable_definitions
+            .iter()
+            .filter_map(|v: &VariableDefinition| {
+                if let Expression::Type(_, ty) = v.ty.clone() {
+                    if matches!(ty, Type::Mapping { .. }) {
+                        Some(v.clone())
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<VariableDefinition>>();
+
+        Ok(mappings)
     }
 }
