@@ -2,6 +2,7 @@ pub mod divide_before_multiply;
 pub mod double_casting;
 pub mod floating_pragma;
 pub mod incorrect_shift_math;
+pub mod tokens_may_revert_on_max_approvals;
 pub mod uninitialized_storage_variable;
 pub mod unprotected_self_destruct;
 pub mod unsafe_erc20_operation;
@@ -347,6 +348,14 @@ require(success, \"ERC20 transfer failed\");
         "Double Casting",
         "
 > Avoid double casting as it may introduce unexpected truncations/rounding errors among other issues.
+        ",
+        Classification::VulnerabilityLow
+    ),
+    (
+        TokensMayRevertOnMaxApprovals,
+        "Some tokens may revert on max approvals",
+        "
+> Some tokens may revert on max approvals. Ensure that calls below can be under the max approval threshold of the token.
         ",
         Classification::VulnerabilityLow
     ),

@@ -1,7 +1,14 @@
 fn main() {
     let file_contents = r#"
 
-    interface contract0 {        
+    contract contract0 {        
+        function safeApproval(address spender, uint256 value, address token) public {
+            IERC20(token).approve(spender, value);
+        }
+
+        function maxApproval(address spender, address token) public {
+            IERC20(token).approve(spender, type(uint256).max);
+        }
     }
     "#;
 
