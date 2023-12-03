@@ -1,11 +1,11 @@
 fn main() {
     let file_contents = r#"
 
-    contract Contract0 {
-        modifier someModifier() {
-            _;
-        }
-        function some_function() public {}
+
+    contract contract0 {        
+        mapping(uint => uint) public map0;
+        mapping(uint number => uint number2) public map1;
+
     }
     "#;
 
