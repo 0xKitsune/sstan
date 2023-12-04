@@ -36,12 +36,15 @@ fn main() -> eyre::Result<()> {
     //Generate the report struct
     let report = Report::from(engine);
     //Generate the report string & write to the output path.
-    //Write to json
-    std::fs::File::create("sstan.json")?.write_all(
-        serde_json::to_string(&JsonReport::from(report.clone()))
-            .unwrap()
-            .as_bytes(),
-    )?;
+    //Write to json if the flag is passed
+    if let Some(json_path) = opts.json {
+        std::fs::File::create(json_path)?.write_all(
+            serde_json::to_string(&JsonReport::from(report.clone()))
+                .unwrap()
+                .as_bytes(),
+        )?;
+    }
+
     //Write to markdown
     std::fs::File::create("sstan.md")?.write_all(String::from(report).as_bytes())?;
 
@@ -67,7 +70,11 @@ pub struct Args {
         help = "Path to the directory to write the report to. The default directory is `./`"
     )]
     pub output: Option<String>,
-    #[clap(short, long, help = "Github repository link")]
+    #[clap(
+        short,
+        long,
+        help = "Github repository link. e.g `https://github.com/repo/blob/main`"
+    )]
     pub git: Option<String>,
     #[clap(
         short,
@@ -75,6 +82,12 @@ pub struct Args {
         help = "Path to the toml file containing the sstan configuration when not using the default settings."
     )]
     pub toml: Option<String>,
+    #[clap(
+        short,
+        long,
+        help = "Path to the directory to write the JSON report to. The JSON report will not be written without this flag."
+    )]
+    pub json: Option<String>,
 }
 
 #[derive(Default)]
@@ -82,6 +95,7 @@ pub struct Opts {
     pub path: String,
     pub output: String,
     pub git: Option<String>,
+    pub json: Option<String>,
     vulnerabilities: Vec<VulnerabilityTarget>,
     optimizations: Vec<OptimizationTarget>,
     qa: Vec<QualityAssuranceTarget>,
@@ -135,6 +149,7 @@ impl Opts {
         } else {
             "".into()
         };
+        let json = args.json;
         //Github repo link to the root
         let git = args.git;
 
@@ -160,6 +175,7 @@ To fix this, either add a `./contracts` directory or provide `--path <path_to_co
             path,
             output,
             git,
+            json,
             optimizations,
             vulnerabilities,
             qa,
