@@ -9,7 +9,7 @@ use solang_parser::{
     pt::{Expression, Loc, SourceUnit, Type},
 };
 
-use super::{QAPattern, QualityAssuranceOutcome, NamedMappingParameters};
+use super::{NamedMappingParameters, QAPattern, QualityAssuranceOutcome};
 impl QAPattern for NamedMappingParameters {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
