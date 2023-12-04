@@ -8,7 +8,10 @@ use std::{fs, io::Write, process};
 use clap::Parser;
 
 use sstan::{
-    engine::Engine, optimizations::OptimizationTarget, qa::QualityAssuranceTarget, report::Report,
+    engine::Engine,
+    optimizations::OptimizationTarget,
+    qa::QualityAssuranceTarget,
+    report::{JsonReport, Report},
     vulnerabilities::VulnerabilityTarget,
 };
 
@@ -32,6 +35,13 @@ fn main() -> eyre::Result<()> {
     //Generate the report struct
     let report = Report::from(engine);
     //Generate the report string & write to the output path.
+    //Write to json
+    std::fs::File::create("sstan.json")?.write_all(
+        serde_json::to_string(&JsonReport::from(report.clone()))
+            .unwrap()
+            .as_bytes(),
+    )?;
+    //Write to markdown
     std::fs::File::create("sstan.md")?.write_all(String::from(report).as_bytes())?;
 
     Ok(())
