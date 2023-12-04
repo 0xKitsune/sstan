@@ -23,6 +23,7 @@ pub mod solidity_keccak256;
 pub mod solidity_math;
 pub mod sstore;
 pub mod string_error;
+pub mod template;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Classification;
@@ -2753,4 +2754,13 @@ contract Contract3 {
         ",
         Classification::OptimizationLow
     ),
+   (
+    TemplateOptimization,
+    0,
+    "",
+    "",
+    "",
+    "",
+    Classification::OptimizationLow
+   )
 );
