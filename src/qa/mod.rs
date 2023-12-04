@@ -161,14 +161,12 @@ quality_assurance!(
     (
         ConstructorOrder,
         "Constructor should be listed before any other function",
-        "
-> Consider changing the order of the functions so that the constructor is listed first"
+        "> Consider changing the order of the functions so that the constructor is listed first"
     ),
     (
         PrivateVariablesLeadingUnderscore,
         "Private variables should contain a leading underscore",
-        "
-> Consider adding an underscore to the beginning of the variable name"
+        "> Consider adding an underscore to the beginning of the variable name"
     ),
     (
         ConstructorVarInitialization,
@@ -178,122 +176,95 @@ quality_assurance!(
     (
         ImportIdentifiers,
         "Consider importing specific identifiers instead of the whole file",
-        "
-> This will minimize compiled code size and help with readability"
+        "> This will minimize compiled code size and help with readability"
     ),
     (
         InterfaceNamespace,
         "Interface names should start with an I",
-        "
-> Consider renaming for consistency"
+        "> Consider renaming for consistency"
     ),
     (
         LargeMultiplesOfTen,
         "Consider using scientific notation for large multiples of 10",
-        "
-> For example 100000 can be written as 1e5"
+        "> For example 100000 can be written as 1e5"
     ),
-    (UnusedFunctions, "Remove any unused functions", "
-> Any functions not used should be removed as best practice."), 
+    (UnusedFunctions, "Remove any unused functions", "> Any functions not used should be removed as best practice."), 
     (
         OneContractPerFile,
         "Only define one contract per file",
-        "
-> It is best practice to only define one contract per file."
+        "> It is best practice to only define one contract per file."
     ),
     (
         RemoveConsole,
         "Remove console.log statements",
-        "
-> Console.log statements should be removed from production code"
+        "> Console.log statements should be removed from production code"
     ),
     (
         StorageVariableNamespace,
         "Storage variables should be named with camel case",
-        "
-> Consider renaming to follow convention"
+        "> Consider renaming to follow convention"
     ),
     (
         ContractNamePascalCase,
         "Contract names should be in PascalCase",
-        "
-> Ensure that contract definitions are declared using PascalCase"
+        "> Ensure that contract definitions are declared using PascalCase"
     ),
     (
         FunctionNameCamelCase,
         "Function names should be in camelCase",
-        "
-> Ensure that function definitions are declared using camelCase"
+        "> Ensure that function definitions are declared using camelCase"
     ),
     (
         ConstantImmutableNameScreamingSnakeCase,
         "Constant and immutable variable names should be in SCREAMING_SNAKE_CASE",
-        "
-> Ensure that Constant and immutable variable names are declared using SCREAMING_SNAKE_CASE"
+        "> Ensure that Constant and immutable variable names are declared using SCREAMING_SNAKE_CASE"
     ),
     (
         EventNamePascalCase,
         "Event names should be in PascalCase",
-        "
-> Ensure that event definitions are declared using PascalCase"
+        "> Ensure that event definitions are declared using PascalCase"
     ),
-    (UnusedReturns, "Remove any unused returns", "
-> Either remove the return parameter names, or use them as the returns of the function."), 
-    (PublicFunctions,"Consider marking public function External", "
-> If a public function is never called internally. It is best practice to mark it as external."
+    (UnusedReturns, "Remove any unused returns", "> Either remove the return parameter names, or use them as the returns of the function."), 
+    (PublicFunctions,"Consider marking public function External", "> If a public function is never called internally. It is best practice to mark it as external."
     ),
 
     (RequireWithoutMessage,
         "Consider adding a message with require and revert statements", 
-        "
-> Adding a message to accompany require statements will provide more context when a transaction fails."
+        "> Adding a message to accompany require statements will provide more context when a transaction fails."
 ),
 (
     ExplicitVisibility,
     "Storage variables should not have implicit visibility",
-    "
-> Consider explicitly specifying the visibility of storage variables for readability
-"
+    "> Consider explicitly specifying the visibility of storage variables for readability"
 ),
 (
     ErrorWithoutParams,
     "This error has no parameters, the state of the contract when the revert occured will not be available",
-    "
-> Consider adding parameters to the error to provide more context when a transaction fails
-"
+    "> Consider adding parameters to the error to provide more context when a transaction fails"
 ),
 (
     VariableInitializedWithDefault,
     "This variables default value is the same as the value it is initialized with",
-    "
-> This is unnecessary and will have some overhead on Gas
-    "
+    "> This is unnecessary and will have some overhead on Gas"
 ),
 
 (
     MissingUnderscoresForLargeNumericLiterals,
     "Misssing underscores on large numeric literals",
-    "
-> Consider adding underscores to large numeric literals for readability. Preferrably every 3rd digit
-    "
+    "> Consider adding underscores to large numeric literals for readability. Preferrably every 3rd digit "
 ),
 (
     ContractsShouldInheritInterface,
     "Large contracts with many external functions should inherit an interface",
-    "
-> Consider inheriting the interface to ensure the interface matches the contract spec
-"
+    "> Consider inheriting the interface to ensure the interface matches the contract spec"
 ),
 (
     FunctionParametersCamelCase,
     "Function parameters should be in camelCase",
-    "
-> Ensure that function parameters are declared using camelCase"
+    "> Ensure that function parameters are declared using camelCase"
 ),
 (
     InconsistentRequireError,
     "Require/Revert statements should be consistent across the codebase",
-    "
-> Consider using require/revert statements consistently across the codebase
-"
+    "> Consider using require/revert statements consistently across the codebase"
 ));
