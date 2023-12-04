@@ -13,6 +13,7 @@ pub mod inconsistent_require_error;
 pub mod interface_namespace;
 pub mod large_multiples_of_ten;
 pub mod missing_underscores_for_large_numeric_literals;
+pub mod named_mapping_parameters;
 pub mod one_contract_per_file;
 pub mod private_vars_leading_underscore;
 pub mod public_functions;
@@ -22,6 +23,7 @@ pub mod storage_variable_namespace;
 pub mod unused_functions;
 pub mod unused_returns;
 pub mod variable_initialized_with_default_value;
+
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Identifier;
