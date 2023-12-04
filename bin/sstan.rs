@@ -12,6 +12,7 @@ use sstan::{
     optimizations::OptimizationTarget,
     qa::QualityAssuranceTarget,
     report::{JsonReport, Report},
+    utils::{str_to_optimization, str_to_qa, str_to_vulnerability},
     vulnerabilities::VulnerabilityTarget,
 };
 
@@ -98,34 +99,28 @@ impl Opts {
     pub fn new() -> Opts {
         let args = Args::parse();
 
-        let (optimizations, vulnerabilities, qa) = if let Some(_toml_path) = args.toml {
-            // let toml_str =
-            // fs::read_to_string(toml_path).expect("Could not read toml file to string");
+        let (optimizations, vulnerabilities, qa) = if let Some(toml_path) = args.toml {
+            let toml_str =
+                fs::read_to_string(toml_path).expect("Could not read toml file to string");
 
-            // let sstan_toml: SstanToml =
-            //     toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
-            // (
-            //     sstan_toml
-            //         .optimizations
-            //         .iter()
-            //         .map(|f| str_to_optimization(f))
-            //         .collect::<Vec<OptimizationTarget>>(),
-            //     sstan_toml
-            //         .vulnerabilities
-            //         .iter()
-            //         .map(|f| str_to_vulnerability(f))
-            //         .collect::<Vec<VulnerabilityTarget>>(),
-            //     sstan_toml
-            //         .vulnerabilities
-            //         .iter()
-            //         .map(|f| str_to_qa(f))
-            //         .collect::<Vec<QualityAssuranceTarget>>(),
-            // )
-
+            let sstan_toml: SstanToml =
+                toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
             (
-                OptimizationTarget::all_targets(),
-                VulnerabilityTarget::all_targets(),
-                QualityAssuranceTarget::all_targets(),
+                sstan_toml
+                    .optimizations
+                    .iter()
+                    .filter_map(|f| str_to_optimization(f))
+                    .collect::<Vec<OptimizationTarget>>(),
+                sstan_toml
+                    .vulnerabilities
+                    .iter()
+                    .filter_map(|f| str_to_vulnerability(f))
+                    .collect::<Vec<VulnerabilityTarget>>(),
+                sstan_toml
+                    .vulnerabilities
+                    .iter()
+                    .filter_map(|f| str_to_qa(f))
+                    .collect::<Vec<QualityAssuranceTarget>>(),
             )
         } else {
             (
