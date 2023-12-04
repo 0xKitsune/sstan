@@ -22,42 +22,48 @@ Now that you have a new file for your optimization, copy and paste the code from
 Lets take a look at a barebones version of the template without any comments.
 
 ```rust
-pub fn _template_optimization(source_unit: SourceUnit) -> HashSet<Loc> {
-    let optimization_locations: HashSet<Loc> = HashSet::new();
-    let target_nodes = ast::extract_target_from_node(Target::None, source_unit.into());
-    for _node in target_nodes {
+//Template Optimization Pattern
+impl OptimizationPattern for TemplateOptimization {
+    fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
+        let mut _outcome = Outcome::new();
+        #[allow(clippy::for_kv_map)]
+        for (_path_buf, _source_unit) in source {}
 
+        Ok(OptimizationOutcome::TemplateOptimization(_outcome))
     }
-    optimization_locations
 }
 
-#[test]
-fn test_template_optimization() {
-    let file_contents = r#"
-    contract Contract0 {}
-    "#;
-    let source_unit = solang_parser::parse(file_contents, 0).unwrap().0;
-    let optimization_locations = _template_optimization(source_unit);
-    assert_eq!(optimization_locations.len(), 0)
+mod test {
+    #[allow(unused)]
+    use super::*;
+    #[allow(unused)]
+    use crate::utils::MockSource;
+
+    #[test]
+    fn test_template_optimization() -> eyre::Result<()> {
+        let file_contents = r#"contract Contract0 {}"#;
+        let mut source = MockSource::new().add_source("template_optimization.sol", file_contents);
+
+        let optimization_locations = TemplateOptimization::find(&mut source.source)?;
+        assert_eq!(optimization_locations.len(), 0);
+
+        Ok(())
+    }
 }
 
 ```
-Each optimization must take one argument called `source_unit` which is of type `SourceUnit`. sstan uses the `solang-parser` crate to parse Solidity contracts. The `SourceUnit` type is the resulting type from `solang_parser::parse()` which you will see later in the test case. This function must also return a `Hashset<Loc>`, with the `Loc` type also being from the `solang-parser` crate. The `Loc` type represents a location in the file being analyzed.
-
-sstan works under the hood by analyzing an abstract syntax tree representing a Solidity contract for specific patterns that you want to find. For example, if you wanted to find all expressions that use addition in a contract, you could look for the `Target::Add` within the AST.
+Each optimization must take one argument called `source` which is a `HashMap` from the file path to the `SourceUnit`. sstan uses the `solang-parser` crate to parse Solidity contracts. The `SourceUnit` type is the resulting type from `solang_parser::parse()` which you will see later in the test case. This function must also return a `Outcome` which is a `HashMap<PathBuf, Vec<(Loc, Snippet)>>`. The `Loc` type represents a location in the file being analyzed. The `Snippet` is the raw snippet of code at the corresponding location in the file.
 
 If this is the first time you are making a PR to sstan, feel free to check out what the `SimpleStore` contract AST looks like by running `cargo run --example parse-contract-into-ast`. You can replace the `SimpleStore` contract with any contract code you would like, so feel free to use this functionality to look at the AST related to your optimization. 
-
-`SourceUnit` is the root node in an Abstract Syntax Tree created from parsing the contract with `solang_parser::parse()`. Helper functions like `ast::extract_target_from_node` and `ast::extract_targets_from_node` are located in the `sstan::analyzer::ast` module to extract specfic nodes from the AST. The return value of these functions is `Vec<Node>`, with a `Node` representing a node in the AST.
 
 This might sound a little complicated but its way easier than it sounds. Once we look at a full example this will make much more sense. 
 
 Once all of the target nodes are extracted, you can traverse the node for specfic patterns that indicate a match in the pattern you are looking for.
 
 For some easy to read examples, checkout:
-- [`src/analyzer/optimizations/address_balance.rs`](https://github.com/0xKitsune/sstan/blob/main/src/analyzer/optimizations/address_balance.rs)
-- [`src/analyzer/optimizations/multiple_require.rs`](https://github.com/0xKitsune/sstan/blob/main/src/analyzer/optimizations/multiple_require.rs)
-- [`src/analyzer/optimizations/solidity_keccak256.rs`](https://github.com/0xKitsune/sstan/blob/main/src/analyzer/optimizations/solidity_keccak256.rs)
+- [`src/optimizations/address_balance.rs`](https://github.com/0xKitsune/sstan/blob/main/src/optimizations/address_balance.rs)
+- [`src/optimizations/multiple_require.rs`](https://github.com/0xKitsune/sstan/blob/main/src/optimizations/multiple_require.rs)
+- [`src/optimizations/solidity_keccak256.rs`](https://github.com/0xKitsune/sstan/blob/main/src/optimizations/solidity_keccak256.rs)
 
 ### Writing a test
 Now that you have the optimization logic, make sure to write a test suite at the bottom of the file. The template has all the necessary building blocks you need so that you only need to supply the Solidity code, and how many findings the optimization should identify.
@@ -67,7 +73,7 @@ Now that you have the optimization logic, make sure to write a test suite at the
 Now that the tests are passing, you are in the home stretch! The last thing you need to do is update the codebase to include your optimization. Here are the steps to do so.
 
 
-Head to `src/analyzer/optimizations/mod.rs` as all these changes will be in this file.
+Head to `src/optimizations/mod.rs` as all these changes will be in this file.
 
 
 First add your new mod along side the other `pub mod <mod_name>`.
@@ -83,126 +89,25 @@ pub mod constant_variables;
 pub mod <your_mod_here>;
 ```
 
-Next add your optimization function alongside the other imported optimization functions.
+Next add your `OptimizationTarget` to the `optimization` macro.
 
+
+Almost there, two more things! Add your optimization to `str_to_optimization()` utility function in `src/utils.rs`
 ```rust
-use self::{
-    address_balance::address_balance_optimization,
-    address_zero::address_zero_optimization,
-    assign_update_array_value::assign_update_array_optimization,
-    bool_equals_bool::bool_equals_bool_optimization,
-    //--snip--
-    your_mod_name::your_function_name;
-```
+pub fn str_to_optimization(s: &str) -> Option<OptimizationTarget> {
+    match s {
+        "address_balance" => Some(OptimizationTarget::AddressBalance),
+        "address_zero" => Some(OptimizationTarget::AddressZero),
+        "assign_update_array_value" => Some(OptimizationTarget::AssignUpdateArrayValue),
+        "bool_equals_bool" => Some(OptimizationTarget::BoolEqualsBool),
+        "cache_array_length" => Some(OptimizationTarget::CacheArrayLength),
+        "cache_storage_in_memory" => Some(OptimizationTarget::CacheStorageInMemory),
+        "your_new_optimization" => Some(OptimizationTarget::YourNewOptimization)
 
-
-Then add your optimization to the `Optimization` enum.
-
-```rust
-pub enum Optimization {
-    AddressBalance,
-    AddressZero,
-    AssignUpdateArrayValue,
-    CacheArrayLength,
-    ConstantVariables,
-    //--snip--
-    YourOptimizationHere
-```
-
-Add your optimization variant to the return vec in `get_all_optimizations`.
-
-```rust
-
-pub fn get_all_optimizations() -> Vec<Optimization> {
-    vec![
-        Optimization::AddressBalance,
-        Optimization::AddressZero,
-        Optimization::AssignUpdateArrayValue,
-        Optimization::CacheArrayLength,
-        //--snip--
-        Optimization::YourOptimizationHere
-```
-
-Almost there, two more things! Add your optimization to `str_to_optimization()`
-```rust
-pub fn str_to_optimization(opt: &str) -> Optimization {
-    match opt.to_lowercase().as_str() {
-        "address_balance" => Optimization::AddressBalance,
-        "address_zero" => Optimization::AddressZero,
-        "assign_update_array_value" => Optimization::AssignUpdateArrayValue,
-        "cache_array_length" => Optimization::CacheArrayLength,
-        "constant_variables" => Optimization::ConstantVariables,
-        //--snip--
-        "your_optimization_here" => Optimization::YourOptimizationHere,
-
-```
-
-And finally, add pattern matching for your optimization and function to `analyze_for_optimization()`!
-
-```rust
-
-pub fn analyze_for_optimization(
-    file_contents: &str,
-    file_number: usize,
-    optimization: Optimization,
-) -> Vec<LineNumber> {
-    let mut line_numbers = vec![];
-
-    //Parse the file into a the ast
-    let source_unit = solang_parser::parse(file_contents, file_number).unwrap().0;
-
-    let locations = match optimization {
-        Optimization::AddressBalance => address_balance_optimization(source_unit),
-        Optimization::AddressZero => address_zero_optimization(source_unit),
-        Optimization::AssignUpdateArrayValue => assign_update_array_optimization(source_unit),
-        Optimization::CacheArrayLength => cache_array_length_optimization(source_unit),
-        //--snip--
-         Optimization::YourOptimizationHere => your_function_name(source_unit),
 ```
 
 
 Congrats, you have updated the codebase to implement your optimization!
-
-
-### Report Section
-The final step in the contribution process is to write a report section that describes your optimization. All reports for optimizations are added to `src/report/report_sections/optimizations`. For a template report you can check out [`src/report/report_sections/optimizations/template.md`](https://github.com/0xKitsune/sstan/blob/main/src/report/report_sections/optimizations/template.md). To generate a quick gas report, feel free to use [0xKitsune/gas-lab](https://github.com/0xKitsune/gas-lab) or set up a environment within Foundry to test your gas comparison. 
-
-Once you have written your report section, the final step before PRing the contribution is to link your report to your optimization by adding pattern matching for your optimization to `get_optimization_report_section()`
-
-First import your report section function by adding the name of the file in this `use` statement within `src/report/report_sections/optimizations`.
-
-```rust
-use crate::report::report_sections::optimizations::{
-    address_balance, address_zero, assign_update_array_value, bool_equals_bool, 
-    cache_array_length,
-    constant_variable, 
-    immutable_variable, 
-    //--snip--
-    your_optimization_here
-};
-
-```
-
-Then add your optimization to `get_optimization_report_section()`!
-
-
-```rust
-
-pub fn get_optimization_report_section(optimization: Optimization) -> String {
-    match optimization {
-        Optimization::AddressZero => address_zero::report_section_content(),
-        Optimization::AssignUpdateArrayValue => assign_update_array_value::report_section_content(),
-        Optimization::BoolEqualsBool => bool_equals_bool::report_section_content(),
-        Optimization::CacheArrayLength => cache_array_length::report_section_content(),
-        Optimization::ConstantVariables => constant_variable::report_section_content(),
-
-        //--snip--
-        Optimization::YourOptimizationHere => {
-            your_optimization_here::report_section_content(),
-        }
-
-```
-
 
 And that wraps up everything. You can now PR to `developement` and wait for the merge!
 
@@ -210,33 +115,13 @@ And that wraps up everything. You can now PR to `developement` and wait for the 
 <br>
 
 ## QA
-Contributing to QA is exactly the same as Optimizations, with the only difference being that any directory path containing `optimizations`, should now contain `qa` instead (ex. `src/analyzer/optimizations/mod.rs` => `src/analyzer/qa/mod.rs`). Everything else is exactly the same as adding an optimization.
+Contributing to QA is exactly the same as Optimizations, with the only difference being that any directory path containing `optimizations`, should now contain `qa` instead (ex. `src/optimizations/mod.rs` => `src/qa/mod.rs`). Everything else is exactly the same as adding an optimization.
 
 <br>
 
 ## Vulnerabilities
 
-Contributing to Vulnerabilities is exactly the same as Optimizations, with the two minor differences. The first being any directory path containing `optimizations`, should now contain `vulnerabilities` instead (ex. `src/analyzer/optimizations/mod.rs` => `src/analyzer/vulnerabilities/mod.rs`). 
-
-The second difference is that within `get_vulnerability_report_section()` instead of just returning the file name of the report section, it should also return a `VulnerabilitySeverity`.
-
-```rust
-pub enum VulnerabilitySeverity {
-    High,
-    Medium,
-    Low,
-}
-
-pub fn get_vulnerability_report_section(
-    vulnerability: Vulnerability,
-    vulnerability_report_sections_path: String,
-) -> (String, VulnerabilitySeverity) {
-   
-}
-```
-
-<br>
-
+Contributing to Vulnerabilities is exactly the same as Optimizations, with the two minor differences. The first being any directory path containing `optimizations`, should now contain `vulnerabilities` instead (ex. `src/optimizations/mod.rs` => `src/vulnerabilities/mod.rs`). 
 
 # Potential Optimizations, Vulnerability and QA Additions
 Below is a non-exhaustive list of potential features to contribute. If you have an optimization, vulnerability or qa pattern you would like to contribute, please open up an issue on the Github repo!
