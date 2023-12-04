@@ -269,4 +269,9 @@ quality_assurance!(
     InconsistentRequireError,
     "Require/Revert statements should be consistent across the codebase",
     "> Consider using require/revert statements consistently across the codebase"
+),
+(
+    NamedMappingParameters,
+    "Consider explicitly naming mapping parameters",
+    "> Consider explicitly naming mapping parameters for readability"
 ));
