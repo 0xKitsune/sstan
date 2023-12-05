@@ -17,48 +17,11 @@ The repository can seem a little dense in some parts but adding a new optimizati
 ### Adding the Optimization
 All optimizations are located in `src/analyzer/optimizations`. Here you will see a new file for each of the optimizations that sstan looks for. To add a new optimization, start by adding a new file in this directory  (ex. `pack_struct_variables.rs` would be the file name for the optimization that analyzes for struct packing).
 
-Now that you have a new file for your optimization, copy and paste the code from [`src/analyzer/optimizations/template.rs`](https://github.com/0xKitsune/sstan/blob/main/src/analyzer/optimizations/template.rs) into your file. 
-
-Lets take a look at a barebones version of the template without any comments.
-
-```rust
-//Template Optimization Pattern
-impl OptimizationPattern for TemplateOptimization {
-    fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
-        let mut _outcome = Outcome::new();
-        #[allow(clippy::for_kv_map)]
-        for (_path_buf, _source_unit) in source {}
-
-        Ok(OptimizationOutcome::TemplateOptimization(_outcome))
-    }
-}
-
-mod test {
-    #[allow(unused)]
-    use super::*;
-    #[allow(unused)]
-    use crate::utils::MockSource;
-
-    #[test]
-    fn test_template_optimization() -> eyre::Result<()> {
-        let file_contents = r#"contract Contract0 {}"#;
-        let mut source = MockSource::new().add_source("template_optimization.sol", file_contents);
-
-        let optimization_locations = TemplateOptimization::find(&mut source.source)?;
-        assert_eq!(optimization_locations.len(), 0);
-
-        Ok(())
-    }
-}
-
-```
 Each optimization must take one argument called `source` which is a `HashMap` from the file path to the `SourceUnit`. sstan uses the `solang-parser` crate to parse Solidity contracts. The `SourceUnit` type is the resulting type from `solang_parser::parse()` which you will see later in the test case. This function must also return a `Outcome` which is a `HashMap<PathBuf, Vec<(Loc, Snippet)>>`. The `Loc` type represents a location in the file being analyzed. The `Snippet` is the raw snippet of code at the corresponding location in the file.
 
 If this is the first time you are making a PR to sstan, feel free to check out what the `SimpleStore` contract AST looks like by running `cargo run --example parse-contract-into-ast`. You can replace the `SimpleStore` contract with any contract code you would like, so feel free to use this functionality to look at the AST related to your optimization. 
 
 This might sound a little complicated but its way easier than it sounds. Once we look at a full example this will make much more sense. 
-
-Once all of the target nodes are extracted, you can traverse the node for specfic patterns that indicate a match in the pattern you are looking for.
 
 For some easy to read examples, checkout:
 - [`src/optimizations/address_balance.rs`](https://github.com/0xKitsune/sstan/blob/main/src/optimizations/address_balance.rs)
