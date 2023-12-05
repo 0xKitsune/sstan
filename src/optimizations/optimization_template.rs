@@ -4,16 +4,16 @@ use std::path::PathBuf;
 use crate::engine::{EngineError, Outcome};
 use solang_parser::{self, pt::SourceUnit};
 
-use super::{OptimizationOutcome, OptimizationPattern, TemplateOptimization};
+use super::{OptimizationOutcome, OptimizationPattern, OptimizationTemplate};
 
 //Template Optimization Pattern
-impl OptimizationPattern for TemplateOptimization {
+impl OptimizationPattern for OptimizationTemplate {
     fn find(source: &mut HashMap<PathBuf, SourceUnit>) -> Result<OptimizationOutcome, EngineError> {
         let mut _outcome = Outcome::new();
         #[allow(clippy::for_kv_map)]
         for (_path_buf, _source_unit) in source {}
 
-        Ok(OptimizationOutcome::TemplateOptimization(_outcome))
+        Ok(OptimizationOutcome::OptimizationTemplate(_outcome))
     }
 }
 mod test {
@@ -27,7 +27,7 @@ mod test {
         let file_contents = r#"contract Contract0 {}"#;
         let mut source = MockSource::new().add_source("template_optimization.sol", file_contents);
 
-        let optimization_locations = TemplateOptimization::find(&mut source.source)?;
+        let optimization_locations = OptimizationTemplate::find(&mut source.source)?;
         assert_eq!(optimization_locations.len(), 0);
 
         Ok(())

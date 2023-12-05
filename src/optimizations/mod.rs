@@ -11,6 +11,7 @@ pub mod increment_decrement;
 pub mod memory_to_calldata;
 pub mod multiple_require;
 pub mod optimal_comparison;
+pub mod optimization_template;
 pub mod pack_storage_variables;
 pub mod pack_struct_variables;
 pub mod payable_functions;
@@ -23,7 +24,6 @@ pub mod solidity_keccak256;
 pub mod solidity_math;
 pub mod sstore;
 pub mod string_error;
-pub mod template;
 use super::engine::Outcome;
 use crate::engine::EngineError;
 use crate::report::Classification;
@@ -2755,7 +2755,7 @@ contract Contract3 {
         Classification::OptimizationLow
     ),
    (
-    TemplateOptimization,
+    OptimizationTemplate,
     0,
     "",
     "",
