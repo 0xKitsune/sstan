@@ -155,7 +155,7 @@ vulnerability!(
         UnprotectedSelfDestruct,
         "Unprotected selfdestruct",
         "
-> Unprotected call to a function executing `selfdestruct` or `suicide`.
+Unprotected call to a function executing `selfdestruct` or `suicide`. \n 
 
 <details>
 <summary>Expand Example</summary>
@@ -205,14 +205,14 @@ function kill() public {
         UninitializedStorageVariable,
         "Uninitialized storage variables",
         "
-> A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value.",
+A storage variable that is declared but not initialized will have a default value of zero (or the equivalent, such as an empty array for array types or zero-address for address types). Failing to initialize a storage variable can pose risks if the contract logic assumes that the variable has been explicitly set to a particular value.",
         Classification::VulnerabilityHigh
     ),
     (
         DivideBeforeMultiply,
         "Division before multiplication",
         "
-> Consider ordering multiplication before division to avoid loss of precision because integer division might truncate. Loss of precision in Solidity can lead to vulnerabilities because it can result in unexpected behavior in smart contracts. This can be particularly problematic in financial applications, where even small errors in calculations can have significant consequences. For example, if a contract uses integer division to calculate a result and the division operation truncates the fractional part of the result, it could lead to incorrect pricing or loss of funds due to miscalculated balances.
+Consider ordering multiplication before division to avoid loss of precision because integer division might truncate. Loss of precision in Solidity can lead to vulnerabilities because it can result in unexpected behavior in smart contracts. This can be particularly problematic in financial applications, where even small errors in calculations can have significant consequences. For example, if a contract uses integer division to calculate a result and the division operation truncates the fractional part of the result, it could lead to incorrect pricing or loss of funds due to miscalculated balances. \n
 <details>
 <summary>Expand Example</summary>
 
@@ -236,7 +236,7 @@ function kill() public {
         "Incorrect order of operations when using `shl` or `shr` in an assembly block",
         "
 
-> Incorrect assembly shift math
+Incorrect assembly shift math \n
 
 <details>
 <summary>Expand Example</summary>
@@ -265,7 +265,7 @@ function kill() public {
         FloatingPragma,
         "Use a locked pragma version instead of a floating pragma version",
         "
-> Floating pragma is a vulnerability in smart contract code that can cause unexpected behavior by allowing the compiler to use a specified range of versions. This can lead to issues such as using an older compiler version with known vulnerabilities, using a newer compiler version with undiscovered vulnerabilities, inconsistency across files using different versions, or unpredictable behavior because the compiler can use any version within the specified range. It is recommended to use a locked pragma version in order to avoid these potential vulnerabilities. In some cases it may be acceptable to use a floating pragma, such as when a contract is intended for consumption by other developers and needs to be compatible with a range of compiler versions.
+Floating pragma is a vulnerability in smart contract code that can cause unexpected behavior by allowing the compiler to use a specified range of versions. \n This can lead to issues such as using an older compiler version with known vulnerabilities, using a newer compiler version with undiscovered vulnerabilities, inconsistency across files using different versions, or unpredictable behavior because the compiler can use any version within the specified range. It is recommended to use a locked pragma version in order to avoid these potential vulnerabilities. In some cases it may be acceptable to use a floating pragma, such as when a contract is intended for consumption by other developers and needs to be compatible with a range of compiler versions.
 <details>
 <summary>Expand Example</summary>
 
@@ -288,7 +288,7 @@ function kill() public {
         UnsafeErc20Operation,
         "Unsafe ERC20 Operation",
         "
-> ERC20 operations can be unsafe due to different implementations and vulnerabilities in the standard. To account for this, either use OpenZeppelin's SafeERC20 library or wrap each operation in a require statement.
+ERC20 operations can be unsafe due to different implementations and vulnerabilities in the standard. To account for this, either use OpenZeppelin's SafeERC20 library or wrap each operation in a require statement. \n
 > Additionally, ERC20's approve functions have a known race-condition vulnerability. To account for this, use OpenZeppelin's SafeERC20 library's `safeIncrease` or `safeDecrease` Allowance functions.
 <details>
 <summary>Expand Example</summary>
@@ -345,9 +345,7 @@ require(success, \"ERC20 transfer failed\");
     (
         DoubleCasting,
         "Double Casting",
-        "
-> Avoid double casting as it may introduce unexpected truncations/rounding errors among other issues.
-        ",
+        "Avoid double casting as it may introduce unexpected truncations/rounding errors among other issues.",
         Classification::VulnerabilityLow
     ),
 //     (

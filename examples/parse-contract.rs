@@ -1,9 +1,11 @@
 fn main() {
     let file_contents = r#"
 
+
     contract contract0 {        
         mapping(uint => uint) public map0;
         mapping(uint number => uint number2) public map1;
+
     }
     "#;
 
