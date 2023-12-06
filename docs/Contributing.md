@@ -59,6 +59,9 @@ For example
 
 We reccomend first copying the code from a simple existing pattern such as `address_balance` as a template for your new pattern, and replacing the `OptimizationTarget` name with your new pattern name as a good start. 
 
+### Writing a test
+Now that you have the optimization logic, make sure to write a test suite at the bottom of the file. The `address_balance` pattern has all the necessary building blocks you need so that you only need to supply the Solidity code, and how many findings the optimization should identify.
+
 ### Extractors
 sstan uses a novel approach we call Extractors to extract all nodes of some specific type from the AST of a contract. Under the hood extractors leverage a visitor pattern which parses the entirety of the AST by visiting each node in the AST. The `Visitor` trait contains a default trait method to visit any node in the AST. Each node type in the AST implements the `Visitable` trait allowing us to invoke the `Visitor` pattern at any depth of the AST on any node. If this is a bit confusing don't worry, writing a new extractor is actually very simple. Lets take a look at the `Extractor` trait!
 
@@ -140,53 +143,6 @@ impl Visitor for ContractDefinitionExtractor {
 ```
 
 If you have any questions feel free to open an issue or discussion, and we'll be happy to help with any questions or comments. 
-
-### Writing a test
-Now that you have the optimization logic, make sure to write a test suite at the bottom of the file. The template has all the necessary building blocks you need so that you only need to supply the Solidity code, and how many findings the optimization should identify.
-
-
-### Updating the codebase
-Now that the tests are passing, you are in the home stretch! The last thing you need to do is update the codebase to include your optimization. Here are the steps to do so.
-
-
-Head to `src/optimizations/mod.rs` as all these changes will be in this file.
-
-
-First add your new mod along side the other `pub mod <mod_name>`.
-
-```rust
-pub mod address_balance;
-pub mod address_zero;
-pub mod assign_update_array_value;
-pub mod bool_equals_bool;
-pub mod cache_array_length;
-pub mod constant_variables;
-//--snip--
-pub mod <your_mod_here>;
-```
-
-Next add your `OptimizationTarget` to the `optimization` macro.
-
-
-Almost there, two more things! Add your optimization to `str_to_optimization()` utility function in `src/utils.rs`
-```rust
-pub fn str_to_optimization(s: &str) -> Option<OptimizationTarget> {
-    match s {
-        "address_balance" => Some(OptimizationTarget::AddressBalance),
-        "address_zero" => Some(OptimizationTarget::AddressZero),
-        "assign_update_array_value" => Some(OptimizationTarget::AssignUpdateArrayValue),
-        "bool_equals_bool" => Some(OptimizationTarget::BoolEqualsBool),
-        "cache_array_length" => Some(OptimizationTarget::CacheArrayLength),
-        "cache_storage_in_memory" => Some(OptimizationTarget::CacheStorageInMemory),
-        "your_new_optimization" => Some(OptimizationTarget::YourNewOptimization)
-
-```
-
-
-Congrats, you have updated the codebase to implement your optimization!
-
-And that wraps up everything. You can now PR to `developement` and wait for the merge!
-
 
 <br>
 
