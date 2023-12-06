@@ -35,6 +35,8 @@ pub enum EngineError {
     RegexError(#[from] regex::Error),
     #[error("Error while parsing int")]
     ParseIntError(#[from] std::num::ParseIntError),
+    #[error("Unrecognized pattern")]
+    UnrecognizedPattern(String),
 }
 
 #[derive(Default)]

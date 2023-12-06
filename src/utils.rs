@@ -1,3 +1,4 @@
+use crate::engine::EngineError;
 use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
 use crate::optimizations::OptimizationTarget;
 use crate::qa::QualityAssuranceTarget;
@@ -9,12 +10,14 @@ use std::collections::HashMap;
 use std::fs::{self, File};
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
+use std::str::FromStr;
 
 pub type LineNumber = i32;
 pub type Outcome = (PathBuf, Loc);
 pub fn remove_first_character(s: &str) -> &str {
     &s[1..]
 }
+
 //TODO: propagate these errors, dont unwrap
 pub fn extract_source(path: &str, source: &mut HashMap<PathBuf, SourceUnit>) -> eyre::Result<()> {
     let mut counter = 0;
@@ -63,8 +66,6 @@ pub fn is_screaming_snake_case(s: &str) -> bool {
     re.is_match(s) && s.contains('_')
 }
 
-//TODO: outcome should be updated to be code blocks, etc
-
 // This is used as the initial string when parsing a solidity version
 pub const ZERO_ZERO_ZERO: &str = "0.0.0";
 pub const MINOR_MAJOR_PATCH_REGEX: &str = r"\d+\.\d+\.+\d+";
@@ -107,7 +108,6 @@ pub fn get_line_number(char_number: usize, file_contents: &str) -> usize {
 pub fn storage_slots_used(variables: Vec<u16>) -> u32 {
     //set a variable to keep track of how many bytes have been used in the slot
     let mut bytes_used_in_slot = 0;
-    //--------------------- test slot usage of unordered variable sizes ---------------------------------------
 
     //loop through the unordered variable sizes and count the amount of slots used
     let mut slots_used = 0;
@@ -139,6 +139,7 @@ where
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }
+
 //TODO: move this to a compound extractor
 pub fn get_32_byte_storage_variables(
     source_unit: &mut pt::SourceUnit,
@@ -226,46 +227,6 @@ pub fn str_to_optimization(s: &str) -> Option<OptimizationTarget> {
     }
 }
 
-pub fn str_to_qa(s: &str) -> Option<QualityAssuranceTarget> {
-    match s {
-        "constant_immutable_name_screaming_snake_case" => {
-            Some(QualityAssuranceTarget::ConstantImmutableNameScreamingSnakeCase)
-        }
-        "constructor_order" => Some(QualityAssuranceTarget::ConstructorOrder),
-        "constructor_var_initialization" => {
-            Some(QualityAssuranceTarget::ConstructorVarInitialization)
-        }
-        "contract_name_pascal_case" => Some(QualityAssuranceTarget::ContractNamePascalCase),
-        "contracts_should_inherit_interface" => {
-            Some(QualityAssuranceTarget::ContractsShouldInheritInterface)
-        }
-        "error_without_parameters" => Some(QualityAssuranceTarget::ErrorWithoutParams),
-        "event_name_pascal_case" => Some(QualityAssuranceTarget::EventNamePascalCase),
-        "explicit_visibility" => Some(QualityAssuranceTarget::ExplicitVisibility),
-        "function_name_camel_case" => Some(QualityAssuranceTarget::FunctionNameCamelCase),
-        "import_identifiers" => Some(QualityAssuranceTarget::ImportIdentifiers),
-        "inconsistent_require_error" => Some(QualityAssuranceTarget::InconsistentRequireError),
-        "interface_namespace" => Some(QualityAssuranceTarget::InterfaceNamespace),
-        "large_multiples_of_ten" => Some(QualityAssuranceTarget::LargeMultiplesOfTen),
-        "mussing_underscores_for_large_numeric_literals" => {
-            Some(QualityAssuranceTarget::MissingUnderscoresForLargeNumericLiterals)
-        }
-        "one_contract_per_file" => Some(QualityAssuranceTarget::OneContractPerFile),
-        "private_vars_leading_underscore" => {
-            Some(QualityAssuranceTarget::PrivateVariablesLeadingUnderscore)
-        }
-        "public_functions" => Some(QualityAssuranceTarget::PublicFunctions),
-        "remove_console" => Some(QualityAssuranceTarget::RemoveConsole),
-        "require_without_message" => Some(QualityAssuranceTarget::RequireWithoutMessage),
-        "storage_variable_namespace" => Some(QualityAssuranceTarget::StorageVariableNamespace),
-        "unused_functions" => Some(QualityAssuranceTarget::UnusedFunctions),
-        "unused_returns" => Some(QualityAssuranceTarget::UnusedReturns),
-        "variable_initialized_with_default" => {
-            Some(QualityAssuranceTarget::VariableInitializedWithDefault)
-        }
-        _ => None,
-    }
-}
 #[derive(Debug, Default)]
 pub struct MockSource {
     pub source: HashMap<PathBuf, pt::SourceUnit>,

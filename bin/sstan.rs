@@ -85,7 +85,7 @@ impl Opts {
                 fs::read_to_string(toml_path).expect("Could not read toml file to string");
 
             let sstan_toml: SstanToml =
-                toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
+                toml::from_str(&toml_str).expect("Could not convert toml contents to SstanToml");
             (
                 sstan_toml
                     .optimizations
@@ -111,39 +111,11 @@ impl Opts {
             )
         };
 
-        let output = if let Some(output) = args.output {
-            output
-        } else {
-            "".into()
-        };
-        let json = args.json;
-        //Github repo link to the root
-        let git = args.git;
-
-        let path = if let Some(path) = args.path {
-            path
-        } else {
-            match fs::read_dir(DEFAULT_PATH) {
-                Ok(_) => {}
-
-                Err(_) => {
-                    yellow!(
-                        r#"""Error when reading the target contracts directory.
-                        If the `--path` flag is not passed, sstan will look for `./src` by default.
-                        To fix this, either add a `./contracts` directory or provide `--path <path_to_contracts_dir>
-                        """#
-                    );
-                    process::exit(1)
-                }
-            }
-            DEFAULT_PATH.into()
-        };
-
         Opts {
-            path,
-            output,
-            git,
-            json,
+            path: args.path.unwrap_or(DEFAULT_PATH.into()),
+            output: args.output.unwrap_or_default(),
+            git: args.git,
+            json: args.json,
             optimizations,
             vulnerabilities,
             qa,
