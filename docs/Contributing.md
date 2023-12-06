@@ -17,7 +17,7 @@ The repository can seem a little dense in some parts but adding a new optimizati
 ### Adding the Optimization
 All optimizations are located in `src/analyzer/optimizations`. Here you will see a new file for each of the optimizations that sstan looks for. To add a new optimization, start by adding a new file in this directory  (ex. `pack_struct_variables.rs` would be the file name for the optimization that analyzes for struct packing).
 
-Each optimization must take one argument called `source` which is a `HashMap` from the file path to the `SourceUnit`. sstan uses the `solang-parser` crate to parse Solidity contracts. The `SourceUnit` type is the resulting type from `solang_parser::parse()` which you will see later in the test case. This function must also return a `Outcome` which is a `HashMap<PathBuf, Vec<(Loc, Snippet)>>`. The `Loc` type represents a location in the file being analyzed. The `Snippet` is the raw snippet of code at the corresponding location in the file.
+Each optimization must take one argument called `source` which is a `HashMap` from the file path to the `SourceUnit`. sstan uses the `solang-parser` crate to parse Solidity contracts. The `SourceUnit` type is the resulting type from `solang_parser::parse()` which you will see later in the test case. This function must also return a `Outcome` which is a `HashMap<PathBuf, Vec<(Loc, Snippet)>>`. The `Loc` type represents a location in the file being analyzed. The `Snippet` is the raw stringified AST node at the corresponding location of the identified pattern and is of type `String`.
 
 If this is the first time you are making a PR to sstan, feel free to check out what the `SimpleStore` contract AST looks like by running `cargo run --example parse-contract-into-ast`. You can replace the `SimpleStore` contract with any contract code you would like, so feel free to use this functionality to look at the AST related to your optimization. 
 
@@ -27,6 +27,119 @@ For some easy to read examples, checkout:
 - [`src/optimizations/address_balance.rs`](https://github.com/0xKitsune/sstan/blob/main/src/optimizations/address_balance.rs)
 - [`src/optimizations/multiple_require.rs`](https://github.com/0xKitsune/sstan/blob/main/src/optimizations/multiple_require.rs)
 - [`src/optimizations/solidity_keccak256.rs`](https://github.com/0xKitsune/sstan/blob/main/src/optimizations/solidity_keccak256.rs)
+
+To add an optimization pattern to the repository, first create a file with the name of your pattern in the `src/optimizations` directory, for example `your_new_pattern.rs`. Next add your new pattern to the top of `src/optimizations/mod.rs`
+
+```rs
+//----- snip-----
+pub mod short_revert_string;
+pub mod solidity_keccak256;
+pub mod solidity_math;
+pub mod sstore;
+pub mod string_error;
+pub mod your_new_pattern;
+
+//----- snip-----
+```
+
+Finally add your pattern to the `optimization` macro with the `OptimizationTarget` identifier, as well as a description of the pattern, gas saved, and optionally a foundry gas report. 
+
+For example
+```rs
+(
+        YourNewPattern,
+        0, 
+        "<Your new Pattern title>",
+        "<A short description of the Pattern>",
+        "#### Gas Report", 
+        "<A foundry gas report of your new pattern", 
+        Classification::OptimizationHigh //The severity based on gas saved by identifying the optimization
+    ),
+```
+
+We reccomend first copying the code from a simple existing pattern such as `address_balance` as a template for your new pattern, and replacing the `OptimizationTarget` name with your new pattern name as a good start. 
+
+### Extractors
+sstan uses a novel approach we call Extractors to extract all nodes of some specific type from the AST of a contract. Under the hood extractors leverage a visitor pattern which parses the entirety of the AST by visiting each node in the AST. The `Visitor` trait contains a default trait method to visit any node in the AST. Each node type in the AST implements the `Visitable` trait allowing us to invoke the `Visitor` pattern at any depth of the AST on any node. If this is a bit confusing don't worry, writing a new extractor is actually very simple. Lets take a look at the `Extractor` trait!
+
+```rs
+pub trait Extractor<V, T>: Visitor
+where
+    V: Visitable,
+    T: Target,
+{
+    fn extract(v: &mut V) -> Result<Vec<T>, Self::Error>;
+}
+```
+
+The `Extractor` trait contains a single method `extract`. Where we pass in `v` a node in the AST, and return a `Vec<T>` which is a vec of nodes in the AST of some type we are trying to extract. `v` needs to implement the `Visitable` trait, which be any solang node type. An Extractor is a struct that implements the `Extractor` trait with one item `targets` which is a vec of nodes in the AST of some specific type. For example an `ContractDefinitionExtractor` would look like this:
+
+```rs
+        pub struct  ContractDefinitionExtractor {
+            targets: Vec<ContractDefinition>,
+        }
+
+        impl ContractDefinitionExtractor {
+            pub fn new() -> Self {
+                Self { targets: vec![] }
+            }
+        }
+
+        impl Default for ContractDefinitionExtractor {
+            fn default() -> Self {
+                Self::new()
+            }
+        }
+
+        impl<V: Visitable> Extractor<V, ContractDefinition> for ContractDefinitionExtractor {
+            fn extract(v: &mut V) -> Result<Vec<ContractDefinition>, ExtractionError> {
+                let mut extractor_instance = Self::new();
+                v.visit(&mut extractor_instance)?;
+                Ok(extractor_instance.targets)
+            }
+        }
+```
+
+The `Visitor` trait contains a unique extractor method to extract each node type from the AST. So, to finish the `ContractDefinitionExtractor` we need implement the `Visitor` traot and override the `extract_contract` method to push the node to our `targets` each time we hit a `ContractDefinition` in the AST. 
+
+This looks like: 
+
+```rs
+impl Visitor for ContractDefinitionExtractor {
+    type Error = ExtractionError;
+    fn extract_contract(&mut self, contract: &mut ContractDefinition) -> Result<(), Self::Error> {
+        self.targets.push(contract.clone());
+        Ok(())
+    }
+}
+
+```
+
+And thats it! Now we can call 
+
+```rs
+ContractDefinitionExtractor::extract(<SourceUnit>)?
+```
+
+Which will return a vec of all `ContractDefinition` in the `SourceUnit`. You should note, that you can call `extract` passing in any node in the AST as a parameter as well. 
+
+In order to add an extractor we have written some macros that make it much simpler. There are two types of extractors `compound` for more granular extraction of specific things in the AST for example a `require` statement. And `primitive` for primitive node types in the AST for example a `ContractDefinition`. To add an extractor, first figure out whether it is a compound or primitive type you are trying to extract, then use the `compund_extractor` macro or `default_extractor` macro to create your struct (with primitive it also implements the `Extractor` trait for you). This should be done inside `src/extractors/compound.rs` or `src/extractors/primitive.rs`
+
+So, the `ContractDefinitionExtractor` will actually look like this:
+
+```rs
+default_extractor!(ContractDefinitionExtractor, ContractDefinition);
+
+impl Visitor for ContractDefinitionExtractor {
+    type Error = ExtractionError;
+    fn extract_contract(&mut self, contract: &mut ContractDefinition) -> Result<(), Self::Error> {
+        self.targets.push(contract.clone());
+        Ok(())
+    }
+}
+```
+
+If you have any questions feel free to open an issue or discussion, and we'll be happy to help with any questions or comments. 
 
 ### Writing a test
 Now that you have the optimization logic, make sure to write a test suite at the bottom of the file. The template has all the necessary building blocks you need so that you only need to supply the Solidity code, and how many findings the optimization should identify.
