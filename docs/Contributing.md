@@ -100,7 +100,7 @@ The `Extractor` trait contains a single method `extract`. Where we pass in `v` a
         }
 ```
 
-The `Visitor` trait contains a unique extractor method to extract each node type from the AST. So, to finish the `ContractDefinitionExtractor` we need implement the `Visitor` traot and override the `extract_contract` method to push the node to our `targets` each time we hit a `ContractDefinition` in the AST. 
+The `Visitor` trait contains a unique extractor method to extract each node type from the AST. So, to finish the `ContractDefinitionExtractor` we need implement the `Visitor` trait and override the `extract_contract` method to push the node to our `targets` each time we hit a `ContractDefinition` in the AST. 
 
 This looks like: 
 
