@@ -18,39 +18,6 @@ use sstan::{
 
 pub const DEFAULT_PATH: &str = "./src";
 
-#[macro_use]
-extern crate colour;
-fn main() -> eyre::Result<()> {
-    let opts = Opts::new();
-
-    let mut engine = Engine::new(
-        &opts.path,
-        opts.git,
-        opts.vulnerabilities,
-        opts.optimizations,
-        opts.qa,
-    );
-
-    //Populate the modules
-    engine.run()?;
-    //Generate the report struct
-    let report = Report::from(engine);
-    //Generate the report string & write to the output path.
-    //Write to json if the flag is passed
-    if let Some(json_path) = opts.json {
-        std::fs::File::create(json_path)?.write_all(
-            serde_json::to_string(&JsonReport::from(report.clone()))
-                .unwrap()
-                .as_bytes(),
-        )?;
-    }
-
-    //Write to markdown
-    std::fs::File::create("sstan.md")?.write_all(String::from(report).as_bytes())?;
-
-    Ok(())
-}
-
 #[derive(Parser, Debug)]
 #[clap(
     name = "sstan",
@@ -161,9 +128,10 @@ impl Opts {
 
                 Err(_) => {
                     yellow!(
-                        "Error when reading the target contracts directory.
-If the `--path` flag is not passed, sstan will look for `./src` by default.
-To fix this, either add a `./contracts` directory or provide `--path <path_to_contracts_dir>\n"
+                        r#"""Error when reading the target contracts directory.
+                        If the `--path` flag is not passed, sstan will look for `./src` by default.
+                        To fix this, either add a `./contracts` directory or provide `--path <path_to_contracts_dir>
+                        """#
                     );
                     process::exit(1)
                 }
@@ -181,4 +149,37 @@ To fix this, either add a `./contracts` directory or provide `--path <path_to_co
             qa,
         }
     }
+}
+
+#[macro_use]
+extern crate colour;
+fn main() -> eyre::Result<()> {
+    let opts = Opts::new();
+
+    let mut engine = Engine::new(
+        &opts.path,
+        opts.git,
+        opts.vulnerabilities,
+        opts.optimizations,
+        opts.qa,
+    );
+
+    //Populate the modules
+    engine.run()?;
+    //Generate the report struct
+    let report = Report::from(engine);
+    //Generate the report string & write to the output path.
+    //Write to json if the flag is passed
+    if let Some(json_path) = opts.json {
+        std::fs::File::create(json_path)?.write_all(
+            serde_json::to_string(&JsonReport::from(report.clone()))
+                .unwrap()
+                .as_bytes(),
+        )?;
+    }
+
+    //Write to markdown
+    std::fs::File::create("sstan.md")?.write_all(String::from(report).as_bytes())?;
+
+    Ok(())
 }

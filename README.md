@@ -27,7 +27,7 @@ cargo install --path .
 
 &nbsp;
 # Usage
-Now that you have sstan involved, you can use the `sstan` command from anywhere in your terminal. By default, sstan looks for a `./contracts` directory and analyzes every file within the folder. If you would like to specify the directory sstan should use, you can pass the `--path` flag (ex. `sstan --path <path_to_dir>`). 
+Now that you have sstan installed, you can use the `sstan` command from anywhere in your terminal. By default, sstan looks for a `./contracts` directory and analyzes every file within the folder. If you would like to specify the directory sstan should use, you can pass the `--path` flag (ex. `sstan --path <path_to_dir>`). 
 
 In the default configuration, sstan runs analysis for every [currently included Optimization, Vulnerability and QA](https://github.com/0xKitsune/sstan#currently-identified-optimizations-vulnerabilities-and-qa), however if you would like to run analysis for select patterns, you can create a `.toml` file for your custom configuration.  Check out the [default sstan.toml configuration](https://github.com/0xKitsune/sstan/blob/main/sstan.toml) for reference. After creating a custom `.toml` file, make sure to pass the `--toml` flag when running sstan (ex. `sstan --toml <path_to_toml_file>`).
 

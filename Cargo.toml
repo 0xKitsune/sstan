@@ -3,20 +3,15 @@ name = "sstan"
 version = "0.1.0"
 edition = "2021"
 license = ""
-exclude = [
-    "target/*",
-    "example_report.md",
-    ".github/*",
-    ".gitignore"
-]
+exclude = ["target/*", "example_report.md", ".github/*", ".gitignore"]
 
 [dependencies]
-clap = {version= "4.3.19", features = ["derive"]}
+clap = { version = "4.3.19", features = ["derive"] }
 solang-parser = "0.3.1"
 indicatif = "0.17.5"
 regex = "1.9.1"
 toml = "0.7.6"
-serde = {version= "1.0.175",  features = ["derive"]}
+serde = { version = "1.0.175", features = ["derive"] }
 colour = "0.7.0"
 thiserror = "1.0.44"
 eyre = "0.6.8"
@@ -27,10 +22,3 @@ serde_json = "1.0.108"
 [[bin]]
 name = "sstan"
 path = "bin/sstan.rs"
-
-
-
-
-[[bin]]
-name = "vet"
-path = "bin/vet.rs"
