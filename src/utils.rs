@@ -1,4 +1,7 @@
 use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
+use crate::optimizations::OptimizationTarget;
+use crate::qa::QualityAssuranceTarget;
+use crate::vulnerabilities::VulnerabilityTarget;
 use regex::Regex;
 use solang_parser::pt::{self, ContractPart, Loc, SourceUnit};
 use std::collections::HashMap;
@@ -177,6 +180,91 @@ pub fn get_32_byte_storage_variables(
     }
 
     storage_variables
+}
+
+pub fn str_to_vulnerability(s: &str) -> Option<VulnerabilityTarget> {
+    match s {
+        "divide_before_multiply" => Some(VulnerabilityTarget::DivideBeforeMultiply),
+        "double_casting" => Some(VulnerabilityTarget::DoubleCasting),
+        "floating_pragma" => Some(VulnerabilityTarget::FloatingPragma),
+        "incorrect_shift_math" => Some(VulnerabilityTarget::IncorrectShiftMath),
+        "uninitialized_storage_variable" => Some(VulnerabilityTarget::UninitializedStorageVariable),
+        "unprotected_self_destruct" => Some(VulnerabilityTarget::UnprotectedSelfDestruct),
+        "unsafe_erc20_operation" => Some(VulnerabilityTarget::UnsafeErc20Operation),
+        _ => None,
+    }
+}
+
+pub fn str_to_optimization(s: &str) -> Option<OptimizationTarget> {
+    match s {
+        "address_balance" => Some(OptimizationTarget::AddressBalance),
+        "address_zero" => Some(OptimizationTarget::AddressZero),
+        "assign_update_array_value" => Some(OptimizationTarget::AssignUpdateArrayValue),
+        "bool_equals_bool" => Some(OptimizationTarget::BoolEqualsBool),
+        "cache_array_length" => Some(OptimizationTarget::CacheArrayLength),
+        "cache_storage_in_memory" => Some(OptimizationTarget::CacheStorageInMemory),
+        "constant_variable" => Some(OptimizationTarget::ConstantVariable),
+        "event_indexing" => Some(OptimizationTarget::EventIndexing),
+        "immutable_variable" => Some(OptimizationTarget::ImmutableVariable),
+        "increment_decrement" => Some(OptimizationTarget::IncrementDecrement),
+        "memory_to_calldata" => Some(OptimizationTarget::MemoryToCalldata),
+        "multiple_require" => Some(OptimizationTarget::MultipleRequire),
+        "optimal_comparison" => Some(OptimizationTarget::OptimalComparison),
+        "pack_storage_variables" => Some(OptimizationTarget::PackStorageVariables),
+        "pack_struct_variables" => Some(OptimizationTarget::PackStructVariables),
+        "payable_functions" => Some(OptimizationTarget::PayableFunctions),
+        "private_constant" => Some(OptimizationTarget::PrivateConstant),
+        "read_storage_in_for_loop" => Some(OptimizationTarget::ReadStorageInForLoop),
+        "safe_math_post_080" => Some(OptimizationTarget::SafeMathPost080),
+        "safe_math_pre_080" => Some(OptimizationTarget::SafeMathPre080),
+        "short_revert_string" => Some(OptimizationTarget::ShortRevertString),
+        "solidity_keccak256" => Some(OptimizationTarget::SolidityKeccak256),
+        "solidity_math" => Some(OptimizationTarget::SolidityMath),
+        "sstore" => Some(OptimizationTarget::Sstore),
+        "string_error" => Some(OptimizationTarget::StringError),
+        _ => None,
+    }
+}
+
+pub fn str_to_qa(s: &str) -> Option<QualityAssuranceTarget> {
+    match s {
+        "constant_immutable_name_screaming_snake_case" => {
+            Some(QualityAssuranceTarget::ConstantImmutableNameScreamingSnakeCase)
+        }
+        "constructor_order" => Some(QualityAssuranceTarget::ConstructorOrder),
+        "constructor_var_initialization" => {
+            Some(QualityAssuranceTarget::ConstructorVarInitialization)
+        }
+        "contract_name_pascal_case" => Some(QualityAssuranceTarget::ContractNamePascalCase),
+        "contracts_should_inherit_interface" => {
+            Some(QualityAssuranceTarget::ContractsShouldInheritInterface)
+        }
+        "error_without_parameters" => Some(QualityAssuranceTarget::ErrorWithoutParams),
+        "event_name_pascal_case" => Some(QualityAssuranceTarget::EventNamePascalCase),
+        "explicit_visibility" => Some(QualityAssuranceTarget::ExplicitVisibility),
+        "function_name_camel_case" => Some(QualityAssuranceTarget::FunctionNameCamelCase),
+        "import_identifiers" => Some(QualityAssuranceTarget::ImportIdentifiers),
+        "inconsistent_require_error" => Some(QualityAssuranceTarget::InconsistentRequireError),
+        "interface_namespace" => Some(QualityAssuranceTarget::InterfaceNamespace),
+        "large_multiples_of_ten" => Some(QualityAssuranceTarget::LargeMultiplesOfTen),
+        "mussing_underscores_for_large_numeric_literals" => {
+            Some(QualityAssuranceTarget::MissingUnderscoresForLargeNumericLiterals)
+        }
+        "one_contract_per_file" => Some(QualityAssuranceTarget::OneContractPerFile),
+        "private_vars_leading_underscore" => {
+            Some(QualityAssuranceTarget::PrivateVariablesLeadingUnderscore)
+        }
+        "public_functions" => Some(QualityAssuranceTarget::PublicFunctions),
+        "remove_console" => Some(QualityAssuranceTarget::RemoveConsole),
+        "require_without_message" => Some(QualityAssuranceTarget::RequireWithoutMessage),
+        "storage_variable_namespace" => Some(QualityAssuranceTarget::StorageVariableNamespace),
+        "unused_functions" => Some(QualityAssuranceTarget::UnusedFunctions),
+        "unused_returns" => Some(QualityAssuranceTarget::UnusedReturns),
+        "variable_initialized_with_default" => {
+            Some(QualityAssuranceTarget::VariableInitializedWithDefault)
+        }
+        _ => None,
+    }
 }
 #[derive(Debug, Default)]
 pub struct MockSource {

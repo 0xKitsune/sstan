@@ -41,6 +41,7 @@ Usage: sstan [OPTIONS]
 Options:
   -p, --path <PATH>  Path to the directory containing the files sstan will analyze. The default directory is `./contracts`
   -t, --toml <TOML>  Path to the toml file containing the sstan configuration when not using the default settings.
+  -g, --git <URL> Path to the root of the git repository.
   -h, --help         Print help information
 ```
 

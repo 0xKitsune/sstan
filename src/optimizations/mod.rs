@@ -2752,5 +2752,5 @@ contract Contract3 {
 
         ",
         Classification::OptimizationLow
-    ),
+    )
 );
