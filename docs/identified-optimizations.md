@@ -9,7 +9,9 @@ Below are the currently identified optimizations that sstan identifies. If you w
 | assign_update_array_value | When updating a value in an array with arithmetic, using `array[index] += amount` is cheaper than `array[index] = array[index] + amount`. This optimization also catches other arithmetic, bitwise and other operations. |
 | bool_equals_bool          | Instead of `if (x == bool)`, use `if(x)` or when applicable, use assembly with `iszero(iszero(x))`. |
 | cache_array_length        | Cache array length during for loops. |
+| cache_storage_in_memory   | Cache Storage Variables in Memory    |
 | constant_variables        | Mark storage variables as `constant` if they never change and are not marked as constants.|
+| event_indexing            | Event is not properly indexed.|
 | immutable_variables       | Mark storage variables as `immutable` if variables are assigned during deployment and never change afterwards.|
 | increment_decrement       | Use `unchecked{++i}` instead of `i++`, or `++i` (or use assembly when applicable). This also applies to decrementing as well.|
 | memory_to_calldata        | Use `calldata` for function arguments marked as `memory` that do not get mutated.|
@@ -19,6 +21,7 @@ Below are the currently identified optimizations that sstan identifies. If you w
 | pack_struct_variables     | Tightly pack struct variables for efficient contract storage. |
 | payable_function          | Mark functions as payable (with discretion). |
 | private_constant          | Mark constant variables in storage as private to save gas. |
+| read_storage_in_for_loop  | Avoid Reading From Storage in a for loop |
 | safe_math_post_080        | Identifies when SafeMath is being used if the contract using solidity >= 0.8.0. Using SafeMath when using version >= 0.8.0 is redundant and will incur additional gas costs. |
 | safe_math_pre_080         | Identifies when SafeMath is being used if the contract using solidity < 0.8.0. Consider using assembly with overflow/undeflow protection for math (add, sub, mul, div) instead of SafeMath. |
 | shift_math                | Right shift or Left shift instead of dividing or multiplying by powers of two. |

@@ -8,7 +8,11 @@ use std::{fs, io::Write, process};
 use clap::Parser;
 
 use sstan::{
-    engine::Engine, optimizations::OptimizationTarget, qa::QualityAssuranceTarget, report::Report,
+    engine::Engine,
+    optimizations::OptimizationTarget,
+    qa::QualityAssuranceTarget,
+    report::{JsonReport, Report},
+    utils::{str_to_optimization, str_to_qa, str_to_vulnerability},
     vulnerabilities::VulnerabilityTarget,
 };
 
@@ -32,6 +36,16 @@ fn main() -> eyre::Result<()> {
     //Generate the report struct
     let report = Report::from(engine);
     //Generate the report string & write to the output path.
+    //Write to json if the flag is passed
+    if let Some(json_path) = opts.json {
+        std::fs::File::create(json_path)?.write_all(
+            serde_json::to_string(&JsonReport::from(report.clone()))
+                .unwrap()
+                .as_bytes(),
+        )?;
+    }
+
+    //Write to markdown
     std::fs::File::create("sstan.md")?.write_all(String::from(report).as_bytes())?;
 
     Ok(())
@@ -56,7 +70,11 @@ pub struct Args {
         help = "Path to the directory to write the report to. The default directory is `./`"
     )]
     pub output: Option<String>,
-    #[clap(short, long, help = "Github repository link")]
+    #[clap(
+        short,
+        long,
+        help = "Github repository link. e.g `https://github.com/repo/blob/main`"
+    )]
     pub git: Option<String>,
     #[clap(
         short,
@@ -64,6 +82,12 @@ pub struct Args {
         help = "Path to the toml file containing the sstan configuration when not using the default settings."
     )]
     pub toml: Option<String>,
+    #[clap(
+        short,
+        long,
+        help = "Path to the directory to write the JSON report to. The JSON report will not be written without this flag."
+    )]
+    pub json: Option<String>,
 }
 
 #[derive(Default)]
@@ -71,6 +95,7 @@ pub struct Opts {
     pub path: String,
     pub output: String,
     pub git: Option<String>,
+    pub json: Option<String>,
     vulnerabilities: Vec<VulnerabilityTarget>,
     optimizations: Vec<OptimizationTarget>,
     qa: Vec<QualityAssuranceTarget>,
@@ -88,34 +113,28 @@ impl Opts {
     pub fn new() -> Opts {
         let args = Args::parse();
 
-        let (optimizations, vulnerabilities, qa) = if let Some(_toml_path) = args.toml {
-            // let toml_str =
-            // fs::read_to_string(toml_path).expect("Could not read toml file to string");
+        let (optimizations, vulnerabilities, qa) = if let Some(toml_path) = args.toml {
+            let toml_str =
+                fs::read_to_string(toml_path).expect("Could not read toml file to string");
 
-            // let sstan_toml: SstanToml =
-            //     toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
-            // (
-            //     sstan_toml
-            //         .optimizations
-            //         .iter()
-            //         .map(|f| str_to_optimization(f))
-            //         .collect::<Vec<OptimizationTarget>>(),
-            //     sstan_toml
-            //         .vulnerabilities
-            //         .iter()
-            //         .map(|f| str_to_vulnerability(f))
-            //         .collect::<Vec<VulnerabilityTarget>>(),
-            //     sstan_toml
-            //         .vulnerabilities
-            //         .iter()
-            //         .map(|f| str_to_qa(f))
-            //         .collect::<Vec<QualityAssuranceTarget>>(),
-            // )
-
+            let sstan_toml: SstanToml =
+                toml::from_str(&toml_str).expect("Could not convert toml contents to sstanToml");
             (
-                OptimizationTarget::all_targets(),
-                VulnerabilityTarget::all_targets(),
-                QualityAssuranceTarget::all_targets(),
+                sstan_toml
+                    .optimizations
+                    .iter()
+                    .filter_map(|f| str_to_optimization(f))
+                    .collect::<Vec<OptimizationTarget>>(),
+                sstan_toml
+                    .vulnerabilities
+                    .iter()
+                    .filter_map(|f| str_to_vulnerability(f))
+                    .collect::<Vec<VulnerabilityTarget>>(),
+                sstan_toml
+                    .vulnerabilities
+                    .iter()
+                    .filter_map(|f| str_to_qa(f))
+                    .collect::<Vec<QualityAssuranceTarget>>(),
             )
         } else {
             (
@@ -130,6 +149,7 @@ impl Opts {
         } else {
             "".into()
         };
+        let json = args.json;
         //Github repo link to the root
         let git = args.git;
 
@@ -155,6 +175,7 @@ To fix this, either add a `./contracts` directory or provide `--path <path_to_co
             path,
             output,
             git,
+            json,
             optimizations,
             vulnerabilities,
             qa,
