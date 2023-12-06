@@ -266,6 +266,12 @@ quality_assurance!(
         "It is best practice to only define one contract per file."
     ),
     (
+        ConstantImmutableNameScreamingSnakeCase,
+        "constant_immutable_name_screaming_snake_case",
+        "Constant and immutable variable names should be in SCREAMING_SNAKE_CASE",
+        "Ensure that Constant and immutable variable names are declared using SCREAMING_SNAKE_CASE"
+    ),
+    (
         PublicFunctions,
         "public_functions",
         "Consider marking public function External",
