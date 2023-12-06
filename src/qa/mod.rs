@@ -190,11 +190,7 @@ quality_assurance!(
         "Consider using scientific notation for large multiples of 10",
         "For example 100000 can be written as 1e5"
     ),
-    (
-        UnusedFunctions, 
-        "Remove any unused functions", 
-        "Any functions not used should be removed as best practice."
-    ), 
+    (UnusedFunctions,"Remove any unused functions","Any functions not used should be removed as best practice."), 
     (
         OneContractPerFile,
         "Only define one contract per file",
@@ -230,17 +226,8 @@ quality_assurance!(
         "Event names should be in PascalCase",
         "Ensure that event definitions are declared using PascalCase"
     ),
-    (
-        UnusedReturns, 
-        "Remove any unused returns", 
-        "Either remove the return parameter names, or use them as the returns of the function."
-    ), 
-    (   
-        PublicFunctions,
-        "Consider marking public function External", 
-        "If a public function is never called internally. It is best practice to mark it as external."
-    ),
-
+    (UnusedReturns,"Remove any unused returns","Either remove the return parameter names, or use them as the returns of the function."), 
+    (PublicFunctions,"Consider marking public function External","If a public function is never called internally. It is best practice to mark it as external."),
     (
         RequireWithoutMessage,
         "Consider adding a message with require and revert statements", 
@@ -261,7 +248,6 @@ quality_assurance!(
         "This variables default value is the same as the value it is initialized with",
         "This is unnecessary and will have some overhead on Gas"
     ),
-
     (
         MissingUnderscoresForLargeNumericLiterals,
         "Misssing underscores on large numeric literals",
