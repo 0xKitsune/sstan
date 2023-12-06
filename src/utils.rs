@@ -183,19 +183,6 @@ pub fn get_32_byte_storage_variables(
     storage_variables
 }
 
-pub fn str_to_vulnerability(s: &str) -> Option<VulnerabilityTarget> {
-    match s {
-        "divide_before_multiply" => Some(VulnerabilityTarget::DivideBeforeMultiply),
-        "double_casting" => Some(VulnerabilityTarget::DoubleCasting),
-        "floating_pragma" => Some(VulnerabilityTarget::FloatingPragma),
-        "incorrect_shift_math" => Some(VulnerabilityTarget::IncorrectShiftMath),
-        "uninitialized_storage_variable" => Some(VulnerabilityTarget::UninitializedStorageVariable),
-        "unprotected_self_destruct" => Some(VulnerabilityTarget::UnprotectedSelfDestruct),
-        "unsafe_erc20_operation" => Some(VulnerabilityTarget::UnsafeErc20Operation),
-        _ => None,
-    }
-}
-
 pub fn str_to_optimization(s: &str) -> Option<OptimizationTarget> {
     match s {
         "address_balance" => Some(OptimizationTarget::AddressBalance),
