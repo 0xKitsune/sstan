@@ -135,13 +135,7 @@ impl<V: Visitable> Extractor<V, FunctionDefinition> for ConstructorExtractor {
         let functions = FunctionExtractor::extract(v)?;
         let constructors = functions
             .iter()
-            .filter_map(|function| {
-                if let FunctionTy::Constructor = function.ty {
-                    Some(function)
-                } else {
-                    None
-                }
-            })
+            .filter(|function| FunctionTy::Constructor == function.ty)
             .cloned()
             .collect::<Vec<FunctionDefinition>>();
         Ok(constructors)

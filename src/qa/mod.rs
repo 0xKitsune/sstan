@@ -32,15 +32,17 @@ use crate::utils;
 use solang_parser::pt::{Loc, SourceUnit};
 use std::collections::HashMap;
 use std::path::PathBuf;
+use std::str::FromStr;
 
 pub trait QAPattern {
     fn find(
         source: &mut HashMap<PathBuf, SourceUnit>,
     ) -> Result<QualityAssuranceOutcome, EngineError>;
 }
+
 #[macro_export]
 macro_rules! quality_assurance {
-    ($(($name:ident, $report_title:expr, $description:expr)),+ $(,)?) => {
+    ($(($name:ident, $identifier_str:literal, $report_title:expr, $description:expr)),+ $(,)?) => {
 
 
         $(pub struct $name;)+
@@ -93,6 +95,19 @@ macro_rules! quality_assurance {
 
             pub fn classification(&self) -> Classification {
                 Classification::NonCritical
+            }
+        }
+
+        impl FromStr for QualityAssuranceTarget {
+            type Err = EngineError;
+
+            fn from_str(s: &str) -> Result<Self, Self::Err> {
+                match s {
+                    $(
+                        $identifier_str => Ok(QualityAssuranceTarget::$name),
+                    )+
+                    _ => Err(EngineError::UnrecognizedPattern(s.into())),
+                }
             }
         }
 
@@ -158,118 +173,155 @@ macro_rules! quality_assurance {
     };
 
 }
-//TODO: add section name
+
 quality_assurance!(
     (
         ConstructorOrder,
+        "constructor_order",
         "Constructor should be listed before any other function",
         "Consider changing the order of the functions so that the constructor is listed first"
     ),
     (
         PrivateVariablesLeadingUnderscore,
+        "private_vars_leading_underscore",
         "Private variables should contain a leading underscore",
         "Consider adding an underscore to the beginning of the variable name"
     ),
     (
         ConstructorVarInitialization,
+        "constructor_var_initialization",
         "Constructor should check that all parameters are not 0",
         "Consider adding a require statement to check that all parameters are not 0 in the constructor"
     ),
     (
+        ContractNamePascalCase,
+        "contract_name_pascal_case",
+        "Contract names should be in PascalCase",
+        "Ensure that contract definitions are declared using PascalCase"
+    ),
+    (
+        ContractsShouldInheritInterface,
+        "contracts_should_inherit_interface",
+        "Large contracts with many external functions should inherit an interface",
+        "Consider inheriting the interface to ensure the interface matches the contract spec"
+    ),
+    (
+        ErrorWithoutParams,
+        "error_without_parameters",
+        "This error has no parameters, the state of the contract when the revert occured will not be available",
+        "Consider adding parameters to the error to provide more context when a transaction fails"
+    ),
+    (
+        EventNamePascalCase,
+        "event_name_pascal_case",
+        "Event names should be in PascalCase",
+        "Ensure that event definitions are declared using PascalCase"
+    ),
+    (
+        ExplicitVisibility,
+        "explicit_visibility",
+        "Storage variables should not have implicit visibility",
+        "Consider explicitly specifying the visibility of storage variables for readability"
+    ),
+    (
+        FunctionNameCamelCase,
+        "function_name_camel_case",
+        "Function names should be in camelCase",
+        "Ensure that function definitions are declared using camelCase"
+    ),
+    (
         ImportIdentifiers,
+        "import_identifiers",
         "Consider importing specific identifiers instead of the whole file",
         "This will minimize compiled code size and help with readability"
     ),
     (
+        InconsistentRequireError,
+        "inconsistent_require_error",
+        "Require/Revert statements should be consistent across the codebase",
+        "Consider using require/revert statements consistently across the codebase"
+    ),
+    (
         InterfaceNamespace,
+        "interface_namespace",
         "Interface names should start with an I",
         "Consider renaming for consistency"
     ),
     (
         LargeMultiplesOfTen,
+        "large_multiples_of_ten",
         "Consider using scientific notation for large multiples of 10",
         "For example 100000 can be written as 1e5"
     ),
-    (UnusedFunctions,"Remove any unused functions","Any functions not used should be removed as best practice."), 
+    (
+        MissingUnderscoresForLargeNumericLiterals,
+        "missing_underscores_for_large_numeric_literals",
+        "Missing underscores on large numeric literals",
+        "Consider adding underscores to large numeric literals for readability, preferably every 3rd digit"
+    ),
     (
         OneContractPerFile,
+        "one_contract_per_file",
         "Only define one contract per file",
         "It is best practice to only define one contract per file."
     ),
     (
-        RemoveConsole,
-        "Remove console.log statements",
-        "Console.log statements should be removed from production code"
-    ),
-    (
-        StorageVariableNamespace,
-        "Storage variables should be named with camel case",
-        "Consider renaming to follow convention"
-    ),
-    (
-        ContractNamePascalCase,
-        "Contract names should be in PascalCase",
-        "Ensure that contract definitions are declared using PascalCase"
-    ),
-    (
-        FunctionNameCamelCase,
-        "Function names should be in camelCase",
-        "Ensure that function definitions are declared using camelCase"
-    ),
-    (
         ConstantImmutableNameScreamingSnakeCase,
+        "constant_immutable_name_screaming_snake_case",
         "Constant and immutable variable names should be in SCREAMING_SNAKE_CASE",
         "Ensure that Constant and immutable variable names are declared using SCREAMING_SNAKE_CASE"
     ),
     (
-        EventNamePascalCase,
-        "Event names should be in PascalCase",
-        "Ensure that event definitions are declared using PascalCase"
+        PublicFunctions,
+        "public_functions",
+        "Consider marking public function External",
+        "If a public function is never called internally, it is best practice to mark it as external."
     ),
-    (UnusedReturns,"Remove any unused returns","Either remove the return parameter names, or use them as the returns of the function."), 
-    (PublicFunctions,"Consider marking public function External","If a public function is never called internally. It is best practice to mark it as external."),
+    (
+        RemoveConsole,
+        "remove_console",
+        "Remove console.log statements",
+        "Console.log statements should be removed from production code"
+    ),
     (
         RequireWithoutMessage,
-        "Consider adding a message with require and revert statements", 
+        "require_without_message",
+        "Consider adding a message with require and revert statements",
         "Adding a message to accompany require statements will provide more context when a transaction fails."
     ),
     (
-        ExplicitVisibility,
-        "Storage variables should not have implicit visibility",
-        "Consider explicitly specifying the visibility of storage variables for readability"
+        StorageVariableNamespace,
+        "storage_variable_namespace",
+        "Storage variables should be named with camel case",
+        "Consider renaming to follow convention"
     ),
     (
-        ErrorWithoutParams,
-        "This error has no parameters, the state of the contract when the revert occured will not be available",
-        "Consider adding parameters to the error to provide more context when a transaction fails"
+        UnusedFunctions,
+        "unused_functions",
+        "Remove any unused functions",
+        "Any functions not used should be removed as best practice."
+    ),
+    (
+        UnusedReturns,
+        "unused_returns",
+        "Remove any unused returns",
+        "Either remove the return parameter names, or use them as the returns of the function."
     ),
     (
         VariableInitializedWithDefault,
-        "This variables default value is the same as the value it is initialized with",
+        "variable_initialized_with_default",
+        "This variable's default value is the same as the value it is initialized with",
         "This is unnecessary and will have some overhead on Gas"
     ),
     (
-        MissingUnderscoresForLargeNumericLiterals,
-        "Misssing underscores on large numeric literals",
-        "Consider adding underscores to large numeric literals for readability. Preferrably every 3rd digit "
-    ),
-    (
-        ContractsShouldInheritInterface,
-        "Large contracts with many external functions should inherit an interface",
-        "Consider inheriting the interface to ensure the interface matches the contract spec"
-    ),
-    (
         FunctionParametersCamelCase,
+        "function_parameters_camel_case",
         "Function parameters should be in camelCase",
         "Ensure that function parameters are declared using camelCase"
     ),
     (
-        InconsistentRequireError,
-        "Require/Revert statements should be consistent across the codebase",
-        "Consider using require/revert statements consistently across the codebase"
-    ),
-    (
         NamedMappingParameters,
+        "named_mapping_parameters",
         "Consider explicitly naming mapping parameters",
         "Consider explicitly naming mapping parameters for readability"
     )
