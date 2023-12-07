@@ -7,14 +7,14 @@ exclude = ["target/*", "example_report.md", ".github/*", ".gitignore"]
 
 [dependencies]
 clap = { version = "4.3.19", features = ["derive"] }
-solang-parser = "0.3.1"
-regex = "1.9.1"
-toml = "0.7.6"
-serde = { version = "1.0.175", features = ["derive"] }
-thiserror = "1.0.44"
 eyre = "0.6.8"
+regex = "1.9.1"
 ruint = "1.10.1"
+serde = { version = "1.0.175", features = ["derive"] }
 serde_json = "1.0.108"
+solang-parser = "0.3.1"
+thiserror = "1.0.44"
+toml = "0.7.6"
 
 [[bin]]
 name = "sstan"

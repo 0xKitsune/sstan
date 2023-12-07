@@ -15,7 +15,6 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 use std::str::FromStr;
 
-
 pub trait VulnerabilityPattern {
     fn find(source: &mut HashMap<PathBuf, SourceUnit>)
         -> Result<VulnerabilityOutcome, EngineError>;
@@ -247,7 +246,7 @@ vulnerability!(
         Classification::VulnerabilityMedium
     ),
     (
-        IncorrectShiftMath, 
+        IncorrectShiftMath,
         "incorrect_shift_math",
         "Incorrect order of operations when using `shl` or `shr` in an assembly block",
         r#"""
