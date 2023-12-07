@@ -2,13 +2,12 @@
 path = './src'
 
 # Optimizations that each contract will be analyzed for
-optimizations = ["address_balance", "address_zero", "assign_update_array_value", "cache_array_length", "constant_variables", 
-"bool_equals_bool", "immutable_variables", "increment_decrement", "memory_to_calldata", "multiple_require", "pack_storage_variables", 
-"payable_function", "private_constant", "safe_math_pre_080", "safe_math_post_080", "shift_math", "solidity_keccak256", "solidity_math", 
-"sstore", "string_errors"]
+optimizations = ["address_balance", "address_zero", "assign_update_array_value", "cache_array_length", "constant_variable",
+"bool_equals_bool", "immutable_variable", "increment_decrement", "memory_to_calldata", "multiple_require", "pack_storage_variables", "private_constant", "safe_math_pre_080", "safe_math_post_080", "shift_math", "solidity_keccak256", "solidity_math",
+"sstore", "string_error", "pack_struct_variables","read_storage_in_for_loop","cache_storage_in_memory","optimal_comparison","event_indexing","payable_functions","short_revert_string"]
 
 # Vulnerabilities that each contract will be analyzed for
-vulnerabilities = ["unsafe_erc20_operation"]
+vulnerabilities = ["unsafe_erc20_operation","unprotected_self_destruct","uninitialized_storage_variable","divide_before_multiply","incorrect_shift_math","floating_pragma","double_casting"]
 
 # QA that each contract will be analyzed for
-qa = []
+qa = ["constructor_order","private_vars_leading_underscore","constructor_var_initialization","contract_name_pascal_case","contracts_should_inherit_interface","error_without_parameters","event_name_pascal_case","explicit_visibility","function_name_camel_case","import_identifiers","inconsistent_require_error","interface_namespace","large_multiples_of_ten","missing_underscores_for_large_numeric_literals","one_contract_per_file","constant_immutable_name_screaming_snake_case","public_functions","remove_console","require_without_message","storage_variable_namespace","unused_functions","unused_returns","variable_initialized_with_default","function_parameters_camel_case","named_mapping_parameters"]
