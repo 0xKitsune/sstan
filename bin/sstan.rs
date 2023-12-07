@@ -1,20 +1,13 @@
-// use report::generation::generate_report;
-// use sstan::analyzer;
-// use sstan::report;
-// use std::{fs, process};
-
-use std::{fs, io::Write, process};
-
 use clap::Parser;
-
 use sstan::{
     engine::Engine,
     optimizations::OptimizationTarget,
     qa::QualityAssuranceTarget,
     report::{JsonReport, Report},
-    utils::{str_to_optimization, str_to_qa, str_to_vulnerability},
+    utils::str_to_optimization,
     vulnerabilities::VulnerabilityTarget,
 };
+use std::{fs, io::Write, str::FromStr};
 
 pub const DEFAULT_PATH: &str = "./src";
 
@@ -95,12 +88,12 @@ impl Opts {
                 sstan_toml
                     .vulnerabilities
                     .iter()
-                    .filter_map(|f| str_to_vulnerability(f))
+                    .map(|f| VulnerabilityTarget::from_str(f).expect("Unrecognized vulnerability"))
                     .collect::<Vec<VulnerabilityTarget>>(),
                 sstan_toml
                     .vulnerabilities
                     .iter()
-                    .filter_map(|f| str_to_qa(f))
+                    .map(|f| QualityAssuranceTarget::from_str(f).expect("Unrecognized qa pattern"))
                     .collect::<Vec<QualityAssuranceTarget>>(),
             )
         } else {
@@ -123,8 +116,6 @@ impl Opts {
     }
 }
 
-#[macro_use]
-extern crate colour;
 fn main() -> eyre::Result<()> {
     let opts = Opts::new();
 

@@ -161,8 +161,6 @@ macro_rules! vulnerability {
         //TODO: into tablefragment, propagate an eror if identifier nonce is not populated?
     };
 
-
-
 }
 
 vulnerability!(

@@ -183,37 +183,6 @@ pub fn get_32_byte_storage_variables(
     storage_variables
 }
 
-pub fn str_to_optimization(s: &str) -> Option<OptimizationTarget> {
-    match s {
-        "address_balance" => Some(OptimizationTarget::AddressBalance),
-        "address_zero" => Some(OptimizationTarget::AddressZero),
-        "assign_update_array_value" => Some(OptimizationTarget::AssignUpdateArrayValue),
-        "bool_equals_bool" => Some(OptimizationTarget::BoolEqualsBool),
-        "cache_array_length" => Some(OptimizationTarget::CacheArrayLength),
-        "cache_storage_in_memory" => Some(OptimizationTarget::CacheStorageInMemory),
-        "constant_variable" => Some(OptimizationTarget::ConstantVariable),
-        "event_indexing" => Some(OptimizationTarget::EventIndexing),
-        "immutable_variable" => Some(OptimizationTarget::ImmutableVariable),
-        "increment_decrement" => Some(OptimizationTarget::IncrementDecrement),
-        "memory_to_calldata" => Some(OptimizationTarget::MemoryToCalldata),
-        "multiple_require" => Some(OptimizationTarget::MultipleRequire),
-        "optimal_comparison" => Some(OptimizationTarget::OptimalComparison),
-        "pack_storage_variables" => Some(OptimizationTarget::PackStorageVariables),
-        "pack_struct_variables" => Some(OptimizationTarget::PackStructVariables),
-        "payable_functions" => Some(OptimizationTarget::PayableFunctions),
-        "private_constant" => Some(OptimizationTarget::PrivateConstant),
-        "read_storage_in_for_loop" => Some(OptimizationTarget::ReadStorageInForLoop),
-        "safe_math_post_080" => Some(OptimizationTarget::SafeMathPost080),
-        "safe_math_pre_080" => Some(OptimizationTarget::SafeMathPre080),
-        "short_revert_string" => Some(OptimizationTarget::ShortRevertString),
-        "solidity_keccak256" => Some(OptimizationTarget::SolidityKeccak256),
-        "solidity_math" => Some(OptimizationTarget::SolidityMath),
-        "sstore" => Some(OptimizationTarget::Sstore),
-        "string_error" => Some(OptimizationTarget::StringError),
-        _ => None,
-    }
-}
-
 #[derive(Debug, Default)]
 pub struct MockSource {
     pub source: HashMap<PathBuf, pt::SourceUnit>,
