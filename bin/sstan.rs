@@ -122,9 +122,8 @@ fn main() -> eyre::Result<()> {
     engine.run()?;
     //Generate the report struct
     let report = Report::from(engine);
-    //Generate the report string & write to the output path.
-    //Write to json if the flag is passed
 
+    //Generate the report string & write to the output path.
     std::fs::File::create("sstan.json")?.write_all(
         serde_json::to_string(&JsonReport::from(report.clone()))
             .unwrap()
