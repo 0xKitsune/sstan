@@ -85,7 +85,7 @@ impl OptimizationPattern for SolidityKeccak256 {
 }
 ```
 
-Now this is where the codebase becomes a bit complex, but this is also where all the magic happens. Within `src/optimizations/mod.rs`, there is a macro called [optimization!]()which takes a few arguments defining the struct representing the optimization, an identifier string, the gas savings per finding, the report title, description of the finding and the degree of gas savings. Once this is specified, the pattern will then be included in the report.
+Now this is where the codebase becomes a bit complex, but this is also where all the magic happens. Within `src/optimizations/mod.rs`, there is a macro called [optimization!]() which takes a few arguments defining the struct representing the optimization, an identifier string, the gas savings per finding, the report title, description of the finding and the degree of gas savings. Once this is specified, the pattern will then be included in the report.
 
 
 ```rust
