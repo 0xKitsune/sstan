@@ -267,7 +267,6 @@ pub struct ReportPreamble {
     pub description: String,
     pub date: String,
     pub version: String,
-    pub authors: Vec<String>,
 }
 
 impl Default for ReportPreamble {
@@ -278,7 +277,6 @@ impl Default for ReportPreamble {
             description: "TODO: add description".to_string(),
             date: "TODO: add date".to_string(),
             version: "v0.1.0".to_string(),
-            authors: vec!["0xKitsune".to_string(), "0xOsiris".to_string()],
         }
     }
 }
@@ -286,11 +284,8 @@ impl Default for ReportPreamble {
 impl From<ReportPreamble> for String {
     fn from(preamble: ReportPreamble) -> Self {
         format!(
-            "# {} - {} \n\n --- \n ## Authors: {} \n --- \n {}",
-            preamble.title,
-            preamble.version,
-            preamble.authors.join(", "),
-            preamble.description,
+            "# {} - {} \n\n --- \n {}",
+            preamble.title, preamble.version, preamble.description,
         )
     }
 }
