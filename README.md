@@ -2,8 +2,7 @@
 [gha]: https://github.com/0xKitsune/sstan/actions
 [gha-badge]: https://github.com/0xKitsune/sstan/actions/workflows/ci.yml/badge.svg
 
-
-`sstan` is a Solidity static analyzer specifically designed for the [Code4Arena Bot Races](). With the constantly changing landscape of the bot races, this design prioritizes DevX, using an [Extractor pattern]() and macros to enable extremely quick development times when implementing new patterns. `sstan` comes "out of the box" with patterns to identify 50+ optimizations, vulnerabilities and QA patterns.
+`sstan` is a Solidity static analyzer specifically designed for the [Code4Arena Bot Races](https://code4rena.com/register/bot). With the constantly changing landscape of the bot races, this design prioritizes DevX, using an [Extractor pattern]() and macros to enable extremely quick development times when implementing new patterns. `sstan` comes "out of the box" with patterns to identify 50+ optimizations, vulnerabilities and QA patterns.
 
 # Table of Contents
 - [Installation](#installation)
