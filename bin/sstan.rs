@@ -13,34 +13,36 @@ pub const DEFAULT_PATH: &str = "./src";
 #[derive(Parser, Debug)]
 #[clap(
     name = "sstan",
-    about = "A Solidity static analyzer to identify contract vulnerabilities and gas efficiencies."
+    about = "A Solidity static analyzer to identify contract optimizations, vulnerabilities and QA patterns."
 )]
 
 pub struct Args {
     #[clap(
         short,
         long,
-        help = "Path to the directory containing the files sstan will analyze. The default directory is `./src`"
+        help = "Path to the root directory to analyze. The default directory is `./src`"
     )]
     pub path: Option<String>,
     #[clap(
         short,
         long,
-        help = "Path to the directory to write the report to. The default directory is `./`"
+        help = "Path to the directory where the report will be written. The default directory is `./`"
     )]
     pub output: Option<String>,
     #[clap(
         short,
         long,
-        help = "Github repository link. e.g `https://github.com/repo/blob/main`"
+        help = "Github repository link for the codebase being analyzed (e.g `https://github.com/repo/blob/main`). This will create hyperlinks to line numbers within the final report."
     )]
     pub git: Option<String>,
     #[clap(
         short,
         long,
-        help = "Path to the toml file containing the sstan configuration when not using the default settings."
+        help = "Path to `.toml` file containing a custom sstan configuration."
     )]
     pub toml: Option<String>,
+
+    //TODO: @0xOsiris lets remove this and write the md as well as the json report by default.
     #[clap(
         short,
         long,
