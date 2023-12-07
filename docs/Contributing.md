@@ -33,11 +33,11 @@ impl<V: Visitable> Extractor<V, FunctionDefinition> for ConstructorExtractor {
 }
 ```
 
-Under the hood extractors leverage a visitor pattern based on the [visitor pattern used within Foundry]() which parses through AST, visiting each node in the tree. For an in depth look at the `Extractor` trait, you can [check out the source code](). If you would like to browse through all the available extractors, you can [check out the docs](). If the extractor you are looking for is not available, feel free to make a PR! Please do not hesitate to open a Github issue, we'll be happy to help with any questions or comments. 
+Under the hood extractors leverage a visitor pattern based on the [visitor pattern used in Foundry](https://github.com/foundry-rs/foundry/blob/master/crates/fmt/src/visit.rs#L9-L384) which parses through an AST, visiting each node in the tree. For an in depth look at the `Extractor` trait, you can [check out the source code](https://github.com/0xKitsune/sstan/blob/main/src/extractors/mod.rs). If you would like to browse through all the available extractors, you can [check out the docs](). If the extractor you are looking for is not available, feel free to make a PR! Please do not hesitate to open a Github issue, we'll be happy to help with any questions or comments. 
 
 Using extractors makes extracting all instances of a specific node or pattern very straightforward. For example `AssignmentExtractor::extract(ast_node)` gets all assignments from a node, `MutableStorageVariableExtractor::extract(ast_node)` gets all mutable storage variables and `EventExtractor::extract(ast_node)` gets all event definitions. 
 
-Let's take a quick look at extractors in action within our first `OptimizationPattern`. For now, don't worry about what an optimization pattern is, we will cover this in just a moment. The following optimization pattern looks for instances of `keccak256()` outside an assembly block, noting that using `keccak256()` with inline assembly is more gas efficient. Note that the function first extracts all function calls with the `FunctionCallExtractor`, then inserting the finding into the outcomes if the function name is `keccak256` (`sstan` uses the [solang]() parser which considers built-in functions as function calls).
+Let's take a quick look at extractors in action within our first `OptimizationPattern`. For now, don't worry about what an optimization pattern is, we will cover this in just a moment. The following optimization pattern looks for instances of `keccak256()` outside an assembly block, noting that using `keccak256()` with inline assembly is more gas efficient. Note that the function first extracts all function calls with the `FunctionCallExtractor`, then inserting the finding into the outcomes if the function name is `keccak256` (`sstan` uses the [solang-parser](https://crates.io/crates/solang-parser) which considers built-in functions as function calls).
 
 ```rust
 impl OptimizationPattern for SolidityKeccak256 {
@@ -85,7 +85,7 @@ impl OptimizationPattern for SolidityKeccak256 {
 }
 ```
 
-Now this is where the codebase becomes a bit complex, but this is also where all the magic happens. Within `src/optimizations/mod.rs`, there is a macro called [optimization!]()which takes a few arguments defining the struct representing the optimization, an identifier string, the gas savings per finding, the report title, description of the finding and the degree of gas savings. Once this is specified, the pattern will then be included in the report.
+Now this is where the codebase becomes a bit complex, but this is also where all the magic happens. Within `src/optimizations/mod.rs`, there is the [optimization!](https://github.com/0xKitsune/sstan/blob/main/src/optimizations/mod.rs#L41-L171) macro which takes a few arguments defining the struct representing the optimization, an identifier string, the gas savings per finding, the report title, description of the finding and the degree of gas savings. Once this is specified, the pattern will then be included in the report.
 
 
 ```rust
