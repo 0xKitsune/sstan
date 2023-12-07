@@ -4,7 +4,6 @@ use sstan::{
     optimizations::OptimizationTarget,
     qa::QualityAssuranceTarget,
     report::{JsonReport, Report},
-    utils::str_to_optimization,
     vulnerabilities::VulnerabilityTarget,
 };
 use std::{fs, io::Write, str::FromStr};
@@ -83,7 +82,7 @@ impl Opts {
                 sstan_toml
                     .optimizations
                     .iter()
-                    .filter_map(|f| str_to_optimization(f))
+                    .map(|f| OptimizationTarget::from_str(f).expect("Unrecognized optimization"))
                     .collect::<Vec<OptimizationTarget>>(),
                 sstan_toml
                     .vulnerabilities

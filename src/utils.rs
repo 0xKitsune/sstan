@@ -1,16 +1,10 @@
-use crate::engine::EngineError;
 use crate::extractors::{primitive::ContractDefinitionExtractor, Extractor};
-use crate::optimizations::OptimizationTarget;
-use crate::qa::QualityAssuranceTarget;
-use crate::vulnerabilities::VulnerabilityTarget;
 use regex::Regex;
 use solang_parser::pt::{self, ContractPart, Loc, SourceUnit};
 use std::collections::HashMap;
-
 use std::fs::{self, File};
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
-use std::str::FromStr;
 
 pub type LineNumber = i32;
 pub type Outcome = (PathBuf, Loc);
