@@ -41,6 +41,14 @@ pub struct Args {
         help = "Path to `.toml` file containing a custom sstan configuration."
     )]
     pub toml: Option<String>,
+
+    //TODO: @0xOsiris lets remove this and write the md as well as the json report by default.
+    #[clap(
+        short,
+        long,
+        help = "Path to the directory to write the JSON report to. The JSON report will not be written without this flag."
+    )]
+    pub json: Option<String>,
 }
 
 #[derive(Default)]
@@ -48,6 +56,7 @@ pub struct Opts {
     pub path: String,
     pub output: String,
     pub git: Option<String>,
+    pub json: Option<String>,
     vulnerabilities: Vec<VulnerabilityTarget>,
     optimizations: Vec<OptimizationTarget>,
     qa: Vec<QualityAssuranceTarget>,
@@ -83,7 +92,7 @@ impl Opts {
                     .map(|f| VulnerabilityTarget::from_str(f).expect("Unrecognized vulnerability"))
                     .collect::<Vec<VulnerabilityTarget>>(),
                 sstan_toml
-                    .vulnerabilities
+                    .qa
                     .iter()
                     .map(|f| QualityAssuranceTarget::from_str(f).expect("Unrecognized qa pattern"))
                     .collect::<Vec<QualityAssuranceTarget>>(),
@@ -100,6 +109,7 @@ impl Opts {
             path: args.path.unwrap_or(DEFAULT_PATH.into()),
             output: args.output.unwrap_or_default(),
             git: args.git,
+            json: args.json,
             optimizations,
             vulnerabilities,
             qa,
@@ -122,13 +132,15 @@ fn main() -> eyre::Result<()> {
     engine.run()?;
     //Generate the report struct
     let report = Report::from(engine);
-
     //Generate the report string & write to the output path.
-    std::fs::File::create("sstan.json")?.write_all(
-        serde_json::to_string(&JsonReport::from(report.clone()))
-            .unwrap()
-            .as_bytes(),
-    )?;
+    //Write to json if the flag is passed
+    if let Some(json_path) = opts.json {
+        std::fs::File::create(json_path)?.write_all(
+            serde_json::to_string(&JsonReport::from(report.clone()))
+                .unwrap()
+                .as_bytes(),
+        )?;
+    }
 
     //Write to markdown
     std::fs::File::create("sstan.md")?.write_all(String::from(report).as_bytes())?;
