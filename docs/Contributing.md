@@ -13,7 +13,7 @@ The repository can seem a little dense in some parts but adding a new optimizati
 <br>
 
 
-### Extractors
+## Extractors
 `sstan` uses "Extractors" to extract target nodes from the AST generated from a Solidity file. There are two types of extractors; primitive and compound. Primitive extractors extract a simple type from the AST like a `FunctionDefinition`, `FunctionCall` or `StructDefinition`. Compound extractors extract complex types, typically utilizing one or more primitive extractors under the hood. For example, The `ConstructorExtractor` extracts all constructors from a Solidity file. The `ConstructorExtractor` first uses the `FunctionExtractor` to get all functions from the file, then filtering all functions except for the constructors.
 
 ```rust
