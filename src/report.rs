@@ -278,7 +278,7 @@ impl Default for ReportPreamble {
             description: "TODO: add description".to_string(),
             date: "TODO: add date".to_string(),
             version: "v0.1.0".to_string(),
-            authors: vec!["0x00face".to_string(), "0xOsiris".to_string()],
+            authors: vec!["0xKitsune".to_string(), "0xOsiris".to_string()],
         }
     }
 }
