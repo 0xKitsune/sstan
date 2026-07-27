@@ -130,6 +130,8 @@ macro_rules! default_extractor {
     };
 }
 
+default_extractor!(AnnotationExtractor, Annotation);
+
 #[macro_export]
 macro_rules! compound_extractor {
     ($extractor_name:ident, $target_type:ty) => {
